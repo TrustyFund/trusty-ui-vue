@@ -1,11 +1,20 @@
 import './style.css'
 
 export default {
-  render(h) {
-    return (
-      <div id="app">
-        <router-view></router-view>
-      </div>
-    )
-  }
+	beforeMount(){
+		this.$store.dispatch('initApis')
+	},
+	render(h) {
+		let app = (this.connected) ? (<router-view></router-view>) : (<h4>Connecting</h4>);
+		return (
+		  <div id="app">
+		  	{app}
+		  </div>
+		)
+	},
+	computed: {
+		connected(){
+			return this.$store.state.apis.connected;
+		}
+	}
 }
