@@ -4,7 +4,7 @@ export default {
 	beforeMount(){
 		this.$store.dispatch('initApis')
 	},
-	render(h) {
+	render() {
 		let app = (this.connected) ? (<router-view></router-view>) : (<h4>Connecting</h4>);
 		return (
 		  <div id="app">

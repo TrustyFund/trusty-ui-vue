@@ -1,6 +1,5 @@
 import style from './style.css'
 import * as types from 'root/store/mutations'
-import * as user from 'root/services/text'
 
 export default {
   methods: {

@@ -8,9 +8,8 @@ let state = {
 
 let mutations = {
 	[types.WS_CONNECTED] (state,instance) {
-		state.connected = true;
 		state.instance = instance;
-		console.log("CONNECTED",instance);
+		state.connected = true;
 	},
 	[types.WS_DISCONNECTED] (state) {
 		state.connected = false;
@@ -19,9 +18,6 @@ let mutations = {
 	[types.WS_ERROR] (state){
 		state.connected = false;
 		state.instance = null;
-	},
-	[types.GET_USER] (state,user){
-		console.log("USER",user)
 	}
 }
 

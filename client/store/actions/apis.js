@@ -6,9 +6,6 @@ export const initApis = ({ commit }) => {
 
 	let connectionStatus = function(status){
 		switch(status){
-			case "open": 
-				commit(types.WS_CONNECTED,Apis.instance());
-			break;
 			case "closed":
 				commit(types.WS_DISCONNECTED);
 			break;
@@ -20,5 +17,8 @@ export const initApis = ({ commit }) => {
 
 	let wsString = "wss://bitshares.openledger.info/ws";
 	Apis.setRpcConnectionStatusCallback(connectionStatus);
-	Apis.instance(wsString, true).init_promise;
+	
+	Apis.instance(wsString, true).init_promise.then((result)=>{
+		commit(types.WS_CONNECTED,Apis.instance());
+	});
 }
