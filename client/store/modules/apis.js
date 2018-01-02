@@ -19,6 +19,9 @@ let mutations = {
 	[types.WS_ERROR] (state){
 		state.connected = false;
 		state.instance = null;
+	},
+	[types.GET_USER] (state,user){
+		console.log("USER",user)
 	}
 }
 

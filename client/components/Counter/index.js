@@ -1,9 +1,11 @@
 import style from './style.css'
 import * as types from 'root/store/mutations'
+import * as user from 'root/services/text'
 
 export default {
   methods: {
     increment() {
+      this.$store.dispatch('getUser','anlopan364test2')
       this.$store.commit(types.INCREMENT_COUNTER)
     },
     decrement() {
@@ -12,6 +14,9 @@ export default {
     incrementAsync() {
       this.$store.dispatch('incrementAsync')
     }
+  },
+  mounted(){
+    
   },
   render(h) {
     return (
