@@ -1,5 +1,8 @@
 # trusty-vue
 
+Contributing:
+https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
+
 To start:
 
 ```bash
