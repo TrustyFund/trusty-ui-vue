@@ -2,7 +2,7 @@ import * as apis from "../services/api";
 import * as types from '../mutations'
 
 
-export const initApis = ({ commit }) => {
+export const initApis = ({ commit, store },callback) => {
 
 	let connectionStatus = function(status){
 		switch(status){
@@ -17,6 +17,7 @@ export const initApis = ({ commit }) => {
 
 	apis.initApis(connectionStatus).then((result)=>{
 		commit(types.WS_CONNECTED);
+		callback();
 	});
 }
 
