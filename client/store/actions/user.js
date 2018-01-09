@@ -1,8 +1,9 @@
 import * as types from '../mutations'
-import * as apis from "../services/api";
+import {User} from "../services/api";
 
 export const getUser = ({commit},username) => {
-	apis.getUser(username).then( (result) => {
+	User.Get(username).then( (result) => {
+		console.log("GET RESULTS FROM WS")
 		commit(types.GET_USER,result[0][1]);
 	});
 }

@@ -1,4 +1,7 @@
 import {Apis} from "bitsharesjs-ws";
+import * as User from "./user"
+
+console.log(User)
 
 export const initApis = (statusCallback) => {
 	let wsString = "wss://bitshares.openledger.info/ws";
@@ -21,13 +24,4 @@ export const getAssets =  (assets) => {
 	});
 }
 
-export const getUser = (username) => {
-	return new Promise((resolve,reject) => {
-		Apis.instance().db_api().exec("get_full_accounts", [[username], false])
-	    .then( users => {
-	    	resolve(users);
-	    }).catch( error => {
-	        reject(error);
-	    });
-	});
-}
+export {User}
