@@ -8,7 +8,7 @@ let state = {
 let mutations = {
 	[types.GET_USER] (state,user){
 		state.user = user;
-		console.log("USER",user)
+		console.log("USER GET",user)
 	}
 }
 
