@@ -7,8 +7,7 @@ let state = {
 }
 
 let mutations = {
-	[types.WS_CONNECTED] (state,instance) {
-		state.instance = instance;
+	[types.WS_CONNECTED] (state) {
 		state.connected = true;
 	},
 	[types.WS_DISCONNECTED] (state) {

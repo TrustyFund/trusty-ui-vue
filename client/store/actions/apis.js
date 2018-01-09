@@ -1,4 +1,4 @@
-import {Apis} from "bitsharesjs-ws";
+import * as apis from "../services/api";
 import * as types from '../mutations'
 
 
@@ -15,10 +15,8 @@ export const initApis = ({ commit }) => {
 		}
 	}
 
-	let wsString = "wss://bitshares.openledger.info/ws";
-	Apis.setRpcConnectionStatusCallback(connectionStatus);
-	
-	Apis.instance(wsString, true).init_promise.then((result)=>{
-		commit(types.WS_CONNECTED,Apis.instance());
+	apis.initApis(connectionStatus).then((result)=>{
+		commit(types.WS_CONNECTED);
 	});
 }
+

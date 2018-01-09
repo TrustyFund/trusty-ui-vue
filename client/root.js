@@ -1,5 +1,3 @@
-import './style.css'
-
 export default {
 	beforeMount(){
 		this.$store.dispatch('initApis')
