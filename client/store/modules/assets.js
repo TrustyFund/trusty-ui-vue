@@ -2,16 +2,19 @@ import * as types from '../mutations';
 import * as actions from '../actions/assets';
 
 let state = {
-	assets: null,
+	assets: {},
 }
 
 let mutations = {
 	[types.GET_ASSETS] (state,assets){
-		state.assets = assets;
+		assets.forEach((asset)=>{
+			state.assets[asset.id] = asset;
+		});
 	},
 	[types.GET_DEFAULT_ASSETS] (state,assets){
-		state.assets = assets;
-		console.log("Default assets:",assets)
+		assets.forEach((asset)=>{
+			state.assets[asset.id] = asset;
+		});
 	}
 }
 
