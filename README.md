@@ -3,6 +3,6 @@
 To run:
 ```bash
 $ npm install
-$ npm run dev```
+$ npm run dev
 ```
 client/store перекачует в отдельную библиотеку
