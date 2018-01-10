@@ -6,3 +6,10 @@ export const getAssets = ({commit},assets) => {
 		commit(types.GET_ASSETS,result);
 	});
 };
+
+export const getDefaultAssets = ({commit}) => {
+	let default_assets = ["BTS","OPEN.EOS"];
+	apis.getAssets(default_assets).then( (result) => {
+		commit(types.GET_DEFAULT_ASSETS,result);
+	});
+}

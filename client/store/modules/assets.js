@@ -8,7 +8,10 @@ let state = {
 let mutations = {
 	[types.GET_ASSETS] (state,assets){
 		state.assets = assets;
-		console.log("assets",assets)
+	},
+	[types.GET_DEFAULT_ASSETS] (state,assets){
+		state.assets = assets;
+		console.log("Default assets:",assets)
 	}
 }
 
