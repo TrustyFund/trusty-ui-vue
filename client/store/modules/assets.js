@@ -1,5 +1,6 @@
 import * as types from '../mutations';
 import * as actions from '../actions/assets';
+import * as getters from '../getters/assets';
 
 let state = {
 	assets: null,
@@ -25,5 +26,6 @@ let mutations = {
 export default {
   state,
   actions,
-  mutations
+  mutations,
+  getters
 }

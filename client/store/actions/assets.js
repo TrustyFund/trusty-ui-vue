@@ -8,7 +8,8 @@ export const getAssets = ({commit},assets) => {
 };
 
 export const getDefaultAssets = ({commit}) => {
-	let default_assets = ["BTS","OPEN.EOS"];
+	//TODO MOVE TO CONFIG DEFAULT ASSETS
+	let default_assets = ["BTS","OPEN.EOS","USD","OPEN.OMG","CNY"];
 	apis.getAssets(default_assets).then( (result) => {
 		commit(types.GET_DEFAULT_ASSETS,result);
 	});
