@@ -1,9 +1,16 @@
 <template>
 	<div class="page">
-		<p>
-		  Main page
-		</p>
+		<input v-model="username" placeholder="Enter username">
+		<router-link :to="{ name: 'user', params: { nickname: username }}">VIEW</router-link>
 	</div>
 </template>
 
-export default {}
+<script>
+export default {
+	data(){
+		return {
+			username: ""
+		}
+	}
+}
+</script>
