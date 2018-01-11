@@ -5,10 +5,20 @@ let state = {
 	assets: null,
 }
 
+let composeAssets = (assets) => {
+	let composedAssets = {};
+	assets.forEach((asset)=>{
+		composedAssets[asset.id] = asset;
+	});	
+	return composedAssets;
+}
+
 let mutations = {
 	[types.GET_ASSETS] (state,assets){
-		state.assets = assets;
-		console.log("assets",assets)
+		state.assets = composeAssets(assets);
+	},
+	[types.GET_DEFAULT_ASSETS] (state,assets){
+		state.assets = composeAssets(assets);
 	}
 }
 
