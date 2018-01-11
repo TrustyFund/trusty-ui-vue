@@ -7,8 +7,8 @@
        <div v-if="this.$store.state.user.balances">
           <ul v-for="balance in getBalances">
             <li v-if="balance.balance">
-              {{symbolById(balance.asset_type)}} 
-              {{drawRealBalance(balance.balance,precisionById(balance.asset_type))}}
+              {{getAssetFieldById('symbol',balance.asset_type)}}
+              {{drawRealBalance(balance.balance,getAssetFieldById('precision',balance.asset_type))}}
             </li>
           </ul>
        </div>
@@ -27,18 +27,13 @@ export default {
       'getUserName',
       'getAccountObject',
       'getBalances',
-      'getAssetById'
+      'getAssetById',
+      'getAssetFieldById'
     ])
   },
   methods: {
     drawRealBalance(amount,preceision){
       return amount / Math.pow(10,preceision);
-    },
-    symbolById(asset_type){
-      return this.getAssetById(asset_type).symbol;
-    },
-    precisionById(asset_type){
-      return this.getAssetById(asset_type).precision;
     }
   }
 }
