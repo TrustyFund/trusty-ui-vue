@@ -2,8 +2,7 @@ import * as types from '../mutations';
 import * as actions from '../actions/apis';
 
 let state = {
-	connected: false,
-	instance: null
+	connected: false
 }
 
 let mutations = {
@@ -12,11 +11,9 @@ let mutations = {
 	},
 	[types.WS_DISCONNECTED] (state) {
 		state.connected = false;
-		state.instance = null;
 	},
 	[types.WS_ERROR] (state){
 		state.connected = false;
-		state.instance = null;
 	}
 }
 
