@@ -1,17 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import apis from './modules/apis'
-import user from './modules/user'
-import assets from './modules/assets'
+import vueBitshares from './modules'
 
 Vue.use(Vuex)
 
-const store = new Vuex.Store({
-  modules: {
-    apis,
-    user,
-    assets
-  }
-})
+const store = new Vuex.Store()
+vueBitshares(store)
 
 export default store
