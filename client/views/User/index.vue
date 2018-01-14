@@ -20,7 +20,7 @@
 import { mapGetters } from 'vuex'
 export default {
   beforeMount(){
-    this.$store.dispatch('getUser',this.$route.params.nickname);
+    this.$store.dispatch('fetchUser',this.$route.params.nickname);
   },
   computed: {
     ...mapGetters([

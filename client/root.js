@@ -1,6 +1,6 @@
 export default {
 	beforeMount(){
-		this.$store.dispatch('initApis',() => this.$store.dispatch('getDefaultAssets') );
+		this.$store.dispatch('initApis',() => this.$store.dispatch('fetchDefaultAssets') );
 	},
 	render() {
 		let app = (this.connected) ? (<router-view></router-view>) : (<h4>Connecting</h4>);

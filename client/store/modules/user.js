@@ -9,16 +9,16 @@ let state = {
 }
 
 let mutations = {
-  [types.GET_USER_REQUEST] (state) {
+  [types.FETCH_USER_REQUEST] (state) {
     state.pending = true;
   },
-  [types.GET_USER_COMPLETE] (state,result){
+  [types.FETCH_USER_COMPLETE] (state,result){
     state.account = result.account;
     state.balances = result.balances;
     state.pending = false;
     console.log("USER GET",state)
   },
-  [types.GET_USER_ERROR] (state) {
+  [types.FETCH_USER_ERROR] (state) {
     state.pending = false;
   },
 }

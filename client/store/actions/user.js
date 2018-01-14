@@ -1,11 +1,11 @@
 import * as types from '../mutations'
 import {User} from "../services/api";
 
-export const getUser = ({commit},username) => {
-	commit(types.GET_USER_REQUEST);
+export const fetchUser = ({commit},username) => {
+	commit(types.FETCH_USER_REQUEST);
 	User.Get(username).then((result) => {
-		commit(types.GET_USER_COMPLETE,result[0][1]);
+		commit(types.FETCH_USER_COMPLETE,result[0][1]);
 	}, (error) => {
-		commit(types.GET_USER_ERROR);
+		commit(types.FETCH_USER_ERROR);
 	});
 }
