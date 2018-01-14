@@ -7,7 +7,7 @@ export const initApis = (statusCallback) => {
 	return Apis.instance(wsString, true).init_promise;
 }
 
-export const getAssets =  (assets) => {
+export const getAssets = (assets) => {
 	return new Promise((resolve,reject) => {
 		Apis.instance().db_api().exec( "lookup_asset_symbols", [ assets ] )
 	    .then( asset_objects => {
