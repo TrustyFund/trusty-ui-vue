@@ -4,6 +4,7 @@ import * as getters from '../getters/assets';
 
 let state = {
 	assets: null,
+	pending: false
 }
 
 let composeAssets = (assets) => {
@@ -15,12 +16,26 @@ let composeAssets = (assets) => {
 }
 
 let mutations = {
-	[types.GET_ASSETS] (state,assets){
+	[types.GET_ASSETS_REQUEST] (state){
+		state.pending = true;
+	},
+	[types.GET_ASSETS_COMPLETE] (state,assets){
 		state.assets = composeAssets(assets);
 	},
-	[types.GET_DEFAULT_ASSETS] (state,assets){
+	[types.GET_ASSETS_ERROR] (state){
+		state.pending = false;
+	},
+	[types.GET_DEFAULT_ASSETS_REQUEST] (state){
+		state.pending = true;
+	},
+	[types.GET_DEFAULT_ASSETS_COMPLETE] (state,assets){
 		state.assets = composeAssets(assets);
-	}
+	},
+	[types.GET_DEFAULT_ASSETS_ERROR] (state){
+		state.pending = false;
+	},
+
+
 }
 
 export default {
