@@ -20,7 +20,7 @@ module.exports = {
    'no-console': 0,
    'max-len': [2, 80, 2],
    'import/prefer-default-export': 0,
-   'arrow-parens': ['error', 'always'],
+   'arrow-parens': 0,
    'no-param-reassign': [2, { 'props': false }],
    'arrow-body-style': 0,
    'import/extensions': 0,
