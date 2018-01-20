@@ -17,10 +17,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
+
 export default {
-  beforeMount(){
-    this.$store.dispatch('fetchUser',this.$route.params.nickname);
+  beforeMount() {
+    this.$store.dispatch('fetchUser', this.$route.params.nickname);
   },
   computed: {
     ...mapGetters({
@@ -32,9 +33,9 @@ export default {
     })
   },
   methods: {
-    drawRealBalance(amount,preceision){
-      return amount / Math.pow(10,preceision);
+    drawRealBalance(amount, preceision) {
+      return amount / (10 ** preceision);
     }
   }
-}
+};
 </script>

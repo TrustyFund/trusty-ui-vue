@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from '../views/Home'
-import User from '../views/User'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Home from '../views/Home';
+import User from '../views/User';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'hash',
@@ -15,8 +15,9 @@ export default new Router({
     },
     {
       name: 'user',
-    	path: '/user/:nickname',
-    	component: User
+      path: '/user/:nickname',
+      component: User
     }
   ]
-})
+});
+

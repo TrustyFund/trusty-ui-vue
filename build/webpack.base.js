@@ -1,10 +1,9 @@
-'use strict'
-const path = require('path')
-const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const config = require('./config')
-const _ = require('./utils')
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const config = require('./config');
+const _ = require('./utils');
 
 module.exports = {
   entry: {
@@ -37,6 +36,15 @@ module.exports = {
   },
   module: {
     loaders: [
+      {
+        enforce: 'pre',
+        test: /\.(js|vue)$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader',
+        options: {
+          emitWarning: true
+        }
+      },
       {
         test: /\.vue$/,
         loaders: ['vue-loader']
@@ -79,4 +87,4 @@ module.exports = {
     ])
   ],
   target: _.target
-}
+};
