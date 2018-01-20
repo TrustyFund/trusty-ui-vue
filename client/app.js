@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import Vue from 'vue';
 import { sync } from 'vuex-router-sync';
 import root from './root';

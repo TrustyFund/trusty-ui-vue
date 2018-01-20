@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const formatter = require('eslint-friendly-formatter');
 const config = require('./config');
 const _ = require('./utils');
 
@@ -43,18 +42,12 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'eslint-loader',
         options: {
-          formatter
+          emitWarning: true
         }
       },
       {
         test: /\.vue$/,
         loaders: ['vue-loader']
-      },
-      {
-        enforce: 'pre',
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader'
       },
       {
         test: /\.js$/,

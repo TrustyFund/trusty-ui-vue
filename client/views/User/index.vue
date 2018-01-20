@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     drawRealBalance(amount, preceision) {
-      return amount / Math.pow(10, preceision);
+      return amount / (10 ** preceision);
     }
   }
 };
