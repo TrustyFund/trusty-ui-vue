@@ -1,8 +1,8 @@
-/* eslint-disable */
-
 export default {
-  beforeMount(){
-    this.$store.dispatch('initApis',() => this.$store.dispatch('fetchDefaultAssets') );
+  beforeMount() {
+    this.$store.dispatch('initApis', () => {
+      return this.$store.dispatch('fetchDefaultAssets');
+    });
   },
   render() {
     // eslint-disable-next-line
@@ -11,11 +11,11 @@ export default {
       <div id="app">
         {app}
       </div>
-    )
+    );
   },
   computed: {
-    connected(){
+    connected() {
       return this.$store.state.apis.connected;
     }
   }
-}
+};

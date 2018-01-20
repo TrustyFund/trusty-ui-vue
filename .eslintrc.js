@@ -2,7 +2,10 @@ module.exports = {
  root: true,
  parserOptions: {
   parser: 'babel-eslint',
-  sourceType: 'module'
+  sourceType: 'module',
+  ecmaFeatures: {
+    jsx: true
+  }
  },
  env: {
    browser: true,
@@ -10,7 +13,8 @@ module.exports = {
  plugins: [
    'html',
    'import',
-   'testcafe'
+   'testcafe',
+   'react'
  ],
  extends: 'airbnb-base',
  rules: {
