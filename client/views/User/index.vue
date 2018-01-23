@@ -1,14 +1,14 @@
 <template>
   <div class="page">
     <router-link to="/">back</router-link>
-    <div v-if="this.$store.state.user.account">
+    <div v-if="accountObject">
        <h4>{{ userName }} [{{ accountObject.id }}]</h4>
        
-       <div v-if="this.$store.state.user.balances">
-          <ul v-for="balance in balances">
-            <li v-if="balance.balance">
-              {{ getAssetFieldById('symbol',balance.asset_type) }}
-              {{ drawRealBalance(balance.balance,getAssetFieldById('precision',balance.asset_type)) }}
+       <div>
+          <ul v-for="asset in userAssets">
+            <li >
+              {{ asset.name }}
+              {{ asset.balance }}
             </li>
           </ul>
        </div>
@@ -27,10 +27,27 @@ export default {
     ...mapGetters({
       userName: 'getUserName',
       accountObject: 'getAccountObject',
-      balances: 'getBalances',
+      userBalances: 'getBalances',
       getAssetById: 'getAssetById',
       getAssetFieldById: 'getAssetFieldById'
-    })
+    }),
+    userAssets() {
+      const resultAssets = [];
+      this.userBalances.forEach(balance => {
+        const asset = this.getAssetById(balance.asset_type);
+        if (balance.balance) {
+          const realBalance = this.drawRealBalance(
+            balance.balance,
+            asset.precision
+          );
+          resultAssets.push({
+            name: asset.symbol || 'Недоступно',
+            balance: realBalance || ''
+          });
+        }
+      });
+      return resultAssets;
+    }
   },
   methods: {
     drawRealBalance(amount, preceision) {
