@@ -3,7 +3,7 @@ import { sync } from 'vuex-router-sync';
 import root from './root';
 import router from './router';
 import store from './store';
-import './style/index.scss';
+
 
 sync(store, router);
 

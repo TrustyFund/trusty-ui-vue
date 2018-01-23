@@ -3,16 +3,17 @@
 .trusty_header(@click='navigateBackAction')
 
     .trusty_header_logo(
+        v-if="isProfilePage",
         @click="router.push('/')",
         v-html="logo")
 
-    ._back(@click='this.navigateBackAction')
-      //-icon-component(name="trusty_arrow_back") 
+    span._back(@click='this.navigateBackAction')
+      icon-component(name="trusty_arrow_back") 
 
-    ._options(
+    span._options(
         v-if="isProfilePage"
         @click='navigateToBackupAction')
-        //-icon-component(name="trusty_options")
+        icon-component(name="trusty_options")
 
     .header_title {{getHeaderTitle}}
 
@@ -23,14 +24,16 @@
 
 
 <script>
-
+import iconComponent from './icon';
 
 export default {
+  components: {
+    iconComponent
+  },
   data() {
     return {
       isProfilePage: window.location.pathname.indexOf('home') !== -1,
-      logo: ''// require('./style/images/trusty_fund_logo.svg');
-
+      logo: require('../style/images/trusty_fund_logo.svg') // eslint-disable-line global-require
     };
   },
 
@@ -85,51 +88,55 @@ $background_color: #1b1f22;
 
 
 .trusty_header {
-    color: white;
-     width: 100%;
-     height: $header_size;
-     top:0;
-     left:0;
-     right: 0;
-     z-index: 1200;
+  color: white;
+  width: 100%;
+  height: $header_size;
+  top:0;
+  left:0;
+  right: 0;
+  z-index: 1200;
    //border-bottom: 1px solid $white_color;
-   .header_title {
+  .header_title {
     display: block;
     text-align: center;
     font-family: Gotham_Pro_Regular;
     text-transform: uppercase;
     line-height: $header_size;
-                   font-weight: bold;
+    font-weight: bold;
     @media screen and (max-width: 750px){
       font-size: 4.8vw;
     }
   
    }
-   span._back {
-  
+
+  span._back {
     position: absolute;
     top:0;
     left:0;
     display: inline-block;
     width: 12vw !important;
-        height: 12vw !important;
-  
-   }
-           span._options {
+    text-align: center;
+    line-height: 15vw;
+    svg { 
+      display: inline-block;
+      height: 5.7vw;
+    }
+  }
+
+  span._options {
     position: absolute;
     top:0;
     right:0;
     display: inline-block;
     width: 12vw !important;
-                   height: 12vw !important;
-       }
+    height: 12vw !important;
+  }
   
    @media screen and (min-width: 768px) {
     height: $header_size_desk;
-    .header_title {
-      font-size: 32px;
-    }
-  
+      .header_title {
+        font-size: 32px;
+      }
    }
 }
 
@@ -139,7 +146,7 @@ $background_color: #1b1f22;
   height: 12vw !important;
   line-height: 13.5vw;
   top: .4vw !important;
-    left: -.2vw !important;
+  left: -.2vw !important;
   text-align: center;
   svg {
     display: inline-block;
