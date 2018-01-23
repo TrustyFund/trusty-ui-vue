@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import vueBitshares from './vuex-bitshares/src';
+import vuexBitshares from 'vuex-bitshares';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store();
-vueBitshares(store);
+vuexBitshares(store);
 
 export default store;
