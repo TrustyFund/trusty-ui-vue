@@ -2,11 +2,12 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '../views/Home';
 import User from '../views/User';
+import Auth from '../views/Auth';
 
 Vue.use(Router);
 
 export default new Router({
-  mode: 'hash',
+  mode: 'history',
   routes: [
     {
       name: 'home',
@@ -17,6 +18,11 @@ export default new Router({
       name: 'user',
       path: '/user/:nickname',
       component: User
+    },
+    {
+      name: 'login',
+      path: '/login',
+      component: Auth
     }
   ]
 });

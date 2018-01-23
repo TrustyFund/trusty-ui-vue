@@ -1,0 +1,302 @@
+@import "./mixins";
+@import './pixel-glass';
+@import "./fonts/fonts";
+
+
+* {  
+	-webkit-backface-visibility:  hidden;
+  -webkit-tap-highlight-color:  transparent;
+}
+
+
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+
+._trusty_hide_input {
+	display: none;
+}
+
+.trusty_center_vertical_fixed {
+
+	text-align: center;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100vw;
+}
+
+iframe {
+	display: block;
+	border: none;
+	position: fixed;
+	margin: 0 auto;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%); 
+	overflow: scroll !important;
+}
+
+
+.fake_line_height {
+	display: inline-block;
+	height: 100%;
+}
+
+.trusty_main_padding {
+	@media screen and (max-width: 768px) {
+		padding: 0 3.6vw;
+	}
+}
+
+.trusty_font_error {
+	font-family: Gotham_Pro;
+	color: #ff3950;
+	line-height: 1rem;
+	i,span,div {
+		color: #ff3950;
+		font-style: initial;
+	}
+}
+
+// body .trusty_input_container:first-child {
+// 	margin-top: 2vw;
+// }
+
+
+.trusty_bottom_fix_space {
+	margin-bottom: 4.3vw !important;
+}
+
+.trusty_owl_loader {
+	width: 60vw;  
+	opacity: .6;
+	margin: 0 auto;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	svg {
+		fill: white;
+	}
+	@media (min-width: 768px) {
+		width: 220px;
+	}
+}
+
+
+$white_color: #e6e6e6;
+$background_color: #1b1f22;
+
+@media screen and (max-width: 750px) {
+  *._desk, {display:none !important;}
+}
+
+@media screen and (min-width: 751px) {
+	*._mob{display:none !important;}
+}
+
+*._yellow {
+	color: #fdf101;
+}
+*._hide {
+	display: none;
+}
+
+*._visibilitness {
+	opacity: 0;
+}
+
+.trusty_owl_loader {
+
+}
+.trusty_fixed_background {
+	position: fixed;
+	top:0;
+	left:0;
+	z-index: -1;
+}
+
+.trusty_fixed_background_div {
+	background-image: url(./img/pattern_bg.png);
+    background-repeat: repeat;
+    background-size: auto;
+	position: fixed;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	z-index: -1;
+}
+
+button:focus, button:active {
+	outline: none;
+}
+.trusty-wrapper, .trusty-wrapper .grid-block {
+	background-color: transparent !important;
+
+	@media screen and (min-width: 769px) {
+		background-image: url(./img/pattern.png);
+		background-repeat: round round;
+	}
+}
+
+
+.trusty_title {
+	font-size: 1.7rem;
+
+}
+
+.trusty_center {
+	padding: 0 3.9vw;
+	form {
+		display: block;
+		margin: 0 auto;
+	}
+}
+
+
+br.desk {
+	display: none;
+}
+
+
+@media screen and (min-width: 750px) {
+
+		br.mob {
+		display: none;		
+	}
+
+	br.desk {
+		display: inline-block;
+	}
+
+}
+
+
+$header_size_desk: 50px;
+$header_size: 12vw;
+
+
+.trusty_header_fake {
+	width: 100%;
+	.trusty_header {
+		position: relative;
+		z-index: 100;
+		opacity: 0;
+	}
+}
+
+
+.trusty_header {
+
+	width: 100%;
+	height: $header_size;
+	top:0;
+	left:0;
+	right: 0;
+	z-index: 1200;
+	//border-bottom: 1px solid $white_color;
+	.header_title {
+		display: block;
+		text-align: center;
+		font-family: Gotham_Pro_Regular;
+		text-transform: uppercase;
+		line-height: $header_size;
+                font-weight: bold;
+		@media screen and (max-width: 750px){
+			font-size: 4.8vw;
+		}
+
+	}
+	span._back {
+		position: absolute;
+		top:0;
+		left:0;
+		display: inline-block;
+		width: 12vw !important;
+    height: 12vw !important;
+	}
+        span._options {
+		position: absolute;
+		top:0;
+		right:0;
+		display: inline-block;
+		width: 12vw !important;
+                height: 12vw !important;
+        }
+	@media screen and (min-width: 768px) {
+		height: $header_size_desk;
+		.header_title {
+			font-size: 32px;
+		}
+	}
+}
+
+
+
+
+
+.trusty_arrow_back {
+	position: absolute !important;
+	width: 12vw !important;
+	height: 12vw !important;
+	line-height: 13.5vw;
+	top: .4vw !important;
+  	left: -.2vw !important;
+	text-align: center;
+	svg {
+		display: inline-block;
+		height: 45% !important;
+	}
+	@media screen and (min-width: 768px) {
+		height: $header_size_desk !important;
+		widht: $header_size_desk !important;
+	}
+}
+
+.trusty_options {
+
+	svg {
+		display: inline-block;
+		height: 40% !important;
+		width: 40% !important;
+	}
+
+}
+
+
+.trusty_header_logo {
+	svg { 
+		fill: $white_color; 
+	}
+	@media screen and (min-width: 751px) {
+		width: 200px;
+	}
+}
+
+.trusty_header_arrow {
+	position: absolute;
+	top: 0;
+	left: 0;
+	cursor: pointer;
+	transform: scale(-1, 1);
+	height: $header_size;
+	width: $header_size;
+	background: transparent;
+	outline: none;
+	border: none;
+	svg {
+		fill: #ffffff;
+	}
+
+}
+
+
