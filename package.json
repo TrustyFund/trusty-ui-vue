@@ -7,12 +7,11 @@
     "test": "testcafe all test/e2e/index.js --app \"npm run dev\" --app-init-delay 10000",
     "build": "webpack --config build/webpack.prod.js",
     "dev": "node build/server.js",
-    "lint": "xo **/client/**/*.{vue,js} !node_modules/**"
+    "lint": "eslint **/client/**/*.{vue,js} !node_modules/**"
   },
   "author": "Anton <anlopan@gmail.com>",
   "license": "MIT",
   "xo": {
-    "extends": "./.eslintrc",
     "esnext": true,
     "envs": [
       "browser"
@@ -87,7 +86,6 @@
     "vue-loader": "^11.0.0",
     "vue-template-compiler": "^2.2.0",
     "webpack": "2.2.0",
-    "webpack-dev-server": "^2.6.1",
-    "xo": "^0.18.0"
+    "webpack-dev-server": "^2.6.1"
   }
 }
