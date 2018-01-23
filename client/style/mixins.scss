@@ -1,5 +1,11 @@
 @charset "utf-8";
 
+@mixin trusty_main_padding {
+	@media screen and (max-width: 768px) {
+		padding: 0 3.6vw;
+	}
+}
+
 @mixin trusty_mobile_button_not_width {
 	height: 13vw !important;
 	line-height: 12.2vw;
