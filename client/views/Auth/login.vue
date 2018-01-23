@@ -125,14 +125,11 @@ export default {
 
   ._logo_owl {
     text-align: center;
-      padding-top: 6vw;
-      span, span.trusty_owl_small_logo {
-         width: 34vw !important;
-      }
-      span.trusty_owl_small_logo {
-         display: inline-block;
-         width: 34vw !important;
-      }
+    padding-top: 6vw;
+    span.trusty_owl_small_logo {
+       display: inline-block;
+       width: 34vw !important;
+    }
   }
   
 }

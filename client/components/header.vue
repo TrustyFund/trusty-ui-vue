@@ -7,7 +7,7 @@
         @click="router.push('/')",
         v-html="logo")
 
-    span._back(@click='this.navigateBackAction')
+    span._back(м-шаv-if="!isProfilePage" @click='navigateBackAction')
       icon-component(name="trusty_arrow_back") 
 
     span._options(
@@ -32,8 +32,7 @@ export default {
   },
   data() {
     return {
-      isProfilePage: window.location.pathname.indexOf('home') !== -1,
-      logo: require('../style/images/trusty_fund_logo.svg') // eslint-disable-line global-require
+      logo: require('../style/images/trusty_fund_logo.svg'), // eslint-disable-line global-require
     };
   },
 
@@ -43,6 +42,9 @@ export default {
     },
   },
   computed: {
+    isProfilePage() {
+      return this.$route.path.indexOf('home') !== -1;
+    },
     getHeaderTitle() {
       const headerTitles = {
         signup: 'signup',
@@ -57,7 +59,7 @@ export default {
       };
       let title = '';
       Object.keys(headerTitles).forEach(k => {
-        if (window.location.pathname.indexOf(headerTitles[k]) !== -1) { title = k; }
+        if (this.$route.path.indexOf(headerTitles[k]) !== -1) { title = k; }
       });
       return title;
     }
