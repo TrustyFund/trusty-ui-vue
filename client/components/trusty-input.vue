@@ -1,19 +1,20 @@
 <template lang="pug">
 
 .trusty_input_container(:style="styleSheet", :class="classes")
+  
   .w_input
-    .t_input( :class="{active_input: opened }")
+    ._input_space( :class="{ active_input: opened }")
 
       label(
         @click="opened = !opened",
         :class="{no_opened: !opened}"
       ).trusty_place_holder {{ label }}
 
-      slot(name="_input_space")
+      slot(name="input")
 
-    .t_right
+    ._right_space
 
-      slot(name="._right_space")
+      slot(name="right")
 
   
 </template>
@@ -109,7 +110,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
       padding-top: 6vw;
 
     }
-    .t_input {
+    ._input_space {
       height: 6vw;
       transition: all .2s;
     }
@@ -118,16 +119,15 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
       label {
         top: 1vw;
       }
-      .t_input {
+      ._input_space {
         height: 28vw !important;
       }
     }
   }
   
-
   .trusty_input_container {
     width: 100%;
-    .t_input {
+    ._input_space {
       margin-top: 6vw;
     }
 
@@ -156,6 +156,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
       transition: all .2s;
       font-size: 2.5vw;
       margin-bottom: 0 !important;
+      text-transform: uppercase;
     }
 
     select, .dropdown-wrapper div {
@@ -191,6 +192,10 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
      
     textarea {
       padding-left: 0;
+      width: 100%;
+      border: none;
+      height: 22vw;
+      outline: none;
     }
 
     ._simple_text_left {
@@ -224,7 +229,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
       transform: translateY(-6.4vw);
     }
   }
-  .t_right{
+  ._right_space{
     display: inline-block;
     position: absolute;
     bottom:0;
@@ -261,7 +266,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     }
   }
   
-  .t_input.active_input {
+  ._input_space.active_input {
     @media screen and (max-width: 768px) {
       margin-top: 0;
       input, textarea {
@@ -270,10 +275,11 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     }
   }
 
-  .t_input{
+  ._input_space{
     width: 100%;
     border-bottom: 1px solid $color_light_grey;
     input {
+      color: white;
       @include input_tag_style;
     }
 

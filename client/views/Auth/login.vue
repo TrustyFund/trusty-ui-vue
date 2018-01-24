@@ -10,9 +10,9 @@
     template(slot="input")
       input
 
-  trusty-input(label="brainkey")
+  trusty-input(label="brainkey" type="textarea")
     template(slot="input")
-      input
+      textarea
   
   p._tooltip_p 
     | Please enter account brainkey once for new devices, #[br]
