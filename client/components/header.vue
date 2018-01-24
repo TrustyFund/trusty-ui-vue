@@ -2,12 +2,13 @@
 
 .trusty_header(@click='navigateBackAction')
 
-    .trusty_header_logo(
-        v-if="isProfilePage",
-        @click="router.push('/')",
-        v-html="logo")
+    icon-component(
+      name="trusty_fund_logo",
+      v-if="isProfilePage",
+      @click="router.push('/')",
+      v-html="logo")
 
-    span._back(м-шаv-if="!isProfilePage" @click='navigateBackAction')
+    span._back(v-if="!isProfilePage" @click='navigateBackAction')
       icon-component(name="trusty_arrow_back") 
 
     span._options(
@@ -32,10 +33,19 @@ export default {
   },
   data() {
     return {
-      logo: require('../style/images/trusty_fund_logo.svg'), // eslint-disable-line global-require
+      headerTitles: {
+        signup: 'signup',
+        login: 'login',
+        'deposit details': 'deposit',
+        withdraw: 'withdraw',
+        'manage fund': 'manage',
+        'terms of use': 'terms-of-use',
+        'unlock account': 'unlock',
+        'recent transactions': 'transactions',
+        'backup phrase': 'backup'
+      }
     };
   },
-
   methods: {
     navigateBackAction() {
       this.$router.push({ name: 'home' });
@@ -46,20 +56,9 @@ export default {
       return this.$route.path.indexOf('home') !== -1;
     },
     getHeaderTitle() {
-      const headerTitles = {
-        signup: 'signup',
-        login: 'login',
-        'deposit details': 'deposit',
-        withdraw: 'withdraw',
-        'manage fund': 'manage',
-        'terms of use': 'terms-of-use',
-        'unlock account': 'unlock',
-        'recent transactions': 'transactions',
-        'backup phrase': 'backup'
-      };
       let title = '';
-      Object.keys(headerTitles).forEach(k => {
-        if (this.$route.path.indexOf(headerTitles[k]) !== -1) { title = k; }
+      Object.keys(this.headerTitles).forEach(k => {
+        if (this.$route.path.indexOf(this.headerTitles[k]) !== -1) { title = k; }
       });
       return title;
     }

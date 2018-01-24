@@ -21,7 +21,8 @@ const names = [
   'mf_minus',
   'mf_plus',
   'full_plus',
-  'full_minus'
+  'full_minus',
+  'trusty_fund_logo',
 ];
 
 const icons = {};
@@ -36,6 +37,10 @@ export default {
     name: {
       default: '',
       type: String
+    },
+    className: {
+      default: '',
+      typy: String
     }
   },
 
@@ -46,7 +51,7 @@ export default {
   },
   computed: {
     classes() {
-      return this.name;
+      return this.name + ' ' + this.className;
     }
   }
 
