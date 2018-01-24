@@ -13,37 +13,5 @@ module.exports = {
   // otherwise only set to absolute path when you're using history mode
   publicPath: '/',
   cssModules: false,
-  jsx: true,
-
-  // postcss: function(){
-  //   return [
-  //     require( `postcss-use` )(
-  //       {
-  //         modules: [
-  //           'postcss-autoreset',
-  //           'postcss-initial'
-  //         ]
-  //       }
-  //     ),
-  //     require('postcss-import')({
-  //       path: path.resolve('./client'),
-  //       addDependencyTo: webpack
-  //     }),
-  //     require("postcss-url")(),
-  //     require('postcss-nested')(),
-  //     require('postcss-comment/hookRequire')(),
-  //     require('postcss-discard-comments')(),
-  //     require('postcss-short')(),
-  //     require('precss')(),
-  //     require('postcss-color-function')(),
-  //     require('postcss-flexbugs-fixes')(),
-  //     require('autoprefixer')({
-  //       // Vue does not support ie 8 and below
-  //       browsers: ['last 2 versions', 'ie > 8']
-  //     })
-
-  //   ]
-
-  // },
-  
+  jsx: true
 }
