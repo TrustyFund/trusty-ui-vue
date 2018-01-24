@@ -5,8 +5,8 @@
     icon-component(
       name="trusty_fund_logo",
       v-if="isProfilePage",
-      @click="router.push('/')",
-      v-html="logo")
+      className="fund_logo",
+      @click="router.push('/')")
 
     span._back(v-if="!isProfilePage" @click='navigateBackAction')
       icon-component(name="trusty_arrow_back") 
@@ -96,7 +96,20 @@ $background_color: #1b1f22;
   left:0;
   right: 0;
   z-index: 1200;
+  display: relative;
    //border-bottom: 1px solid $white_color;
+
+
+
+  .fund_logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-top: 2.6vw;
+    padding-left: 3.2vw;
+    svg { fill: white; }
+  }
+
   .header_title {
     display: block;
     text-align: center;
