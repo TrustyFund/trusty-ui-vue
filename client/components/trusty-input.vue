@@ -3,7 +3,7 @@
 .trusty_input_container(:style="styleSheet", :class="classes")
   
   .w_input
-    ._input_space( :class="{ active_input: opened }")
+    ._input_space(ref="input_space", :class="{ active_input: opened }")
 
       label(
         @click="opened = !opened",
@@ -20,7 +20,8 @@
 </template>
 
 <script>
-	
+import listen from 'event-listener';
+
 export default {
 
   props: {
@@ -36,6 +37,23 @@ export default {
       default: 'text',
       type: String
     }
+  },
+
+  watch: {
+    opened(val) {
+      if (val) {
+        const current = this.type === 'textarea' ? 'textarea' : 'input';
+        const target = this.$refs.input_space.querySelector(current);
+        target.focus();
+        this.blur = listen(target, 'blur', () => {
+          this.opened = false;
+        });
+      }
+    }
+  },
+
+  beforeDestroy() {
+    if (this.blur) this.blur.remove();
   },
 
   data() {
@@ -196,6 +214,10 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
       border: none;
       height: 22vw;
       outline: none;
+      font-size: 5.4vw !important;
+      color: white;
+      height: 6.4vw;
+      font-family: "Gotham_Pro_Regular";
     }
 
     ._simple_text_left {
