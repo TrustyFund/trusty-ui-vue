@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import vuexBitshares from 'vuex-bitshares';
+// eslint-disable-next-line
+import vuexBitshares from 'lib/src';
 
 Vue.use(Vuex);
 

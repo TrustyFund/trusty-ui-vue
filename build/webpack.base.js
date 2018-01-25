@@ -25,7 +25,8 @@ module.exports = {
     extensions: ['.js', '.vue', '.css', '.json'],
     alias: {
       root: path.join(__dirname, '../client'),
-      components: path.join(__dirname, '../client/components')
+      components: path.join(__dirname, '../client/components'),
+      lib: path.join(__dirname, '../vuex-bitshares'),
     },
     modules: [
       _.cwd('node_modules'),
