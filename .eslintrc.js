@@ -29,6 +29,7 @@ module.exports = {
    'arrow-body-style': 0,
    'import/extensions': 0,
    'import/no-unresolved': 0,
-   'prefer-template': 0
+   'prefer-template': 0,
+   'operator-assignment': 0
  }
 };
