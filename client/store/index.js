@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import vuexBitshares from 'vuex-bitshares';
+import vuexBitshares from './vuex-bitshares/src';
 
 Vue.use(Vuex);
 
