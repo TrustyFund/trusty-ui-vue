@@ -1,4 +1,8 @@
+import './style/index.scss';
+import Header from './components/header';
+
 export default {
+  components: { Header },
   beforeMount() {
     this.$store.dispatch('initApis', () => {
       return this.$store.dispatch('fetchDefaultAssets');
@@ -9,7 +13,8 @@ export default {
     let app = (this.connected) ? (<router-view></router-view>) : (<h4>Connecting</h4>);
     return (
       <div id="app">
-        {app}
+        <Header />
+        { app }
       </div>
     );
   },

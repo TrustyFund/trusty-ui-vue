@@ -1,3 +1,5 @@
+const isWin = /^win/.test(process.platform);
+
 module.exports = {
  root: true,
  parserOptions: {
@@ -18,17 +20,19 @@ module.exports = {
  ],
  extends: 'airbnb-base',
  rules: {
+   "linebreak-style": ["error", isWin ? "windows": "unix"],
    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
    'comma-dangle': 0,
    'import/no-extraneous-dependencies': ['error', { 'devDependencies': true }],
    'no-console': 0,
-   'max-len': [2, 80, 2],
+   'max-len': [2, 120, 2],
    'import/prefer-default-export': 0,
    'arrow-parens': 0,
    'no-param-reassign': [2, { 'props': false }],
    'arrow-body-style': 0,
    'import/extensions': 0,
    'import/no-unresolved': 0,
-   'prefer-template': 0
+   'prefer-template': 0,
+   'import/no-dynamic-require': "off"
  }
 };
