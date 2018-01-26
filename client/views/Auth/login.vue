@@ -35,8 +35,8 @@
 </template>
 
 <script>
-import trustyInput from '../../components/trusty-input';
-import iconComponent from '../../components/icon';
+import trustyInput from '@/components/trusty-input';
+import iconComponent from '@/components/icon';
 
 export default {
   components: { trustyInput, iconComponent }
