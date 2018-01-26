@@ -117,7 +117,7 @@ export default {
     span {
       font-size: 3.3vw;
     }
-    &._second {
+    &._margins {
       margin-top: 5.8vw;
       margin-bottom: 4vw;
     }

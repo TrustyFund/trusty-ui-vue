@@ -46,7 +46,7 @@ export default {
         const target = this.$refs.input_space.querySelector(current);
         target.focus();
         this.blur = listen(target, 'blur', () => {
-          this.opened = false;
+          if (!target.value.length) this.opened = false;
         });
       }
     }
