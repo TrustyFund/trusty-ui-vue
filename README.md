@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/TrustyFund/trusty-ui-vue.svg?branch=master)](https://travis-ci.org/TrustyFund/trusty-ui-vue)
 # trusty-vue
 
 To run:

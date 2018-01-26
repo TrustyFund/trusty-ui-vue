@@ -24,8 +24,9 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.css', '.json'],
     alias: {
-      "@root": path.join(__dirname, '../client'),
+      '@root': path.join(__dirname, '../client'),
       components: path.join(__dirname, '../client/components'),
+      lib: path.join(__dirname, '../vuex-bitshares'),
     },
     modules: [
       _.cwd('node_modules'),
@@ -39,7 +40,7 @@ module.exports = {
       {
         enforce: 'pre',
         test: /\.(js|vue)$/,
-        exclude: [/node_modules/, path.resolve(__dirname, ".." , "client", "style")],
+        exclude: [/node_modules/, path.resolve(__dirname, '..', 'client', 'style')],
         loader: 'eslint-loader',
         options: {
           emitWarning: true,
