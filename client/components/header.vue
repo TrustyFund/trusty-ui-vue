@@ -16,7 +16,7 @@
         @click='navigateToBackupAction')
         icon-component(name="trusty_options")
 
-    .header_title {{getHeaderTitle}}
+    .header_title {{getTitle}}
 
 </div>
   
@@ -33,16 +33,9 @@ export default {
   },
   data() {
     return {
-      headerTitles: {
+      titles: {
         signup: 'signup',
         login: 'login',
-        'deposit details': 'deposit',
-        withdraw: 'withdraw',
-        'manage fund': 'manage',
-        'terms of use': 'terms-of-use',
-        'unlock account': 'unlock',
-        'recent transactions': 'transactions',
-        'backup phrase': 'backup'
       }
     };
   },
@@ -55,12 +48,8 @@ export default {
     isProfilePage() {
       return this.$route.path.indexOf('home') !== -1;
     },
-    getHeaderTitle() {
-      let title = '';
-      Object.keys(this.headerTitles).forEach(k => {
-        if (this.$route.path.indexOf(this.headerTitles[k]) !== -1) { title = k; }
-      });
-      return title;
+    getTitle() {
+      return this.titles[this.$route.name];
     }
   }
 };

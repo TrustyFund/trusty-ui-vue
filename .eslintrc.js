@@ -25,7 +25,7 @@ module.exports = {
    'comma-dangle': 0,
    'import/no-extraneous-dependencies': ['error', { 'devDependencies': true }],
    'no-console': 0,
-   'max-len': [2, 250, 2],
+   'max-len': [2, 120, 2],
    'import/prefer-default-export': 0,
    'arrow-parens': 0,
    'no-param-reassign': [2, { 'props': false }],
