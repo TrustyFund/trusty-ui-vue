@@ -18,7 +18,7 @@
     | Write down your password, it CAN'T BE RECOVERED 
 
   .trusty_buttons
-    button Signup
+    button Sign up
 
   p._tooltip_p._text_center 
     | Before continuing, make sure your device is secure
