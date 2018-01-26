@@ -17,11 +17,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  beforeMount() {
-    this.$store.dispatch('fetchUser', this.$route.params.nickname);
+  data() {
+    return {};
   },
   computed: {
     ...mapGetters({
@@ -31,6 +31,9 @@ export default {
       getAssetById: 'getAssetById',
       getAssetFieldById: 'getAssetFieldById'
     }),
+    userName() {
+      return this.$route.params.nickname;
+    },
     userAssets() {
       const resultAssets = [];
       this.userBalances.forEach(balance => {
@@ -51,9 +54,20 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      fetchUser: 'fetchUser',
+      fetchAssetsPrices: 'fetchAssetsPrices'
+    }),
     drawRealBalance(amount, preceision) {
       return amount / (10 ** preceision);
     }
+  },
+  beforeMount() {
+    this.fetchUser(this.userName).then(() => {
+      console.log('user fetched');
+      this.fetchAssetsPrices();
+      // dispatch action
+    });
   }
 };
 </script>
