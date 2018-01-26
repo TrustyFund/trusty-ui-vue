@@ -6,11 +6,15 @@
     template(slot="input")
       input
 
+  trusty-input(label="enter email")
+    template(slot="input")
+      input
+
   trusty-input(label="enter password")
     template(slot="input")
       input
 
-  trusty-input(label="brainkey" type="confirm password")
+  trusty-input(label="confirm password")
     template(slot="input")
       textarea
   
