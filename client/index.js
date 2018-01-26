@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-if (config.pixel) {
+if (config.pixel && process.env.NODE_ENV === 'development') {
   require('./style/pixel-glass.js'); // eslint-disable-line global-require
   require('./style/pixel-glass.scss'); // eslint-disable-line global-require
 }

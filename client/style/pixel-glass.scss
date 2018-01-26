@@ -10,15 +10,14 @@ HTML {
 /* Планшет */
 @media ( max-width: 768px ) {
   HTML {
-    //background-image: url("./screens/login.png")
-    background-image: url("./screens/signup.png")
+    background-image: url("./screens/login.png")
+    //background-image: url("./screens/signup.png")
   }
 }
 /* Десктоп */
 @media ( min-width: 769px ) {
   HTML {
     /* Десктопный макет */
-    //background-image: url( "img/960.png" );
   }
 }
 
