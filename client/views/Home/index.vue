@@ -1,7 +1,7 @@
 <template>
   <div class="page">
-    <input v-model="username" placeholder="Enter username">
-    <router-link :to="{ name: 'user', params: { nickname: username }}">VIEW</router-link>
+    <input v-model="login" placeholder="Enter username">
+    <router-link :to="{ name: 'user', params: { name: login }}">VIEW</router-link>
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 export default {
   data() {
     return {
-      username: ''
+      login: ''
     };
   }
 };

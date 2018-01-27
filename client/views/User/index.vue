@@ -1,8 +1,8 @@
 <template>
-  <div class="page">
+  <div class="user-container">
     <router-link to="/">back</router-link>
     <div v-if="accountObject">
-       <h4>{{ userName }} [{{ accountObject.id }}]</h4>
+       <h4>{{ name }} [{{ accountObject.id }}]</h4>
        
        <div>
           <ul v-for="asset in userAssets">
@@ -20,20 +20,18 @@
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
+  name: 'user',
+  props: ['name'],
   data() {
     return {};
   },
   computed: {
     ...mapGetters({
-      userName: 'getUserName',
       accountObject: 'getAccountObject',
       userBalances: 'getBalances',
       getAssetById: 'getAssetById',
       getAssetFieldById: 'getAssetFieldById'
     }),
-    userName() {
-      return this.$route.params.nickname;
-    },
     userAssets() {
       const resultAssets = [];
       this.userBalances.forEach(balance => {
@@ -63,11 +61,16 @@ export default {
     }
   },
   beforeMount() {
-    this.fetchUser(this.userName).then(() => {
+    this.fetchUser(this.name).then(() => {
       console.log('user fetched');
       this.fetchAssetsPrices();
-      // dispatch action
     });
   }
 };
 </script>
+
+<styles>
+  .user-container {
+    color: white;
+  }
+</styles>
