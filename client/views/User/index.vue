@@ -1,27 +1,18 @@
 <template>
   <div class="user-container">
     <router-link to="/">back</router-link>
-    <div v-if="accountObject">
-       <h4>{{ name }} [{{ accountObject.id }}]</h4>
+    <div v-if="account">
+       <h4>{{ name }} [{{ account.id }}]</h4>
        
       <portfolio></portfolio>
 
-       <div>
-          <ul v-for="asset in userAssets">
-            <li >
-              {{ asset.name }}
-              {{ asset.balance }}
-            </li>
-          </ul>
-       </div>
-       
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import Portfolio from './portfolio.vue';
+import Portfolio from './portfolio/portfolio.vue';
 
 export default {
   name: 'user',
@@ -34,50 +25,42 @@ export default {
   },
   computed: {
     ...mapGetters({
-      accountObject: 'getAccountObject',
+      account: 'getAccountObject',
       userBalances: 'getBalances',
-      getAssetById: 'getAssetById',
-      getAssetFieldById: 'getAssetFieldById'
+      assets: 'getAssets'
     }),
-    userAssets() {
-      const resultAssets = [];
-      this.userBalances.forEach(balance => {
-        const asset = this.getAssetById(balance.asset_type);
-        if (balance.balance) {
-          const realBalance = this.drawRealBalance(
-            balance.balance,
-            asset.precision
-          );
-          resultAssets.push({
-            name: asset.symbol || 'Недоступно',
-            balance: realBalance || ''
-          });
-        }
-      });
-
-      return resultAssets;
-    }
   },
   methods: {
     ...mapActions({
       fetchUser: 'fetchUser',
-      fetchAssetsPrices: 'fetchAssetsPrices'
-    }),
-    drawRealBalance(amount, preceision) {
-      return amount / (10 ** preceision);
-    }
+      fetchAssetsPrices: 'fetchAssetsPrices',
+      fetchAssets: 'fetchAssets'
+    })
   },
   beforeMount() {
     this.fetchUser(this.name).then(() => {
-      console.log('user fetched');
-      this.fetchAssetsPrices();
+      const assetsIds = this.userBalances.map((balance) => balance.asset_type);
+      this.fetchAssets(assetsIds).then(() => {
+        this.fetchAssetsPrices(this.assets).then(() => {}, (error) => {
+          console.log(error);
+          // todo: alert notification here
+        });
+      }, (error) => {
+        console.log(error);
+        // todo: alert notification here
+      });
+    }, (error) => {
+      // todo : alert notification here
+      console.log(error);
     });
   }
 };
 </script>
 
-<style>
+<style lang="scss">
   .user-container {
-    background: white;
+    padding: 1rem;
+    color: white;
+    font-family: 'Gotham_Pro_Regular';
   }
 </style>
