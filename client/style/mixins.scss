@@ -1,0 +1,60 @@
+@charset "utf-8";
+
+@mixin trusty_main_padding {
+	@media screen and (max-width: 768px) {
+		padding: 0 3.6vw;
+	}
+}
+
+@mixin trusty_mobile_button_not_width {
+	height: 13vw !important;
+	line-height: 12.2vw;
+	font-size: 4.8vw;
+	text-transform: uppercase;
+}
+
+
+//http://sassbreak.com/viewport-relative-headings-with-sass/
+//https://gist.github.com/superfine/67a9b138f437c1c9a217ac07b58876a2
+$mobile_view: "(max-width: 750px)"; 
+
+
+@function get-vw($target) {
+  $vw-context: (1000*.01) * 1px;
+  @return ($target/$vw-context) * 1vw;
+}
+
+
+@mixin trusty_small_font {
+ font-family : Gotham_Pro;
+ font-size : 32px;
+ color : #FFFFFF;
+ color : rgb(255, 255, 255);
+}
+
+
+@mixin trusty_large_font_letter_space {
+ font-family : Gotham_Pro_Bold;
+ font-weight : bold;
+ font-size : 48px;
+ letter-spacing : 0.48px;
+ color : #FFFFFF;
+ color : rgb(255, 255, 255);
+}
+
+
+@mixin trusty_large_font {
+ font-family : Gotham_Pro_Bold;
+ font-weight : bold;
+ font-size : 48px;
+ color : #FFFFFF;
+ color : rgb(255, 255, 255);
+}
+
+
+@mixin trusty_medium_font {
+ font-family : Gotham_Pro;
+ font-size : 36px;
+ color : #FFFFFF;
+ color : rgb(255, 255, 255);
+}
