@@ -34,5 +34,11 @@ module.exports = {
    'import/no-unresolved': 0,
    'prefer-template': 0,
    'import/no-dynamic-require': "off"
- }
+ },
+ overrides: [
+  {
+    'files': [ "vuex-bitshares/test/*.js" ],
+    'excludedFiles': '*.spec.js'
+  }
+ ]
 };
