@@ -4,15 +4,15 @@
 
     icon-component(
       name="trusty_fund_logo",
-      v-if="isProfilePage",
+      v-if="isHomePage",
       className="fund_logo",
       @click="router.push('/')")
 
-    span._back(v-if="!isProfilePage" @click='navigateBackAction')
+    span._back(v-if="!isHomePage" @click='navigateBackAction')
       icon-component(name="trusty_arrow_back") 
 
     span._options(
-        v-if="isProfilePage"
+        v-if="isHomePage"
         @click='navigateToBackupAction')
         icon-component(name="trusty_options")
 
@@ -43,13 +43,19 @@ export default {
     navigateBackAction() {
       this.$router.push({ name: 'home' });
     },
+    navigateToBackupAction() {
+      // to do
+    }
   },
   computed: {
-    isProfilePage() {
-      return this.$route.path.indexOf('home') !== -1;
+    routeName() {
+      return this.$route.name;
+    },
+    isHomePage() {
+      return this.routeName === 'home';
     },
     getTitle() {
-      return this.titles[this.$route.name];
+      return this.titles[this.routeName];
     }
   }
 };

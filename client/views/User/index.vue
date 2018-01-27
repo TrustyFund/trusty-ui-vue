@@ -4,6 +4,8 @@
     <div v-if="accountObject">
        <h4>{{ name }} [{{ accountObject.id }}]</h4>
        
+      <portfolio></portfolio>
+
        <div>
           <ul v-for="asset in userAssets">
             <li >
@@ -12,16 +14,21 @@
             </li>
           </ul>
        </div>
+       
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import Portfolio from './portfolio.vue';
 
 export default {
   name: 'user',
   props: ['name'],
+  components: {
+    Portfolio
+  },
   data() {
     return {};
   },
@@ -69,8 +76,8 @@ export default {
 };
 </script>
 
-<styles>
+<style>
   .user-container {
-    color: white;
+    background: white;
   }
-</styles>
+</style>
