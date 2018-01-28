@@ -3,9 +3,9 @@
 
 To run:
 ```bash
+$ git clone --recursive git@github.com:TrustyFund/trusty-ui-vue.git (or init and update git submodules after simple clone)
 $ npm install
 $ npm run dev
 ```
-client/store перекачует в отдельную библиотеку
 
-Придерживаемся стандарта airbnb (https://github.com/airbnb/javascript)
+We are using airbnb eslint preset (https://github.com/airbnb/javascript)
