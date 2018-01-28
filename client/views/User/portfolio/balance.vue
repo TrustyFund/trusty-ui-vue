@@ -1,7 +1,7 @@
 <template>
   <tr>
     <th>{{ name }}</th>
-    <th>{{ balance }}</th>
+    <th>{{ balance.toFixed(2) }}</th>
     <th>{{ balanceBts.toFixed(4) }}</th>
     <th>{{ share }}%</th>
     <th>{{ balanceUSD }}</th>
@@ -11,7 +11,8 @@
 
 <script>
 export default {
-  props: ['name', 'balance', 'prices', 'multiplier', 'total', 'balanceBts'],
+  props: ['name', 'balance', 'prices', 'multiplier', 'total', 'balanceBts',
+    'base', 'usd'],
   data() {
     return {};
   },
@@ -20,14 +21,16 @@ export default {
       return (this.balanceBts * this.multiplier.last).toFixed(2);
     },
     change() {
-      if (this.prices.lastPrice === this.prices.firstPrice) return 0;
-      return ((((this.prices.lastPrice * this.multiplier.last) /
-              (this.prices.firstPrice * this.multiplier.first)) * 100) - 100).toFixed(1);
+      let multiplier = this.multiplier; // eslint-disable-line prefer-destructuring
+      if (this.prices.lastPrice === this.prices.firstPrice && !this.base) return 0;
+      if (this.usd) multiplier = { first: 1, last: 1 };
+      return ((((this.prices.lastPrice * multiplier.last) /
+              (this.prices.firstPrice * multiplier.first)) * 100) - 100).toFixed(1);
     },
     share() {
       if (!this.total) return 0;
       return ((this.balanceBts / this.total) * 100).toFixed();
-    },
+    }
   }
 };
 </script>

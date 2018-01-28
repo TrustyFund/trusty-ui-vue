@@ -2,10 +2,8 @@
   <div class="user-container">
     <router-link to="/">back</router-link>
     <div v-if="account">
-       <h4>{{ name }} [{{ account.id }}]</h4>
-       
+      <h4>{{ name }} [{{ account.id }}]</h4> 
       <portfolio></portfolio>
-
     </div>
   </div>
 </template>
@@ -41,10 +39,7 @@ export default {
     this.fetchUser(this.name).then(() => {
       const assetsIds = Object.keys(this.userBalances);
       this.fetchAssets(assetsIds).then(() => {
-        this.fetchAssetsPrices(this.assets).then(() => {}, (error) => {
-          console.log(error);
-          // todo: alert notification here
-        });
+        this.fetchAssetsPrices(this.assets);
       }, (error) => {
         console.log(error);
         // todo: alert notification here

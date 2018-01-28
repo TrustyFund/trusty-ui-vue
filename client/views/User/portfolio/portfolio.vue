@@ -20,7 +20,9 @@
                 :balance-bts="item.balanceBTS"
                 :prices="item.prices"
                 :total="totalBTS"
-                :multiplier="multiplier">
+                :multiplier="multiplier"
+                :base="item.base"
+                :usd="item.usd">
         </balance>
       </tbody>    
     </table>
@@ -42,7 +44,8 @@ export default {
       baseMarketId: 'getBaseMarketId',
       defaultAssetsIds: 'getDefaultAssetsIds',
       getAssetPricesById: 'getAssetPricesById',
-      multiplier: 'getPricesMultiplier'
+      multiplier: 'getPricesMultiplier',
+      preferredAssetId: 'getPreferredAssetId'
     }),
     // user balances + default assets
     itemsIds() {
@@ -60,13 +63,20 @@ export default {
           asset.precision
         );
         const prices = this.getAssetPricesById(id);
+        if (id === this.baseMarketId) {
+          prices.firstPrice = 1;
+          prices.lastPrice = 1;
+        }
         const balanceBTS = realBalance * prices.lastPrice;
+
         obj[id] = {
           id,
           name: asset.symbol,
           balance: realBalance,
           prices,
-          balanceBTS
+          balanceBTS,
+          base: this.baseMarketId === id,
+          usd: this.preferredAssetId === id
         };
       });
 
