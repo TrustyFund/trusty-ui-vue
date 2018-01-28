@@ -28,7 +28,7 @@ export default {
       account: 'getAccountObject',
       userBalances: 'getBalances',
       assets: 'getAssets'
-    }),
+    })
   },
   methods: {
     ...mapActions({

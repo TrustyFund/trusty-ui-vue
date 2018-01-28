@@ -1,8 +1,9 @@
 <template>
   <tr>
-    <th>{{ asset.name }}</th>
-    <th>{{ asset.balance.toFixed(4) }}</th>
+    <th>{{ asset.symbol }}</th>
+    <th>{{ balance.toFixed(4) }}</th>
     <th>{{ !fetching ? valueBTS : 'loading' }}</th>
+    <th>{{ share.toFixed(1) || 0 }}%</th>
     <th>{{ !fetching ? valueUSD : 'loading' }}</th>
     <th>{{ !fetching ? priceChange : 'loading' }}%</th>
   </tr>
@@ -10,7 +11,7 @@
 
 <script>
 export default {
-  props: ['asset', 'price', 'multiplier', 'baseId'],
+  props: ['asset', 'price', 'multiplier', 'baseId', 'total'],
   data() {
     return {};
   },
@@ -18,9 +19,16 @@ export default {
     fetching() {
       return !this.price || this.price.fetching;
     },
+    balance() {
+      return this.asset.balance || 0;
+    },
     valueBTS() {
-      if (this.asset.id === this.baseId) return this.asset.balance.toFixed(4);
-      return (this.asset.balance * this.price.lastPrice).toFixed(4);
+      if (this.asset.id === this.baseId) return this.balance.toFixed(4);
+      return (this.balance * this.price.lastPrice).toFixed(4);
+    },
+    share() {
+      if (!this.total) return 0;
+      return (this.valueBTS / this.total) * 100;
     },
     valueUSD() {
       return (this.valueBTS * this.multiplier.last).toFixed(4);

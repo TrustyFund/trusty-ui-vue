@@ -6,6 +6,7 @@
           <th><span>ASSET</span></th>
           <th><span>Balance</span></th>
           <th><span>Balance in BTS</span></th>
+          <th><span>Share</span></th>
           <th><span>$VALUE</span></th>
           <th><span>7DAYS</span></th>
         </tr>
@@ -13,6 +14,13 @@
 
       <tbody>
         <balance v-for="asset in userAssets"
+                :asset="asset"
+                :price="prices[asset.id]"
+                :multiplier="priceMultiplier"
+                :total="total"
+                :baseId="baseMarketId">  
+        </balance>
+        <balance v-for="asset in defaultAssetsFiltered"
                 :asset="asset"
                 :price="prices[asset.id]"
                 :multiplier="priceMultiplier"
@@ -37,7 +45,9 @@ export default {
       getAssetById: 'getAssetById',
       prices: 'getAssetsPrices',
       preferredAssetId: 'getPreferredAssetId',
-      baseMarketId: 'getBaseMarketId'
+      baseMarketId: 'getBaseMarketId',
+      defaultAssetsSymbols: 'getDefaultAssets',
+      assets: 'getAssets'
     }),
     priceMultiplier() {
       if (!this.prices[this.preferredAssetId]) {
@@ -61,10 +71,32 @@ export default {
 
         return ({
           id: asset.id,
-          name: asset.symbol,
+          symbol: asset.symbol,
           balance: realBalance
         });
       });
+    },
+    userAssetsIds() {
+      return this.userAssets.map(asset => asset.id);
+    },
+    defaultAssetsFiltered() {
+      const defaultAssets = [];
+      Object.keys(this.assets).forEach(id => {
+        const asset = this.assets[id];
+        const { symbol } = asset;
+        if (this.defaultAssetsSymbols.indexOf(symbol) > -1) {
+          defaultAssets.push(asset);
+        }
+      });
+      return defaultAssets.filter(asset => this.userAssetsIds.indexOf(asset.id) === -1);
+    },
+    total() {
+      let total = 0;
+      this.userAssets.forEach(asset => {
+        if (asset.id === this.baseMarketId) total += asset.balance;
+        else total += asset.balance * this.prices[asset.id].lastPrice;
+      });
+      return total;
     }
   },
   methods: {
