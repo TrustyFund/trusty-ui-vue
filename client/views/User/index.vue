@@ -39,7 +39,7 @@ export default {
   },
   beforeMount() {
     this.fetchUser(this.name).then(() => {
-      const assetsIds = this.userBalances.map((balance) => balance.asset_type);
+      const assetsIds = Object.keys(this.userBalances);
       this.fetchAssets(assetsIds).then(() => {
         this.fetchAssetsPrices(this.assets).then(() => {}, (error) => {
           console.log(error);

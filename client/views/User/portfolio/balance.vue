@@ -1,43 +1,33 @@
 <template>
   <tr>
-    <th>{{ asset.symbol }}</th>
-    <th>{{ balance.toFixed(4) }}</th>
-    <th>{{ !fetching ? valueBTS : 'loading' }}</th>
-    <th>{{ share.toFixed(1) || 0 }}%</th>
-    <th>{{ !fetching ? valueUSD : 'loading' }}</th>
-    <th>{{ !fetching ? priceChange : 'loading' }}%</th>
+    <th>{{ name }}</th>
+    <th>{{ balance }}</th>
+    <th>{{ balanceBts.toFixed(4) }}</th>
+    <th>{{ share }}%</th>
+    <th>{{ balanceUSD }}</th>
+    <th>{{ change }}%</th>
   </tr>
 </template>
 
 <script>
 export default {
-  props: ['asset', 'price', 'multiplier', 'baseId', 'total'],
+  props: ['name', 'balance', 'prices', 'multiplier', 'total', 'balanceBts'],
   data() {
     return {};
   },
   computed: {
-    fetching() {
-      return !this.price || this.price.fetching;
+    balanceUSD() {
+      return (this.balanceBts * this.multiplier.last).toFixed(2);
     },
-    balance() {
-      return this.asset.balance || 0;
-    },
-    valueBTS() {
-      if (this.asset.id === this.baseId) return this.balance.toFixed(4);
-      return (this.balance * this.price.lastPrice).toFixed(4);
+    change() {
+      if (this.prices.lastPrice === this.prices.firstPrice) return 0;
+      return ((((this.prices.lastPrice * this.multiplier.last) /
+              (this.prices.firstPrice * this.multiplier.first)) * 100) - 100).toFixed(1);
     },
     share() {
       if (!this.total) return 0;
-      return (this.valueBTS / this.total) * 100;
+      return ((this.balanceBts / this.total) * 100).toFixed();
     },
-    valueUSD() {
-      return (this.valueBTS * this.multiplier.last).toFixed(4);
-    },
-    priceChange() {
-      if (this.price.lastPrice === this.price.firstPrice) return 0;
-      return Math.floor((((this.price.lastPrice * this.multiplier.last) /
-        (this.price.firstPrice * this.multiplier.first)) * 100) - 100);
-    }
   }
 };
 </script>

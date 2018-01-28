@@ -13,18 +13,14 @@
       </thead>
 
       <tbody>
-        <balance v-for="asset in userAssets"
-                :asset="asset"
-                :price="prices[asset.id]"
-                :multiplier="priceMultiplier"
-                :total="total"
-                :baseId="baseMarketId">  
-        </balance>
-        <balance v-for="asset in defaultAssetsFiltered"
-                :asset="asset"
-                :price="prices[asset.id]"
-                :multiplier="priceMultiplier"
-                :baseId="baseMarketId">  
+        <balance v-for="item in items"
+                :key="item.id"
+                :name="item.name"
+                :balance="item.balance"
+                :balance-bts="item.balanceBTS"
+                :prices="item.prices"
+                :total="totalBTS"
+                :multiplier="multiplier">
         </balance>
       </tbody>    
     </table>
@@ -43,64 +39,49 @@ export default {
     ...mapGetters({
       userBalances: 'getBalances',
       getAssetById: 'getAssetById',
-      prices: 'getAssetsPrices',
-      preferredAssetId: 'getPreferredAssetId',
       baseMarketId: 'getBaseMarketId',
-      defaultAssetsSymbols: 'getDefaultAssets',
-      assets: 'getAssets'
+      defaultAssetsIds: 'getDefaultAssetsIds',
+      getAssetPricesById: 'getAssetPricesById',
+      multiplier: 'getPricesMultiplier'
     }),
-    priceMultiplier() {
-      if (!this.prices[this.preferredAssetId]) {
-        return {
-          first: 0, last: 0
-        };
-      }
-
-      return {
-        first: 1 / this.prices[this.preferredAssetId].firstPrice,
-        last: 1 / this.prices[this.preferredAssetId].lastPrice
-      };
+    // user balances + default assets
+    itemsIds() {
+      return this.defaultAssetsIds.concat(Object.keys(this.userBalances));
     },
-    userAssets() {
-      return this.userBalances.map(balance => {
-        const asset = this.getAssetById(balance.asset_type);
-        const realBalance = this.drawRealBalance(
-          balance.balance,
+    // generates data for display
+    items() {
+      const obj = {};
+
+      this.itemsIds.forEach(id => {
+        const asset = this.getAssetById(id);
+        const balance = (this.userBalances[id] && this.userBalances[id].balance) || 0;
+        const realBalance = this.calcRealBalance(
+          balance,
           asset.precision
         );
+        const prices = this.getAssetPricesById(id);
+        const balanceBTS = realBalance * prices.lastPrice;
+        obj[id] = {
+          id,
+          name: asset.symbol,
+          balance: realBalance,
+          prices,
+          balanceBTS
+        };
+      });
 
-        return ({
-          id: asset.id,
-          symbol: asset.symbol,
-          balance: realBalance
-        });
-      });
+      return obj;
     },
-    userAssetsIds() {
-      return this.userAssets.map(asset => asset.id);
-    },
-    defaultAssetsFiltered() {
-      const defaultAssets = [];
-      Object.keys(this.assets).forEach(id => {
-        const asset = this.assets[id];
-        const { symbol } = asset;
-        if (this.defaultAssetsSymbols.indexOf(symbol) > -1) {
-          defaultAssets.push(asset);
-        }
-      });
-      return defaultAssets.filter(asset => this.userAssetsIds.indexOf(asset.id) === -1);
-    },
-    total() {
+    totalBTS() {
       let total = 0;
-      this.userAssets.forEach(asset => {
-        if (asset.id === this.baseMarketId) total += asset.balance;
-        else total += asset.balance * this.prices[asset.id].lastPrice;
+      Object.keys(this.items).forEach(id => {
+        total += this.items[id].balanceBTS;
       });
       return total;
     }
   },
   methods: {
-    drawRealBalance(amount, preceision) {
+    calcRealBalance(amount, preceision) {
       return amount / (10 ** preceision);
     }
   }
