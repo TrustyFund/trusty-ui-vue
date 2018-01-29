@@ -16,7 +16,7 @@
 
   trusty-input(label="confirm password")
     template(slot="input")
-      textarea
+      input
   
   p._tooltip_p._yellow
     | Write down your password, it CAN'T BE RECOVERED 
