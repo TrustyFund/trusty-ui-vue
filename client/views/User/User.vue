@@ -3,14 +3,14 @@
     <router-link to="/">back</router-link>
     <div v-if="account">
       <h4>{{ name }} [{{ account.id }}]</h4> 
-      <portfolio></portfolio>
+      <UserPortfolio/>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import Portfolio from './portfolio/portfolio.vue';
+import UserPortfolio from './UserPortfolio.vue';
 
 export default {
   name: 'user',
@@ -21,7 +21,7 @@ export default {
     }
   },
   components: {
-    Portfolio
+    UserPortfolio
   },
   data() {
     return {};

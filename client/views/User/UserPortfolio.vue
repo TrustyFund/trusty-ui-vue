@@ -13,17 +13,19 @@
       </thead>
 
       <tbody>
-        <balance v-for="item in items"
-                :key="item.id"
-                :name="item.name"
-                :balance="item.balance"
-                :balance-bts="item.balanceBTS"
-                :prices="item.prices"
-                :total="totalBTS"
-                :multiplier="multiplier"
-                :base="item.base"
-                :usd="item.usd">
-        </balance>
+        
+        <UserPortfolioBalance 
+          v-for="item in items"
+         :key="item.id"
+         :name="item.name"
+         :balance="item.balance"
+         :balance-bts="item.balanceBTS"
+         :prices="item.prices"
+         :total="totalBTS"
+         :multiplier="multiplier"
+         :base="item.base"
+         :usd="item.usd"/>
+
       </tbody>    
     </table>
   </div>
@@ -31,11 +33,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Balance from './balance.vue';
+import UserPortfolioBalance from './UserPortfolioBalance.vue';
 
 export default {
   components: {
-    Balance
+    UserPortfolioBalance
   },
   computed: {
     ...mapGetters({
