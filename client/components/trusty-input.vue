@@ -6,7 +6,7 @@
     ._input_space(ref="input_space", :class="{ active_input: opened }")
 
       label(
-        @click="opened = !opened",
+        @click="opened = true",
         :class="{no_opened: !opened}"
       ).trusty_place_holder {{ label }}
 
@@ -136,9 +136,13 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     &.opened_text_area {
       label {
         top: 1vw;
+        bottom: initial;
+      }
+      textarea {
+        height: 80%;
       }
       ._input_space {
-        height: 28vw !important;
+        height: 30.5vw !important;
       }
     }
   }
@@ -283,6 +287,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     padding-bottom: 1.4vw !important;
     padding-right: 0 !important;
     color: white !important;
+    height: 100%;
     option {
       background-color: black;
     }

@@ -1,14 +1,8 @@
 <template lang="pug">
 
 #trusty_auth
-
-  trusty-input(label="password")
-    template(slot="input")
-      input
-
-  trusty-input(label="confirm password")
-    template(slot="input")
-      input
+  
+  confirm-password
 
   trusty-input(label="brainkey" type="textarea")
     template(slot="input")
@@ -37,9 +31,10 @@
 <script>
 import trustyInput from '@/components/trusty-input';
 import iconComponent from '@/components/icon';
+import confirmPassword from './confirm-password';
 
 export default {
-  components: { trustyInput, iconComponent }
+  components: { trustyInput, iconComponent, confirmPassword }
 };
 
 </script>
