@@ -11,12 +11,6 @@
   },
   "author": "Anton <anlopan@gmail.com>",
   "license": "MIT",
-  "xo": {
-    "esnext": true,
-    "envs": [
-      "browser"
-    ]
-  },
   "babel": {
     "presets": [
       [
