@@ -14,7 +14,12 @@ import Portfolio from './portfolio/portfolio.vue';
 
 export default {
   name: 'user',
-  props: ['name'],
+  props: {
+    name: {
+      type: String,
+      required: true
+    }
+  },
   components: {
     Portfolio
   },
