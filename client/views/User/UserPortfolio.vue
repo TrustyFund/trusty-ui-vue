@@ -1,6 +1,7 @@
 <template>
   <div class="portfolio-container">
     <table class="portfolio-container__table">      
+      
       <thead>
         <tr>
           <th><span>ASSET</span></th>
@@ -13,7 +14,6 @@
       </thead>
 
       <tbody>
-        
         <UserPortfolioBalance 
           v-for="item in items"
          :key="item.id"
@@ -25,8 +25,8 @@
          :multiplier="multiplier"
          :base="item.base"
          :usd="item.usd"/>
-
       </tbody>    
+
     </table>
   </div>
 </template>
@@ -49,14 +49,16 @@ export default {
       multiplier: 'getPricesMultiplier',
       preferredAssetId: 'getPreferredAssetId'
     }),
-    // user balances + default assets
+    // user balances + default assets without duplication
     itemsIds() {
-      return this.defaultAssetsIds.concat(Object.keys(this.userBalances));
+      const userBalancesIds = Object.keys(this.userBalances);
+      return userBalancesIds.concat(this.defaultAssetsIds.filter((id) => {
+        return userBalancesIds.indexOf(id) < 0;
+      }));
     },
     // generates data for display
     items() {
       const obj = {};
-
       this.itemsIds.forEach(id => {
         const asset = this.getAssetById(id);
         const balance = (this.userBalances[id] && this.userBalances[id].balance) || 0;
@@ -85,11 +87,9 @@ export default {
       return obj;
     },
     totalBTS() {
-      let total = 0;
-      Object.keys(this.items).forEach(id => {
-        total += this.items[id].balanceBTS;
-      });
-      return total;
+      return this.itemsIds.reduce((result, id) => {
+        return result + this.items[id].balanceBTS;
+      }, 0);
     }
   },
   methods: {

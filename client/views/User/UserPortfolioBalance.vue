@@ -17,36 +17,43 @@ export default {
       required: true,
       default: ''
     },
+
     balance: {
       type: Number,
       required: true,
       default: 0
     },
+
     prices: {
       type: Object,
       required: true,
       default: [0, 0]
     },
+
     multiplier: {
       type: Object,
       required: true,
       default: [0, 0]
     },
+
     total: {
       type: Number,
       required: true,
       default: 0
     },
+
     balanceBts: {
       type: Number,
       required: true,
       default: 0
     },
+
     base: {
       type: Boolean,
       required: true,
       default: false
     },
+
     usd: {
       type: Boolean,
       required: true,
