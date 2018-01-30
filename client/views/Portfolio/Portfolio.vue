@@ -1,0 +1,94 @@
+<template>
+  <div class="portfolio-container">
+    <table class="portfolio-container__table">      
+      
+      <thead>
+        <tr>
+          <th><span>ASSET</span></th>
+          <th><span>Balance</span></th>
+          <th><span>Balance in BTS</span></th>
+          <th><span>Share</span></th>
+          <th><span>$VALUE</span></th>
+          <th><span>7DAYS</span></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <PortfolioBalance 
+          v-for="(item, id) in items"
+         :key="id"
+         :item="item"
+         :total-bts="totalBTS"/>
+      </tbody>    
+
+    </table>
+  </div>
+</template>
+
+<script>
+import { mapActions, mapGetters } from 'vuex';
+import PortfolioBalance from './PortfolioBalance.vue';
+
+export default {
+  props: {
+    balances: {
+      required: true,
+      type: Object,
+      default: {}
+    }
+  },
+  components: {
+    PortfolioBalance
+  },
+  computed: {
+    ...mapGetters({
+      items: 'getPortfolioList'
+    }),
+    totalBTS() {
+      return Object.keys(this.items).reduce((result, id) => {
+        return result + this.items[id].balanceBTS;
+      }, 0);
+    }
+  },
+  methods: {
+    ...mapActions({
+      fetchAssets: 'fetchAssets',
+      fetchPortfolioData: 'fetchPortfolioData',
+      resetPortfolioState: 'resetPortfolioState'
+    })
+  },
+  beforeMount() {
+    const assetsIds = Object.keys(this.balances);
+    this.fetchAssets(assetsIds).then(() => {
+      this.fetchPortfolioData({ balances: this.balances });
+    }, (error) => {
+      console.log(error);
+      // todo: alert notification here
+    });
+  },
+  beforeDestroy() {
+    this.resetPortfolioState();
+  }
+};
+</script>
+
+<style>
+  .portfolio-container__table {
+    width: 100%;
+    max-width: 50rem;
+    thead {
+      color: #cccccc;
+      font-weight: 300;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+      tr th {
+        text-align: left;
+      }
+    }
+    tbody {
+      tr th {
+        text-align: left;
+      }
+    }
+  }
+</style>

@@ -3,14 +3,14 @@
     <router-link to="/">back</router-link>
     <div v-if="account">
       <h4>{{ name }} [{{ account.id }}]</h4> 
-      <UserPortfolio/>
+      <Portfolio :balances="userBalances"/>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import UserPortfolio from './UserPortfolio.vue';
+import Portfolio from '../Portfolio/Portfolio.vue';
 
 export default {
   name: 'user',
@@ -21,7 +21,7 @@ export default {
     }
   },
   components: {
-    UserPortfolio
+    Portfolio
   },
   data() {
     return {};
@@ -35,20 +35,11 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchUser: 'fetchUser',
-      fetchAssetsPrices: 'fetchAssetsPrices',
-      fetchAssets: 'fetchAssets'
+      fetchUser: 'fetchUser'
     })
   },
   beforeMount() {
     this.fetchUser(this.name).then(() => {
-      const assetsIds = Object.keys(this.userBalances);
-      this.fetchAssets(assetsIds).then(() => {
-        this.fetchAssetsPrices(this.assets);
-      }, (error) => {
-        console.log(error);
-        // todo: alert notification here
-      });
     }, (error) => {
       // todo : alert notification here
       console.log(error);
