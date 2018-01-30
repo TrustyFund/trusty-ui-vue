@@ -1,0 +1,105 @@
+@media screen and (max-width: 768px) {
+
+  @include column_trusty_inputs;
+  
+  .trusty_input_container.text_area {
+
+    textarea {
+      padding-top: 6vw;
+    }
+
+    ._input_space {
+      height: 6vw;
+      transition: all .2s;
+    }
+    &.opened_text_area {
+      label {
+        top: 1vw;
+        bottom: initial;
+      }
+      textarea {
+        height: 80%;
+      }
+      ._input_space {
+        height: 30.5vw !important;
+      }
+    }
+  }
+  
+  .trusty_input_container {
+    width: 100%;
+
+    ._input_space {
+      margin-top: 6vw;
+    }
+
+    .trusty_place_holder {
+      position: absolute;
+      left: 0;
+      bottom: 6.8vw;    
+    }
+    
+    .trusty_place_holder.no_opened {
+      letter-spacing: .23vw !important;
+      font-size: 4vw !important;
+      letter-spacing: .4vw;
+      bottom: 0; 
+      padding-bottom: 1.7vw;
+    }
+
+    label {
+      font-size: 2.5vw;
+      margin-bottom: 0 !important;
+    }
+
+    select, .dropdown-wrapper div {
+      font-size: 6.5vw !important;
+      color: white;
+    }
+
+    .dropdown-wrapper div {
+      padding-right: 0vw !important;
+      padding-bottom: 1vw;
+    }
+
+
+    .dropdown-wrapper {
+      padding-left:0;
+      padding-top:0;
+      padding-right:0;
+      padding-bottom:0;
+
+    }
+
+    ._simple_text_left,
+    .trusty_fake_input_show,
+    input {
+      height: 6.4vw;
+      font-size: 5.4vw !important;
+    }
+
+    .trusty_input_close {
+      padding-bottom: 6vw;
+    }
+     
+    textarea {
+      padding-left: 0;
+      width: 100%;
+      height: 22vw;
+      font-size: 5.4vw !important;
+      height: 6.4vw;
+    }
+
+    ._simple_text_left {
+      text-align: left;
+      color: white;
+    }
+    
+    ._right_slash {
+      font-size: 5.7vw;
+      font-family: Gotham_Pro_Regular;
+      margin-bottom: 1.14vw;
+    }
+  }
+}
+

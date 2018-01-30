@@ -91,7 +91,6 @@ export default {
   }
 }
 
-
 @mixin input_tag_style {
     display: inline-block;
     background-color: transparent !important;
@@ -110,29 +109,26 @@ export default {
     padding-bottom: 2px;
     padding-left: 0;
     padding-top: 0 !important;
-    font-size: 5.4vw !important;
-    height: 6.4vw;
     font-family: "Gotham_Pro_Regular";
     width: 100% !important;
 }
 
 $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 
-@media screen and (max-width: 768px) {
 
-  @include column_trusty_inputs;
-  
+.trusty_input_container {
+
+
   .trusty_input_container.text_area {
-    //margin-bottom: 4.5vw;
+
     textarea {
       padding-top: 6vw;
-
     }
+    
     ._input_space {
       height: 6vw;
       transition: all .2s;
     }
-
     &.opened_text_area {
       label {
         top: 1vw;
@@ -146,115 +142,75 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
       }
     }
   }
-  
-  .trusty_input_container {
-    width: 100%;
-    ._input_space {
-      margin-top: 6vw;
+
+  ._input_space.active_input {
+    margin-top: 0;
+    input, textarea {
+      margin-left: 0 !important;
     }
-
-    .trusty_place_holder {
-      position: absolute;
-      left: 0;
-      bottom: 6.8vw;    
-    }
-
-    .trusty_place_holder.no_opened {
-      width: 100%;
-      font-family: Gotham_Pro_Regular;
-      text-transform: uppercase;
-      color: white !important;
-      letter-spacing: .23vw !important;
-      font-size: 4vw !important;
-      letter-spacing: .4vw;
-      bottom: 0; 
-      padding-bottom: 1.7vw;
-      color: white;
-    }
-
-    label {
-      font-family: Gotham_Pro_Regular;
-      color: $color_light_grey;
-      transition: all .2s;
-      font-size: 2.5vw;
-      margin-bottom: 0 !important;
-      text-transform: uppercase;
-    }
-
-    select, .dropdown-wrapper div {
-      font-size: 6.5vw !important;
-      color: white;
-    }
-
-    .dropdown-wrapper div {
-      padding-right: 0vw !important;
-      padding-bottom: 1vw;
-    }
-
-
-    .dropdown-wrapper {
-      padding-left:0;
-      padding-top:0;
-      padding-right:0;
-      padding-bottom:0;
-
-    }
-
-    ._simple_text_left,
-    .trusty_fake_input_show,
-    input {
-      height: 6.4vw;
-      font-size: 5.4vw !important;
-      font-family: "Gotham_Pro_Regular";
-    }
-
-    .trusty_input_close {
-      padding-bottom: 6vw;
-    }
-     
-    textarea {
-      padding-left: 0;
-      width: 100%;
-      border: none;
-      height: 22vw;
-      outline: none;
-      font-size: 5.4vw !important;
-      color: white;
-      height: 6.4vw;
-      font-family: "Gotham_Pro_Regular";
-    }
-
-    ._simple_text_left {
-      text-align: left;
-      color: white;
-    }
-    
-    ._right_slash {
-      font-size: 5.7vw;
-      font-family: Gotham_Pro_Regular;
-      margin-bottom: 1.14vw;
-      
-    }
-
-
   }
 
-}
+  .trusty_place_holder.no_opened {
 
+    width: 100%;
+    font-family: Gotham_Pro_Regular;
+    text-transform: uppercase;
+    color: white !important;
+    letter-spacing: .13vw !important;
+    font-size: 2vw !important;
+    letter-spacing: .4vw;
+    bottom: .4vw; 
+    position: absolute;
+    //padding-bottom: 1.7vw;
+    color: white;
 
-.trusty_deposit_input, 
-.trusty_input_container {
+  }
 
   .w_input {
+
     position: relative;
+
+    @media screen and (min-width: 769px) {
+      margin-top: .4vw;
+    }
   }
-  
+
+  input {
+    height: 3.2vw;
+    font-size: 2.4vw !important;
+    font-family: "Gotham_Pro_Regular";
+  }
+
+  label {
+    font-family: Gotham_Pro_Regular;
+    color: $color_light_grey;
+    transition: all .2s;
+    font-size: 1.5vw;
+    margin-bottom: 0 !important;
+    text-transform: uppercase;
+  }
+
+
+  textarea {
+    padding-left: 0;
+    width: 100%;
+    border: none;
+    height: 22vw;
+    outline: none;
+    font-size: 2.4vw;
+    color: white;
+    height: 6.4vw;
+    font-family: "Gotham_Pro_Regular";
+  }
+
   .only_right_arrow {
     span {
       display: inline-block;
       transform: translateY(-6.4vw);
     }
   }
+
+
   ._right_space{
     display: inline-block;
     position: absolute;
@@ -293,16 +249,8 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     }
   }
   
-  ._input_space.active_input {
-    @media screen and (max-width: 768px) {
-      margin-top: 0;
-      input, textarea {
-        margin-left: 0 !important;
-      }
-    }
-  }
+  ._input_space {
 
-  ._input_space{
     width: 100%;
     border-bottom: 1px solid $color_light_grey;
     input {
@@ -310,12 +258,17 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
       @include input_tag_style;
     }
 
+
+    @media screen and (min-width: 769px) {
+      height: 5vw;
+    }
+
     input::placeholder {
       font-family: Gotham_Pro_Regular;
       text-transform: uppercase;
       color: white !important;
 
-      @media screen and (max-width: 750px) {
+      @media screen and (max-width: 768px) {
         letter-spacing: .23vw !important;
         font-size: 5.4vw !important;
         //font-size: 4vw !important;
@@ -323,6 +276,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
       }
 
     }
+
     input:focus, input:hover {
       border-top: none;
       border-right: none;
@@ -334,10 +288,12 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     textarea {
       margin-left: -1000px !important;
     }
+
     textarea:hover, textarea:active, textarea:focus, textarea {
       background-color: transparent !important;
       border-radius: 0 !important;
     }
+
   }
   
 
@@ -351,11 +307,6 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
       -webkit-appearance: none; 
       appearance: none;
 
-      option {
-        //font-size: inherit;
-        //height: inherit;
-        //font-family: inherit;
-      }
     }
 
     .active_input {
@@ -367,33 +318,6 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
   }
 }
 
-
-
-
-//Fade in animation
-
-.example-enter {
-  opacity: 0.01;
-  width: 0px;
-}
-
-.example-enter.example-enter-active {
-  opacity: 1;
-  width: 100px;
-  transition: 700ms;
-}
-
-.example-leave {
-  opacity: 1;
-  width: 100px;
-}
-
-.example-leave.example-leave-active {
-  opacity: 0.01;
-  width: 0px;
-  transition: 700ms;
-}
-  
-
+@import "./mobile.scss";
 
 </style>

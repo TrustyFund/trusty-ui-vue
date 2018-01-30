@@ -1,0 +1,89 @@
+.trusty_font_error {
+  font-family: Gotham_Pro;
+  color: #ff3950;
+  line-height: 1rem;
+  i,span,div {
+    color: #ff3950;
+    font-style: initial;
+  }
+}
+
+.trusty_buttons {
+  
+  text-align: center;
+
+  button {
+    display: inline-block;
+    color: white;
+    cursor: pointer;
+    font-family: "Gotham_Pro_Regular";
+    font-size: 1.3rem;
+    margin-bottom: 0px !important;
+    font-weight: bold;
+    line-height: initial !important;
+
+    @media screen and (min-width: 769px) {
+      border: 1px solid white;
+      padding: 1vw 2vw;
+
+    }
+
+
+    @media screen and (max-width: 768px) {
+      padding: initial !important;
+      color: #2a2a2a;
+      width: 100%;
+      font-size: 5vw;
+      background: white !important;
+      height: 13vw !important;
+    }
+
+    &._grey_style {
+      border: 1px solid grey;
+      color: grey;
+    }
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  *._desk, {display:none !important;}
+}
+
+@media screen and (min-width: 769px) {
+	*._mob{display:none !important;}
+}
+
+*._yellow {
+	color: #fdf101 !important;
+}
+*._hide {
+	display: none;
+}
+
+*._text_center {
+	text-align: center;
+}
+
+*._visibilitness {
+	opacity: 0;
+}
+
+button:focus, button:active {
+	outline: none;
+}
+
+br.desk {
+	display: none;
+}
+
+@media screen and (min-width: 769px) {
+	br.mob {
+		display: none;		
+	}
+	br.desk {
+		display: inline-block;
+	}
+}
+
+
