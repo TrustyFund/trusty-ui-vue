@@ -1,0 +1,73 @@
+
+@media screen and (max-width: 768px) {
+
+  .trusty_header {
+
+    height: $header_size;
+
+    .fund_logo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding-top: 2.6vw;
+      padding-left: 3.2vw;
+      svg { fill: white; }
+    }
+
+    .header_title {
+      line-height: $header_size;
+      font-size: 4.8vw;
+    }
+
+    span._back {
+      top:0;
+      left:0;
+      width: 12vw !important;
+      line-height: 15vw;
+      svg { 
+        height: 5.7vw;
+      }
+    }
+
+    span._options {
+      position: absolute;
+      top:0;
+      right:0;
+      display: inline-block;
+      width: 12vw !important;
+      height: 12vw !important;
+    }
+  }
+
+  .trusty_arrow_back {
+    position: absolute !important;
+    width: 12vw !important;
+    height: 12vw !important;
+    line-height: 13.5vw;
+    top: .4vw !important;
+    left: -.2vw !important;
+    text-align: center;
+    svg {
+      display: inline-block;
+      height: 45% !important;
+    }
+  }
+
+  .trusty_header_arrow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    transform: scale(-1, 1);
+    height: $header_size;
+    width: $header_size;
+    background: transparent;
+    outline: none;
+    border: none;
+    svg {
+      fill: #ffffff;
+    }
+
+  }
+
+}

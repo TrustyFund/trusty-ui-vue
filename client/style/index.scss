@@ -1,6 +1,6 @@
 @import "./mixins";
-@import './pixel-glass';
 @import "./fonts/fonts";
+@import "./framework";
 
 
 
@@ -68,16 +68,6 @@ iframe {
 }
 
 
-.trusty_font_error {
-	font-family: Gotham_Pro;
-	color: #ff3950;
-	line-height: 1rem;
-	i,span,div {
-		color: #ff3950;
-		font-style: initial;
-	}
-}
-
 .trusty_bottom_fix_space {
 	margin-bottom: 4.3vw !important;
 }
@@ -95,47 +85,6 @@ iframe {
 	}
 	@media (min-width: 768px) {
 		width: 220px;
-	}
-}
-
-
-@media screen and (max-width: 750px) {
-  *._desk, {display:none !important;}
-}
-
-@media screen and (min-width: 751px) {
-	*._mob{display:none !important;}
-}
-
-*._yellow {
-	color: #fdf101;
-}
-*._hide {
-	display: none;
-}
-
-*._text_center {
-	text-align: center;
-}
-
-*._visibilitness {
-	opacity: 0;
-}
-
-button:focus, button:active {
-	outline: none;
-}
-
-br.desk {
-	display: none;
-}
-
-@media screen and (min-width: 750px) {
-	br.mob {
-		display: none;		
-	}
-	br.desk {
-		display: inline-block;
 	}
 }
 
