@@ -1,8 +1,39 @@
-<template>
-  <div class="page">
-    <input v-model="username" placeholder="Enter username">
-    <router-link :to="{ name: 'user', params: { nickname: username }}">VIEW</router-link>
-  </div>
+<template lang="pug">
+	
+#trusty_profile
+	
+	.useful_wrap
+
+		.trusty_inline_buttons._mob
+			button DEPOSIT
+			button WITHDRAW
+
+		.trusty_total_funds
+			p account name
+			h3._text_center: span 4$
+
+		.trusty_inline_buttons._desk
+			button DEPOSIT
+			button WITHDRAW
+
+		.trusty_inline_buttons._one_button: button MANAGE FUND
+
+	
+	.table_wrap
+		table.trusty_table
+			thead
+				tr
+					th._text_left: span ASSET
+					th._text_right: span SHARE 
+					th._text_right: span VAlUE
+					th._text_right: span 7DAYS
+			tbody
+				tr 
+					td._text_left  BTS
+					td._text_right 100%
+					td._text_right 0
+					td._text_right -4%
+
 </template>
 
 <script>
@@ -14,3 +45,86 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+
+@import "../../style/mixins";
+
+#trusty_profile {
+	@include trusty_main_padding;
+	@media screen and (min-width: 768px) {
+		max-width: 80%;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: row-reverse;
+		> div {
+			flex: 1;
+		}
+	}
+	.table_wrap {
+		width: 100%;
+
+	}
+	.trusty_table {
+		width: 100%;
+		margin-top: 20px;
+		thead, th, tr, tbody {
+			color: white;
+			border: none;
+			background-color: transparent;
+		}
+		th span {
+			color: #cccccc;
+			font-family: 'Gotham_Pro_Regular';
+			@media screen and (max-width: 768px){
+				font-size: 4.4vw;
+			}
+		}
+		td, td span, td div {
+			color: white;
+			@media screen and (max-width: 768px) {
+				font-size: 6vw;
+			}
+			font-family: 'Gotham_Pro_Regular';
+
+		}
+		td {
+			@media screen and (max-width: 750px){
+				margin-top: 10px;		
+			}
+		} 
+
+	}
+	.trusty_total_funds {
+		margin-top: 1.3vw;
+		margin-bottom: 1.2vw;
+		p {
+			font-family: 'Gotham_Pro_Regular';
+			text-transform: uppercase;
+			text-align: center;
+			margin-bottom: 0;	
+		}
+		h3 {
+			font-family: 'Gotham_Pro_Medium';
+			margin-top: 0;
+			margin-bottom: 0;
+			line-height: initial;
+		}
+	}
+}
+
+
+@media screen and (max-width: 768px){
+	#trusty_profile .trusty_total_funds {
+		margin-top: 4.3vw;
+		margin-bottom: 5.2vw;
+		h3 { font-size: 13.4vw;	}
+		.trusty_profile_info { padding: 0 3.6vw; }
+		p { font-size: 4.2vw; }
+	}
+}
+
+	
+
+
+</style>

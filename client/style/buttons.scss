@@ -1,0 +1,109 @@
+$desk_font_button: 1.2vw;
+
+.trusty_full_width_button_colored {
+	background-color: #fff;
+	color: black;
+	font-family: Gotham_Pro_Medium;
+	text-align: center;
+    margin-top: 2vw;
+    width: 100%;
+    @include trusty_mobile_button_not_width;
+}
+
+
+.trusty_wide_btn {
+	width: 99.9%;
+	border: 1px solid white;
+	background: transparent;
+	font-family: Gotham_Pro_Medium;
+	@media screen and (max-width: 768px) {
+		@include trusty_mobile_button_not_width
+	}
+
+}
+
+.trusty_inline_button {
+
+	text-align: center;
+
+	button {
+		font-family: Gotham_Pro_Medium;
+		display: inline-block;
+		width: 70vw;
+		margin: initial;
+		background-color: #fff;
+		color: black;
+		@include trusty_mobile_button_not_width;
+
+		&.wide {
+			width: 92vw;
+		}
+	}
+}
+
+.trusty_inline_button_reverse{
+	text-align: center;
+	button {
+		font-family: Gotham_Pro_Medium;
+		display: inline-block;
+		width: 70vw;
+		margin: initial;
+		@include trusty_mobile_button_not_width;
+		&.wide {
+			width: 92vw;
+		}
+	}
+}
+
+.trusty_inline_buttons {
+
+	text-transform: uppercase;
+	display: block;
+	text-align: center;
+	overflow: initial;
+	display: flex;
+	justify-content: space-between;
+	
+	&._one_button {
+		button { width: 100%; }	
+	}
+
+	button, span {
+
+		font-family: Gotham_Pro_Medium;
+		display: inline-block;
+		width: 44vw;
+		margin: initial;
+		cursor: pointer;
+		background-color: transparent;
+		color: white;
+		border: 1px solid white;
+
+		@media screen and (min-width: 769px) {
+			width: initial;
+			height: initial;
+			font-size: $desk_font_button;
+			font-family: Gotham_Pro;
+			padding: 1vw 1.6vw;
+			line-height: 1vw;
+			&:hover {
+				background: white;
+				color: grey;
+			}
+		}
+
+	}
+
+	@media screen and (max-width: 768px) {
+		height: 13vw !important;
+		line-height: 12.2vw;
+		font-size: 4.8vw;
+		button, span {
+			@include trusty_mobile_button_not_width;
+		}
+	}
+
+}
+
+
+

@@ -1,6 +1,7 @@
 @import "./mixins";
 @import "./fonts/fonts";
 @import "./framework";
+@import "./buttons";
 
 
 
@@ -36,6 +37,10 @@ button {
 	outline: none;
 	border: none;
 	text-transform: uppercase;
+}
+
+p, span, h1, h2, h3, h4 {
+	color: white;
 }
 
 ._trusty_hide_input {

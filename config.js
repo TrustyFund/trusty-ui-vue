@@ -1,5 +1,5 @@
 const config = {
-  pixel: false
+  pixel: true
 };
 
 export default config;
