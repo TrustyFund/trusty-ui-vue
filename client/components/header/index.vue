@@ -16,7 +16,7 @@
         @click='navigateToBackupAction')
         icon-component(name="trusty_options")
 
-    .header_title {{getTitle}}
+    .header_title {{ getTitle }}
 
 </div>
   
@@ -36,6 +36,7 @@ export default {
       titles: {
         signup: 'signup',
         login: 'login',
+        manage: 'manage fund'
       }
     };
   },
