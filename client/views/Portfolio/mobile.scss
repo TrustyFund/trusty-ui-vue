@@ -14,7 +14,10 @@
 	}
 	
 	.trusty_portfolio_tabs {
-
+		span.portfolio_asset {
+			width: 19vw;
+			color: white;
+		}
 
 		.modal-overlay.is-active {
 			z-index: 3000;
@@ -24,9 +27,6 @@
 		//padding-top: 5vw;
 		h5 {
 			font-family: Gotham_Pro;
-		}
-		.managePortfolio tr {
-			padding-top: 0;
 		}
 
 		table thead tr th {
@@ -54,13 +54,6 @@
 					}
 				}
 			}
-			tr {
-				
-		    transform: translateY(-3vw);
-			}
-
-
-
 			tr .portfolio_item._0{
 				padding-top: 3vw;
 
@@ -68,14 +61,15 @@
 
 			tr .portfolio_item {
 			    font-size: 7.7vw;
-			    padding-top: 7.3vw;
-		 		
+			    margin-top: 5.7vw;
+		  	}
 
-		 		& > span, & > div, & > a{
-		 			vertical-align: middle;
-		 			//margin-left: 2vw;
-		 		}
+		  	tr:first-child .portfolio_item {
+			    margin-top: 3vw;
+		  	}
 
+		  	tr td:last-child {
+		  		padding-right: 1.8vw;
 		  	}
 
 	  	}
@@ -150,6 +144,7 @@
 
 		._minus, ._plus {
 			$_size: 8vw;
+
 			position: relative;
 			display: inline-block;
 			width: $_size;
@@ -229,115 +224,3 @@
 }
 
 
-
-
-.tab-link {
-	width: 33.33333%;
-	float: left;
-	text-align: center;
-}
-
-.tabs-container:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.tabs-header-container{
-	border-bottom: 1px solid white;
-	height: 25px;
-}
-
-.tabs-content-container{
-	padding-top: 15px;
-}
-
-.tab-link-active{
-	border-bottom: 3px solid white;
-}
-
-.tab-link{
-	height: 100%;
-}
-
-.managePortfolio{
-	width: 100%;
-}
-
-.greater:not(a){
-	font-family: "Gotham_Pro_Medium";
-	color: #269c26;
-	//color: #79c610;
-	transform: translateY(-2px);
-}
-
-.less:not(a){
-	font-family: "Gotham_Pro_Bold";
-	color: #ff3030;
-	//color: #ff3030;
-}
-
-.managePortfolio td{
-	text-align: center;
-}
-
-.managePortfolio tr{
-	height: 30px;
-	padding-top: 10px;
-}
-
-.wrong-total{
-	color: #ff3030;
-	font-family: Gotham_Pro_Medium !important;
-}
-
-.trusty_inline_button_reverse{
-	text-align: center;
-
-	button {
-		font-family: Gotham_Pro_Medium;
-		display: inline-block;
-		width: 70vw;
-		margin: initial !important;
-		background-color: Transparent;
-    	background-repeat:no-repeat;
-    	border: 1px solid white;
-		height: 50px;
-		color: white;
-	}
-
-	.disabled{
-	    opacity: 0.5;
-	    cursor: default;
-	    pointer-events: none;
-	}
-}
-
-.trusty_inline_button{
-	text-align: center;
-
-	button {
-		font-family: Gotham_Pro_Medium;
-		display: inline-block;
-		width: 70vw;
-		margin: initial !important;
-		background-color: #fff !important;
-		height: 50px;
-		color: black;
-	}
-
-	.disabled{
-	    opacity: 0.5;
-	    cursor: default;
-	    pointer-events: none;
-	}
-}
-
-.arrowright{
-	transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-    border: solid white;
-    border-width: 0 1px 1px 0;
-    display: inline-block;
-    padding: 5px;
-}
