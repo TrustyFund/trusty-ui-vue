@@ -82,6 +82,8 @@ $desk_font_button: 1.2vw;
 		@media screen and (min-width: 769px) {
 			width: initial;
 			height: initial;
+			flex: 1;
+			margin: 5px;
 			font-size: $desk_font_button;
 			font-family: Gotham_Pro;
 			padding: 1vw 1.6vw;

@@ -11,12 +11,12 @@
     span._back._mob(v-if="!isProfilePage" @click='backAction')
       icon-component(name="trusty_arrow_back") 
 
-    span._options(
-        v-if="isProfilePage"
-        @click='backAction')
-        icon-component(name="trusty_options")
+    span._options._mob(
+      v-if="isProfilePage"
+      @click='backAction')
+      icon-component(name="trusty_options")
 
-    .header_title {{ getTitle }}
+    .header_title(v-if="!isProfilePage") {{ getTitle }}
 
 </div>
   
@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     isProfilePage() {
-      return this.$route.path.indexOf('home') !== -1 || this.$route.name == 'home';
+      return this.$route.path.indexOf('home') !== -1 || this.$route.name === 'home';
     },
     getTitle() {
       return this.titles[this.$route.name];
@@ -122,6 +122,21 @@ $background_color: #1b1f22;
       opacity: 0;
     }
   }
+}
+
+@media screen and (min-width: 769px) {
+  
+  .trusty_header {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .fund_logo {
+    padding: 1vw 0 0 2vw;
+    width: 20vw;
+    svg { fill: white; }
+  }
+
 }
 
 
