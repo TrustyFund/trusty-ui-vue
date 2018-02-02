@@ -50,7 +50,7 @@ export default {
 
 <style lang="scss">
 
-@import "../../style/mixins";
+@import "~@/style/mixins";
 
 #trusty_profile {
 	@include trusty_main_padding;

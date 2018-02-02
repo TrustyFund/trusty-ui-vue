@@ -26,7 +26,7 @@ export default {
 
 <style lang="scss">
 
-@import "../../style/mixins";
+@import "~@/style/mixins";
 
 @mixin disable_svg {
 	background: transparent;

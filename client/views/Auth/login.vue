@@ -48,7 +48,7 @@ export default {
 
 <style lang="scss">
 
-@import "../../style/mixins";
+@import "~@/style/mixins";
 
 #trusty_auth {
 	@include trusty_main_padding; 
