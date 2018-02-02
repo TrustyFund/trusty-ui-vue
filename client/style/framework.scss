@@ -8,6 +8,14 @@
   }
 }
 
+.main_padding {
+  @include trusty_main_padding;
+}
+
+
+
+
+
 .trusty_buttons {
   
   text-align: center;

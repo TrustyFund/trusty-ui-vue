@@ -10,67 +10,31 @@
 			.tab-link Mirror
 
 		.tabs-content-container
-
-			h5 Please select shares of assets #[br] in your portfolio
-			table.managePortfolio
-				thead
-					tr
-						th ASSET
-						th SHARE
-				tbody
-					tr
-						td 
-							.portfolio_item._index
-								.fake_line_height
-								span BTS
-								icon-component(name="trusty_portfolio_arrow_right")
-						td
-							.portfolio_item._index
-								.fake_line_height
-								a._minus.normal.portfolio_asset
-									icon-component(name="trusty_minus")
-								span.normal.portfolio_asset 100%
-								a._plus.normal.portfolio_asset._disable
-									icon-component(name="trusty_plus")
-					tr
-						td 
-							.portfolio_item._index
-								.fake_line_height
-								span BTC
-								icon-component(name="trusty_portfolio_arrow_right")
-						td
-							.portfolio_item._index
-								.fake_line_height
-								a._minus.normal.portfolio_asset
-									icon-component(name="trusty_minus")
-								span.normal.portfolio_asset 10%
-								a._plus.normal.portfolio_asset._disable
-									icon-component(name="trusty_plus")
-				
-
-			.trusty_inline_buttons
-				button._one_button Suggest Portfolio
-				button._one_button Update Portfolio
+			asset-tab
+			
 
 </template>
 
 <script>
-import iconComponent from '@/components/icon';
+import assetTab from './asset-tab';
 
 export default {
-  components: { iconComponent },
-  data() {
-    return {
-
-    };
-  }
-
+  components: { assetTab },
 };
+
 </script>
 
 <style lang="scss">
 
+@import "../../style/mixins";
+
 #trusty_manage_portfolio {
+
+	height: 100%;
+
+	._one_button {
+		margin-top: 3vw;
+	} 
 
 	h5 {
 		font-weight: normal;

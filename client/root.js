@@ -1,5 +1,6 @@
 import './style/index.scss';
 import Header from './components/header/';
+import config from '../config.js';
 
 export default {
   components: { Header },
@@ -10,7 +11,7 @@ export default {
   },
   render() {
     // eslint-disable-next-line
-    let app = (this.connected) ? (<router-view></router-view>) : (<h4>Connecting</h4>);
+    let app = (this.connected) || config.html ? (<router-view></router-view>) : (<h4>Connecting</h4>);
     return (
       <div id="app">
         <Header />
