@@ -16,6 +16,12 @@ export default new Router({
       path: '/',
       component: Home
     },
+
+    {
+      path: '/home',
+      component: Home
+    },
+
     {
       name: 'user',
       path: '/user/:nickname',

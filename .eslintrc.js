@@ -9,16 +9,20 @@ module.exports = {
     jsx: true
   }
  },
+
  env: {
    browser: true,
  },
+
  plugins: [
    'html',
    'import',
    'testcafe',
    'react'
  ],
+
  extends: 'airbnb-base',
+
  rules: {
    "linebreak-style": ["error", isWin ? "windows": "unix"],
    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
@@ -33,12 +37,22 @@ module.exports = {
    'import/extensions': 0,
    'import/no-unresolved': 0,
    'prefer-template': 0,
-   'import/no-dynamic-require': "off"
+   'import/no-dynamic-require': "off",
  },
- overrides: [
+
+  overrides: [
   {
     'files': [ "vuex-bitshares/test/*.js" ],
     'excludedFiles': '*.spec.js'
   }
- ]
+
+ ],
+ settings: {
+
+    'import/resolver': {
+      webpack: 'webpack.dev.js',
+    },
+  
+ }
+
 };
