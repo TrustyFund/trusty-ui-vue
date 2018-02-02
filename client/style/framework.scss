@@ -65,8 +65,20 @@
 	text-align: center;
 }
 
+*._text_left {
+  text-align: left;
+}
+
+*._text_right {
+  text-align: right;
+}
+
 *._visibilitness {
 	opacity: 0;
+}
+
+*._full_width {
+  width: 100%;
 }
 
 button:focus, button:active {

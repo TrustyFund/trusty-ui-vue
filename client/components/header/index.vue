@@ -1,6 +1,6 @@
 <template lang="pug"> 
 
-.trusty_header(@click='navigateBackAction')
+.trusty_header
 
     icon-component(
       name="trusty_fund_logo",
@@ -8,15 +8,15 @@
       className="fund_logo",
       @click="router.push('/')")
 
-    span._back._mob(v-if="!isProfilePage" @click='navigateBackAction')
+    span._back._mob(v-if="!isProfilePage" @click='backAction')
       icon-component(name="trusty_arrow_back") 
 
-    span._options(
-        v-if="isProfilePage"
-        @click='navigateToBackupAction')
-        icon-component(name="trusty_options")
+    span._options._mob(
+      v-if="isProfilePage"
+      @click='backAction')
+      icon-component(name="trusty_options")
 
-    .header_title {{getTitle}}
+    .header_title(v-if="!isProfilePage") {{ getTitle }}
 
 </div>
   
@@ -40,13 +40,13 @@ export default {
     };
   },
   methods: {
-    navigateBackAction() {
+    backAction() {
       this.$router.push({ name: 'home' });
     },
   },
   computed: {
     isProfilePage() {
-      return this.$route.path.indexOf('home') !== -1;
+      return this.$route.path.indexOf('home') !== -1 || this.$route.name === 'home';
     },
     getTitle() {
       return this.titles[this.$route.name];
@@ -114,16 +114,6 @@ $background_color: #1b1f22;
     }
   }
 
-
-  .trusty_options {
-    svg {
-      display: inline-block;
-      height: 40% !important;
-      width: 40% !important;
-    }
-  }
-
-
   .trusty_header_fake {
     width: 100%;
     .trusty_header {
@@ -132,6 +122,21 @@ $background_color: #1b1f22;
       opacity: 0;
     }
   }
+}
+
+@media screen and (min-width: 769px) {
+  
+  .trusty_header {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .fund_logo {
+    padding: 1vw 0 0 2vw;
+    width: 20vw;
+    svg { fill: white; }
+  }
+
 }
 
 
