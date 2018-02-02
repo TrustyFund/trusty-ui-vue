@@ -1,4 +1,15 @@
 @media screen and (max-width: 768px) {
+	
+	#asset_tab {
+
+		._one_button {
+			margin-top: 3vw;
+		} 
+		
+	}
+
+
+
 
 	#trusty_manage_modal {
 		z-index: 3000;
@@ -14,6 +25,7 @@
 	}
 	
 	.trusty_portfolio_tabs {
+
 		span.portfolio_asset {
 			width: 19vw;
 			color: white;
@@ -169,23 +181,6 @@
 				width: $_size;
 				height: $_size;
 			}
-
-			&.greater._disable, 
-			&.less._disable {
-				background: transparent;
-				border: none;
-				svg path {
-					fill: #9ea2a5 !important;
-				}
-			}
-
-			&._disable {
-				background: transparent;
-				border: none;
-				svg path {
-					fill: #9ea2a5 !important;
-				}
-			}
 		}
 	}
 
@@ -219,8 +214,6 @@
 		}
 	}
 
-
-	
 }
 
 

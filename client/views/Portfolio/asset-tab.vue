@@ -4,6 +4,7 @@
 	
 	table.managePortfolio
 		thead
+			
 			tr
 				th ASSET
 				th SHARE
