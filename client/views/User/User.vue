@@ -3,6 +3,7 @@
     <router-link to="/">back</router-link>
     <div v-if="account">
       <h4>{{ name }} [{{ account.id }}]</h4> 
+
       <!-- baseId - BTS, fiatId - USD -->
       <Portfolio :balances="userBalances"
                  base-id="1.3.0"
@@ -40,11 +41,7 @@ export default {
     ...mapActions(['fetchUser'])
   },
   beforeMount() {
-    this.fetchUser(this.name).then(() => {
-    }, (error) => {
-      // todo : alert notification here
-      console.log(error);
-    });
+    this.fetchUser(this.name);
   }
 };
 </script>

@@ -81,9 +81,6 @@ export default {
         fiatId: this.fiatId,
         days: this.days
       });
-    }, (error) => {
-      console.log(error);
-      // todo: alert notification here
     });
   },
   beforeDestroy() {
