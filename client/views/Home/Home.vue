@@ -21,7 +21,8 @@
     .trusty_inline_buttons._mob._one_button: button MANAGE FUND
 
   
-  //- .table_wrap
+  .table_wrap
+    //- moved to Portfolio
   //-   table.trusty_table
   //-     thead
   //-       tr
