@@ -21,20 +21,20 @@
     .trusty_inline_buttons._mob._one_button: button MANAGE FUND
 
   
-  .table_wrap
-    table.trusty_table
-      thead
-        tr
-          th._text_left: span ASSET
-          th._text_right: span SHARE 
-          th._text_right: span VAlUE
-          th._text_right: span 7DAYS
-      tbody
-        tr 
-          td._text_left  BTS
-          td._text_right 100%
-          td._text_right 0
-          td._text_right -4%
+  //- .table_wrap
+  //-   table.trusty_table
+  //-     thead
+  //-       tr
+  //-         th._text_left: span ASSET
+  //-         th._text_right: span SHARE 
+  //-         th._text_right: span VAlUE
+  //-         th._text_right: span 7DAYS
+  //-     tbody
+  //-       tr 
+  //-         td._text_left  BTS
+  //-         td._text_right 100%
+  //-         td._text_right 0
+  //-         td._text_right -4%
 
 </template>
 
@@ -65,36 +65,6 @@ export default {
   }
   .table_wrap {
     width: 100%;
-
-  }
-  .trusty_table {
-    width: 100%;
-    margin-top: 20px;
-    thead, th, tr, tbody {
-      color: white;
-      border: none;
-      background-color: transparent;
-    }
-    th span {
-      color: #cccccc;
-      font-family: 'Gotham_Pro_Regular';
-      @media screen and (max-width: 768px){
-        font-size: 4.4vw;
-      }
-    }
-    td, td span, td div {
-      color: white;
-      @media screen and (max-width: 768px) {
-        font-size: 6vw;
-      }
-      font-family: 'Gotham_Pro_Regular';
-
-    }
-    td {
-      @media screen and (max-width: 750px){
-        margin-top: 10px;   
-      }
-    } 
 
   }
   .trusty_total_funds {

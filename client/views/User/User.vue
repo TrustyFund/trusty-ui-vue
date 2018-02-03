@@ -33,12 +33,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      account: 'getAccountObject',
-      userBalances: 'getBalances'
+      account: 'user/getAccountObject',
+      userBalances: 'user/getBalances'
     })
   },
   methods: {
-    ...mapActions(['fetchUser'])
+    ...mapActions({
+      fetchUser: 'user/fetchUser'
+    })
   },
   beforeMount() {
     this.fetchUser(this.name);

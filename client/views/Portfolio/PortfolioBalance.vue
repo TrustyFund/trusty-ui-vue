@@ -1,12 +1,11 @@
-<template>
-  <tr>
-    <th>{{ item.name }}</th>
-    <th>{{ item.balance.toFixed(2) }}</th>
-    <th>{{ item.balanceBase.toFixed(4) }}</th>
-    <th>{{ share && share.toFixed(1) }}%</th>
-    <th>{{ item.balanceFiat.toFixed(2) }}</th>
-    <th>{{ item.change }}%</th>
-  </tr>
+<template lang="pug">
+
+  tr.portfolio-container__balance 
+        td._text_left  {{ item.name }}
+        td._text_right {{ share && share.toFixed(0) }}%
+        td._text_right {{ item.balanceFiat.toFixed(0) }}$
+        td._text_right {{ formattedChange }}%
+
 </template>
 
 <script>
@@ -29,11 +28,28 @@ export default {
   computed: {
     share() {
       return (this.item.balanceBase / this.totalBaseValue) * 100;
+    },
+    formattedChange() {
+      return parseInt(this.item.change, 10).toFixed(0);
     }
   }
 };
 </script>
 
-<style>
+<style lang="scss">
+  .portfolio-container__balance {
+    td, td span, td div {
+      color: white;
+      @media screen and (max-width: 768px) {
+        font-size: 6vw;
+      }
+      font-family: 'Gotham_Pro_Regular';
 
+    }
+    td {
+      @media screen and (max-width: 750px){
+        margin-top: 10px;   
+      }
+    } 
+  }
 </style>
