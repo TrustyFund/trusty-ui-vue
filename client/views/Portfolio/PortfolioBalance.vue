@@ -2,9 +2,9 @@
   <tr>
     <th>{{ item.name }}</th>
     <th>{{ item.balance.toFixed(2) }}</th>
-    <th>{{ item.balanceBTS.toFixed(4) }}</th>
+    <th>{{ item.balanceBase.toFixed(4) }}</th>
     <th>{{ share && share.toFixed(1) }}%</th>
-    <th>{{ item.balanceCurrency.toFixed(2) }}</th>
+    <th>{{ item.balanceFiat.toFixed(2) }}</th>
     <th>{{ item.change }}%</th>
   </tr>
 </template>
@@ -17,7 +17,7 @@ export default {
       required: true,
       default: {}
     },
-    totalBts: {
+    totalBaseValue: {
       type: Number,
       required: true,
       default: 1
@@ -28,7 +28,7 @@ export default {
   },
   computed: {
     share() {
-      return (this.item.balanceBTS / this.totalBts) * 100;
+      return (this.item.balanceBase / this.totalBaseValue) * 100;
     }
   }
 };

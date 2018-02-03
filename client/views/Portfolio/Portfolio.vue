@@ -18,7 +18,7 @@
           v-for="(item, id) in items"
          :key="id"
          :item="item"
-         :total-bts="totalBTS"/>
+         :total-base-value="totalBaseValue"/>
       </tbody>    
 
     </table>
@@ -35,6 +35,21 @@ export default {
       required: true,
       type: Object,
       default: {}
+    },
+    baseId: {
+      required: true,
+      type: String,
+      default: '1.3.0'
+    },
+    fiatId: {
+      required: true,
+      type: String,
+      default: '1.3.121'
+    },
+    days: {
+      required: true,
+      type: Number,
+      default: 7
     }
   },
   components: {
@@ -44,9 +59,9 @@ export default {
     ...mapGetters({
       items: 'getPortfolioList'
     }),
-    totalBTS() {
+    totalBaseValue() {
       return Object.keys(this.items).reduce((result, id) => {
-        return result + this.items[id].balanceBTS;
+        return result + this.items[id].balanceBase;
       }, 0);
     }
   },
@@ -60,7 +75,12 @@ export default {
   beforeMount() {
     const assetsIds = Object.keys(this.balances);
     this.fetchAssets(assetsIds).then(() => {
-      this.fetchPortfolioData({ balances: this.balances });
+      this.fetchPortfolioData({
+        balances: this.balances,
+        baseId: this.baseId,
+        fiatId: this.fiatId,
+        days: this.days
+      });
     }, (error) => {
       console.log(error);
       // todo: alert notification here

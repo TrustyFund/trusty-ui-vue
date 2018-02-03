@@ -3,7 +3,11 @@
     <router-link to="/">back</router-link>
     <div v-if="account">
       <h4>{{ name }} [{{ account.id }}]</h4> 
-      <Portfolio :balances="userBalances"/>
+      <!-- baseId - BTS, fiatId - USD -->
+      <Portfolio :balances="userBalances"
+                 base-id="1.3.0"
+                 fiat-id="1.3.121"
+                 :days="7"/> 
     </div>
   </div>
 </template>
@@ -29,14 +33,11 @@ export default {
   computed: {
     ...mapGetters({
       account: 'getAccountObject',
-      userBalances: 'getBalances',
-      assets: 'getAssets'
+      userBalances: 'getBalances'
     })
   },
   methods: {
-    ...mapActions({
-      fetchUser: 'fetchUser'
-    })
+    ...mapActions(['fetchUser'])
   },
   beforeMount() {
     this.fetchUser(this.name).then(() => {
