@@ -1,18 +1,16 @@
 <template lang="pug">
 
 #trusty_auth
-
-  trusty-input(label="password")
-    template(slot="input")
-      input
-
-  trusty-input(label="confirm password")
-    template(slot="input")
-      input
-
-  trusty-input(label="brainkey" type="textarea")
-    template(slot="input")
-      textarea
+    
+  .input_area 
+    .left
+      confirm-password
+      trusty-input(label="brainkey" type="textarea")
+        template(slot="input")
+          textarea
+    .right
+      ._logo_owl._desk
+        icon-component(name="trusty_owl_small_logo")
   
   p._tooltip_p 
     | Please enter account brainkey once for new devices, #[br]
@@ -20,13 +18,15 @@
 
   .trusty_buttons
     button Log in
+    span._desk(style="display:inline-block; width: 1vw")
+    button._grey_style._desk Sign up
 
   p._tooltip_p._text_center 
     | Before continuing, make sure your device is secure #[br]
 
-  ._bottom_link: span Sign up with new account
+  ._bottom_link._mob: span Sign up with new account
 
-  ._logo_owl
+  ._logo_owl._mob
     icon-component(name="trusty_owl_small_logo")
 
 
@@ -35,11 +35,12 @@
 </template>
 
 <script>
-import trustyInput from '../../components/trusty-input';
+import trustyInput from '../../components/form/input';
 import iconComponent from '../../components/icon';
+import confirmPassword from './confirm-password';
 
 export default {
-  components: { trustyInput, iconComponent }
+  components: { trustyInput, iconComponent, confirmPassword }
 };
 
 </script>
@@ -53,44 +54,22 @@ export default {
 	@include trusty_main_padding; 
 }
 
-.trusty_buttons {
+._logo_owl {
   
   text-align: center;
 
-  button {
-    font-family: "Gotham_Pro_Regular";
-    font-size: 1.3rem;
-    margin-bottom: 0px !important;
-    font-weight: bold;
-    padding: initial !important;
-    line-height: initial !important;
-
+  span.trusty_owl_small_logo {
+     display: inline-block;
+     width: 16vw !important;
   }
 
-  @media screen and (max-width: 768px) {
-    button {
-      color: #2a2a2a;
-      width: 100%;
-      font-size: 5vw;
-      background: white !important;
-      height: 13vw !important;
-    }
-  }
-
-}
-
-._logo_owl {
-  text-align: center;
   span {
     display: inline-block;
   }
   svg {
     fill: white;
   }
-}
 
-._tooltip_p {
-  font-family: "Gotham_Pro";
 }
 
 ._bottom_link {
@@ -102,10 +81,73 @@ export default {
   }
 }
 
+
+._tooltip_p {
+  font-family: "Gotham_Pro";
+  color: white;
+}
+
+._bottom_link {
+  text-align: center;
+  span {
+    font-size: 1.3vw;
+  }
+  &._margins {
+    margin-top: 5.8vw;
+    margin-bottom: 4vw;
+  }
+}
+
+
+@media screen and (min-width: 769px) {
+
+  ._logo_owl {
+    line-height: 100%;
+    height: 100%;
+    padding-top: 0;
+    text-align: left;
+    padding-left: 3vw;
+    
+    span { 
+      display: inline-block;
+      position: relative; 
+      top: 60%;
+      transform: translateY(-50%);
+    }
+  }
+
+  ._tooltip_p { 
+    
+    text-align: center;
+
+  }
+
+  #trusty_auth {
+    width: 80vw;
+    margin: 0 auto;
+  }
+
+  .input_area {
+    margin: 10vh auto;
+    display: flex;
+    justify-content: center;
+
+    .left, .right {
+      flex: 1;
+    }
+
+    .left {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      padding: 0 12vw 0 8vw;
+    }
+  }
+}
+
 @media screen and (max-width: 768px) {
 
   ._tooltip_p {
-    color: white;
     line-height: 4vw;
     margin-top: 2vw;
     font-size: 3.3vw;
@@ -113,11 +155,10 @@ export default {
   }
 
   ._bottom_link {
-    text-align: center;
     span {
       font-size: 3.3vw;
     }
-    &._second {
+    &._margins {
       margin-top: 5.8vw;
       margin-bottom: 4vw;
     }

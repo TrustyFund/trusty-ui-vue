@@ -10,14 +10,15 @@ HTML {
 /* Планшет */
 @media ( max-width: 768px ) {
   HTML {
-    //background-image: url("../screens/manage_fund_index.png")
+    background-image: url("./screens/payment_method_user_profile_perfect.png");
+    //background-image: url("./screens/login.png")
+    //background-image: url("./screens/signup.png")
   }
 }
 /* Десктоп */
 @media ( min-width: 769px ) {
   HTML {
     /* Десктопный макет */
-    //background-image: url( "img/960.png" );
   }
 }
 
