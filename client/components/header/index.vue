@@ -36,6 +36,7 @@ export default {
       titles: {
         signup: 'signup',
         login: 'login',
+        deposit: 'deposit details'
       }
     };
   },

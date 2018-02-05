@@ -4,6 +4,7 @@ import Home from '@/views/Home';
 import User from '@/views/User';
 import Auth from '@/views/Auth/login';
 import Signup from '@/views/Auth/signup';
+import Deposit from '@/views/Deposit';
 
 Vue.use(Router);
 
@@ -35,6 +36,11 @@ export default new Router({
       name: 'signup',
       path: '/signup',
       component: Signup
+    },
+    {
+      name: 'deposit',
+      path: '/deposit',
+      component: Deposit
     }
   ]
 });

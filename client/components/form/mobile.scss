@@ -29,6 +29,16 @@
   .trusty_input_container {
     width: 100%;
 
+    span.fake_option_width {
+      font-size: 6.5vw;
+    }
+
+
+    .trusty_arrow_down {
+      width: 5vw;
+      top:25%;
+    }
+
     ._input_space {
       margin-top: 6vw;
     }
@@ -52,27 +62,11 @@
       margin-bottom: 0 !important;
     }
 
-    select, .dropdown-wrapper div {
+    select {
       font-size: 6.5vw !important;
       color: white;
     }
 
-    .dropdown-wrapper div {
-      padding-right: 0vw !important;
-      padding-bottom: 1vw;
-    }
-
-
-    .dropdown-wrapper {
-      padding-left:0;
-      padding-top:0;
-      padding-right:0;
-      padding-bottom:0;
-
-    }
-
-    ._simple_text_left,
-    .trusty_fake_input_show,
     input {
       height: 6.4vw;
       font-size: 5.4vw !important;
@@ -88,17 +82,6 @@
       height: 22vw;
       font-size: 5.4vw !important;
       height: 6.4vw;
-    }
-
-    ._simple_text_left {
-      text-align: left;
-      color: white;
-    }
-    
-    ._right_slash {
-      font-size: 5.7vw;
-      font-family: Gotham_Pro_Regular;
-      margin-bottom: 1.14vw;
     }
   }
 }
