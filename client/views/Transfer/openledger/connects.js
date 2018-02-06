@@ -1,5 +1,5 @@
 /*eslint-disable*/
-
+/*Work in process*/
 import BlockTradesDepositAddressCache from "../blocktrades/cache";
 import { requestDepositAddress } from "./methods";
 import { blockTradesAPIs } from "../apiConfig";
@@ -69,7 +69,7 @@ export default class BlockTradesGatewayDepositRequest  {
         };
     }
 
-    
+
     setState(object) {
         Object.keys(object).forEach((key, index) => {
           this.state[key] = object[key];
@@ -115,7 +115,7 @@ export default class BlockTradesGatewayDepositRequest  {
     onWithdraw() {
         if(!this.props.issuer_account || !this.props.receive_asset) {
            return
-        } 
+        }
         ZfApi.publish(this.getWithdrawModalId(), "open");
     }
 

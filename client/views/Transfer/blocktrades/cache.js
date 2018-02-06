@@ -1,5 +1,6 @@
 // import WalletDb from 'stores/WalletDb';
 /*eslint-disable */
+/*Work in process*/
 import ls from '@/utils/ls';
 
 const ss = new ls('__bts__');

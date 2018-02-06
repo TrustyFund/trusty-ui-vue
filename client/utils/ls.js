@@ -1,5 +1,6 @@
 // Localstorage
 /*eslint-disable */
+/*Work in process*/
 import ls, { ls_key_exists } from './impl';
 
 if (ls === null) throw "localStorage is required but isn't available on this platform";
