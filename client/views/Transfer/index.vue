@@ -21,7 +21,8 @@
 
 
 	._turnover_service
-		blocktrades
+		blocktrades(v-if="service==='blocktrades'" accountName="anlopan364test2")
+		openledger(v-if="service==='openledger'" accountName="anlopan364test2")
 
 	._turnover_info
 		.trusty_help_text._yellow
@@ -46,7 +47,8 @@ import trustyInput from '@/components/form/input';
 import iconComponent from '@/components/icon';
 import store from '@/store';
 import blocktrades from './blocktrades';
-
+import openledger from './openledger';
+import {fetchCoins} from './openledger/methods';
 
 store.registerModule('transfer',{
 	state: {
@@ -64,13 +66,14 @@ store.registerModule('transfer',{
 });
 
 export default {
-  components: { trustyInput, iconComponent, blocktrades },
+  components: { trustyInput, iconComponent, blocktrades,openledger },
   watch:{
   	coin(val){
   		this.$store.commit("change_coin_type", val)
   	}
   },
   beforeMount(){
+  	fetchCoins()
   	this.$store.commit("change_coin_type", "BTC")
   },
   computed:{
@@ -82,7 +85,7 @@ export default {
         let end = address.slice(firstCount)
         return `<span>${start}</span><br/><span>${end}</span>`
   		}
-  		return "no address"
+  		return "<span>no address</span>"
   	}
   },
   data() {

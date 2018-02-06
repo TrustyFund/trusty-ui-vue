@@ -73,6 +73,9 @@ export default class BlockTrades {
       allowed_mappings_for_conversion: null,
       conversion_memo: null
     };
+
+    this.componentWillMount()
+    
   }
 
   setState(object) {
