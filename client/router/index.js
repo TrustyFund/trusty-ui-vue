@@ -4,7 +4,7 @@ import Home from '@/views/Home/Home.vue';
 import User from '@/views/User/User.vue';
 import Signup from '@/views/Auth/signup.vue';
 import Auth from '@/views/Auth/Auth.vue';
-// import Auth from '@/views/Auth/login';
+import Managefund from '@/views/Portfolio';
 
 Vue.use(Router);
 
@@ -37,6 +37,11 @@ export default new Router({
       name: 'signup',
       path: '/signup',
       component: Signup
+    },
+    {
+      name: 'manage',
+      path: '/manage',
+      component: Managefund
     }
   ]
 });

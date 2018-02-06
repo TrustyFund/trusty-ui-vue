@@ -8,6 +8,19 @@
   }
 }
 
+.main_padding {
+  @include trusty_main_padding;
+}
+
+
+.main_centered_container {
+  @media screen and (min-width: 769px){
+    margin: 0 auto;
+    max-width: 80%;
+  }
+}
+
+
 .trusty_buttons {
   
   text-align: center;
