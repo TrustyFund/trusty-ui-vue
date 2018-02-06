@@ -202,6 +202,6 @@ export default {
 }
 
 
-@import "./mobile.scss"
+@import "./manage-portfolio-mobile.scss"
 
 </style>
