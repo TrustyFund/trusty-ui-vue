@@ -13,11 +13,11 @@
 				select(v-model="coin")
 					option(v-for="i in ['BTC','DASH','ETH']") {{ i }}
 
-		trusty-input(:isOpen="true", label="payment method")
+		trusty-input(:isOpen="true", label="payment method" className="select_input")
 			template(slot="input")
 				input(:style="{display:'none'}")
 				select(v-model="service")
-					option(v-for="i in ['blocktrades','openledger']") {{ i }}
+					option(v-for="option in ['blocktrades','openledger']", :value="option") {{ option }}
 
 
 	._turnover_service
@@ -34,7 +34,7 @@
 		.trusty_inline_buttons
 			button Confirm
 			button Cancel
-		p.trusty_ps_text 
+		p.trusty_ps_text
 			| Payment gateway service is provided by #[br]
 			| Openledger.io at 0% fee
 
@@ -48,12 +48,12 @@ import iconComponent from '@/components/icon';
 import store from '@/store';
 import blocktrades from './blocktrades';
 import openledger from './openledger';
-import {fetchCoins} from './openledger/methods';
 
 store.registerModule('transfer',{
 	state: {
 		coinType: "BTC",
-		depositAddress: ""
+		depositAddress: "",
+		service: "blocktrades",
 	},
 	mutations:{
 		["change_coin_type"](state, val){
@@ -61,6 +61,9 @@ store.registerModule('transfer',{
 		},
 		["change_deposit_address"](state, val){
 			state.depositAddress = val
+		},
+		["change_transfer_service"](state, val){
+			state.service = val
 		}
 	}
 });
@@ -68,30 +71,39 @@ store.registerModule('transfer',{
 export default {
   components: { trustyInput, iconComponent, blocktrades,openledger },
   watch:{
+  	service(val){
+  		this.$store.commit("change_transfer_service", val)
+  	},
   	coin(val){
   		this.$store.commit("change_coin_type", val)
   	}
   },
   beforeMount(){
-  	fetchCoins()
   	this.$store.commit("change_coin_type", "BTC")
+  	this.$store.commit("change_transfer_service", "blocktrades")
   },
   computed:{
   	depositAddress(){
-  		let address = this.$store.state.transfer.depositAddress.address
+  		let exists = this.$store.state.transfer.depositAddress
+  		let address = exists ? exists.address : null
   		if(address){
-        let firstCount = Math.floor(address.length/2) - 1
-        let start = address.slice(0, firstCount)
-        let end = address.slice(firstCount)
-        return `<span>${start}</span><br/><span>${end}</span>`
+	        let firstCount = Math.floor(address.length/2) - 1
+	        let start = address.slice(0, firstCount)
+	        let end = address.slice(firstCount)
+	        return `<span>${start}</span><br/><span>${end}</span>`
   		}
   		return "<span>no address</span>"
   	}
   },
+
+  mounted(){
+    this.service = "blocktrades"
+  },
+
   data() {
     return {
     	coin: "BTC",
-    	service: "Blocktrades",
+    	service: "",
     };
   }
 };
@@ -168,8 +180,6 @@ export default {
 
 }
 
-
-
 @media screen and (min-width: 769px) {
 	#trusty_transfer {
 		display: flex;
@@ -179,13 +189,9 @@ export default {
 		._turnover_inputs,
 		._turnover_info {
 			flex: 1;
-		}	
+		}
 	}
 }
-
-
-
-
 
 
 </style>

@@ -74,8 +74,8 @@ export default class BlockTrades {
       conversion_memo: null
     };
 
-    this.componentWillMount()
-    
+    //this.componentWillMount()
+
   }
 
   setState(object) {
@@ -217,7 +217,7 @@ export default class BlockTrades {
     let active_wallets_promise = fetch(active_wallets_url, { method: 'get', headers: new Headers({ "Accept": "application/json" }) })
       .then(response => response.json());
 
-    Promise.all([coin_types_promise, wallet_types_promise, trading_pairs_promise, active_wallets_promise])
+    return Promise.all([coin_types_promise, wallet_types_promise, trading_pairs_promise, active_wallets_promise])
       .then((json_responses) => {
 
 
@@ -354,7 +354,6 @@ export default class BlockTrades {
           conversion_estimate_direction: this.estimation_directions.output_from_input,
           supports_output_memos: coins_by_type['btc'].supportsOutputMemos
         });
-
       })
       .catch((error) => {
         this.setState({
@@ -501,43 +500,48 @@ export default class BlockTrades {
 
     // check api.blocktrades.us/v2
     const checkUrl = this.state.url;
-    this.urlConnection(checkUrl, 0);
-    const coin_types_promisecheck = fetch(
-        checkUrl + '/coins', { method: 'get', headers: new Headers({ Accept: 'application/json' }) }
-      )
-      .then(response => response.json());
-    const trading_pairs_promisecheck = fetch(
-        checkUrl + '/trading-pairs', { method: 'get', headers: new Headers({ Accept: 'application/json' }) }
-      )
-      .then(response => response.json());
-    const active_wallets_promisecheck = fetch(
-        checkUrl + '/active-wallets', { method: 'get', headers: new Headers({ Accept: 'application/json' }) }
-      )
-      .then(response => response.json());
 
-    Promise.all([coin_types_promisecheck, trading_pairs_promisecheck, active_wallets_promisecheck])
-      .then((json_responses) => {
-        const [coin_types, trading_pairs, active_wallets] = json_responses;
-        const coins_by_type = {};
-        coin_types.forEach(coin_type => coins_by_type[coin_type.coinType] = coin_type);
-        trading_pairs.forEach(pair => {
-          const input_coin_info = coins_by_type[pair.inputCoinType];
-          const output_coin_info = coins_by_type[pair.outputCoinType];
-          if ((input_coin_info.backingCoinType != pair.outputCoinType) && (output_coin_info.backingCoinType != pair.inputCoinType)) {
-            if ((active_wallets.indexOf(input_coin_info.walletType) != -1) && (active_wallets.indexOf(output_coin_info.walletType) != -1)) {}
-          }
+    return this.urlConnection(checkUrl, 0).then(()=>{
+
+      const coin_types_promisecheck = fetch(
+          checkUrl + '/coins', { method: 'get', headers: new Headers({ Accept: 'application/json' }) }
+        )
+        .then(response => response.json());
+      const trading_pairs_promisecheck = fetch(
+          checkUrl + '/trading-pairs', { method: 'get', headers: new Headers({ Accept: 'application/json' }) }
+        )
+        .then(response => response.json());
+      const active_wallets_promisecheck = fetch(
+          checkUrl + '/active-wallets', { method: 'get', headers: new Headers({ Accept: 'application/json' }) }
+        )
+        .then(response => response.json());
+
+      return Promise.all([coin_types_promisecheck, trading_pairs_promisecheck, active_wallets_promisecheck])
+        .then((json_responses) => {
+          const [coin_types, trading_pairs, active_wallets] = json_responses;
+          const coins_by_type = {};
+          coin_types.forEach(coin_type => coins_by_type[coin_type.coinType] = coin_type);
+          trading_pairs.forEach(pair => {
+            const input_coin_info = coins_by_type[pair.inputCoinType];
+            const output_coin_info = coins_by_type[pair.outputCoinType];
+            if ((input_coin_info.backingCoinType != pair.outputCoinType) && (output_coin_info.backingCoinType != pair.inputCoinType)) {
+              if ((active_wallets.indexOf(input_coin_info.walletType) != -1) && (active_wallets.indexOf(output_coin_info.walletType) != -1)) {}
+            }
+          });
+        })
+        .catch((error) => {
+          this.urlConnection('https://api.blocktrades.info/v2', 2);
+          this.setState({
+            coin_info_request_state: 0,
+            coins_by_type: null,
+            allowed_mappings_for_deposit: null,
+            allowed_mappings_for_withdraw: null,
+            allowed_mappings_for_conversion: null
+          });
         });
-      })
-      .catch((error) => {
-        this.urlConnection('https://api.blocktrades.info/v2', 2);
-        this.setState({
-          coin_info_request_state: 0,
-          coins_by_type: null,
-          allowed_mappings_for_deposit: null,
-          allowed_mappings_for_withdraw: null,
-          allowed_mappings_for_conversion: null
-        });
-      });
+
+
+    })
   }
 
 
@@ -547,7 +551,7 @@ export default class BlockTrades {
     let estimated_input_output_amount_state = "_estimated_output_amount";
     let new_input_coin_type = value.toLowerCase();
     let possible_output_coin_types = this.state["allowed_mappings_for_" + deposit_withdraw_or_convert][new_input_coin_type];
-    console.log(this.state)
+
     let new_output_coin_type = possible_output_coin_types[0];
     if (possible_output_coin_types.indexOf(this.state[deposit_withdraw_or_convert + "_output_coin_type"]) != -1)
       new_output_coin_type = this.state[deposit_withdraw_or_convert + "_output_coin_type"];

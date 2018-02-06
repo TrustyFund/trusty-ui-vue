@@ -1,7 +1,11 @@
 @media screen and (max-width: 768px) {
 
   @include column_trusty_inputs;
-  
+
+  .trusty_input_container.select_input {
+    select { font-size: 5.4vw; }
+  }
+
   .trusty_input_container.text_area {
 
     textarea {
@@ -25,7 +29,7 @@
       }
     }
   }
-  
+
   .trusty_input_container {
     width: 100%;
 
@@ -35,8 +39,8 @@
 
 
     .trusty_arrow_down {
-      width: 5vw;
-      top:25%;
+      width: 4.5vw;
+      top: 20%;
     }
 
     ._input_space {
@@ -46,14 +50,14 @@
     .trusty_place_holder {
       position: absolute;
       left: 0;
-      bottom: 6.8vw;    
+      bottom: 6.8vw;
     }
-    
+
     .trusty_place_holder.no_opened {
       letter-spacing: .23vw !important;
       font-size: 4vw !important;
       letter-spacing: .4vw;
-      bottom: 0; 
+      bottom: 0;
       padding-bottom: 1.7vw;
     }
 
@@ -63,7 +67,7 @@
     }
 
     select {
-      font-size: 6.5vw !important;
+      font-size: 6.5vw;
       color: white;
     }
 
@@ -75,7 +79,7 @@
     .trusty_input_close {
       padding-bottom: 6vw;
     }
-     
+
     textarea {
       padding-left: 0;
       width: 100%;

@@ -1,7 +1,7 @@
 <template lang="pug">
 
 .trusty_input_container(:style="styleSheet", :class="classes")
-	
+
 	.w_input
 		._input_space(ref="input_space", :class="{ active_input: opened }")
 
@@ -16,7 +16,7 @@
 
 			slot(name="right")
 
-	
+
 </template>
 
 <script>
@@ -25,6 +25,10 @@ import listen from 'event-listener';
 export default {
 
   props: {
+    className: {
+      type: String,
+      default: 'default'
+    },
     styleSheet: {
       default: () => { return {}; },
       type: Object
@@ -90,7 +94,8 @@ export default {
       return {
         text_area: this.type === 'textarea',
         opened_text_area: this.opened && this.type === 'textarea',
-        select_input: this.type === 'select'
+        select_input: this.type === 'select',
+        [this.className]: true
       };
     }
   }
@@ -147,7 +152,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 		textarea {
 			padding-top: 6vw;
 		}
-		
+
 		._input_space {
 			height: 6vw;
 			transition: all .2s;
@@ -181,7 +186,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 		letter-spacing: .13vw !important;
 		font-size: 2vw !important;
 		letter-spacing: .4vw;
-		bottom: .4vw; 
+		bottom: .4vw;
 		position: absolute;
 		color: white;
 	}
@@ -233,13 +238,13 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 		}
 	}
 
-	
+
 	select {
 		-webkit-appearance: none;
 		background: transparent;
 		outline: none;
 		margin: 0 0  !important;
-		border: none !important; 
+		border: none !important;
 		font-family: 'Gotham_Pro_Medium';
 		padding-bottom: 1vw !important;
 		padding-right: 0 !important;
@@ -299,15 +304,15 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 		}
 
 	}
-	
+
 
 	&.select_input {
 
 		select {
 			padding-bottom: 0 !important;
 			@include input_tag_style;
-			-moz-appearance: none; 
-			-webkit-appearance: none; 
+			-moz-appearance: none;
+			-webkit-appearance: none;
 			appearance: none;
 
 		}
@@ -333,7 +338,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 		width: 2vw;
 		top:25%;
 	}
-	
+
 
 }
 

@@ -4,45 +4,43 @@
 </template>
 
 <script>
-
-import connects from './connects';
-import coins from './coins';
+/*eslint-disable*/
+import Connects from './connects';
+import Coins from './coins';
 
 export default {
   computed: {
-    coinType() { return this.$store.state.transfer.coinType; }
+    coinType() { return this.$store.state.transfer.coinType; },
+
   },
   props: ['accountName'],
   beforeMount() {
-    this.coins = new coins();
+    this.coins = new Coins();
     this.coins.fetchCoins()
       .then(() => {
-      	this.updateAddress(this.coinType);
-      })
-      .then(() => {
-      	console.log(this.openledger);
+        this.updateAddress(this.coinType);
+        this.$store.commit('change_deposit_address', this.openledger.state.receive_address);
       });
   },
-
   watch: {
-  	coinType(val) {
+    coinType(val) {
       this.updateAddress(val);
       this.$store.commit('change_deposit_address', this.openledger.state.receive_address);
-  	}
+    }
   },
 
   methods: {
-  	updateAddress(coinType) {
-      	this.start({
-      		coins: this.coins.state.backedCoins,
-      		provider: 'openledger',
-      		activeCoin: coinType,
-      		action: 'deposit',
-      		accountName: this.accountName,
-      	});
-  	},
-  	start({
-      coins, account, provider, activeCoin, action, accountName
+    updateAddress(coinType) {
+      this.start({
+        coins: this.coins.state.backedCoins,
+        provider: 'openledger',
+        activeCoin: coinType,
+        action: 'deposit',
+        accountName: this.accountName,
+      });
+    },
+    start({
+      coins,  account,  provider, activeCoin, action, accountName
     }) {
       const filteredCoins = coins.filter(a => {
         if (!a || !a.symbol) {
@@ -59,7 +57,7 @@ export default {
         openledger: { name: coin.intermediateAccount, id: '1.2.96397', support: 'https://openledger.freshdesk.com' }
       };
       const issuer = issuers[provider];
-      this.openledger = new connects({
+      this.openledger = new Connects({
         key: `${provider}.${coin.symbol}`,
         gateway: provider,
         issuer_account: issuer.name,
@@ -77,15 +75,16 @@ export default {
         isAvailable: coin.isAvailable,
         action,
       });
-  	}
+    }
   },
   data() {
     return {
-    	openledger: {},
-    	coins: {}
+      openledger: {},
+      coins: {}
     };
   }
 };
+/*eslint-disable*/
 </script>
 
 <style lang="css" scoped>
