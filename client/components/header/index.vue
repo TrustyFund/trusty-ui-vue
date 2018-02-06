@@ -15,8 +15,9 @@
       v-if="isProfilePage"
       @click='backAction')
       icon-component(name="trusty_options")
-
+        
     .header_title(v-if="!isProfilePage") {{ getTitle }}
+
 
 </div>
   
@@ -36,6 +37,7 @@ export default {
       titles: {
         signup: 'signup',
         login: 'login',
+        manage: 'manage fund'
       }
     };
   },
