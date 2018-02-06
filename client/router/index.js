@@ -4,7 +4,7 @@ import Home from '@/views/Home';
 import User from '@/views/User';
 import Auth from '@/views/Auth/login';
 import Signup from '@/views/Auth/signup';
-import Deposit from '@/views/Deposit';
+import Deposit from '@/views/Transfer';
 
 Vue.use(Router);
 
@@ -16,12 +16,10 @@ export default new Router({
       path: '/',
       component: Home
     },
-
     {
       path: '/home',
       component: Home
     },
-
     {
       name: 'user',
       path: '/user/:nickname',

@@ -36,6 +36,10 @@ export default {
     type: {
       default: 'text',
       type: String
+    },
+    isOpen: {
+      default: false,
+      type: Boolean
     }
   },
 
@@ -53,6 +57,8 @@ export default {
   },
 
   mounted() {
+    if (this.isOpen) this.opened = true;
+
     const select = this.$refs.right_space.querySelector('select');
 
     function resize() {

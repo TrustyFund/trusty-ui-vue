@@ -1,0 +1,57 @@
+<template lang="pug">
+
+#app_deposit_blocktrades
+	
+
+
+</template>
+
+<script>
+/*eslint-disable */
+
+import connects from './connects';
+
+export default {
+	computed:{
+		coinType(){ return this.$store.state.transfer.coinType }
+	},
+	watch:{
+		coinType(val){
+			this.blocktrades.onInputCoinTypeChanged("deposit", val)
+			this.$store.commit("change_deposit_address", this.blocktrades.state.input_address_and_memo )
+		}
+	},
+  data() {
+    return {
+			blocktrades: new connects({
+				gateway: 'blocktrades',
+				issuer_account: 'blocktrades',
+				// account:{account},
+				accountName: "seca02",
+				initial_deposit_input_coin_type: 'btc',
+				initial_deposit_output_coin_type: 'bts',
+				initial_deposit_estimated_input_amount: '1.0',
+				initial_withdraw_input_coin_type: 'bts',
+				initial_withdraw_output_coin_type: 'btc',
+				initial_withdraw_estimated_input_amount: '100000',
+				initial_conversion_input_coin_type: 'bts',
+				initial_conversion_output_coin_type: 'bitbtc',
+				initial_conversion_estimated_input_amount: '1000',
+			})
+    };
+
+  },
+  mounted() {
+    this.blocktrades.componentWillMount();
+    console.log(this.blocktrades)
+  }
+};
+
+/*eslint-disable */
+</script>
+
+<style lang="css" scoped>
+
+
+
+</style>
