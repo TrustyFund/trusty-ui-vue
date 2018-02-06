@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from '@/views/Home';
-import User from '@/views/User';
-import Auth from '@/views/Auth/login';
-import Signup from '@/views/Auth/signup';
-import Managefund from '@/views/Portfolio';
+import Home from '@/views/Home/Home.vue';
+import User from '@/views/User/User.vue';
+import Signup from '@/views/Auth/signup.vue';
+import Auth from '@/views/Auth/Auth.vue';
+import ManagePortfolio from '@/views/Portfolio/ManagePortfolio.vue';
 
 Vue.use(Router);
 
@@ -24,8 +24,9 @@ export default new Router({
 
     {
       name: 'user',
-      path: '/user/:nickname',
-      component: User
+      path: '/user/:name',
+      component: User,
+      props: true
     },
     {
       name: 'login',
@@ -40,7 +41,7 @@ export default new Router({
     {
       name: 'manage',
       path: '/manage',
-      component: Managefund
+      component: ManagePortfolio
     }
   ]
 });

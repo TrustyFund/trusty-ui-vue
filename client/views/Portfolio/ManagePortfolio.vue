@@ -10,16 +10,16 @@
 			.tab-link Mirror
 
 		.tabs-content-container
-			asset-tab
+			ManagePortfolioTab
 			
 
 </template>
 
 <script>
-import assetTab from './asset-tab';
+import ManagePortfolioTab from './ManagePortfolioTab.vue';
 
 export default {
-  components: { assetTab },
+  components: { ManagePortfolioTab },
 };
 
 </script>
@@ -202,6 +202,6 @@ export default {
 }
 
 
-@import "./mobile.scss"
+@import "./manage-portfolio-mobile.scss"
 
 </style>
