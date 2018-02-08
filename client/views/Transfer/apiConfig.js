@@ -27,6 +27,7 @@ export const settingsAPIs = {
     { url: 'wss://openledger.hk/ws', location: 'Hong Kong' },
     { url: 'wss://dexnode.net/ws', location: 'Dallas, USA' },
     { url: 'wss://bitshares.crypto.fans/ws', location: 'Munich, Germany' },
+    // eslint-disable-next-line
     { url: 'wss://node.testnet.bitshares.eu', location: 'Public Testnet Server (Frankfurt, Germany)' }
   ],
   DEFAULT_FAUCET: 'https://bitshares.openledger.info',

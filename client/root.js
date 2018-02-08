@@ -10,7 +10,7 @@ export default {
   },
   render() {
     // eslint-disable-next-line
-    let app = (this.connected) ? (<router-view></router-view>) : (<h4>Connecting</h4>);
+    let app = (this.connected) || true ? (<router-view></router-view>) : (<h4>Connecting</h4>);
     return (
       <div id="app">
         <Header />

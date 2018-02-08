@@ -39,6 +39,11 @@ export default new Router({
       name: 'deposit',
       path: '/deposit',
       component: Deposit
+    },
+    {
+      name: 'withdraw',
+      path: '/withdraw',
+      component: Deposit
     }
   ]
 });

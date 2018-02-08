@@ -1,6 +1,6 @@
 /*eslint-disable*/
 /*Work in process*/
-import { fetchCoins, fetchBridgeCoins, fetchCoinsSimple, getBackedCoins, getActiveWallets } from './methods';
+import { fetchCoins, fetchBridgeCoins, fetchCoinsSimple, getBackedCoins, getActiveWallets } from '../vendor/methods';
 import { blockTradesAPIs } from '../apiConfig';
 
 const inProgress = {};

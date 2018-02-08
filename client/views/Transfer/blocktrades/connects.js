@@ -1,6 +1,6 @@
 /*eslint-disable */
 /*Work in process*/
-import BlockTradesDepositAddressCache from './cache';
+import BlockTradesDepositAddressCache from '../utils/cache';
 import { blockTradesAPIs } from "../apiConfig"
 
 

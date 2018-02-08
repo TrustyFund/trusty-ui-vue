@@ -20,7 +20,7 @@ export default {
 	watch:{
 		coinType(val){
 			this.blocktrades.onInputCoinTypeChanged("deposit", val)
-			this.$store.commit("change_deposit_address", this.blocktrades.state.input_address_and_memo )
+			this.$store.commit("CHANGE_TRANSFER_DEPOSIT_ADDRESS", this.blocktrades.state.input_address_and_memo )
 		}
 	},
   data() {
@@ -51,7 +51,7 @@ export default {
 
       this.blocktrades.componentWillMount().then(()=>{
         let address = this.blocktrades.state.input_address_and_memo
-        this.$store.commit("change_deposit_address",address)
+        this.$store.commit("CHANGE_TRANSFER_DEPOSIT_ADDRESS",address)
       })
 
   }

@@ -1,4 +1,4 @@
-/*eslint-disable */
+/*eslint-disable *///wip
 import React from "react";
 import Translate from "react-translate-component";
 import ChainTypes from "components/Utility/ChainTypes";
@@ -601,7 +601,7 @@ class BlockTradesBridgeDepositRequest extends React.Component {
 			let conversion_limit = this.getCachedOrFreshDepositLimit("conversion", conversion_input_coin_type, conversion_output_coin_type);
 
             if (this.unMounted) return;
-            
+
             this.setState({
                 coin_info_request_state: this.coin_info_request_states.request_complete,
                 coins_by_type: coins_by_type,
@@ -740,11 +740,11 @@ class BlockTradesBridgeDepositRequest extends React.Component {
         let isLocation = path => ~window.location.pathname.indexOf(path)
         if(isLocation("withdraw")) {
             this.triggerInputAmountChange("withdraw")
-        } 
+        }
         if(isLocation("deposit")){
             this.triggerInputAmountChange("deposit")
         }
-  
+
     }
 
     componentWillUnmount()
@@ -1166,8 +1166,8 @@ class BlockTradesBridgeDepositRequest extends React.Component {
     }
     componentDidUpdate(prevProps, prevState){
 
-        if(prevState.allowed_mappings_for_withdraw == null && this.state.allowed_mappings_for_withdraw != null) { 
-            
+        if(prevState.allowed_mappings_for_withdraw == null && this.state.allowed_mappings_for_withdraw != null) {
+
            if(~window.location.pathname.indexOf("withdraw")) {
                 this.onOutputCoinTypeChanged("withdraw", {target: {value: this.props.changedCoinName.toLowerCase()}})
            } else {
@@ -1176,23 +1176,23 @@ class BlockTradesBridgeDepositRequest extends React.Component {
         }
         //$('#resizing_select').change(function(){
             $("#width_tmp_option").html($('#resizing_select option:selected').text());
-                $('#resizing_select').width($("#width_tmp_option").width() + 4);  
+                $('#resizing_select').width($("#width_tmp_option").width() + 4);
        // });
-        
+
     }
 
     componentWillReceiveProps(nextProps) {
- 
+
         if(nextProps.changedCoinValue != this.props.changedCoinValue) {
             let newValue = nextProps.changedCoinValue
-            this.onOutputAmountChanged("withdraw", { target: {value: newValue}}) 
+            this.onOutputAmountChanged("withdraw", { target: {value: newValue}})
         }
 
         if(nextProps.changedCoinName != this.props.changedCoinName) {
             let newValue = nextProps.changedCoinName.toLowerCase()
             //this.setState({coin_symbol: newValue})
             if ( ~window.location.pathname.indexOf("withdraw") ) {
-                this.onOutputCoinTypeChanged("withdraw", { target: {value: newValue}}) 
+                this.onOutputCoinTypeChanged("withdraw", { target: {value: newValue}})
             } else {
                 this.onInputCoinTypeChanged("deposit", { target: { value: newValue}})
             }
@@ -1204,16 +1204,16 @@ class BlockTradesBridgeDepositRequest extends React.Component {
         alert("address copied")
         localStorage.setItem("_trusty_copyed_address", this._getText())
     }
- 
+
     _getText() {
         let el = document.body.querySelector("._clipboard_value")
         let content = el.textContent
         let t = "blocktrades with memo "
         if(content.indexOf(t)!=-1){
            content = content.split("").splice(t.length).join("")
-        } 
+        }
         return content;
-    } 
+    }
 
     render() {
 
@@ -1233,7 +1233,7 @@ class BlockTradesBridgeDepositRequest extends React.Component {
         else if (this.state.coin_info_request_state == this.coin_info_request_states.never_requested ||
                  this.state.coin_info_request_state == this.coin_info_request_states.request_in_progress)
         {
-   
+
             return <div><LoadingIndicator type={"trusty-owl"} /><p className="trusty_help_text">connecting blocktrades.us...</p></div>;
         }
         else
@@ -1264,8 +1264,8 @@ class BlockTradesBridgeDepositRequest extends React.Component {
                     deposit_input_coin_type_options.push(<option key={allowed_deposit_input_coin_type} value={allowed_deposit_input_coin_type || ""}>{this.state.coins_by_type[allowed_deposit_input_coin_type].symbol}</option>);
                 });
 
-                
-            
+
+
                 let deposit_input_coin_type_select =
                     <div><select id="resizing_select"  value={this.state.deposit_input_coin_type || ""} onChange={this.onInputCoinTypeChanged.bind(this, "deposit")}>
                       {deposit_input_coin_type_options}
@@ -1327,7 +1327,7 @@ class BlockTradesBridgeDepositRequest extends React.Component {
                 else
                     deposit_address_and_memo_element = <span className="trusty_deposit_address">{input_address_and_memo.address}</span>;
                 //<span><span className="blocktrades-with-memo">with memo</span> {input_address_and_memo.memo}</span>;
-                
+
 
                 let isMemo = input_address_and_memo.memo
 
@@ -1358,7 +1358,7 @@ class BlockTradesBridgeDepositRequest extends React.Component {
                             <div className="t_right">{deposit_input_coin_type_select}</div>
                             <div className="t_input">{deposit_input_amount_edit_box}</div>
                         </div>*/}
-                        
+
                         <p className="trusty_help_text _yellow">Send <span style={{textTransform:"uppercase"}}>{coin_type}</span> to the address below</p>
 
                         <p className="trusty_help_text _clipboard_value" style={{ position: "fixed", left: -1000, opacity: 0 }}>{deposit_address_and_memo_element}</p>
@@ -1450,7 +1450,7 @@ class BlockTradesBridgeDepositRequest extends React.Component {
                 let estimated_output_amount_text = this.state.withdraw_estimated_output_amount;
 
                 let withdraw_output_amount_edit_box = estimated_output_amount_text ?
-                    <input style={{width: "11rem"}} 
+                    <input style={{width: "11rem"}}
                            type="text"
                            value={estimated_output_amount_text || ""}
                            onChange={this.onOutputAmountChanged.bind(this, "withdraw") } /> : calcTextWithdraw;
@@ -1624,7 +1624,7 @@ class BlockTradesBridgeDepositRequest extends React.Component {
                 </tbody>;
             }
 
-  
+
             return (
                 <div>
                     {/*this.props.deposit_only ? deposit_header : null*/}

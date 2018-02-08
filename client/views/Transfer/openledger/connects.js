@@ -1,7 +1,7 @@
 /*eslint-disable*/
 /*Work in process*/
-import BlockTradesDepositAddressCache from "../blocktrades/cache";
-import { requestDepositAddress } from "./methods";
+import BlockTradesDepositAddressCache from "../vendor/cache";
+import { requestDepositAddress } from "../vendor/methods";
 import { blockTradesAPIs } from "../apiConfig";
 
 
@@ -75,9 +75,11 @@ export default class BlockTradesGatewayDepositRequest  {
           this.state[key] = object[key];
         });
     }
+
     componentDidMount(){
         if ( this.props.action == "withdraw" )this.onWithdraw()
     }
+
     componentWillMount() {
         let account_name = this.props.accountName//this.props.account.get("name");
         let receive_address = this.deposit_address_cache.getCachedInputAddress(this.props.gateway, account_name, this.props.deposit_coin_type, this.props.receive_coin_type);
@@ -277,7 +279,7 @@ export default class BlockTradesGatewayDepositRequest  {
                                 output_coin_symbol={this.props.deposit_asset}
                                 output_coin_type={this.props.deposit_coin_type}
                                 output_wallet_type={this.props.deposit_wallet_type}
-								output_supports_memos={this.props.supports_output_memos}
+								                output_supports_memos={this.props.supports_output_memos}
                                 memo_prefix={withdraw_memo_prefix}
                                 modal_id={withdraw_modal_id}
                                 balance={this.props.account.get("balances").toJS()[this.props.receive_asset.get("id")]} />

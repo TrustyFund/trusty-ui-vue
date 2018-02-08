@@ -7,30 +7,36 @@
 /*eslint-disable*/
 /*Work in process*/
 import Connects from './connects';
+import Wihdraw from './withdraw';
 import Coins from './coins';
 
 export default {
   computed: {
     coinType() { return this.$store.state.transfer.coinType; },
-
   },
-  props: ['accountName'],
+  props: ['accountName','deposit'],
   beforeMount() {
-    this.coins = new Coins();
-    this.coins.fetchCoins()
-      .then(() => {
-        this.updateAddress(this.coinType);
-        this.$store.commit('change_deposit_address', this.openledger.state.receive_address);
-      });
+      this.coins = new Coins();
+      this.coins.fetchCoins()
+        .then(() => {
+          this.mainUpdate(this.coinType)
+        });
   },
   watch: {
     coinType(val) {
-      this.updateAddress(val);
-      this.$store.commit('change_deposit_address', this.openledger.state.receive_address);
+      this.mainUpdate(val)
     }
   },
 
   methods: {
+
+    mainUpdate(coinType){
+      if(this.deposit) {
+        this.updateAddress(coinType);
+      } else {
+        this.withdraw = new Wihdraw()
+      }
+    },
     updateAddress(coinType) {
       this.start({
         coins: this.coins.state.backedCoins,
@@ -39,6 +45,7 @@ export default {
         action: 'deposit',
         accountName: this.accountName,
       });
+      this.$store.commit('CHANGE_TRANSFER_DEPOSIT_ADDRESS', this.openledger.state.receive_address);
     },
     start({
       coins,  account,  provider, activeCoin, action, accountName
