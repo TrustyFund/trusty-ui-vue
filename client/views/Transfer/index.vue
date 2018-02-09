@@ -13,13 +13,11 @@
         select(v-model="coin")
           option(v-for="i in ['BTC','DASH','ETH','USD','RUB']") {{ i }}
 
-    trusty-input(
-      v-if="!isTrustyTransfer" :isOpen="true",
-      label="payment method" className="select_input")
+    trusty-input(:isOpen="true", label="payment method" className="select_input")
       template(slot="input")
         input(:style="{display:'none'}")
         select(v-model="service")
-          option(v-for="option in ['blocktrades','openledger']", :value="option") {{ option }}
+          option(v-for="option in transferServices", :value="option") {{ option }}
 
     trusty-input(v-if="!isDeposit" label="enter receiving address")
       template(slot="input")
@@ -97,6 +95,12 @@ export default {
     ])
   },
   computed:{
+    transferServices(){
+      return this.isTrustyTransfer ?
+        ["SBERBANK", "ALIPAY", "TINKOFF"]
+        :
+        ['blocktrades','openledger']
+    },
     isTrustyTransfer(){
       return ~this.coin.search(/USD|RUB/ig)
     },

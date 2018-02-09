@@ -351,13 +351,13 @@ export default {
       return (
           <div class="trusty_deposit_fiat" style={{ paddingTop: '10px 2rem 0 2rem' }}>
             <div class="_margin_bottom">
-              <TrustyInput
+              {/*<TrustyInput
                 input={payment_methods}
                 right={<div class="only_right_arrow"><Icon name="trusty_arrow_down"/></div>}
                 isOpen={true}
                 label={'payment method'}
                 type="select"
-              />
+              />*/}
               <TrustyInput
                 input={name_input}
                 label="NAME AND SURNAME OF PAYER"
