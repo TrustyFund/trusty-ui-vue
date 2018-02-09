@@ -6,6 +6,7 @@ import * as states from './states';
 import Timer from './timer';
 import './styles.scss';
 import { mapGetters } from 'vuex';
+
 const object = {
   BotFee: '0',
   ClientName: 'stas',
@@ -29,6 +30,7 @@ export default {
     return {
       connected: false,
       name: "",
+      order: null
     }
   },
 
@@ -51,7 +53,7 @@ export default {
 
       // New order or loaded one
       if (val && !this.order) {
-        console.log('SET ORDER', nextState.order);
+        console.log('SET ORDER', val);
       }
     }
   },
@@ -95,7 +97,7 @@ export default {
 
               if (this.inFinalStatus(new_order.Status)) {
                 this.clearOrder();
-                browserHistory.push('/home');
+                this.$router.push({name: "home"});
               }
 
               if (new_order.Status === states.ORDER_FINISHED) {
@@ -218,7 +220,7 @@ export default {
     },
 
     _navigateBackAction() {
-      browserHistory.push('/home');
+      this.$router.push({name: "home"});
     },
 
     _onCopyAdress(a) {
