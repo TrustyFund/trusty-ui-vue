@@ -6,8 +6,8 @@ import ls, { ls_key_exists } from './impl';
 if (ls === null) throw "localStorage is required but isn't available on this platform";
 
 const localStorage = (key) => {
-  const STORAGE_KEY = key;
 
+  const STORAGE_KEY = key;
   return {
     get(key, dv = {}) {
       let rv;
@@ -20,14 +20,12 @@ const localStorage = (key) => {
         return dv;
       }
     },
-
     set(key, object) {
       if (object && object.toJS) {
         object = object.toJS();
       }
       ls.setItem(STORAGE_KEY + key, JSON.stringify(object));
     },
-
     remove(key) {
       ls.removeItem(STORAGE_KEY + key);
     },
@@ -37,8 +35,6 @@ const localStorage = (key) => {
     }
   };
 };
-
 export default localStorage;
-
 /*eslint-disable */
 
