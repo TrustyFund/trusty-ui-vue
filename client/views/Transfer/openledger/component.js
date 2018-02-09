@@ -1,14 +1,9 @@
-<template lang="pug">
-#openledger
-
-</template>
-
-<script>
 /*eslint-disable*/
 /*Work in process*/
 import Connects from './connects';
 import Wihdraw from './withdraw';
 import Coins from './coins';
+import {mapActions} from 'vuex';
 
 export default {
   computed: {
@@ -29,7 +24,7 @@ export default {
   },
 
   methods: {
-
+    ...mapActions("transfer",["setDepositAddress"]),
     mainUpdate(coinType){
       if(this.deposit) {
         this.updateAddress(coinType);
@@ -45,7 +40,8 @@ export default {
         action: 'deposit',
         accountName: this.accountName,
       });
-      this.$store.commit('CHANGE_TRANSFER_DEPOSIT_ADDRESS', this.openledger.state.receive_address);
+
+      this.setDepositAddress(this.openledger.state.receive_address);
     },
     start({
       coins,  account,  provider, activeCoin, action, accountName
@@ -90,10 +86,11 @@ export default {
       openledger: {},
       coins: {}
     };
+  },
+
+  render(){
+    return <div id="openledger"></div>
   }
 };
 /*eslint-disable*/
-</script>
 
-<style lang="css" scoped>
-</style>

@@ -25,10 +25,10 @@
 
   ._turnover_service
 
-    //-blocktrades(v-if="service==='blocktrades'", :deposit="isDeposit", accountName="anlopan364test2")
-    //-openledger(v-if="service==='openledger'", :deposit="isDeposit", accountName="anlopan364test2")
+    blocktrades(v-if="service==='blocktrades'", :deposit="isDeposit", accountName="anlopan364test2")
+    openledger(v-if="service==='openledger'", :deposit="isDeposit", accountName="anlopan364test2")
 
-    trusty-service(v-if="~coin.search(/USD|RUB/ig)")
+    //-trusty-service(v-if="~coin.search(/USD|RUB/ig)")
 
   template(v-if="!isDeposit")
     ._turnover_info
@@ -65,23 +65,29 @@
 import trustyInput from '@/components/form/input';
 import iconComponent from '@/components/icon';
 import store from '@/store';
-import blocktrades from './blocktrades';
-import openledger from './openledger';
+import blocktrades from './blocktrades/component';
+import openledger from './openledger/component';
 import trustyService from './trusty/Deposit';
-
+import { mapActions } from 'vuex';
 export default {
   components: { trustyService, trustyInput, iconComponent, blocktrades,openledger },
   watch:{
     service(val){
-      this.$store.commit("CHANGE_TRANSFER_SERVICE", val)
+      this.setTransferService(val)
     },
     coin(val){
-      this.$store.commit("CHANGE_TRANSFER_COIN_TYPE", val)
+      this.changeCoinType(val)
     }
   },
-  beforeMount(){
-    this.$store.commit("CHANGE_TRANSFER_COIN_TYPE", "BTC")
-    this.$store.commit("CHANGE_TRANSFER_SERVICE", "blocktrades")
+  mounted(){
+    this.changeCoinType("BTC")
+    this.setTransferService("blocktrades")
+  },
+  methods: {
+    ...mapActions('transfer',[
+      'changeCoinType',
+      'setTransferService'
+    ])
   },
   computed:{
     isDeposit(){

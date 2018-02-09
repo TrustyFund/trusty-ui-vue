@@ -4,10 +4,10 @@ const CHANGE_TRANSFER_DEPOSIT_ADDRESS = 'CHANGE_TRANSFER_DEPOSIT_ADDRESS';
 const CHANGE_TRANSFER_SERVICE = 'CHANGE_TRANSFER_SERVICE';
 
 const actions = {
-  setDepositAddres({ commit }, val) {
+  setDepositAddress({ commit }, val) {
     commit(CHANGE_TRANSFER_DEPOSIT_ADDRESS, val);
   },
-  setService({ commit }, val) {
+  setTransferService({ commit }, val) {
     commit(CHANGE_TRANSFER_SERVICE, val);
   },
   changeCoinType({ commit }, val) {
@@ -49,7 +49,7 @@ const state = {
 };
 
 export default {
-  namespaces: true,
+  namespaced: true,
   state,
   getters,
   actions,

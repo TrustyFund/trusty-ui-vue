@@ -1,37 +1,29 @@
-<template lang="pug">
-
-#app_deposit_blocktrades
-
-
-
-</template>
-
-<script>
 /*eslint-disable */
 /*Work in process*/
-
 import Connects from './connects';
-
+import { mapActions } from 'vuex';
 export default {
 	props:["accountName"],
+  methods: {
+    ...mapActions('transfer',[
+      'setDepositAddress',
+    ])
+  },
 	computed:{
 		coinType(){ return this.$store.state.transfer.coinType }
 	},
 	watch:{
 		coinType(val){
 			this.blocktrades.onInputCoinTypeChanged("deposit", val)
-			this.$store.commit("CHANGE_TRANSFER_DEPOSIT_ADDRESS", this.blocktrades.state.input_address_and_memo )
+			this.setDepositAddress(this.blocktrades.state.input_address_and_memo )
 		}
 	},
   data() {
     return {
 			blocktrades:{}
     };
-
   },
-
   beforeMount(){
-
 	  	this.blocktrades = new Connects({
 				gateway: 'blocktrades',
 				issuer_account: 'blocktrades',
@@ -47,21 +39,18 @@ export default {
 				initial_conversion_output_coin_type: 'bitbtc',
 				initial_conversion_estimated_input_amount: '1000',
 			})
-
-
       this.blocktrades.componentWillMount().then(()=>{
         let address = this.blocktrades.state.input_address_and_memo
-        this.$store.commit("CHANGE_TRANSFER_DEPOSIT_ADDRESS",address)
+        this.setDepositAddress(address)
       })
 
+  },
+
+  render(){
+    return <div id="app_deposit_blocktrades"></div>
   }
+
 };
 
-/*eslint-disable */
-</script>
-
-<style lang="css" scoped>
 
 
-
-</style>
