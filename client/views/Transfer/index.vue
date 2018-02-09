@@ -6,7 +6,7 @@
 
     trusty-input(label="send any sum")
       template(slot="input")
-        input
+        input(v-model.number="amount")
       template(slot="right")
         icon-component(name="trusty_arrow_down")
         span.fake_option_width
@@ -77,6 +77,9 @@ import { mapActions } from 'vuex';
 export default {
   components: { trustyService, trustyInput, iconComponent, blocktrades,openledger },
   watch:{
+    amount(val) {
+      this.changeTransferAmount(val)
+    },
     service(val){
       this.setTransferService(val)
     },
@@ -91,7 +94,8 @@ export default {
   methods: {
     ...mapActions('transfer',[
       'changeCoinType',
-      'setTransferService'
+      'setTransferService',
+      'changeTransferAmount'
     ])
   },
   computed:{
@@ -126,6 +130,7 @@ export default {
     return {
       coin: "BTC",
       service: "",
+      amount: "",
     };
   }
 };

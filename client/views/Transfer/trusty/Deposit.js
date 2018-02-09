@@ -5,7 +5,7 @@ import SoSo from './soso';
 import * as states from './states';
 import Timer from './timer';
 import './styles.scss';
-
+import { mapGetters } from 'vuex';
 const object = {
   BotFee: '0',
   ClientName: 'stas',
@@ -25,30 +25,19 @@ const object = {
 
 export default {
 
-  // props: {
-  //   currency: {
-  //     type: String,
-  //     default: 'RUB'
-  //   },
-  //   method: {
-  //     type: String,
-  //     default: '',
-  //   },
-
-  //   amout: {
-  //     type: Number,
-  //     default: 0,
-  //   },
-  //   name: {
-  //     type: String,
-  //     default: ''
-  //   },
-  // },
-
   data(){
     return {
       connected: false,
+      name: "",
     }
+  },
+
+  computed:{
+    ...mapGetters("transfer",{
+      method: 'transferService',
+      amount: 'transferAmount',
+      currency: 'transferCoin',
+    })
   },
 
   watch: {
@@ -161,6 +150,10 @@ export default {
       this.setState(new_state);
     },
 
+    onInputChangeName(e) {
+      console.log(e)
+    },
+
     getOrder(order_id) {
       console.log('GET ORDER', order_id);
       const address = localStorage.getItem('_trusty_username');
@@ -171,8 +164,8 @@ export default {
       const address = localStorage.getItem('_trusty_username');
       const client_name = this.name;
       const payment_method = this.method;
-      const currency = this.props.currency;
-      const fiat_amount = parseInt(this.props.amount);
+      const currency = this.currency;
+      const fiat_amount = parseInt(this.amount);
       this.soso.request('create', 'order', {
         client_name, address, payment_method, currency, fiat_amount
       });
@@ -271,8 +264,8 @@ export default {
             <p class="trusty_help_text _bottom _yellow">Push CONFIRM button as soon as<br/> you have completed the payment</p>
 
             <div class="trusty_inline_buttons">
-                <a onClick={this.confirmStatus} class="b_left"><button>Confirm</button></a>
-                <a onClick={this.cancelOrder} class="b_right"><button >Cancel</button></a>
+                <button onClick={this.confirmStatus}>Confirm</button>
+                <button onClick={this.cancelOrder}>Cancel</button>
             </div>
 
             <p class="trusty_ps_text">Payment gateway service is provided by users of <br/> Localbitcoins.com</p>
@@ -299,9 +292,11 @@ export default {
 
     drawTimerState() {
       const cancel_button = (
-        <button type="button" class="trusty_wide_btn" onClick={this.cancelOrder}>
-          CANCEL ORDER
-        </button>
+        <div class="trusty_inline_buttons _one_button">
+          <button onClick={this.cancelOrder}>
+            CANCEL ORDER
+          </button>
+        </div>
       );
 
       return (
@@ -313,58 +308,23 @@ export default {
     },
 
     drawNewOrderFields() {
+
       const fakeWidth = <span style={{ display: 'none', fontFamily: 'Gotham_Pro_Bold', fontSize: '6.6vw' }} id="width_tmp_option"/>;
 
-      const deposit_input_amount_edit_box = (
-          <input
-            value={this.amount}
-            style={{ width: '11rem' }}
-            type="text"
-            placeholder="SEND ANY SUM"
-            onChange={this.onInputChange('amount')}
-          />
-      );
-
-      const deposit_input_coin_type_select = (
-          <div>
-            <select id="resizing_select" value={this.currency} onChange={this.onInputChange('currency')}>
-              <option value="RUB">RUB</option>
-              <option value="USD">USD</option>
-            </select>
-            {fakeWidth}
-            <Icon name="trusty_arrow_down"/>
-          </div>
-      );
-
-      const payment_methods = (
-            <select value={this.method} onChange={this.onInputChange('method')}>
-              <option value="SBERBANK">SBERBANK</option>
-              <option value="ALIPAY">ALIPAY</option>
-              <option value="TINKOFF">TINKOFF</option>
-            </select>
-      );
-
       const name_input = (
-            <input type="text" value={this.name} onChange={this.onInputChange('name')} />
+            <input type="text" value={this.name} onChange={this.onInputChangeName}/>
       );
 
       return (
           <div class="trusty_deposit_fiat" style={{ paddingTop: '10px 2rem 0 2rem' }}>
             <div class="_margin_bottom">
-              {/*<TrustyInput
-                input={payment_methods}
-                right={<div class="only_right_arrow"><Icon name="trusty_arrow_down"/></div>}
-                isOpen={true}
-                label={'payment method'}
-                type="select"
-              />*/}
               <TrustyInput
                 input={name_input}
                 label="NAME AND SURNAME OF PAYER"
               />
             </div>
             <div class="trusty_inline_buttons _one_button">
-              <button style={{ marginBottom: 0 }} type="button" class="trusty_wide_btn" onClick={this.createOrder}>
+              <button style={{ marginBottom: 0 }} onClick={this.createOrder}>
                 CONFIRM
               </button>
             </div>
