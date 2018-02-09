@@ -46,6 +46,7 @@
     "fractional": "^1.0.0",
     "lodash": "^4.17.5",
     "promise-polyfill": "^6.0.2",
+    "sockjs-client": "^1.1.4",
     "vue": "^2.5.13",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",

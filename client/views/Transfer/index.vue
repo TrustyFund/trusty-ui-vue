@@ -11,7 +11,7 @@
         icon-component(name="trusty_arrow_down")
         span.fake_option_width
         select(v-model="coin")
-          option(v-for="i in ['BTC','DASH','ETH']") {{ i }}
+          option(v-for="i in ['BTC','DASH','ETH','USD','RUB']") {{ i }}
 
     trusty-input(:isOpen="true", label="payment method" className="select_input")
       template(slot="input")
@@ -24,8 +24,11 @@
         input
 
   ._turnover_service
-    blocktrades(v-if="service==='blocktrades'", :deposit="isDeposit", accountName="anlopan364test2")
-    openledger(v-if="service==='openledger'", :deposit="isDeposit", accountName="anlopan364test2")
+
+    //-blocktrades(v-if="service==='blocktrades'", :deposit="isDeposit", accountName="anlopan364test2")
+    //-openledger(v-if="service==='openledger'", :deposit="isDeposit", accountName="anlopan364test2")
+
+    trusty-service(v-if="~coin.search(/USD|RUB/ig)")
 
   template(v-if="!isDeposit")
     ._turnover_info
@@ -64,32 +67,10 @@ import iconComponent from '@/components/icon';
 import store from '@/store';
 import blocktrades from './blocktrades';
 import openledger from './openledger';
-
-store.registerModule('transfer',{
-  state: {
-    coinType: "BTC",
-    depositAddress: "",
-    service: "blocktrades",
-    action: "withdraw",
-  },
-  mutations:{
-    ["CHANGE_TRANSFER_ACTION"](state, val) {
-      state.action = val
-    },
-    ["CHANGE_TRANSFER_COIN_TYPE"](state, val){
-      state.coinType = val
-    },
-    ["CHANGE_TRANSFER_DEPOSIT_ADDRESS"](state, val){
-      state.depositAddress = val
-    },
-    ["CHANGE_TRANSFER_SERVICE"](state, val){
-      state.service = val
-    }
-  }
-});
+import trustyService from './trusty/Deposit';
 
 export default {
-  components: { trustyInput, iconComponent, blocktrades,openledger },
+  components: { trustyService, trustyInput, iconComponent, blocktrades,openledger },
   watch:{
     service(val){
       this.$store.commit("CHANGE_TRANSFER_SERVICE", val)
