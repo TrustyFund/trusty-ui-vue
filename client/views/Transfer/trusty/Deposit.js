@@ -151,7 +151,7 @@ export default {
     },
 
     onInputChangeName(e) {
-      console.log(e)
+      this.name = e.target.value.trim()
     },
 
     getOrder(order_id) {
@@ -312,16 +312,16 @@ export default {
       const fakeWidth = <span style={{ display: 'none', fontFamily: 'Gotham_Pro_Bold', fontSize: '6.6vw' }} id="width_tmp_option"/>;
 
       const name_input = (
-            <input type="text" value={this.name} onChange={this.onInputChangeName}/>
+            <input type="text" value={this.name} onInput={this.onInputChangeName}/>
       );
 
       return (
           <div class="trusty_deposit_fiat" style={{ paddingTop: '10px 2rem 0 2rem' }}>
             <div class="_margin_bottom">
               <TrustyInput
-                input={name_input}
-                label="NAME AND SURNAME OF PAYER"
-              />
+                label="NAME AND SURNAME OF PAYER">
+                <template slot="input">{ name_input }</template>
+              </TrustyInput>
             </div>
             <div class="trusty_inline_buttons _one_button">
               <button style={{ marginBottom: 0 }} onClick={this.createOrder}>
