@@ -2,7 +2,7 @@
 
 #trusty_transfer
 
-  ._turnover_inputs
+  ._turnover_inputs(:class='{"_margin_bottom": !isTrustyTransfer}')
 
     trusty-input(label="send any sum")
       template(slot="input")
@@ -13,7 +13,9 @@
         select(v-model="coin")
           option(v-for="i in ['BTC','DASH','ETH','USD','RUB']") {{ i }}
 
-    trusty-input(:isOpen="true", label="payment method" className="select_input")
+    trusty-input(
+      v-if="!isTrustyTransfer" :isOpen="true",
+      label="payment method" className="select_input")
       template(slot="input")
         input(:style="{display:'none'}")
         select(v-model="service")
@@ -25,38 +27,43 @@
 
   ._turnover_service
 
-    blocktrades(v-if="service==='blocktrades'", :deposit="isDeposit", accountName="anlopan364test2")
-    openledger(v-if="service==='openledger'", :deposit="isDeposit", accountName="anlopan364test2")
+    blocktrades(
+      v-if="service==='blocktrades' && !isTrustyTransfer",
+      :deposit="isDeposit", accountName="anlopan364test2")
 
-    //-trusty-service(v-if="~coin.search(/USD|RUB/ig)")
+    openledger(
+      v-if="service==='openledger' && !isTrustyTransfer",
+      :deposit="isDeposit", accountName="anlopan364test2")
 
-  template(v-if="!isDeposit")
-    ._turnover_info
-      .trusty_help_text._yellow
-        | Please enter a valid {{ coin }} address
-      .trusty_inline_buttons._one_button: button Paste Address
-      .trusty_inline_buttons
-        button Confirm
-        button Cancel
-      p.trusty_ps_text
-        | Payment gateway service is provided by #[br]
-        | Openledger.io at 0% fee
+    trusty-service(v-if="isTrustyTransfer")
 
-  template(v-else)
-    ._turnover_info
-      .trusty_help_text._yellow
-        | Send {{ coin }} to the address below
-      .trusty_cutted_address(v-html="depositAddress")
-      .trusty_inline_buttons._one_button: button Copy address
-      .trusty_help_text._yellow
-        | Push CONFIRM button as soon as you have completed the payment
-      .trusty_inline_buttons
-        button Confirm
-        button Cancel
-      p.trusty_ps_text
-        | Payment gateway service is provided by #[br]
-        | Openledger.io at 0% fee
 
+  template(v-if="!isTrustyTransfer")
+    template(v-if="!isDeposit")
+      ._turnover_info
+        .trusty_help_text._yellow
+          | Please enter a valid {{ coin }} address
+        .trusty_inline_buttons._one_button: button Paste Address
+        .trusty_inline_buttons
+          button Confirm
+          button Cancel
+        p.trusty_ps_text
+          | Payment gateway service is provided by #[br]
+          | Openledger.io at 0% fee
+    template(v-else)
+      ._turnover_info
+        .trusty_help_text._yellow
+          | Send {{ coin }} to the address below
+        .trusty_cutted_address(v-html="depositAddress")
+        .trusty_inline_buttons._one_button: button Copy address
+        .trusty_help_text._yellow
+          | Push CONFIRM button as soon as you have completed the payment
+        .trusty_inline_buttons
+          button Confirm
+          button Cancel
+        p.trusty_ps_text
+          | Payment gateway service is provided by #[br]
+          | Openledger.io at 0% fee
 
 </template>
 
@@ -90,6 +97,9 @@ export default {
     ])
   },
   computed:{
+    isTrustyTransfer(){
+      return ~this.coin.search(/USD|RUB/ig)
+    },
     isDeposit(){
       return this.$route.name == "deposit"
     },
@@ -105,11 +115,9 @@ export default {
       return "<span>no address</span>"
     }
   },
-
   mounted(){
     this.service = "blocktrades"
   },
-
   data() {
     return {
       coin: "BTC",
@@ -139,8 +147,11 @@ export default {
 
 
 @media screen and (max-width: 768px) {
-  ._turnover_inputs {
-    margin-bottom: 6vw;
+
+  #trusty_transfer {
+    *._margin_bottom {
+      margin-bottom: 6vw;
+    }
   }
 
   .trusty_inline_buttons {

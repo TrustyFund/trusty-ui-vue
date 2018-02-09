@@ -25,30 +25,32 @@ const object = {
 
 export default {
 
-  props: {
-    currency: {
-      type: String,
-      default: 'RUB'
-    },
-    method: {
-      type: String,
-      default: '',
-    },
+  // props: {
+  //   currency: {
+  //     type: String,
+  //     default: 'RUB'
+  //   },
+  //   method: {
+  //     type: String,
+  //     default: '',
+  //   },
 
-    amout: {
-      type: Number,
-      default: 0,
-    },
-    name: {
-      type: String,
-      default: ''
-    },
-  },
+  //   amout: {
+  //     type: Number,
+  //     default: 0,
+  //   },
+  //   name: {
+  //     type: String,
+  //     default: ''
+  //   },
+  // },
+
   data(){
     return {
       connected: false,
     }
   },
+
   watch: {
     order(val) {
       // Order state update
@@ -348,18 +350,19 @@ export default {
 
       return (
           <div class="trusty_deposit_fiat" style={{ paddingTop: '10px 2rem 0 2rem' }}>
-            <TrustyInput
-              input={payment_methods}
-              right={<div class="only_right_arrow"><Icon name="trusty_arrow_down"/></div>}
-              isOpen={true}
-              label={'payment method'}
-              type="select"
-            />
-
-            <TrustyInput
-              input={name_input}
-              label="NAME AND SURNAME OF PAYER"
-            />
+            <div class="_margin_bottom">
+              <TrustyInput
+                input={payment_methods}
+                right={<div class="only_right_arrow"><Icon name="trusty_arrow_down"/></div>}
+                isOpen={true}
+                label={'payment method'}
+                type="select"
+              />
+              <TrustyInput
+                input={name_input}
+                label="NAME AND SURNAME OF PAYER"
+              />
+            </div>
             <div class="trusty_inline_buttons _one_button">
               <button style={{ marginBottom: 0 }} type="button" class="trusty_wide_btn" onClick={this.createOrder}>
                 CONFIRM
