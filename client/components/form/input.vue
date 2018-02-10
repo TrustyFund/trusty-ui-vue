@@ -109,6 +109,7 @@ export default {
 <style lang="scss">
 
 @mixin column_trusty_inputs {
+
   .trusty_input_container:not(.text_area) {
     margin-bottom: 2vw;
     position: relative;
@@ -119,6 +120,7 @@ export default {
       bottom:0;
     }
   }
+  
 }
 
 @mixin input_tag_style {

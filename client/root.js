@@ -5,7 +5,7 @@ export default {
   components: { Header },
   beforeMount() {
     this.$store.dispatch('initApis', () => {
-      return this.$store.dispatch('fetchDefaultAssets');
+      return this.$store.dispatch('assets/fetchDefaultAssets');
     });
   },
   render() {

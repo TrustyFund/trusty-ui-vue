@@ -5,4 +5,5 @@ install:
   - npm install
 script: 
   - npm build
+  - npm run lint
 skip_cleanup: true
