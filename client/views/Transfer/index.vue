@@ -59,15 +59,15 @@
 
 <script>
 /*eslint-disable*/
+
 import trustyInput from '@/components/form/input';
 import iconComponent from '@/components/icon';
 import store from '@/store';
-import blocktrades from './blocktrades/component';
-import openledger from './openledger/component';
-import trustyService from './trusty/Deposit';
+import trustyService from './trusty/deposit';
 import { mapActions } from 'vuex';
+
 export default {
-  components: { trustyService, trustyInput, iconComponent, blocktrades,openledger },
+  components: { trustyService, trustyInput, iconComponent },
   watch:{
     amount(val) {
       this.changeTransferAmount(val)

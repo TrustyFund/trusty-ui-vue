@@ -1,7 +1,6 @@
 /*eslint-disable*///wip
 import Icon from '@/components/icon';
 import TrustyInput from '@/components/form/input';
-import SoSo from './soso';
 import * as states from './states';
 import Timer from './timer';
 import './styles.scss';
@@ -58,20 +57,7 @@ export default {
     }
   },
 
-  mounted() {
-    this.initSoso();
-  },
-
   methods: {
-
-    initSoso() {
-      const server = 'https://trusty.fund/channel/';
-      const soso = new SoSo(server);
-      soso.onmsg = this.receiveMessage;
-      soso.onopen = this.socketConnected;
-      soso.onclose = this.socketDisconnected;
-      this.soso = soso;
-    },
 
     receiveMessage(data) {
       if (data.action_str === 'GET') {
@@ -142,7 +128,7 @@ export default {
     socketDisconnected() {
       this.connected = true;
       this.soso = null;
-      this.initSoso();
+
     },
 
     onInputChange(type, e) {
@@ -343,10 +329,6 @@ export default {
         TRY AGAIN
       </button>
     );
-
-    if (!this.connected) {
-      return (<span>Loading...</span>);
-    }
 
     if (this.order) {
       switch (this.order.Status) {
