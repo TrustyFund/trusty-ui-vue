@@ -11,17 +11,6 @@ $desk_font_button: 1.2vw;
 }
 
 
-.trusty_wide_btn {
-	width: 99.9%;
-	border: 1px solid white;
-	background: transparent;
-	font-family: Gotham_Pro_Medium;
-	@media screen and (max-width: 768px) {
-		@include trusty_mobile_button_not_width
-	}
-
-}
-
 .trusty_inline_button {
 
 	text-align: center;

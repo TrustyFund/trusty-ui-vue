@@ -1,4 +1,4 @@
-<template lang="pug"> 
+<template lang="pug">
 
 .trusty_header
 
@@ -9,7 +9,7 @@
       @click="router.push('/')")
 
     span._back._mob(v-if="!isProfilePage" @click='backAction')
-      icon-component(name="trusty_arrow_back") 
+      icon-component(name="trusty_arrow_back")
 
     span._options._mob(
       v-if="isProfilePage"
@@ -20,8 +20,8 @@
 
 
 </div>
-  
-  
+
+
 </template>
 
 
@@ -37,6 +37,8 @@ export default {
       titles: {
         signup: 'signup',
         login: 'login',
+        deposit: 'deposit details',
+        withdraw: 'withdraw',
         manage: 'manage fund'
       }
     };
@@ -59,7 +61,7 @@ export default {
 </script>
 
 <style lang="scss">
-  
+
 $header_size: 12vw;
 $white_color: #e6e6e6;
 $background_color: #1b1f22;
@@ -90,15 +92,15 @@ $background_color: #1b1f22;
     width: 12vw !important;
     text-align: center;
     line-height: 3vw;
-    svg { 
+    svg {
       display: inline-block;
       height: 1.2vw;
     }
   }
 
   .trusty_header_logo {
-    svg { 
-      fill: $white_color; 
+    svg {
+      fill: $white_color;
     }
   }
 
@@ -127,7 +129,7 @@ $background_color: #1b1f22;
 }
 
 @media screen and (min-width: 769px) {
-  
+
   .trusty_header {
     width: 80%;
     margin: 0 auto;

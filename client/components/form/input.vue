@@ -1,7 +1,7 @@
 <template lang="pug">
 
 .trusty_input_container(:style="styleSheet", :class="classes")
-  
+
   .w_input
     ._input_space(ref="input_space", :class="{ active_input: opened }")
 
@@ -12,11 +12,11 @@
 
       slot(name="input")
 
-    ._right_space
+    ._right_space(ref="right_space")
 
       slot(name="right")
 
-  
+
 </template>
 
 <script>
@@ -25,6 +25,10 @@ import listen from 'event-listener';
 export default {
 
   props: {
+    className: {
+      type: String,
+      default: 'default'
+    },
     styleSheet: {
       default: () => { return {}; },
       type: Object
@@ -36,6 +40,10 @@ export default {
     type: {
       default: 'text',
       type: String
+    },
+    isOpen: {
+      default: false,
+      type: Boolean
     }
   },
 
@@ -44,16 +52,37 @@ export default {
       if (val) {
         const current = this.type === 'textarea' ? 'textarea' : 'input';
         const target = this.$refs.input_space.querySelector(current);
-        target.focus();
-        this.blur = listen(target, 'blur', () => {
-          if (!target.value.length) this.opened = false;
-        });
+        if (target) {
+          target.focus();
+          this.blur = listen(target, 'blur', () => {
+            if (!target.value.length) this.opened = false;
+          });
+        }
       }
+    }
+  },
+
+  mounted() {
+    if (this.isOpen) this.opened = true;
+
+    const select = this.$refs.right_space.querySelector('select');
+
+    function resize() {
+      const fake = this.$refs.right_space.querySelector('.fake_option_width');
+      const selected = select.options[select.selectedIndex];
+      fake.textContent = selected.text;
+      select.style.width = fake.offsetWidth + 25 + 'px';
+    }
+
+    if (select) {
+      resize.call(this);
+      this.resizeSelect = listen(select, 'change', resize.bind(this));
     }
   },
 
   beforeDestroy() {
     if (this.blur) this.blur.remove();
+    if (this.resizeSelect) this.resizeSelect.remove();
   },
 
   data() {
@@ -67,7 +96,8 @@ export default {
       return {
         text_area: this.type === 'textarea',
         opened_text_area: this.opened && this.type === 'textarea',
-        select_input: this.type === 'select'
+        select_input: this.type === 'select',
+        [this.className]: true
       };
     }
   }
@@ -126,7 +156,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     textarea {
       padding-top: 6vw;
     }
-    
+
     ._input_space {
       height: 6vw;
       transition: all .2s;
@@ -153,7 +183,6 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
   }
 
   .trusty_place_holder.no_opened {
-
     width: 100%;
     font-family: Gotham_Pro_Regular;
     text-transform: uppercase;
@@ -161,17 +190,13 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     letter-spacing: .13vw !important;
     font-size: 2vw !important;
     letter-spacing: .4vw;
-    bottom: .4vw; 
+    bottom: .4vw;
     position: absolute;
-    //padding-bottom: 1.7vw;
     color: white;
-
   }
 
   .w_input {
-
     position: relative;
-
     @media screen and (min-width: 769px) {
       margin-top: .4vw;
     }
@@ -205,14 +230,6 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     font-family: "Gotham_Pro_Regular";
   }
 
-  .only_right_arrow {
-    span {
-      display: inline-block;
-      transform: translateY(-6.4vw);
-    }
-  }
-
-
   ._right_space{
     display: inline-block;
     position: absolute;
@@ -226,31 +243,25 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
   }
 
 
-  .dropdown-wrapper div {
-    margin: 0 0  !important; 
-    font-family: 'Gotham_Pro_Regular';
-    color: white !important;
-  }
-  
-  .trusty_arrow_down {
-    position: absolute;
-    right: 0;
-    top: 38%;
-  }
-  
   select {
+    -webkit-appearance: none;
+    background: transparent;
+    outline: none;
     margin: 0 0  !important;
-    border: none !important; 
+    border: none !important;
     font-family: 'Gotham_Pro_Medium';
-    padding-bottom: 1.4vw !important;
+    padding-bottom: 1vw !important;
     padding-right: 0 !important;
     color: white !important;
     height: 100%;
+
     option {
       background-color: black;
     }
   }
-  
+
+
+
   ._input_space {
 
     width: 100%;
@@ -297,16 +308,15 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     }
 
   }
-  
+
 
   &.select_input {
 
     select {
       padding-bottom: 0 !important;
       @include input_tag_style;
-      //background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat 95% 50%;
-      -moz-appearance: none; 
-      -webkit-appearance: none; 
+      -moz-appearance: none;
+      -webkit-appearance: none;
       appearance: none;
 
     }
@@ -316,9 +326,26 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
         margin-left: 0 !important;
       }
     }
-
   }
+
+  span.fake_option_width {
+    position: absolute;
+    z-index: -1000;
+    opacity: 0;
+    font-size: 1.5vw;
+    font-family: Gotham_Pro_Bold;
+  }
+
+  .trusty_arrow_down {
+    position: absolute;
+    right: 0;
+    width: 2vw;
+    top:25%;
+  }
+
+
 }
+
 
 @import "./mobile.scss";
 
