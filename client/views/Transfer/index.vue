@@ -25,14 +25,6 @@
 
   ._turnover_service
 
-    blocktrades(
-      v-if="service==='blocktrades' && !isTrustyTransfer",
-      :deposit="isDeposit", accountName="anlopan364test2")
-
-    openledger(
-      v-if="service==='openledger' && !isTrustyTransfer",
-      :deposit="isDeposit", accountName="anlopan364test2")
-
     trusty-service(v-if="isTrustyTransfer")
 
 
