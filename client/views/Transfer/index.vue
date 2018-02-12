@@ -25,7 +25,7 @@
 
   ._turnover_service
 
-    trusty-service(v-if="isTrustyTransfer")
+    span trusty deposit
 
 
   template(v-if="!isTrustyTransfer")
@@ -58,77 +58,67 @@
 </template>
 
 <script>
-/*eslint-disable*/
-
+import { mapActions } from 'vuex';
 import trustyInput from '@/components/form/input';
 import iconComponent from '@/components/icon';
-import store from '@/store';
-import trustyService from './trusty/deposit';
-import { mapActions } from 'vuex';
 
 export default {
-  components: { trustyService, trustyInput, iconComponent },
-  watch:{
+  components: { trustyInput, iconComponent },
+  watch: {
     amount(val) {
-      this.changeTransferAmount(val)
+      this.changeTransferAmount(val);
     },
-    service(val){
-      this.setTransferService(val)
+    service(val) {
+      this.setTransferService(val);
     },
-    coin(val){
-      this.changeCoinType(val)
+    coin(val) {
+      this.changeCoinType(val);
     }
   },
-  mounted(){
-    this.changeCoinType("BTC")
-    this.setTransferService("blocktrades")
+  mounted() {
+    this.changeCoinType('BTC');
+    this.setTransferService('blocktrades');
   },
   methods: {
-    ...mapActions('transfer',[
+    ...mapActions('transfer', [
       'changeCoinType',
       'setTransferService',
       'changeTransferAmount'
     ])
   },
-  computed:{
-    transferServices(){
+  computed: {
+    transferServices() {
       return this.isTrustyTransfer ?
-        ["SBERBANK", "ALIPAY", "TINKOFF"]
+        ['SBERBANK', 'ALIPAY', 'TINKOFF']
         :
-        ['blocktrades','openledger']
+        ['blocktrades', 'openledger'];
     },
-    isTrustyTransfer(){
-      return ~this.coin.search(/USD|RUB/ig)
+    isTrustyTransfer() {
+      return (this.coin === 'USD' || this.coin === 'RUB');
     },
-    isDeposit(){
-      return this.$route.name == "deposit"
+    isDeposit() {
+      return this.$route.name === 'deposit';
     },
-    depositAddress(){
-      let exists = this.$store.state.transfer.depositAddress
-      let address = exists ? exists.address : null
-      if(address){
-          let firstCount = Math.floor(address.length/2) - 1
-          let start = address.slice(0, firstCount)
-          let end = address.slice(firstCount)
-          return `<span>${start}</span><br/><span>${end}</span>`
+    depositAddress() {
+      const exists = this.$store.state.transfer.depositAddress;
+      const address = exists ? exists.address : null;
+      if (address) {
+        const firstCount = Math.floor(address.length / 2) - 1;
+        const start = address.slice(0, firstCount);
+        const end = address.slice(firstCount);
+        return `<span>${start}</span><br/><span>${end}</span>`;
       }
-      return "<span>no address</span>"
+      return '<span>no address</span>';
     }
-  },
-  mounted(){
-    this.service = "blocktrades"
   },
   data() {
     return {
-      coin: "BTC",
-      service: "",
-      amount: "",
+      coin: 'BTC',
+      service: 'blocktrades',
+      amount: '',
     };
   }
 };
-
-/*eslint-disable*/
-
 </script>
 
 <style lang="scss">
