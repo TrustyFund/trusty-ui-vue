@@ -5,7 +5,7 @@
 
 
 
-* {  
+* {
 	-webkit-backface-visibility:  hidden;
   -webkit-tap-highlight-color:  transparent;
 }
@@ -27,7 +27,7 @@ body {
 	background: #1e2225;
 }
 
-body, .app {
+html, body, #app {
 	height: 100%;
 }
 
@@ -72,7 +72,7 @@ iframe {
 	margin: 0 auto;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%); 
+	transform: translate(-50%, -50%);
 	overflow: scroll !important;
 }
 
@@ -87,7 +87,7 @@ iframe {
 }
 
 .trusty_owl_loader {
-	width: 60vw;  
+	width: 60vw;
 	opacity: .6;
 	margin: 0 auto;
 	position: fixed;

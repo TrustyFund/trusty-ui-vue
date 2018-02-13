@@ -57,6 +57,22 @@ export default new Router({
       name: 'backup',
       path: '/backup',
       component: Backup
+    },
+    {
+      name: 'backup-phrase',
+      path: '/backup/phrase',
+      component: Backup
+    },
+
+    {
+      name: 'backup-verify',
+      path: '/backup/verify',
+      component: Backup
+    },
+    {
+      name: 'backup-done',
+      path: '/backup/done',
+      component: Backup
     }
   ]
 });

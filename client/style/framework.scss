@@ -12,7 +12,6 @@
   @include trusty_main_padding;
 }
 
-
 .main_centered_container {
   @media screen and (min-width: 769px){
     margin: 0 auto;
@@ -21,8 +20,23 @@
 }
 
 
+
+p.trusty_big_font {
+	text-align: center;
+  margin: .2vw;
+  font-family: Gotham_Pro;
+  font-size: 7vw;
+}
+
+._bottom_fixed {
+  position: fixed;
+  bottom:0;
+  left: 0;
+  right: 0;
+}
+
 .trusty_buttons {
-  
+
   text-align: center;
 
   button {
@@ -104,7 +118,7 @@ br.desk {
 
 @media screen and (min-width: 769px) {
 	br.mob {
-		display: none;		
+		display: none;
 	}
 	br.desk {
 		display: inline-block;

@@ -41,6 +41,10 @@ export default {
         deposit: 'deposit details',
         withdraw: 'withdraw',
         manage: 'manage fund',
+        backup: 'compulsory backup',
+        'backup-phrase': 'backup phrase',
+        'backup-verify': 'verify backup',
+        'backup-done': 'almost done! let\'s review'
       }
     };
   },
@@ -48,7 +52,7 @@ export default {
     this.setHeaderTitle(this.titles[this.$route.name]);
   },
   methods: {
-    ...mapActions('app', ['setModal', 'setHeaderTitle']),
+    ...mapActions('app', ['setHeaderTitle']),
     backAction() {
       this.$router.push({ name: 'home' });
     },
