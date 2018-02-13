@@ -15,8 +15,8 @@
       v-if="isProfilePage"
       @click='backAction')
       icon-component(name="trusty_options")
-        
-    .header_title(v-if="!isProfilePage") {{ getTitle }}
+
+    .header_title(v-if="!isProfilePage") {{ appHeaderTitle }}
 
 
 </div>
@@ -27,6 +27,7 @@
 
 <script>
 import iconComponent from '@/components/icon';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   components: {
@@ -39,21 +40,29 @@ export default {
         login: 'login',
         deposit: 'deposit details',
         withdraw: 'withdraw',
-        manage: 'manage fund'
+        manage: 'manage fund',
       }
     };
   },
+  mounted() {
+    this.setHeaderTitle(this.titles[this.$route.name]);
+  },
   methods: {
+    ...mapActions('app', ['setModal', 'setHeaderTitle']),
     backAction() {
       this.$router.push({ name: 'home' });
     },
   },
+
+  watch: {
+    $route(val) {
+      this.setHeaderTitle(this.titles[val.name]);
+    }
+  },
   computed: {
+    ...mapGetters('app', ['appHeaderTitle']),
     isProfilePage() {
       return this.$route.path.indexOf('home') !== -1 || this.$route.name === 'home';
-    },
-    getTitle() {
-      return this.titles[this.$route.name];
     }
   }
 };

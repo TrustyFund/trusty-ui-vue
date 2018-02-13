@@ -1,7 +1,7 @@
-<template lang="pug"> 
+<template lang="pug">
 
 span.trusty_icon(v-html="icons[name]", :class="classes")
-  
+
 </template>
 
 
@@ -23,6 +23,9 @@ const names = [
   'full_plus',
   'full_minus',
   'trusty_fund_logo',
+  'nophoto_backup',
+  'save_backup',
+  'tick_backup'
 ];
 
 const icons = {};
@@ -63,7 +66,7 @@ export default {
 
 .trusty_icon {
   display: inline-block;
-  
+
   svg {
     width: 100% !important;
     height: auto;

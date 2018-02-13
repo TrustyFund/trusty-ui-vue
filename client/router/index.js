@@ -6,7 +6,7 @@ import User from '@/views/User/User.vue';
 import Signup from '@/views/Auth/signup.vue';
 import Auth from '@/views/Auth/Auth.vue';
 import ManagePortfolio from '@/views/Portfolio/ManagePortfolio.vue';
-
+import Backup from '@/views/Backup';
 
 Vue.use(Router);
 
@@ -52,6 +52,11 @@ export default new Router({
       name: 'manage',
       path: '/manage',
       component: ManagePortfolio
+    },
+    {
+      name: 'backup',
+      path: '/backup',
+      component: Backup
     }
   ]
 });
