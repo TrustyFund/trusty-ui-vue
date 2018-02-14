@@ -16,11 +16,11 @@ const getters = {
 };
 
 const mutations = {
-  [APP_SET_MODAL](state, val) {
-    state.modalName = val;
+  [APP_SET_MODAL](state, modalName) {
+    state.modalName = modalName;
   },
-  [APP_SET_HEADER_TITLE](state, val) {
-    state.headerTitle = val;
+  [APP_SET_HEADER_TITLE](state, headerTitle) {
+    state.headerTitle = headerTitle;
   }
 };
 

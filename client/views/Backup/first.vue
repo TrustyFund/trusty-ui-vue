@@ -2,7 +2,7 @@
 #first
 	p.trusty_help_text You need to backup account#[br] before using it
 	._wrap_icon
-		icon(name="save_backup")
+		icon(name="account_backup_ico_safe", :initialSvgColors="true")
 	._warnings
 		p.trusty_big_font Are you being watched?
 		p.trusty_big_font Near by windows?
@@ -20,7 +20,7 @@
 		.modal_wrap.main_padding
 			.modal_content
 				._camera_icon
-					icon(name="nophoto_backup")
+					icon(name="account_backup_ico_photo", :initialSvgColors="true")
 				._wrap_p
 					p._title screenshots are not secure
 

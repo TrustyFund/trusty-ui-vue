@@ -10,13 +10,11 @@
 		p.trusty_help_text Let't verify your backup phrase
 		.verify_area
 			p.trusty_help_text
-				span(v-for="word in comprehendPhrase") {{ `${word} `}}
+				span(v-for="word in comprehendPhrase") {{ word }}
 		p.trusty_help_text Please tap each word in the #[br] correct order
 		.random_area
 			p.trusty_help_text
-				span(@click="pushWord(word)" v-for="word in getPhrase") {{ `${word} `}}
-
-
+				span(@click="pushWord(word)" v-for="word in getPhrase") {{ word }}
 
 	.modal_alert.main_padding(@click="setModal(null)", v-if="appModal==='backup_try_again'")
 		.modal_content: p.trusty_big_font TRY AGAIN
@@ -63,7 +61,7 @@ export default {
     ...mapActions('app', ['setModal'])
   },
   mounted() {
-    this.setModal('backup_try_again');
+    // this.setModal('backup_try_again');
     // this.setModal('backup_copied_password');
     // this.setModal('backup-screenshots');
   }

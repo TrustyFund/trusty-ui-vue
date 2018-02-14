@@ -2,7 +2,7 @@
 
 #done
 	.tick_container(v-for="text in infos")
-		._tick: icon(name="tick_backup")
+		._tick: icon(name="tick_backup", :initialSvgColors="true")
 		._info
 			p.trusty_help_text(v-html="text")
 
@@ -11,11 +11,11 @@
 
 	._bottom_fixed.main_padding
 		.tick_container
-			._tick: icon(name="tick_backup")
+			._tick: icon(name="tick_backup", initialSvgColors="true")
 			._info
 				p.trusty_help_text
-					| I have read, understood, and#[br]gree
-					span._yellow  The terms of use
+					| I have read, understood, and#[br]gree&nbsp
+					span._yellow The terms of use
 
 		.trusty_inline_buttons._one_button
 			button finish backup
@@ -59,3 +59,16 @@ export default {
 };
 
 </script>
+
+<style lang="scss">
+
+#done {
+	span._yellow {
+		display: inline-block;
+		border-bottom: 1px solid #fdf101;
+	}
+}
+
+
+
+</style>
