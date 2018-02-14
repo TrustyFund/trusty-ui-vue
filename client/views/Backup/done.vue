@@ -11,7 +11,7 @@
 
 	._bottom_fixed.main_padding
 		.tick_container
-			._tick: icon(name="tick_backup", initialSvgColors="true")
+			._tick: icon(name="tick_backup", :initialSvgColors="true")
 			._info
 				p.trusty_help_text
 					| I have read, understood, and#[br]gree&nbsp
