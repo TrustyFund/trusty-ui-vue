@@ -7,6 +7,7 @@
 	done(v-if="$route.name==='backup-done'")
 
 	#verify(v-if="$route.name==='backup-verify'")
+
 		p.trusty_help_text Let't verify your backup phrase
 		.verify_area
 			p.trusty_help_text
@@ -15,6 +16,14 @@
 		.random_area
 			p.trusty_help_text
 				span(@click="pushWord(word)" v-for="word in getPhrase") {{ word }}
+
+		._bottom_fixed.main_padding(v-if="false")
+			p.trusty_help_text._second Is this correct?
+			.trusty_inline_buttons._one_button
+				button confirm
+			.trusty_inline_buttons._one_button
+				button clear
+
 
 	.modal_alert.main_padding(@click="setModal(null)", v-if="appModal==='backup_try_again'")
 		.modal_content: p.trusty_big_font TRY AGAIN
