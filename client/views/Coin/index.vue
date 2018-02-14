@@ -2,11 +2,11 @@
 
 #trusty_coin_overview
   .omise_go
-    span
+    icon(name="coin_head_ogo", :originalColors="true")
     span OmiseGO
-    span
+    icon(name="coin_head_omg", :originalColors="true")
 
-  p.trusty_ps_text Overview provided by coincheckup.com
+  p.trusty_ps_text Overview provided by cryptocompare.com
 
   .coin_info
     .top_values
@@ -17,18 +17,38 @@
         ._val Ƀ 115.77 k ($ 995.95 M)
         h4 Vol. 24H
       section._db_left
-        ._val $ 8,249.91
+        ._val
+          span $ 8,249.91
+          icon(v-if="true" name="coin_head_trend_dn", :originalColors="true")
+          icon(v-else name="coin_head_trend_up", :originalColors="true")
         h4 Open 24h
+
       section._db_right._db_left
         ._val $ 8,031.69 - $ 8,907.59
         h4 Low/High 24h
     .bottom_values
 
+  .coin_vista.main_padding
+    .trusty_inline_buttons
+      button analises
+      button investments
+
+    .trusty_inline_buttons
+      button prediction
+      button purpose
+
+
 </template>
 
 <script>
-  // example of need data from crypto compare
-  // https://cryptoqween.github.io/streamer/current/
+
+import icon from '@/components/icon';
+
+export default {
+  components: { icon }
+};
+// example of need data from crypto compare
+// https://cryptoqween.github.io/streamer/current/
 </script>
 
 <style lang="scss">
@@ -38,6 +58,12 @@ $color_green_value: #659d1a;
 
 
 #trusty_coin_overview {
+  height: inherit;
+
+  .trusty_ps_text {
+    margin-top: 1.7vw;
+    margin-bottom: 3vw;
+  }
 
   .top_values {
 
@@ -65,19 +91,59 @@ $color_green_value: #659d1a;
     h4 {
       color: black;
       margin: 0;
-      background: #959ba2;
+      background: #c6c8cc;
       font-size: 4.9vw;
       font-family: Gotham_Pro;
       font-weight: initial;
     }
 
-    ._val {
+    ._val, ._val span {
+      height: 12vw;
+      line-height: 12vw;
       color: $color_green_value;
-      margin: 2vw;
       font-size: 4.2vw;
       font-family: Gotham_Pro;
+
+      .coin_head_trend_dn,
+      .coin_head_trend_up {
+        width: 5vw;
+        margin: 0 1.6vw;
+      }
+
+
     }
 
+
+
+  }
+
+  .omise_go {
+    text-align: center;
+    padding-top: 1.9vw;
+    span {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    span:nth-child(2) {
+      font-family: Gotham_Pro;
+      font-size: 7vw;
+      height: 100%;
+      margin: auto 2vw;
+    }
+
+    .coin_head_ogo {
+      width: 8.6vw;
+    }
+
+    .coin_head_omg {
+      padding-top: 1vw;
+      width:13vw;
+    }
+  }
+
+  .coin_vista {
+    margin-top: 6.5vw;
   }
 
 }
