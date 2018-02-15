@@ -59,8 +59,8 @@
 
 <script>
 import { mapActions } from 'vuex';
-import trustyInput from '@/components/form/input';
-import iconComponent from '@/components/icon';
+import trustyInput from '@/components/UI/form/input';
+import iconComponent from '@/components/UI/icon';
 
 export default {
   components: { trustyInput, iconComponent },

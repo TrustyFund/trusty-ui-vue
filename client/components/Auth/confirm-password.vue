@@ -19,7 +19,7 @@
 
 <script>
 
-import trustyInput from '@/components/form/input/';
+import trustyInput from '@/components/UI/form/input/';
 
 export default {
   components: { trustyInput },

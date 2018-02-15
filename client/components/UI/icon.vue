@@ -27,7 +27,7 @@ const names = [
 
 const icons = {};
 names.forEach(name => {
-  icons[name] = require(`../style/icons/${name}.svg`); // eslint-disable-line global-require
+  icons[name] = require(`@/style/icons/${name}.svg`); // eslint-disable-line global-require
 });
 
 

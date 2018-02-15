@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Deposit from '@/views/Transfer';
-import Home from '@/views/Home/Home.vue';
-import User from '@/views/User/User.vue';
-import Signup from '@/views/Auth/signup.vue';
-import Auth from '@/views/Auth/Auth.vue';
-import ManagePortfolio from '@/views/Portfolio/ManagePortfolio.vue';
+import Deposit from '@/components/Transfer';
+import Home from '@/components/Home/Home.vue';
+import User from '@/components/User/User.vue';
+import Signup from '@/components/Auth/signup.vue';
+import Auth from '@/components/Auth/Auth.vue';
+import ManagePortfolio from '@/components/Portfolio/ManagePortfolio.vue';
 
 
 Vue.use(Router);
