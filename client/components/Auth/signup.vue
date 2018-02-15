@@ -40,8 +40,8 @@
 </template>
 
 <script>
-import trustyInput from '../../components/form/input';
-import iconComponent from '../../components/icon';
+import trustyInput from '@/components/UI/form/input';
+import iconComponent from '@/components/UI/icon';
 import confirmPassword from './confirm-password';
 
 export default {
