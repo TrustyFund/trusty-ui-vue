@@ -24,7 +24,7 @@
 
 <script>
 
-import icon from '@/components/icon';
+import icon from '@/components/UI/icon';
 /*eslint-disable*/
 const infos = [
   `

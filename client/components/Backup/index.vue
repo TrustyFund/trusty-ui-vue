@@ -18,7 +18,6 @@
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-
   computed: {
     ...mapGetters('app', ['appModal']),
   },
@@ -113,6 +112,9 @@ $light_grey: #6d6e70;
 		> p:first-child {
 			margin: 42vw 0 7.5vw 0;
 		}
+		.trusty_big_font span {
+			display: inline-block;
+		}
 	}
 
 	#verify {
@@ -125,6 +127,7 @@ $light_grey: #6d6e70;
 			margin: 1vw 0 1vw 0;
 		}
 	}
+
 
 
 	.trusty_inline_buttons {
@@ -191,6 +194,7 @@ $light_grey: #6d6e70;
 	}
 
 	.verify_area {
+		overflow: scroll;
 		span {
 			display: inline-block;
 			margin: 1.4vw;
@@ -219,7 +223,7 @@ $light_grey: #6d6e70;
 		margin-bottom: 5.3vw;
 		border-top: 1px dashed white;
 		border-bottom: 1px dashed white;
-		overflow: scroll-y;
+		//overflow: scroll;
 
 	}
 

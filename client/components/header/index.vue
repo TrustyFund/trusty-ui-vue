@@ -16,7 +16,7 @@
 			@click='backAction')
 			icon-component(name="trusty_options")
 
-		.header_title(v-if="!isProfilePage") {{ appHeaderTitle }}
+		.header_title(v-if="!isProfilePage") {{ headerTitle }}
 
 
 </div>
@@ -41,7 +41,7 @@ export default {
         deposit: 'deposit details',
         withdraw: 'withdraw',
         manage: 'manage fund',
-        backup: 'compulsory backup',
+        'backup-info': 'compulsory backup',
         'backup-phrase': 'backup phrase',
         'backup-verify': 'verify backup',
         'backup-done': 'almost done! let\'s review'
@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     backAction() {
-      if (~this.$route.name.indexOf('backup')) {
+      if (this.$route.name.indexOf('backup') !== -1) {
         this.$router.go(-1);
       } else {
         this.$router.push({ name: 'home' });
