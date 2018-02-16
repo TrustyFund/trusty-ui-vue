@@ -52,7 +52,6 @@ export default {
     this.setHeaderTitle(this.titles[this.$route.name]);
   },
   methods: {
-    ...mapActions('app', ['setHeaderTitle']),
     backAction() {
       this.$router.push({ name: 'home' });
     },
@@ -64,7 +63,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('app', ['appHeaderTitle']),
+    headerTitle() {
+    	return this.titles[this.$route.name];
+    },
     isProfilePage() {
       return this.$route.path.indexOf('home') !== -1 || this.$route.name === 'home';
     }

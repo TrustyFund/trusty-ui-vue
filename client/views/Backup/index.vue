@@ -2,28 +2,7 @@
 
 #trusty_backup.main_padding
 
-	first(v-if="$route.name==='backup'")
-	phrase(v-if="$route.name==='backup-phrase'", :phrase="getPhrase" )
-	done(v-if="$route.name==='backup-done'")
-
-	#verify(v-if="$route.name==='backup-verify'")
-
-		p.trusty_help_text Let't verify your backup phrase
-		.verify_area
-			p.trusty_help_text
-				span(v-for="word in comprehendPhrase") {{ word }}
-		p.trusty_help_text Please tap each word in the #[br] correct order
-		.random_area
-			p.trusty_help_text
-				span(@click="pushWord(word)" v-for="word in getPhrase") {{ word }}
-
-		._bottom_fixed.main_padding(v-if="false")
-			p.trusty_help_text._second Is this correct?
-			.trusty_inline_buttons._one_button
-				button confirm
-			.trusty_inline_buttons._one_button
-				button clear
-
+	router-view
 
 	.modal_alert.main_padding(@click="setModal(null)", v-if="appModal==='backup_try_again'")
 		.modal_content: p.trusty_big_font TRY AGAIN
@@ -37,36 +16,13 @@
 <script>
 
 import { mapActions, mapGetters } from 'vuex';
-import phrase from './phrase';
-import first from './first';
-import done from './done';
 
 export default {
-  components: {
-    done,
-    first,
-    phrase
-  },
+
   computed: {
     ...mapGetters('app', ['appModal']),
-    getPhrase() {
-      return [
-        'talk', 'divide', 'trophy', 'next',
-        'square', 'boillear', 'lift',
-        'avacado', 'stable', 'moscuto',
-        'cishion',
-      ];
-    }
-  },
-  data() {
-    return {
-      comprehendPhrase: []
-    };
   },
   methods: {
-    pushWord(word) {
-      this.comprehendPhrase.push(word);
-    },
     ...mapActions('app', ['setModal'])
   },
   mounted() {
@@ -263,6 +219,7 @@ $light_grey: #6d6e70;
 		margin-bottom: 5.3vw;
 		border-top: 1px dashed white;
 		border-bottom: 1px dashed white;
+		overflow: scroll-y;
 
 	}
 
