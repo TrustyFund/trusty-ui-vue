@@ -11,8 +11,8 @@ const actions = {
 };
 
 const getters = {
-  appModal: state => state.modalName,
-  appHeaderTitle: state => state.headerTitle,
+  getModalName: state => state.modalName,
+  getHeaderTitle: state => state.headerTitle,
 };
 
 const mutations = {

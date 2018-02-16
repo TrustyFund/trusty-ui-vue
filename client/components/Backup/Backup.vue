@@ -4,10 +4,10 @@
 
 	router-view
 
-	.modal_alert.main_padding(@click="setModal(null)", v-if="appModal==='backup_try_again'")
+	.modal_alert.main_padding(@click="setModal(null)", v-if="getModalName==='backup_try_again'")
 		.modal_content: p.trusty_big_font TRY AGAIN
 
-	.modal_alert.main_padding(@click="setModal(null)", v-if="appModal==='backup_copied_password'")
+	.modal_alert.main_padding(@click="setModal(null)", v-if="getModalName==='backup_copied_password'")
 		.modal_content: p.trusty_big_font Password copied#[br] to clipboard
 
 
@@ -19,7 +19,7 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters('app', ['appModal']),
+    ...mapGetters('app', ['getModalName']),
   },
   methods: {
     ...mapActions('app', ['setModal'])
