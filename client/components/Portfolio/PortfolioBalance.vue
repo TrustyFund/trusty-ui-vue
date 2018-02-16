@@ -2,8 +2,8 @@
 
   tr.portfolio-container__balance 
         td._text_left  {{ item.name }}
-        td._text_right {{ share && share.toFixed(0) }}%
-        td._text_right {{ item.balanceFiat.toFixed(0) }}$
+        td._text_right {{ formattedShare }}%
+        td._text_right {{ formattedBalanceFiat }}$
         td._text_right {{ formattedChange }}%
 
 </template>
@@ -29,8 +29,14 @@ export default {
     share() {
       return (this.item.balanceBase / this.totalBaseValue) * 100;
     },
+    formattedShare() {
+      return (this.share && this.share.toFixed(0)) || 0;
+    },
+    formattedBalanceFiat() {
+      return this.item.balanceFiat.toFixed(0);
+    },
     formattedChange() {
-      return parseInt(this.item.change, 10).toFixed(0);
+      return parseFloat(this.item.change, 10).toFixed(0);
     }
   }
 };
