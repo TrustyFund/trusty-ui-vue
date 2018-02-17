@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      initApis: 'connection/initApis',
+      initConnection: 'connection/initConnection',
       fetchDefaultAssets: 'assets/fetchDefaultAssets'
     })
   },
@@ -40,7 +40,7 @@ export default {
     }
   },
   beforeMount() {
-    this.initApis();
+    this.initConnection();
   }
 };
 </script>
