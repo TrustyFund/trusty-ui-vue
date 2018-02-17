@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Deposit from '@/components/Transfer';
-import Home from '@/components/Home/Home.vue';
+import Profile from '@/components/Profile/Profile.vue';
 import User from '@/components/User/User.vue';
 import Signup from '@/components/Auth/signup.vue';
 import Auth from '@/components/Auth/Auth.vue';
@@ -14,13 +14,9 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      name: 'home',
+      name: 'rofile',
       path: '/',
-      component: Home
-    },
-    {
-      path: '/home',
-      component: Home
+      component: Profile
     },
     {
       name: 'user',

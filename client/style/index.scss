@@ -27,13 +27,14 @@ body {
 	background: #1e2225;
 }
 
-body, .app {
+body, #app {
 	height: 100%;
 }
 
 body, html {
 	padding: 0;
 	margin: 0;
+	height: 100%;
 }
 
 button {

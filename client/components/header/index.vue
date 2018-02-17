@@ -45,12 +45,12 @@ export default {
   },
   methods: {
     backAction() {
-      this.$router.push({ name: 'home' });
+      this.$router.push({ name: 'profile' });
     },
   },
   computed: {
     isProfilePage() {
-      return this.$route.path.indexOf('home') !== -1 || this.$route.name === 'home';
+      return this.$route.path.indexOf('profile') !== -1 || this.$route.name === 'profile';
     },
     getTitle() {
       return this.titles[this.$route.name];
@@ -69,7 +69,6 @@ $background_color: #1b1f22;
 .trusty_header {
   color: white;
   width: 100%;
-  z-index: 1200;
   position: relative;
 
   .header_title {
