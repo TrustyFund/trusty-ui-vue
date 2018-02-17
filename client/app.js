@@ -7,7 +7,6 @@ import App from './components/App';
 sync(store, router);
 
 const app = new Vue({
-  // el: '#app',
   router,
   store,
   template: '<App/>',
