@@ -14,7 +14,7 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      name: 'rofile',
+      name: 'profile',
       path: '/',
       component: Profile
     },
