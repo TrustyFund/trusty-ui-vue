@@ -6,14 +6,6 @@
 <script>
 
 export default {
-
-  props: {
-    size: {
-      default: 40,
-      required: false,
-      type: Number
-    }
-  },
   data() {
     return {};
   }
