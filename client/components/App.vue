@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <Header/>
-    <router-view v-if="connected"></router-view>
+    <router-view></router-view>
     <div class="connecting-block-screen" 
-         v-if="!connected">
+         v-if="!ready">
        <Spinner/>
      </div>
   </div>
@@ -25,17 +25,22 @@ export default {
   },
   computed: {
     ...mapGetters({
-      connected: 'apis/isConnected'
+      ready: 'connection/isReady'
     })
   },
   methods: {
     ...mapActions({
-      initApis: 'apis/initApis',
+      initApis: 'connection/initApis',
       fetchDefaultAssets: 'assets/fetchDefaultAssets'
     })
   },
+  watch: {
+    ready(newVal) {
+      if (newVal) this.fetchDefaultAssets();
+    }
+  },
   beforeMount() {
-    this.initApis(() => this.fetchDefaultAssets());
+    this.initApis();
   }
 };
 </script>

@@ -6,6 +6,7 @@
 
       <!-- baseId - BTS, fiatId - USD -->
       <Portfolio :balances="userBalances"
+                 v-if="userBalances"
                  base-id="1.3.0"
                  fiat-id="1.3.121"
                  :days="7"/> 
@@ -34,7 +35,8 @@ export default {
   computed: {
     ...mapGetters({
       account: 'user/getAccountObject',
-      userBalances: 'user/getBalances'
+      userBalances: 'user/getBalances',
+      ready: 'connection/isReady'
     })
   },
   methods: {
@@ -42,8 +44,13 @@ export default {
       fetchUser: 'user/fetchUser'
     })
   },
-  beforeMount() {
-    this.fetchUser(this.name);
+  watch: {
+    ready: {
+      handler(newVal) {
+        if (newVal) this.fetchUser(this.name);
+      },
+      immediate: true
+    }
   }
 };
 </script>

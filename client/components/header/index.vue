@@ -39,7 +39,9 @@ export default {
         login: 'login',
         deposit: 'deposit details',
         withdraw: 'withdraw',
-        manage: 'manage fund'
+        manage: 'manage fund',
+        user: 'user page',
+        profile: 'user profile'
       }
     };
   },
@@ -50,7 +52,7 @@ export default {
   },
   computed: {
     isProfilePage() {
-      return this.$route.path.indexOf('profile') !== -1 || this.$route.name === 'profile';
+      return this.$route.name === 'profile';
     },
     getTitle() {
       return this.titles[this.$route.name];
@@ -70,6 +72,7 @@ $background_color: #1b1f22;
   color: white;
   width: 100%;
   position: relative;
+  flex-shrink: 0;
 
   .header_title {
     height: 3vw;
