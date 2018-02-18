@@ -125,6 +125,8 @@
 
 <script>
 
+import icon from '@/components/icon';
+
 const texts = {
 
   'WORLDWIDE MONEY': {
@@ -327,7 +329,7 @@ const texts = {
     }
   }
 };
-import icon from '@/components/icon';
+
 
 export default {
   components: { icon },

@@ -13,24 +13,24 @@
         icon(name="trusty_arrow_down")
 
       .wrap_content.main_padding(v-if="title === 'general & averages'", :class="title")
-        template(v-for="(value, name) in item.data")
+        template(v-for="(value, name,index) in item.data")
           ._two_column_row
             span.trusty_small_font {{ name }}
-            span.trusty_small_font {{ value }}
+            span.trusty_small_font(:class="{_green:index%2===0, _red:index%2!==0}") {{ value }}
 
-      .wrap_content(v-if="title === 'historical performance'", :class="title")
+      .wrap_content.main_padding(v-if="title === 'historical performance'", :class="title")
         template(v-for="(value, name) in item.data")
           ._four_column_row
             section
-              ._definition
-                p
-                  span {{ name }}
+              ._row_area
+                p._black_title
+                  span._long_name {{ name }}
                   span(v-for="columnName in value.columns") {{ columnName }}
-                p(v-for="(it, tit) in value", v-if="tit !== 'columns'")
-                  span {{ tit }}
+                p._box_area(v-for="(it, tit) in value", v-if="tit !== 'columns'")
+                  span._long_name {{ tit }}
                   span(v-for="val in it") {{ val }}
 
-      .wrap_content(v-if="title==='trading history'")
+      .wrap_content.main_padding(v-if="title==='trading history'")
 
         ._two_column_row
           span.trusty_small_font DATE CHANGE
@@ -39,27 +39,27 @@
             icon(name="trusty_arrow_down")
 
         ._six_column_row
-          span(v-for="title in ['date','open','high','low', 'vol.']") {{ title }}
+          span._grey_little(v-for="title in ['date','open','high','low','close','vol.']") {{ title }}
 
-        template(v-for="it in item.data")
-          ._six_column_row
-            span(v-for="val in it") {{ val }}
+        ._six_column_row(v-for="it in item.data")
+          span(v-for="val in it") {{ val }}
 
 
-      .wrap_content(v-if="title==='vc information'")
+      .wrap_content.main_padding(v-if="title==='vc information'")
 
-        ._vc_title
-          | Basic questions that Angel Investors #[br]
-          | and Venture capital firms ask in #[br]
-          | their due diligence process
-        p
-          | Note that these are only a limited amount of questions#[br]
-          | that we ask. A normal Angel Investor/VC due diligence#[br]
-          | process has significant more required information.
+        ._vc_info
+          ._vc_title
+            | Basic questions that Angel Investors #[br]
+            | and Venture capital firms ask in #[br]
+            | their due diligence process
+          p
+            | Note that these are only a limited amount of questions#[br]
+            | that we ask. A normal Angel Investor/VC due diligence#[br]
+            | process has significant more required information.
 
         ._vc_questions
           ._q_row(v-for="question in item.data")
-            span {{question.text}}
+            span(v-html="question.text")
             span {{question.answer}}
 
 </template>
@@ -217,58 +217,58 @@ const options = {
     data: [
       {
         text: `
-          PREVIOUSLY BACKED BY (ANOTHER) VENTURE\n
-          CAPITAL FUND (VC FIRM) AND/OR ANGEL\n
+          PREVIOUSLY BACKED BY (ANOTHER) VENTURE<br/>
+          CAPITAL FUND (VC FIRM) AND/OR ANGEL<br/>
           INVESTORS WITH A BIG NAME?
         `,
         answer: 'yes'
       },
       {
         text: `
-          DOES THE COMPANY PRESENT ITS COMPLETE\n
+          DOES THE COMPANY PRESENT ITS COMPLETE<br/>
           FINANCIAL STATEMENTS?
         `,
         answer: 'no'
       },
       {
         text: `
-          DOES THE COMPANY GIVE INSIGHTS IN ITS COSTS?\n
-          HOW MUCH IT WILL SPEND A MONTH (ALSO\n
+          DOES THE COMPANY GIVE INSIGHTS IN ITS COSTS?<br/>
+          HOW MUCH IT WILL SPEND A MONTH (ALSO<br/>
           KNOWN AS THE BURN RATE)?
         `,
         answer: 'no'
       },
       {
         text: `
-          DOES THE COMPANY GIVE ITS FINANCIAL/GROWTH\n
-          PREDICTIONS / PREDICTIONS FOR PROFIT AND\n
+          DOES THE COMPANY GIVE ITS FINANCIAL/GROWTH<br/>
+          PREDICTIONS / PREDICTIONS FOR PROFIT AND<br/>
           GROWTH?
         `,
         answer: 'no'
       },
       {
         text: `
-          DOES THE COMPANY EXPLAIN ITS BENEFITS\n
+          DOES THE COMPANY EXPLAIN ITS BENEFITS<br/>
           OPPOSED TO THEIR COMPETITORS (IF ANY)?
         `,
         answer: 'yes'
       },
       {
         text: `
-          DOES THE COMPANY HAVE / LIST STRATEGIC\n
+          DOES THE COMPANY HAVE / LIST STRATEGIC<br/>
           PARTNERSHIPS)?
         `,
         answer: 'yes'
       },
       {
         text: `
-          DOES THE COMPANY HAVE / LIST PATENTS?\n
+          DOES THE COMPANY HAVE / LIST PATENTS?<br/>
         `,
         answer: 'no'
       },
       {
         text: `
-        DID THE COMPANY GIVE OUT ANY REAL EQUITY\n
+        DID THE COMPANY GIVE OUT ANY REAL EQUITY<br/>
         (NOT TOKENS OR COINS) BUT REAL SHARES?
         `,
         answer: 'no'
@@ -281,8 +281,8 @@ const options = {
       },
       {
         text: `
-          DOES THE COMPANY PRESENT ITS SALES PLAN /\n
-          MARKETING PLAN / GO TO MARKET STRATEGY IN\n
+          DOES THE COMPANY PRESENT ITS SALES PLAN /<br/>
+          MARKETING PLAN / GO TO MARKET STRATEGY IN
           ANY WAY?
         `,
         answer: 'yes'
@@ -304,15 +304,126 @@ export default {
 </script>
 
 <style lang="scss">
-
+$color_grey: #b1b1b1;
+$color_green: #7ac705;
+$color_red: #f52c2f;
 #coin_investment {
+  span {display: inline-block};
+  ._red {
+    color: $color_red;
+  }
+  ._green {
+    color: $color_green;
+  }
   ._two_column_row {
-      margin-top: 1vw;
-      margin-bottom: 1.6vw;
+      margin-top: 1.4vw;
+      margin-bottom: 1.7vw;
       span:last-child {
         float: right;
         display: inline-block;
       }
+  },
+
+  .trading.history {
+
+    ._vc_info {
+      font-family: Gotham_Pro;
+      ._vc_title {
+        margin-top: 2vw;
+        font-size: 4.7vw;
+        text-align: center;
+        color: white;
+        line-height: 5.8vw;
+      }
+
+      p {
+        font-size: 3.25vw;
+      }
+
+    }
+
+    ._vc_questions {
+      font-family: Gotham_Pro;
+      ._q_row {
+        margin-top: 2vw;
+        margin-bottom: 2vw;
+        span:first-child {
+          color: $color_grey;
+          width: 90%;
+          line-height: 3.5vw;
+          font-size: 2.7vw;
+        }
+
+        span:last-child {
+          width: 10%;
+        }
+      }
+    }
+
+
+    ._six_column_row {
+      padding-bottom: 1.5vw;
+      padding-top: 1.2vw;
+      letter-spacing: .2vw;
+      font-family: Gotham_Pro;
+      display: flex;
+      span {
+        display: inline-block;
+        font-size: 3vw;
+        flex: 1;
+        text-align: center;
+      }
+      span:first-child {
+        text-align: left;
+        flex: 2;
+      }
+      span:last-child {
+        text-align: right;
+        flex: 2;
+      }
+      span._grey_little {
+        color: #b1b1b1;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .historical.performance ._row_area {
+    font-family: Gotham_Pro;
+    font-size: 4.2vw;
+    span { display: inline-block; }
+    p {
+      padding-left:2vw;
+      padding-right: 2vw;
+    }
+    ._box_area {
+      display: flex;
+      font-family: Gotham_Pro;
+      font-size: 3.7vw;
+      span:not(._long_name) {
+        flex: 2;
+        text-align: right;
+      }
+      span:first-child {
+        flex: 4;
+      }
+
+    }
+    ._black_title {
+      padding-top:1.7vw;
+      padding-bottom: 1.7vw;
+      background:#0e0c0f;
+      display: flex;
+      span:not(._long_name) {
+        flex: 2;
+        text-align: right;
+      }
+      span._long_name {
+        text-transform: uppercase;
+        flex: 4;
+      }
+    }
   }
 }
+
 </style>

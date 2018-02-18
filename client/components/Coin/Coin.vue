@@ -42,8 +42,11 @@
       button resourses
       button news
 
-  template
-    predictions
+
+  //predictions
+  investment
+  //analysis
+
 
 </template>
 
@@ -51,17 +54,20 @@
 import icon from '@/components/icon';
 import investment from './CoinInvestment';
 import predictions from './CoinPredictions';
-// import analysis from '@/CoinAnalysis';
-// import Pre
+import analysis from './CoinAnalysis';
 
 
 export default {
   components: {
-    icon, investment, predictions
+    icon,
+    investment,
+    predictions,
+    analysis
   }
 };
 // example of need data from crypto compare
 // https://cryptoqween.github.io/streamer/current/
+
 </script>
 
 <style lang="scss">
@@ -73,8 +79,7 @@ $color_green_value: #659d1a;
 .text_button {
   color: white;
   font-family: Gotham_Pro_Regular;
-  height: 13vw !important;
-  line-height: 12.2vw;
+  line-height: 11vw;
   font-size: 4.8vw;
   text-transform: uppercase;
 }
