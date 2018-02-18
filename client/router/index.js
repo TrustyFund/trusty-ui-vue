@@ -6,7 +6,7 @@ import User from '@/views/User/User.vue';
 import Signup from '@/views/Auth/signup.vue';
 import Auth from '@/views/Auth/Auth.vue';
 import ManagePortfolio from '@/views/Portfolio/ManagePortfolio.vue';
-import Coin from '@/views/Coin';
+import Coin from '@/components/Coin/Coin';
 
 
 Vue.use(Router);

@@ -1,9 +1,10 @@
 <template lang="pug">
 
 #trusty_coin_overview
+
   .omise_go
     icon(name="coin_head_ogo", :originalColors="true")
-    span OmiseGO
+    span.omise_font OmiseGO
     icon(name="coin_head_omg", :originalColors="true")
 
   p.trusty_ps_text Overview provided by cryptocompare.com
@@ -37,15 +38,27 @@
       button prediction
       button purpose
 
+    .trusty_inline_buttons
+      button resourses
+      button news
+
+  template
+    predictions
 
 </template>
 
 <script>
-
 import icon from '@/components/icon';
+import investment from './CoinInvestment';
+import predictions from './CoinPredictions';
+// import analysis from '@/CoinAnalysis';
+// import Pre
+
 
 export default {
-  components: { icon }
+  components: {
+    icon, investment, predictions
+  }
 };
 // example of need data from crypto compare
 // https://cryptoqween.github.io/streamer/current/
@@ -57,8 +70,49 @@ $color_red_value: #f42c2e;
 $color_green_value: #659d1a;
 
 
+.text_button {
+  color: white;
+  font-family: Gotham_Pro_Regular;
+  height: 13vw !important;
+  line-height: 12.2vw;
+  font-size: 4.8vw;
+  text-transform: uppercase;
+}
+
 #trusty_coin_overview {
   height: inherit;
+
+
+  ._belongings {
+
+    ._list_item:first-child {
+      border-top: 1px solid white;
+    }
+    ._list_item {
+      border-bottom: 1px solid white;
+    }
+
+    ._title {
+      padding-top: 1vw;
+      padding-bottom: 6vw;
+      color: white;
+      .omise_font {
+        text-align: center;
+        font-size: 6vw;
+        letter-spacing: .25vw;
+      }
+    }
+    .trusty_icon {
+      float: right;
+      width: 4.1vw;
+      vertical-align: middle;
+      margin-top: 4vw;
+      margin-right: 4vw;
+    }
+    .text_button {
+      padding-left: 4vw;
+    }
+  }
 
   .trusty_ps_text {
     margin-top: 1.7vw;
@@ -113,8 +167,14 @@ $color_green_value: #659d1a;
 
     }
 
+  }
 
 
+  .omise_font {
+    font-family: Gotham_Pro;
+    font-size: 7vw;
+    height: 100%;
+    margin: auto 2vw;
   }
 
   .omise_go {
@@ -123,13 +183,6 @@ $color_green_value: #659d1a;
     span {
       display: inline-block;
       vertical-align: middle;
-    }
-
-    span:nth-child(2) {
-      font-family: Gotham_Pro;
-      font-size: 7vw;
-      height: 100%;
-      margin: auto 2vw;
     }
 
     .coin_head_ogo {
