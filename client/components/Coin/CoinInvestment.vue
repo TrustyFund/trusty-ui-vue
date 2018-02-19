@@ -2,7 +2,7 @@
 #coin_investment._belongings
 
   ._title
-    .omise_font OmiseGO price predictions
+    .omise_font OmiseGO investment stats
 
   ._items
 
@@ -412,7 +412,7 @@ $color_red: #f52c2f;
     ._black_title {
       padding-top:1.7vw;
       padding-bottom: 1.7vw;
-      background:#0e0c0f;
+      background:rgba(0,0,0,0.58);
       display: flex;
       span:not(._long_name) {
         flex: 2;

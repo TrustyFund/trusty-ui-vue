@@ -31,19 +31,18 @@
 
   .coin_vista.main_padding
     .trusty_inline_buttons
-      button analises
-      button investments
+      button(@click="tab='analysis'") analysis
+      button(@click="tab='investment'") investment
 
     .trusty_inline_buttons._one_button
       button predictions
-    .trusty_inline_buttons._one_button
-      button predictions
+
 
 
 
   //predictions
-  //investment
-  analysis
+  investment(v-if="tab=='investment'")
+  analysis(v-if="tab=='analysis'")
 
 
 </template>
@@ -56,6 +55,11 @@ import analysis from './CoinAnalysis';
 
 
 export default {
+  data() {
+    return {
+      tab: ''
+    };
+  },
   components: {
     icon,
     investment,
@@ -201,6 +205,11 @@ $color_green_value: #659d1a;
 
   .coin_vista {
     margin-top: 6.5vw;
+  }
+
+  button:active,  button:focus {
+    background: white;
+    color: black;
   }
 
 }
