@@ -1,7 +1,6 @@
 <template lang="pug">
 
-  div.portfolio-container
-    table.trusty_table
+    table.portfolio-container.trusty_table
       thead
         tr
           th._text_left: span ASSET
@@ -86,21 +85,19 @@ export default {
 </script>
 
 <style lang="scss">
-  .portfolio-container {
-    .trusty_table {
-      width: 100%;
-      margin-top: 20px;
-      thead, th, tbody {
-        color: white;
-        border: none;
-        background-color: transparent;
-      }
-      th span {
-        color: #cccccc;
-        font-family: 'Gotham_Pro_Regular';
-        @media screen and (max-width: 768px){
-          font-size: 4.4vw;
-        }
+  .trusty_table {
+    width: 100%;
+    margin-top: 20px;
+    thead, th, tbody {
+      color: white;
+      border: none;
+      background-color: transparent;
+    }
+    th span {
+      color: #cccccc;
+      font-family: 'Gotham_Pro_Regular';
+      @media screen and (max-width: 768px){
+        font-size: 4.4vw;
       }
     }
   }
