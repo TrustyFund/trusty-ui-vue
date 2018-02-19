@@ -1,6 +1,9 @@
 <template>
   <div class="user-container">
-    <router-link to="/">back</router-link>
+    <div class="user-container__spinner-container"
+         v-if="fetching">
+      <Spinner/>
+    </div>
     <div v-if="account">
       <h4>{{ name }} [{{ account.id }}]</h4> 
 
@@ -16,7 +19,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import Portfolio from '../Portfolio/Portfolio.vue';
+import Portfolio from '@/components/Portfolio/Portfolio.vue';
+import Spinner from '@/components/UI/spinner.vue';
 
 export default {
   name: 'user',
@@ -27,7 +31,7 @@ export default {
     }
   },
   components: {
-    Portfolio
+    Portfolio, Spinner
   },
   data() {
     return {};
@@ -36,7 +40,8 @@ export default {
     ...mapGetters({
       account: 'user/getAccountObject',
       userBalances: 'user/getBalances',
-      ready: 'connection/isReady'
+      fetching: 'user/isFetching',
+      ready: 'connection/isReady',
     })
   },
   methods: {
@@ -60,5 +65,8 @@ export default {
     padding: 1rem;
     color: white;
     font-family: 'Gotham_Pro_Regular';
+    &__spinner-container {
+      position: relative;
+    }
   }
 </style>
