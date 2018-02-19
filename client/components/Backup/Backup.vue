@@ -196,6 +196,7 @@ $light_grey: #6d6e70;
 	.verify_area {
 		overflow: scroll;
 		span {
+			cursor: pointer;
 			display: inline-block;
 			margin: 1.4vw;
 			border: 1px dashed white;
@@ -209,8 +210,8 @@ $light_grey: #6d6e70;
 			margin: auto;
 		}
 
-
 		span {
+			cursor: pointer;
 			display: inline-block;
 			margin: 1.4vw;
 			border: 1px solid white;
