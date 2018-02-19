@@ -58,7 +58,9 @@
                   span {{ point.pointsCount.current }} points
                   span._right_tabs
                     span MAX {{ point.pointsCount.max }}
-                    span Why?
+                    span
+                      | Why?
+                      icon(name="trusty_arrow_down")
                   ._why_area(v-if="index===0")
                     ._top
                       ._grey_key_list
@@ -380,6 +382,16 @@ $color_bg_grey: #d8d9d9;
         top:0;
         right: 0;
 
+        .trusty_icon {
+          position: absolute;
+          background: transparent;
+          width: 3.4vw;
+          margin-top:0;
+          svg {
+            fill: black;
+          }
+        }
+
         span {
           background: black;
           font-family: Gotham_Pro;
@@ -392,9 +404,9 @@ $color_bg_grey: #d8d9d9;
         span:nth-child(2) {
           background: #ffffff;
           color: black;
-          padding-left: 0vw;
-          padding-right: 9.8vw;
-          height: 6.1vw;
+          padding-left: 2vw;
+          padding-right: 7.8vw;
+          height: 6.04vw;
 
         }
 
