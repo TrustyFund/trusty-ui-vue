@@ -16,7 +16,7 @@
 			button(@click="$store.dispatch('app/setModal','backup-screenshots')") Continue to backup
 
 
-	.backup_modal(v-if="appModal==='backup-screenshots'")
+	.backup_modal(v-if="getModalName==='backup-screenshots'")
 		.modal_wrap.main_padding
 			.modal_content
 				._camera_icon
@@ -47,7 +47,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('app', ['appModal'])
+    ...mapGetters('app', ['getModalName'])
   }
 };
 </script>

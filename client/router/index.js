@@ -62,13 +62,12 @@ export default new Router({
 
 
     {
-      name: 'backup',
       path: '/backup',
       component: Backup,
       children: [
         {
           path: '',
-          name: 'backup-info',
+          name: 'backup',
           component: BackupFirst
         },
         {

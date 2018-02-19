@@ -41,7 +41,7 @@ export default {
         deposit: 'deposit details',
         withdraw: 'withdraw',
         manage: 'manage fund',
-        'backup-info': 'compulsory backup',
+        backup: 'compulsory backup',
         'backup-phrase': 'backup phrase',
         'backup-verify': 'verify backup',
         'backup-done': 'almost done! let\'s review'
