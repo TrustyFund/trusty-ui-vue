@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import Header from '@/components/header/';
-import Spinner from '@/components/UI/spinner.vue';
+import Header from '@/components/Header/Header';
+import Spinner from '@/components/UI/Spinner';
 import { mapGetters, mapActions } from 'vuex';
 import '../style/index.scss';
 

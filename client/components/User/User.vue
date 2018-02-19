@@ -20,7 +20,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import Portfolio from '@/components/Portfolio/Portfolio.vue';
-import Spinner from '@/components/UI/spinner.vue';
+import Spinner from '@/components/UI/Spinner.vue';
 
 export default {
   name: 'user',
