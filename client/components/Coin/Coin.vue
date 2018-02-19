@@ -36,12 +36,14 @@
 
     .trusty_inline_buttons._one_button
       button predictions
+    .trusty_inline_buttons._one_button
+      button predictions
 
 
 
   //predictions
   //investment
-  //analysis
+  analysis
 
 
 </template>
@@ -75,14 +77,13 @@ $color_green_value: #659d1a;
 .text_button {
   color: white;
   font-family: Gotham_Pro_Regular;
-  line-height: 11vw;
   font-size: 4.8vw;
   text-transform: uppercase;
 }
 
 #trusty_coin_overview {
-  height: inherit;
 
+  height: inherit;
 
   ._belongings {
 
@@ -90,6 +91,8 @@ $color_green_value: #659d1a;
       border-top: 1px solid white;
     }
     ._list_item {
+      padding-top: 3vw;
+      padding-bottom: 3vw;
       border-bottom: 1px solid white;
     }
 
@@ -107,8 +110,8 @@ $color_green_value: #659d1a;
       float: right;
       width: 4.1vw;
       vertical-align: middle;
-      margin-top: 4vw;
       margin-right: 4vw;
+      margin-top: .4vw;
     }
     .text_button {
       padding-left: 4vw;
