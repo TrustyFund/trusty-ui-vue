@@ -34,17 +34,13 @@
       button analises
       button investments
 
-    .trusty_inline_buttons
-      button prediction
-      button purpose
+    .trusty_inline_buttons._one_button
+      button predictions
 
-    .trusty_inline_buttons
-      button resourses
-      button news
 
 
   //predictions
-  investment
+  //investment
   //analysis
 
 

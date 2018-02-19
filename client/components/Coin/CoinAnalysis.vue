@@ -78,7 +78,6 @@ const pageData = {
               Founder / CEO of Omise; Founder / CEO of
               Omise Co.; Ltd., Director of Alpha-do Inc.;
               CEO / Co-founder of LIFEmee Inc.
-
             `,
           }, {
             question: 'YEARS OF BUSINESS EXPERIENCE',
