@@ -17,4 +17,4 @@ after_success:
 - chmod 600 .travis/id_rsa
 - ssh-add .travis/id_rsa
 - git remote add deploy git@beta.trusty.fund:trusty-ui-vue.git
-- git push deploy
+- git push deploy master
