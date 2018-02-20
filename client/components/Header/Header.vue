@@ -41,6 +41,8 @@ export default {
         deposit: 'deposit details',
         withdraw: 'withdraw',
         manage: 'manage fund',
+        user: 'user page',
+        profile: 'user profile',
         backup: 'compulsory backup',
         'backup-phrase': 'backup phrase',
         'backup-verify': 'verify backup',
@@ -53,7 +55,7 @@ export default {
       if (this.$route.name.indexOf('backup') !== -1) {
         this.$router.go(-1);
       } else {
-        this.$router.push({ name: 'home' });
+        this.$router.push({ name: 'profile' });
       }
     },
   },
@@ -62,7 +64,10 @@ export default {
       return this.titles[this.$route.name];
     },
     isProfilePage() {
-      return this.$route.path.indexOf('home') !== -1 || this.$route.name === 'home';
+      return this.$route.name === 'profile';
+    },
+    getTitle() {
+      return this.titles[this.$route.name];
     }
   }
 };
@@ -78,7 +83,7 @@ $background_color: #1b1f22;
 .trusty_header {
 	color: white;
 	width: 100%;
-	z-index: 1200;
+	flex-shrink: 0;
 	position: relative;
 
 	.header_title {
