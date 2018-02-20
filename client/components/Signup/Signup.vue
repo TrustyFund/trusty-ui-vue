@@ -67,11 +67,6 @@ export default {
       email: ''
     };
   },
-  computed: {
-    nameErrors() {
-
-    }
-  },
   validations: {
     name: {
       required
