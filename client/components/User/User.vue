@@ -51,8 +51,8 @@ export default {
   },
   watch: {
     ready: {
-      handler(newVal) {
-        if (newVal) this.fetchUser(this.name);
+      handler(connected) {
+        if (connected) this.fetchUser(this.name);
       },
       immediate: true
     }

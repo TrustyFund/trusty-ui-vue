@@ -35,8 +35,8 @@ export default {
     })
   },
   watch: {
-    ready(newVal) {
-      if (newVal) this.fetchDefaultAssets();
+    ready(connected) {
+      if (connected) this.fetchDefaultAssets();
     }
   },
   beforeMount() {
