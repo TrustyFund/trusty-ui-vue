@@ -14,11 +14,11 @@
         template(slot="input")
           input
             
-      confirm-password
+      ConfirmPassword
 
     .right
       ._logo_owl._desk
-        icon-component(name="trusty_owl_small_logo")
+        Icon(name="trusty_owl_small_logo")
 
   
   p._tooltip_p._yellow
@@ -30,22 +30,22 @@
   p._tooltip_p._text_center 
     | Before continuing, make sure your device is secure
 
-  ._bottom_link: span Log in with existing account
+  ._bottom_link(@click="$router.push({ name: 'login' })"): span Log in with existing account
 
   ._bottom_link._margins: span I accept Terms of use
 
   ._logo_owl._mob
-    icon-component(name="trusty_owl_small_logo")
+    Icon(name="trusty_owl_small_logo")
 
 </template>
 
 <script>
 import trustyInput from '@/components/UI/form/input';
-import iconComponent from '@/components/UI/icon';
-import confirmPassword from './confirm-password';
+import Icon from '@/components/UI/icon';
+import ConfirmPassword from '@/components/UI/ConfirmPassword';
 
 export default {
-  components: { trustyInput, iconComponent, confirmPassword }
+  components: { trustyInput, Icon, ConfirmPassword }
 };
 
 </script>

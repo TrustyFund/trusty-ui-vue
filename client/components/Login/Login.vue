@@ -4,13 +4,13 @@
     
   .input_area 
     .left
-      confirm-password
+      ConfirmPassword
       trusty-input(label="brainkey" type="textarea")
         template(slot="input")
           textarea
     .right
       ._logo_owl._desk
-        icon-component(name="trusty_owl_small_logo")
+        Icon(name="trusty_owl_small_logo")
   
   p._tooltip_p 
     | Please enter account brainkey once for new devices, #[br]
@@ -24,10 +24,10 @@
   p._tooltip_p._text_center 
     | Before continuing, make sure your device is secure #[br]
 
-  ._bottom_link._mob: span Sign up with new account
+  ._bottom_link._mob(@click="$router.push({ name: 'signup' })"): span Sign up with new account
 
   ._logo_owl._mob
-    icon-component(name="trusty_owl_small_logo")
+    Icon(name="trusty_owl_small_logo")
 
 
 
@@ -36,11 +36,11 @@
 
 <script>
 import trustyInput from '@/components/UI/form/input';
-import iconComponent from '@/components/UI/icon';
-import confirmPassword from './confirm-password';
+import Icon from '@/components/UI/icon';
+import ConfirmPassword from '@/components/UI/ConfirmPassword';
 
 export default {
-  components: { trustyInput, iconComponent, confirmPassword }
+  components: { trustyInput, Icon, ConfirmPassword }
 };
 
 </script>
