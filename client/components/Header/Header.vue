@@ -52,11 +52,7 @@ export default {
   },
   methods: {
     backAction() {
-      if (this.$route.name.indexOf('backup') !== -1) {
-        this.$router.go(-1);
-      } else {
-        this.$router.push({ name: 'profile' });
-      }
+      this.$router.go(-1);
     },
   },
   computed: {
