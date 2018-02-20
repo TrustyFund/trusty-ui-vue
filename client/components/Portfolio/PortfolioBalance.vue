@@ -36,9 +36,7 @@ export default {
       return this.item.balanceFiat.toFixed(0);
     },
     formattedChange() {
-      let formattedChange = parseFloat(this.item.change, 10);
-      if (formattedChange === Infinity) formattedChange = 99;
-      return formattedChange.toFixed(0);
+      return this.item.change.toFixed(0);
     }
   }
 };
