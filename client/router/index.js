@@ -7,7 +7,6 @@ import Signup from '@/components/Auth/signup.vue';
 import Auth from '@/components/Auth/Auth.vue';
 import ManagePortfolio from '@/components/Portfolio/ManagePortfolio.vue';
 
-
 import Backup from '@/components/Backup/Backup';
 import BackupDone from '@/components/Backup/BackupDone';
 import BackupFirst from '@/components/Backup/BackupFirst';
