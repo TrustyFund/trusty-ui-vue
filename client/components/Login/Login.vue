@@ -4,10 +4,23 @@
     
   .input_area 
     .left
-      ConfirmPassword
+      
+      trusty-input(label="password")
+        template(slot="input")
+          input(v-model="password" @input="$v.password.$touch()")
+      .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter password
+      .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") Password must be 8 characters or more
+
+      trusty-input(label="confirm password")
+        template(slot="input")
+          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()")
+      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") Passwords do not match
+
       trusty-input(label="brainkey" type="textarea")
         template(slot="input")
-          textarea
+          textarea(v-model="brainkey" @input="$v.brainkey.$touch()")
+      .trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter brainkey
+
     .right
       ._logo_owl._desk
         Icon(name="trusty_owl_small_logo")
@@ -17,9 +30,9 @@
     | 12 words, you backed up, when account was created
 
   .trusty_buttons
-    button Log in
+    button(@click="login") Log in
     span._desk(style="display:inline-block; width: 1vw")
-    button._grey_style._desk Sign up
+    button(@click="$router.push({ name: 'signup' })")._grey_style._desk Sign up
 
   p._tooltip_p._text_center 
     | Before continuing, make sure your device is secure #[br]
@@ -29,18 +42,41 @@
   ._logo_owl._mob
     Icon(name="trusty_owl_small_logo")
 
-
-
-  
 </template>
 
 <script>
 import trustyInput from '@/components/UI/form/input';
 import Icon from '@/components/UI/icon';
-import ConfirmPassword from '@/components/UI/ConfirmPassword';
+import { validationMixin } from 'vuelidate';
+import { required, minLength, sameAs } from 'vuelidate/lib/validators';
 
 export default {
-  components: { trustyInput, Icon, ConfirmPassword }
+  mixins: [validationMixin],
+  components: { trustyInput, Icon },
+  data() {
+    return {
+      password: '',
+      confirmPassword: '',
+      brainkey: ''
+    };
+  },
+  validations: {
+    password: {
+      required,
+      minLength: minLength(8)
+    },
+    confirmPassword: {
+      sameAsPassword: sameAs('password')
+    },
+    brainkey: {
+      required
+    }
+  },
+  methods: {
+    login() {
+      this.$v.$touch();
+    }
+  }
 };
 
 </script>

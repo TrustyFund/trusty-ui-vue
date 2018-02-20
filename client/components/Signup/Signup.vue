@@ -2,19 +2,30 @@
 
 #trusty_auth
 
-
   .input_area 
     .left
 
       trusty-input(label="new account name")
         template(slot="input")
-          input
+          input(v-model="name" @input="$v.name.$touch()")
+      .trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter account name
 
       trusty-input(label="enter email")
-        template(slot="input")
-          input
+        template(slot="input"  )
+          input(v-model="email" @input="$v.email.$touch()")
+      .trusty_font_error(v-if="!$v.email.required && this.$v.email.$dirty") Enter e-mail
+      .trusty_font_error(v-if="!$v.email.email && this.$v.email.$dirty") Invalid e-mail
             
-      ConfirmPassword
+      trusty-input(label="password")
+        template(slot="input")
+          input(v-model="password" @input="$v.password.$touch()")
+      .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter password
+      .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") Password must be 8 characters or more
+
+      trusty-input(label="confirm password")
+        template(slot="input")
+          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()") 
+      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") Passwords do not match
 
     .right
       ._logo_owl._desk
@@ -25,7 +36,7 @@
     | Write down your password, it CAN'T BE RECOVERED 
 
   .trusty_buttons
-    button Sign up
+    button(@click="signup") Sign up
 
   p._tooltip_p._text_center 
     | Before continuing, make sure your device is secure
@@ -42,10 +53,46 @@
 <script>
 import trustyInput from '@/components/UI/form/input';
 import Icon from '@/components/UI/icon';
-import ConfirmPassword from '@/components/UI/ConfirmPassword';
+import { validationMixin } from 'vuelidate';
+import { required, minLength, sameAs, email } from 'vuelidate/lib/validators';
 
 export default {
-  components: { trustyInput, Icon, ConfirmPassword }
+  mixins: [validationMixin],
+  components: { trustyInput, Icon },
+  data() {
+    return {
+      name: '',
+      password: '',
+      confirmPassword: '',
+      email: ''
+    };
+  },
+  computed: {
+    nameErrors() {
+
+    }
+  },
+  validations: {
+    name: {
+      required
+    },
+    email: {
+      required,
+      email
+    },
+    password: {
+      required,
+      minLength: minLength(8)
+    },
+    confirmPassword: {
+      sameAsPassword: sameAs('password')
+    }
+  },
+  methods: {
+    signup() {
+      this.$v.$touch();
+    }
+  }
 };
 
 </script>
