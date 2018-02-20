@@ -6,7 +6,7 @@ import User from '@/components/User/User.vue';
 import Signup from '@/components/Auth/signup.vue';
 import Auth from '@/components/Auth/Auth.vue';
 import ManagePortfolio from '@/components/Portfolio/ManagePortfolio.vue';
-
+import Transactions from '@/components/Transactions/Transactions';
 
 Vue.use(Router);
 
@@ -52,6 +52,11 @@ export default new Router({
       name: 'manage',
       path: '/manage',
       component: ManagePortfolio
+    },
+    {
+      name: 'transactions',
+      path: '/transactions',
+      component: Transactions
     }
   ]
 });

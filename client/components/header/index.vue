@@ -15,7 +15,7 @@
       v-if="isProfilePage"
       @click='backAction')
       icon-component(name="trusty_options")
-        
+
     .header_title(v-if="!isProfilePage") {{ getTitle }}
 
 
@@ -39,7 +39,8 @@ export default {
         login: 'login',
         deposit: 'deposit details',
         withdraw: 'withdraw',
-        manage: 'manage fund'
+        manage: 'manage fund',
+        transactions: 'recent transactions'
       }
     };
   },
