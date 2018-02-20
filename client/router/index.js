@@ -8,6 +8,12 @@ import Auth from '@/components/Auth/Auth.vue';
 import ManagePortfolio from '@/components/Portfolio/ManagePortfolio.vue';
 
 
+import Backup from '@/components/Backup/Backup';
+import BackupDone from '@/components/Backup/BackupDone';
+import BackupFirst from '@/components/Backup/BackupFirst';
+import BackupPhrase from '@/components/Backup/BackupPhrase';
+import BackupVerify from '@/components/Backup/BackupVerify';
+
 Vue.use(Router);
 
 export default new Router({
@@ -52,6 +58,34 @@ export default new Router({
       name: 'manage',
       path: '/manage',
       component: ManagePortfolio
+    },
+
+
+    {
+      path: '/backup',
+      component: Backup,
+      children: [
+        {
+          path: '',
+          name: 'backup',
+          component: BackupFirst
+        },
+        {
+          path: 'phrase',
+          name: 'backup-phrase',
+          component: BackupPhrase
+        },
+        {
+          path: 'done',
+          name: 'backup-done',
+          component: BackupDone
+        },
+        {
+          name: 'backup-verify',
+          path: 'verify',
+          component: BackupVerify
+        },
+      ]
     }
   ]
 });
