@@ -1,9 +1,20 @@
 language: node_js
 node_js:
-  - "7"
+- '7'
 install:
-  - npm install
-script: 
-  - npm build
-  - npm run lint
+- npm install
+script:
+- npm run build
+- npm run lint
 skip_cleanup: true
+before_install:
+- openssl aes-256-cbc -K $encrypted_dec11682187e_key -iv $encrypted_dec11682187e_iv
+  -in .travis/id_rsa.enc -out .travis/id_rsa -d
+addons:
+  ssh_known_hosts: beta.trusty.fund
+after_success:
+- eval "$(ssh-agent -s)"
+- chmod 600 .travis/id_rsa
+- ssh-add .travis/id_rsa
+- git remote add deploy git@beta.trusty.fund:trusty-ui-vue.git
+- git push deploy master
