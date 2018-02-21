@@ -9,7 +9,7 @@
         template(slot="input")
           input(v-model="name" @input="$v.name.$touch()")
       .trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter account name
-      .trusty_font_error(v-if="!$v.name.isUnique && this.$v.name.$dirty") Account name already taken
+      .trusty_font_error(v-if="!$v.name.isUnique && !this.$v.$pending && this.$v.name.$dirty") Account name already taken
 
       trusty-input(label="enter email")
         template(slot="input"  )
@@ -19,13 +19,13 @@
             
       trusty-input(label="password")
         template(slot="input")
-          input(v-model="password" @input="$v.password.$touch()")
+          input(v-model="password" @input="$v.password.$touch()" type="password")
       .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter password
       .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") Password must be 8 characters or more
 
       trusty-input(label="confirm password")
         template(slot="input")
-          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()") 
+          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="password") 
       .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") Passwords do not match
 
     .right
@@ -57,6 +57,8 @@ import Icon from '@/components/UI/icon';
 import { validationMixin } from 'vuelidate';
 import { required, minLength, sameAs, email } from 'vuelidate/lib/validators';
 import { mapActions } from 'vuex';
+import { suggestBrainkey } from '../../../vuex-bitshares/src/services/wallet.js';
+import dictionary from '../../../vuex-bitshares/test/brainkey_dictionary.js';
 
 export default {
   mixins: [validationMixin],
@@ -64,9 +66,9 @@ export default {
   data() {
     return {
       name: '',
-      password: '',
-      confirmPassword: '',
-      email: ''
+      email: 'qwe@qwe.com',
+      password: 'qweqweqwe',
+      confirmPassword: 'qweqweqwe'
     };
   },
   validations: {
@@ -91,10 +93,26 @@ export default {
   },
   methods: {
     ...mapActions({
-      checkUsername: 'user/checkUsername'
+      checkUsername: 'user/checkUsername',
+      createAccount: 'wallet/createAccount',
+      createWallet: 'wallet/createWallet'
     }),
     signup() {
       this.$v.$touch();
+      if (!this.$v.$invalid) {
+        console.log(this.name, this.email, this.password);
+        this.createWallet({
+          password: this.password,
+          brainkey: suggestBrainkey(dictionary.en)
+        });
+        // show loader
+        this.createAccount({
+          name: this.name,
+          referrer: ''
+        }).then(() => {
+          console.log('redirect to login');
+        });
+      }
     }
   }
 };

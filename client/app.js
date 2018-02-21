@@ -6,6 +6,8 @@ import App from './components/App';
 
 sync(store, router);
 
+Vue.config.productionTip = false;
+
 const app = new Vue({
   router,
   store,
