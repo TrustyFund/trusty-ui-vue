@@ -1,7 +1,7 @@
-<template lang="pug"> 
+<template lang="pug">
 
 span.trusty_icon(v-html="icons[name]", :class="classes")
-  
+
 </template>
 
 
@@ -23,6 +23,9 @@ const names = [
   'full_plus',
   'full_minus',
   'trusty_fund_logo',
+  'tick_backup',
+  'account_backup_ico_photo',
+  'account_backup_ico_safe'
 ];
 
 const icons = {};
@@ -40,7 +43,11 @@ export default {
     },
     className: {
       default: '',
-      typy: String
+      type: String
+    },
+    initialSvgColors: {
+      default: false,
+      type: Boolean
     }
   },
 
@@ -51,7 +58,8 @@ export default {
   },
   computed: {
     classes() {
-      return this.name + ' ' + this.className;
+      const white = !this.initialSvgColors ? '_white' : '';
+      return this.name + ' ' + this.className + ' ' + white;
     }
   }
 
@@ -62,11 +70,16 @@ export default {
 <style lang="scss">
 
 .trusty_icon {
-  display: inline-block;
-  
-  svg {
-    width: 100% !important;
-    height: auto;
-  }
+	display: inline-block;
+	svg {
+		width: 100% !important;
+		height: auto;
+	}
+
+	&._white svg,
+	&._white svg path {
+		fill: white;
+	}
+
 }
 </style>

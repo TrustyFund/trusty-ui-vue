@@ -1,11 +1,15 @@
 <template>
   <div class="user-container">
-    <router-link to="/">back</router-link>
+    <div class="user-container__spinner-container"
+         v-if="fetching">
+      <Spinner/>
+    </div>
     <div v-if="account">
       <h4>{{ name }} [{{ account.id }}]</h4> 
 
       <!-- baseId - BTS, fiatId - USD -->
       <Portfolio :balances="userBalances"
+                 v-if="userBalances"
                  base-id="1.3.0"
                  fiat-id="1.3.121"
                  :days="7"/> 
@@ -15,7 +19,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import Portfolio from '../Portfolio/Portfolio.vue';
+import Portfolio from '@/components/Portfolio/Portfolio.vue';
+import Spinner from '@/components/UI/Spinner.vue';
 
 export default {
   name: 'user',
@@ -26,7 +31,7 @@ export default {
     }
   },
   components: {
-    Portfolio
+    Portfolio, Spinner
   },
   data() {
     return {};
@@ -34,7 +39,9 @@ export default {
   computed: {
     ...mapGetters({
       account: 'user/getAccountObject',
-      userBalances: 'user/getBalances'
+      userBalances: 'user/getBalances',
+      fetching: 'user/isFetching',
+      ready: 'connection/isReady',
     })
   },
   methods: {
@@ -42,8 +49,13 @@ export default {
       fetchUser: 'user/fetchUser'
     })
   },
-  beforeMount() {
-    this.fetchUser(this.name);
+  watch: {
+    ready: {
+      handler(connected) {
+        if (connected) this.fetchUser(this.name);
+      },
+      immediate: true
+    }
   }
 };
 </script>
@@ -53,5 +65,8 @@ export default {
     padding: 1rem;
     color: white;
     font-family: 'Gotham_Pro_Regular';
+    &__spinner-container {
+      position: relative;
+    }
   }
 </style>
