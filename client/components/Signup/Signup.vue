@@ -9,6 +9,7 @@
         template(slot="input")
           input(v-model="name" @input="$v.name.$touch()")
       .trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter account name
+      .trusty_font_error(v-if="!$v.name.isUnique && this.$v.name.$dirty") Account name already taken
 
       trusty-input(label="enter email")
         template(slot="input"  )
@@ -55,6 +56,7 @@ import trustyInput from '@/components/UI/form/input';
 import Icon from '@/components/UI/icon';
 import { validationMixin } from 'vuelidate';
 import { required, minLength, sameAs, email } from 'vuelidate/lib/validators';
+import { mapActions } from 'vuex';
 
 export default {
   mixins: [validationMixin],
@@ -69,7 +71,11 @@ export default {
   },
   validations: {
     name: {
-      required
+      required,
+      isUnique(value) {
+        if (value === '') return true;
+        return this.checkUsername({ username: value });
+      }
     },
     email: {
       required,
@@ -84,6 +90,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      checkUsername: 'user/checkUsername'
+    }),
     signup() {
       this.$v.$touch();
     }
