@@ -2,8 +2,8 @@
   <div id="app">
     <Header/>
     <router-view></router-view>
-    <div class="connecting-block-screen" 
-         v-if="!ready">
+    <div class="connecting-block-screen"
+         v-if="false">
        <Spinner/>
      </div>
   </div>

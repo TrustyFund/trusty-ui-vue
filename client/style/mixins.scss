@@ -1,5 +1,8 @@
 @charset "utf-8";
 
+
+$desk_window_width: 375;
+
 @mixin trusty_main_padding {
 	@media screen and (max-width: 768px) {
 		padding: 0 3.6vw;
@@ -17,13 +20,20 @@
 
 //http://sassbreak.com/viewport-relative-headings-with-sass/
 //https://gist.github.com/superfine/67a9b138f437c1c9a217ac07b58876a2
-$mobile_view: "(max-width: 750px)"; 
 
 
 @function get-vw($target) {
   $vw-context: (1000*.01) * 1px;
   @return ($target/$vw-context) * 1vw;
 }
+
+
+@function px_from_vw($current_vw) {
+  $pixel-screen: ($desk_window_width * 0.01);
+  $one-vw: $pixel-screen/100;
+  @return ($one-vw * $current_vw) * 100px;
+}
+
 
 
 @mixin trusty_small_font {
