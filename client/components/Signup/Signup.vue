@@ -101,9 +101,11 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         console.log(this.name, this.email, this.password);
+        const brainkey = suggestBrainkey(dictionary.en);
+        console.log(brainkey);
         this.createWallet({
           password: this.password,
-          brainkey: suggestBrainkey(dictionary.en)
+          brainkey
         });
         // show loader
         this.createAccount({
@@ -111,6 +113,18 @@ export default {
           referrer: ''
         }).then(() => {
           console.log('redirect to login');
+          this.$notify({
+            group: 'foo',
+            title: 'Important message',
+            text: 'Hello user! This is a notification!'
+          });
+        }, () => {
+          this.$notify({
+            group: 'auth',
+            type: 'error',
+            title: 'Account creation error',
+            text: 'error text'
+          });
         });
       }
     }

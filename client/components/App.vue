@@ -6,6 +6,7 @@
          v-if="!ready">
        <Spinner/>
      </div>
+     <notifications group="auth" />
   </div>
 </template>
 
