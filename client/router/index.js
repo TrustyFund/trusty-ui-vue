@@ -6,12 +6,13 @@ import User from '@/components/User/User.vue';
 import Signup from '@/components/Auth/signup.vue';
 import Auth from '@/components/Auth/Auth.vue';
 import ManagePortfolio from '@/components/Portfolio/ManagePortfolio.vue';
-
+import Transactions from '@/components/Transactions/Transactions';
 import Backup from '@/components/Backup/Backup';
 import BackupDone from '@/components/Backup/BackupDone';
 import BackupFirst from '@/components/Backup/BackupFirst';
 import BackupPhrase from '@/components/Backup/BackupPhrase';
 import BackupVerify from '@/components/Backup/BackupVerify';
+
 
 Vue.use(Router);
 
@@ -55,7 +56,11 @@ export default new Router({
       component: ManagePortfolio
     },
 
-
+    {
+      name: 'transactions',
+      path: '/transactions',
+      component: Transactions
+    },
     {
       path: '/backup',
       component: Backup,
