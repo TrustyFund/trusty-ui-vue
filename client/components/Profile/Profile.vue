@@ -8,8 +8,8 @@
       button DEPOSIT
       button WITHDRAW
 
-    .trusty_total_funds
-      p account name
+    .trusty_total_funds(v-if="account")
+      p {{ account.name}}
       h3._text_center: span 4$
     
     ._wrap_desk_buttons._desk
@@ -23,7 +23,8 @@
   
   .table_wrap
     Portfolio( 
-      v-if="userBalances"
+      v-if="account && userBalances"
+      :balances="userBalances"
       base-id="1.3.0"
       fiat-id="1.3.121"
      :days="7")
@@ -32,17 +33,39 @@
 
 <script>
 import Portfolio from '@/components/Portfolio/Portfolio';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   data() {
     return {
       username: '',
-      userBalances: false
     };
+  },
+  computed: {
+    ...mapGetters({
+      userId: 'wallet/getWalletUserId',
+      ready: 'connection/isReady',
+      userBalances: 'user/getBalances',
+      account: 'user/getAccountObject',
+    })
   },
   components: {
     Portfolio
-  }
+  },
+  watch: {
+    ready: {
+      handler(connected) {
+        console.log(this.userId);
+        if (connected && this.userId) this.fetchUser(this.userId);
+      },
+      immediate: true
+    }
+  },
+  methods: {
+    ...mapActions({
+      fetchUser: 'user/fetchUser'
+    })
+  },
 };
 </script>
 
