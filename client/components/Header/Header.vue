@@ -62,9 +62,6 @@ export default {
     },
     isProfilePage() {
       return this.$route.name === 'profile';
-    },
-    getTitle() {
-      return this.titles[this.$route.name];
     }
   }
 };
