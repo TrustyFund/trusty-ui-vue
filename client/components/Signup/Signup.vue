@@ -56,7 +56,7 @@ import trustyInput from '@/components/UI/form/input';
 import Icon from '@/components/UI/icon';
 import { validationMixin } from 'vuelidate';
 import { required, minLength, sameAs, email } from 'vuelidate/lib/validators';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { suggestBrainkey } from '../../../vuex-bitshares/src/services/wallet.js';
 import dictionary from '../../../vuex-bitshares/test/brainkey_dictionary.js';
 
@@ -91,6 +91,11 @@ export default {
       sameAsPassword: sameAs('password')
     }
   },
+  computed: {
+    ...mapGetters({
+      errorText: 'wallet/getWalletError'
+    })
+  },
   methods: {
     ...mapActions({
       checkUsername: 'user/checkUsername',
@@ -111,19 +116,16 @@ export default {
         this.createAccount({
           name: this.name,
           referrer: ''
-        }).then(() => {
-          console.log('redirect to login');
-          this.$notify({
-            group: 'foo',
-            title: 'Important message',
-            text: 'Hello user! This is a notification!'
-          });
-        }, () => {
+        }).then((result) => {
+          if (result) {
+            console.log('redirect to login');
+            return;
+          }
           this.$notify({
             group: 'auth',
             type: 'error',
             title: 'Account creation error',
-            text: 'error text'
+            text: this.errorText
           });
         });
       }
