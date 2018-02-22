@@ -3,7 +3,7 @@
     <Header/>
     <router-view></router-view>
     <div class="connecting-block-screen"
-         v-if="false">
+         v-if="!ready">
        <Spinner/>
      </div>
   </div>
