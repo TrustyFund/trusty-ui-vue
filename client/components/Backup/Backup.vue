@@ -33,6 +33,9 @@ export default {
 </script>
 
 <style lang="scss">
+
+@import "~@/style/mixins";
+
 $dark_grey: #1f2325;
 $light_grey: #6d6e70;
 
@@ -44,7 +47,9 @@ $light_grey: #6d6e70;
 	right: 0;
 	z-index: 999;
 	background: rgba(0,0,0,0.74);
-
+	@media screen and (min-width: 769px) {
+		background: #1e2225;
+	}
 	.modal_content {
 		position: relative;
 		top: 50%;
@@ -208,6 +213,10 @@ $light_grey: #6d6e70;
 
 		.trusty_help_text {
 			margin: auto;
+			span:hover {
+				color: black;
+				background: white;
+			}
 		}
 
 		span {
@@ -225,6 +234,112 @@ $light_grey: #6d6e70;
 		border-top: 1px dashed white;
 		border-bottom: 1px dashed white;
 		//overflow: scroll;
+
+	}
+
+	@media screen and (min-width: 769px) {
+
+		#done {
+			.tick_container {
+				._tick {
+					width: 10%;
+					padding-top: px_from_vw(2);
+				}
+				._info {
+					width: 90%;
+				}
+			}
+
+			p.trusty_help_text {
+				margin-top: px_from_vw(1);
+				margin-left: px_from_vw(4);
+				margin-bottom: px_from_vw(4);
+			}
+
+		}
+
+		#phrase {
+			> p:first-child {
+				margin: px_from_vw(42) 0 px_from_vw(7.5) 0;
+			}
+		}
+
+		#verify {
+
+			> p:first-child {
+				margin: px_from_vw(.95) 0 px_from_vw(6) 0;
+			}
+
+			> p  {
+				margin:px_from_vw(1) 0 px_from_vw(1) 0;
+			}
+		}
+
+		.modal_content {
+			padding-top: px_from_vw(4);
+		}
+
+		._wrap_p {
+			padding-bottom: px_from_vw(2);
+		}
+
+
+		p._title {
+			line-height: px_from_vw(11.2);
+			font-size: px_from_vw(4.8);
+		}
+
+		._camera_icon {
+			margin-bottom: px_from_vw(4);
+			span {
+				width: px_from_vw(21);
+			}
+		}
+
+
+		._warnings p {
+			line-height: px_from_vw(8.6);
+			letter-spacing: px_from_vw(.05);
+		}
+
+		p._second{
+			margin-bottom: px_from_vw(2.2);
+		}
+
+
+		._wrap_icon {
+			span {
+				width:px_from_vw(41.9);
+
+				margin: px_from_vw(19.2) 0 px_from_vw(5) 0;
+			}
+		}
+
+		._bottom_fixed {
+			._one_button { margin-bottom: px_from_vw(4);}
+		}
+
+		.verify_area {
+			span {
+				margin: px_from_vw(1.4);
+				padding: px_from_vw(1.5) px_from_vw(3);
+			}
+		}
+
+		.random_area {
+
+			span {
+				margin: px_from_vw(1.4);
+				padding: px_from_vw(1.5) px_from_vw(3);
+			}
+		}
+
+		.verify_area {
+			height: 28.6vh;
+			margin-bottom: px_from_vw(5.3);
+
+		}
+
 
 	}
 

@@ -31,7 +31,7 @@
       left:0;
       width: 12vw !important;
       line-height: 15vw;
-      svg { 
+      svg {
         height: 5.7vw;
       }
     }
@@ -69,23 +69,6 @@
       display: inline-block;
       height: 45% !important;
     }
-  }
-
-  .trusty_header_arrow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-    transform: scale(-1, 1);
-    height: $header_size;
-    width: $header_size;
-    background: transparent;
-    outline: none;
-    border: none;
-    svg {
-      fill: #ffffff;
-    }
-
   }
 
 }
