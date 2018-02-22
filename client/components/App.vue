@@ -5,7 +5,7 @@
     <div class="connecting-block-screen"
          v-if="!ready">
        <Spinner/>
-     </div>
+    </div>
   </div>
 </template>
 

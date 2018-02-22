@@ -46,7 +46,8 @@ export default {
         backup: 'compulsory backup',
         'backup-phrase': 'backup phrase',
         'backup-verify': 'verify backup',
-        'backup-done': 'almost done! let\'s review'
+        'backup-done': 'almost done! let\'s review',
+        transactions: 'recent transactions'
       }
     };
   },
@@ -61,9 +62,6 @@ export default {
     },
     isProfilePage() {
       return this.$route.name === 'profile';
-    },
-    getTitle() {
-      return this.titles[this.$route.name];
     }
   }
 };

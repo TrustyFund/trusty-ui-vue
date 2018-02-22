@@ -1,7 +1,9 @@
 @charset "utf-8";
 
 
+
 $desk_window_width: 375;
+
 
 @mixin trusty_main_padding {
 	@media screen and (max-width: 768px) {
@@ -10,7 +12,6 @@ $desk_window_width: 375;
 }
 
 @mixin trusty_mobile_button_not_width {
-
 	height: 13vw !important;
 	line-height: 12.2vw;
 	font-size: 4.8vw;
