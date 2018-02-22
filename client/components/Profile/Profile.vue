@@ -10,7 +10,7 @@
 
     .trusty_total_funds(v-if="account")
       p {{ account.name}}
-      h3._text_center: span 4$
+      h3._text_center: span 0$
     
     ._wrap_desk_buttons._desk
       .trusty_inline_buttons
@@ -55,7 +55,6 @@ export default {
   watch: {
     ready: {
       handler(connected) {
-        console.log(this.userId);
         if (connected && this.userId) this.fetchUser(this.userId);
       },
       immediate: true
