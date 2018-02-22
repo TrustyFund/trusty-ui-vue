@@ -32,7 +32,8 @@ export default {
   methods: {
     ...mapActions({
       initConnection: 'connection/initConnection',
-      fetchDefaultAssets: 'assets/fetchDefaultAssets'
+      fetchDefaultAssets: 'assets/fetchDefaultAssets',
+      checkCachedUser: 'wallet/checkCachedUser'
     })
   },
   watch: {
@@ -41,6 +42,7 @@ export default {
     }
   },
   beforeMount() {
+    this.checkCachedUser();
     this.initConnection();
   }
 };

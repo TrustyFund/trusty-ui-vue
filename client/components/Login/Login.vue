@@ -7,13 +7,13 @@
       
       trusty-input(label="password")
         template(slot="input")
-          input(v-model="password" @input="$v.password.$touch()")
+          input(v-model="password" @input="$v.password.$touch()" type="password")
       .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter password
       .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") Password must be 8 characters or more
 
       trusty-input(label="confirm password")
         template(slot="input")
-          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()")
+          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="password")
       .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") Passwords do not match
 
       trusty-input(label="brainkey" type="textarea")
@@ -30,7 +30,8 @@
     | 12 words, you backed up, when account was created
 
   .trusty_buttons
-    button(@click="login") Log in
+    button(@click="handleLogin" v-show="!pending") Log in
+    button(v-show="pending") Loading....
     span._desk(style="display:inline-block; width: 1vw")
     button(@click="$router.push({ name: 'signup' })")._grey_style._desk Sign up
 
@@ -49,15 +50,18 @@ import trustyInput from '@/components/UI/form/input';
 import Icon from '@/components/UI/icon';
 import { validationMixin } from 'vuelidate';
 import { required, minLength, sameAs } from 'vuelidate/lib/validators';
+import { mapActions } from 'vuex';
 
 export default {
   mixins: [validationMixin],
   components: { trustyInput, Icon },
   data() {
     return {
-      password: '',
-      confirmPassword: '',
-      brainkey: ''
+      password: 'qweqweqwe',
+      confirmPassword: 'qweqweqwe',
+      brainkey: `staxis outcry swaraj sarcle biceps loca cord accused
+       fade rubber naggish rikisha boldo attacco beshag puberty`,
+      pending: false
     };
   },
   validations: {
@@ -73,8 +77,31 @@ export default {
     }
   },
   methods: {
-    login() {
+    ...mapActions({
+      logIn: 'wallet/logIn'
+    }),
+    handleLogin() {
       this.$v.$touch();
+      this.pending = true;
+      if (!this.$v.$invalid) {
+        this.logIn({
+          password: this.password,
+          brainkey: this.brainkey
+        }).then(result => {
+          console.log(result);
+          this.pending = false;
+          if (result) {
+            this.$router.push({ name: 'profile' });
+            return;
+          }
+          this.$notify({
+            group: 'auth',
+            type: 'error',
+            title: 'Login error',
+            text: ''
+          });
+        });
+      }
     }
   }
 };

@@ -57,7 +57,6 @@ import Icon from '@/components/UI/icon';
 import { validationMixin } from 'vuelidate';
 import { required, minLength, sameAs, email } from 'vuelidate/lib/validators';
 import { mapActions, mapGetters } from 'vuex';
-import { suggestBrainkey } from '../../../vuex-bitshares/src/services/wallet.js';
 import dictionary from '../../../vuex-bitshares/test/brainkey_dictionary.js';
 
 export default {
@@ -99,27 +98,20 @@ export default {
   methods: {
     ...mapActions({
       checkUsername: 'user/checkUsername',
-      createAccount: 'wallet/createAccount',
-      createWallet: 'wallet/createWallet'
+      signUp: 'wallet/signUp',
     }),
     signup() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         console.log(this.name, this.email, this.password);
-        const brainkey = suggestBrainkey(dictionary.en);
-        console.log(brainkey);
-        this.createWallet({
-          password: this.password,
-          brainkey
-        });
-        // show loader
-        this.createAccount({
+        this.signUp({
           name: this.name,
-          referrer: ''
-        }).then((result) => {
+          email: this.email,
+          password: this.password,
+          dictionary: dictionary.en
+        }).then(result => {
           if (result) {
-            console.log('redirect to login');
-            return;
+            this.$route.push({ name: 'profile' });
           }
           this.$notify({
             group: 'auth',

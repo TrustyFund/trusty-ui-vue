@@ -79,6 +79,10 @@ export default new Router({
           component: BackupVerify
         },
       ]
+    },
+    {
+      path: '*',
+      redirect: '/'
     }
   ]
 });
