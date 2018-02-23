@@ -37,7 +37,8 @@
     | Write down your password, it CAN'T BE RECOVERED 
 
   .trusty_buttons
-    button(@click="signup") Sign up
+    button(@click="handleSignUp" v-show="!pending") Sign up
+    button(v-show="pending") loading....
 
   p._tooltip_p._text_center 
     | Before continuing, make sure your device is secure
@@ -67,7 +68,7 @@ export default {
       name: '',
       email: 'qwe@qwe.com',
       password: 'qweqweqwe',
-      confirmPassword: 'qweqweqwe'
+      confirmPassword: 'qweqweqwe',
     };
   },
   validations: {
@@ -92,7 +93,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      errorText: 'wallet/getWalletError'
+      pending: 'wallet/getWalletPendingState'
     })
   },
   methods: {
@@ -100,27 +101,26 @@ export default {
       checkUsername: 'user/checkUsername',
       signUp: 'wallet/signUp',
     }),
-    signup() {
+    async handleSignUp() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         console.log(this.name, this.email, this.password);
-        this.signUp({
+        const result = await this.signUp({
           name: this.name,
           email: this.email,
           password: this.password,
           dictionary: dictionary.en
-        }).then(result => {
-          if (result) {
-            this.$router.push({ name: 'profile' });
-            return;
-          }
+        });
+        if (result.success) {
+          this.$router.push({ name: 'profile' });
+        } else {
           this.$notify({
             group: 'auth',
             type: 'error',
             title: 'Account creation error',
-            text: this.errorText
+            text: result.error
           });
-        });
+        }
       }
     }
   }

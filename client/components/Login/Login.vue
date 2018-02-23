@@ -50,7 +50,7 @@ import trustyInput from '@/components/UI/form/input';
 import Icon from '@/components/UI/icon';
 import { validationMixin } from 'vuelidate';
 import { required, minLength, sameAs } from 'vuelidate/lib/validators';
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   mixins: [validationMixin],
@@ -60,8 +60,7 @@ export default {
       password: 'qweqweqwe',
       confirmPassword: 'qweqweqwe',
       brainkey: `staxis outcry swaraj sarcle biceps loca cord accused
-       fade rubber naggish rikisha boldo attacco beshag puberty`,
-      pending: false
+       fade rubber naggish rikisha boldo attacco beshag puberty`
     };
   },
   validations: {
@@ -76,31 +75,33 @@ export default {
       required
     }
   },
+  computed: {
+    ...mapGetters({
+      pending: 'wallet/getWalletPendingState'
+    })
+  },
   methods: {
     ...mapActions({
       logIn: 'wallet/logIn'
     }),
-    handleLogin() {
+    async handleLogin() {
       this.$v.$touch();
-      this.pending = true;
       if (!this.$v.$invalid) {
-        this.logIn({
+        const result = await this.logIn({
           password: this.password,
           brainkey: this.brainkey
-        }).then(result => {
-          console.log(result);
-          this.pending = false;
-          if (result) {
-            this.$router.push({ name: 'profile' });
-            return;
-          }
+        });
+        console.log(result);
+        if (result.success) {
+          this.$router.push({ name: 'profile' });
+        } else {
           this.$notify({
             group: 'auth',
             type: 'error',
             title: 'Login error',
-            text: ''
+            text: result.error
           });
-        });
+        }
       }
     }
   }
