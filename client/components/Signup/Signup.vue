@@ -111,7 +111,8 @@ export default {
           dictionary: dictionary.en
         }).then(result => {
           if (result) {
-            this.$route.push({ name: 'profile' });
+            this.$router.push({ name: 'profile' });
+            return;
           }
           this.$notify({
             group: 'auth',
