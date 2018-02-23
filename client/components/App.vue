@@ -2,7 +2,7 @@
   <div id="app">
     <Header/>
     <router-view></router-view>
-    <div class="connecting-block-screen" 
+    <div class="connecting-block-screen"
          v-if="!ready">
        <Spinner/>
      </div>
