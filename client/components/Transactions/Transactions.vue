@@ -39,8 +39,8 @@ export default {
   }
 
   @media screen and (min-width: 768px) {
-    font-size: px_from_vw(4.3, $desk_window_width);
-    margin-bottom: px_from_vw(4.4, $desk_window_width);
+    font-size: px_from_vw(4.3);
+    margin-bottom: px_from_vw(4.4);
   }
 }
 
