@@ -38,9 +38,7 @@ export default {
   },
   watch: {
     ready(connected) {
-      if (connected) {
-        this.fetchDefaultAssets();
-      }
+      if (connected) this.fetchDefaultAssets();
     }
   },
   beforeMount() {

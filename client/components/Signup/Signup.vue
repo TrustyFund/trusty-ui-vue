@@ -120,6 +120,7 @@ export default {
             title: 'Account creation error',
             text: result.error
           });
+          console.log(result.error);
         }
       }
     }
