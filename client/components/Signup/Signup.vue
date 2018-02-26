@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      checkUsername: 'account/checkUsername',
+      checkUsername: 'account/checkIfUsernameFree',
       signup: 'account/signup',
     }),
     async handleSignUp() {
