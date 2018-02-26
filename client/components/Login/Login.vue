@@ -91,7 +91,6 @@ export default {
           password: this.password,
           brainkey: this.brainkey
         });
-        console.log(result);
         if (result.success) {
           this.$router.push({ name: 'profile' });
         } else {

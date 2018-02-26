@@ -31,9 +31,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      initConnection: 'connection/initConnection',
+      initApp: 'app/initApp',
       fetchDefaultAssets: 'assets/fetchDefaultAssets',
-      checkCachedUserData: 'account/checkCachedUserData',
     })
   },
   watch: {
@@ -42,8 +41,7 @@ export default {
     }
   },
   beforeMount() {
-    this.checkCachedUserData();
-    this.initConnection();
+    this.initApp();
   }
 };
 </script>

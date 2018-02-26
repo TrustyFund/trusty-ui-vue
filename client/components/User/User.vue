@@ -59,7 +59,7 @@ export default {
                 group: 'auth',
                 type: 'error',
                 title: '',
-                text: result.error
+                text: this.name + ' : ' + result.error
               });
               this.$router.push({ name: 'profile' });
             }
