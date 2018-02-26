@@ -77,17 +77,17 @@ export default {
   },
   computed: {
     ...mapGetters({
-      pending: 'wallet/getWalletPendingState'
+      pending: 'account/getAccountPendingState'
     })
   },
   methods: {
     ...mapActions({
-      logIn: 'wallet/logIn'
+      login: 'account/login'
     }),
     async handleLogin() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        const result = await this.logIn({
+        const result = await this.login({
           password: this.password,
           brainkey: this.brainkey
         });

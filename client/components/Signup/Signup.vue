@@ -93,19 +93,19 @@ export default {
   },
   computed: {
     ...mapGetters({
-      pending: 'wallet/getWalletPendingState'
+      pending: 'account/getAccountPendingState'
     })
   },
   methods: {
     ...mapActions({
-      checkUsername: 'user/checkUsername',
-      signUp: 'wallet/signUp',
+      checkUsername: 'account/checkUsername',
+      signup: 'account/signup',
     }),
     async handleSignUp() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         console.log(this.name, this.email, this.password);
-        const result = await this.signUp({
+        const result = await this.signup({
           name: this.name,
           email: this.email,
           password: this.password,

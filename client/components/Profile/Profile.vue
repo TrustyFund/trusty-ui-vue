@@ -43,7 +43,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userId: 'wallet/getWalletUserId',
+      userId: 'account/getAccountUserId',
       ready: 'connection/isReady',
       userBalances: 'user/getBalances',
       account: 'user/getAccountObject',

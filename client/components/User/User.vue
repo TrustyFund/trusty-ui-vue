@@ -52,7 +52,19 @@ export default {
   watch: {
     ready: {
       handler(connected) {
-        if (connected) this.fetchUser(this.name);
+        if (connected) {
+          this.fetchUser(this.name).then(result => {
+            if (!result.success) {
+              this.$notify({
+                group: 'auth',
+                type: 'error',
+                title: '',
+                text: result.error
+              });
+              this.$router.push({ name: 'profile' });
+            }
+          });
+        }
       },
       immediate: true
     }

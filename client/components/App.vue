@@ -33,7 +33,7 @@ export default {
     ...mapActions({
       initConnection: 'connection/initConnection',
       fetchDefaultAssets: 'assets/fetchDefaultAssets',
-      checkCachedUserData: 'wallet/checkCachedUserData',
+      checkCachedUserData: 'account/checkCachedUserData',
     })
   },
   watch: {
