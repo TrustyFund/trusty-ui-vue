@@ -3,8 +3,8 @@ import Router from 'vue-router';
 import Deposit from '@/components/Transfer';
 import Profile from '@/components/Profile/Profile.vue';
 import User from '@/components/User/User.vue';
-import Signup from '@/components/Auth/signup.vue';
-import Auth from '@/components/Auth/Auth.vue';
+import Signup from '@/components/Signup/Signup.vue';
+import Login from '@/components/Login/Login.vue';
 import ManagePortfolio from '@/components/Portfolio/ManagePortfolio.vue';
 import Transactions from '@/components/Transactions/Transactions';
 import Backup from '@/components/Backup/Backup';
@@ -33,7 +33,7 @@ export default new Router({
     {
       name: 'login',
       path: '/login',
-      component: Auth
+      component: Login
     },
     {
       name: 'signup',
@@ -55,7 +55,6 @@ export default new Router({
       path: '/manage',
       component: ManagePortfolio
     },
-
     {
       name: 'transactions',
       path: '/transactions',
@@ -86,6 +85,10 @@ export default new Router({
           component: BackupVerify
         },
       ]
+    },
+    {
+      path: '*',
+      redirect: '/'
     }
   ]
 });
