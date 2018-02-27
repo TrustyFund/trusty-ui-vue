@@ -29,10 +29,15 @@
       fiat-id="1.3.121"
      :days="7")
 
+  div.transactions-wrap
+    Transactions
+
+
 </template>
 
 <script>
 import Portfolio from '@/components/Portfolio/Portfolio';
+import Transactions from '@/components/Transactions/Transactions';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
@@ -50,19 +55,23 @@ export default {
     })
   },
   components: {
-    Portfolio
+    Portfolio, Transactions
   },
   watch: {
     ready: {
       handler(connected) {
-        if (connected && this.userId) this.fetchUser(this.userId);
+        if (connected && this.userId) {
+          this.fetchUser(this.userId);
+          this.fetchOperations();
+        }
       },
       immediate: true
     }
   },
   methods: {
     ...mapActions({
-      fetchUser: 'user/fetchUser'
+      fetchUser: 'user/fetchUser',
+      fetchOperations: 'account/fetchAccountOperations'
     })
   },
 };

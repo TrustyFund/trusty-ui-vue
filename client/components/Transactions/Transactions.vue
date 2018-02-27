@@ -1,17 +1,33 @@
 <template lang="pug">
 #trusty_recent_transactions.main_padding
-  .transaction_info
+  TransactionsItem(v-for="item in items" 
+                  :item="item"
+                  :key="item.id")
+  //- .transaction_info(v-for="item in items")
     ._date 20 feb 18 16:56
     p._value Receive 0.00364 BTS
-  .transaction_info
+  //- .transaction_info
     ._date 19 feb 18 13:56
     p._value Receive 0.0034 ETH
 
 </template>
 
 <script>
-export default {
+import { mapGetters } from 'vuex';
+import TransactionsItem from './TransactionsItem';
 
+export default {
+  components: {
+    TransactionsItem
+  },
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapGetters({
+      items: 'account/getOperations'
+    })
+  }
 };
 </script>
 
@@ -22,27 +38,5 @@ export default {
 #trusty_recent_transactions {
   margin-top: 2vw;
 }
-
-
-.transaction_info {
-  font-size: 4.3vw;
-  margin-bottom: 4.4vw;
-  ._date {
-    color:#fdf101;
-    font-family: Gotham_Pro;
-  }
-
-  p._value {
-    color:#fdf101;
-    margin: 0;
-    font-family: Gotham_Pro_Regular;
-  }
-
-  @media screen and (min-width: 768px) {
-    font-size: px_from_vw(4.3);
-    margin-bottom: px_from_vw(4.4);
-  }
-}
-
 
 </style>
