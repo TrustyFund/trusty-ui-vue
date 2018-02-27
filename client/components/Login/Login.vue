@@ -57,10 +57,9 @@ export default {
   components: { trustyInput, Icon },
   data() {
     return {
-      password: 'qweqweqwe',
-      confirmPassword: 'qweqweqwe',
-      brainkey: `staxis outcry swaraj sarcle biceps loca cord accused
-       fade rubber naggish rikisha boldo attacco beshag puberty`
+      password: '',
+      confirmPassword: '',
+      brainkey: ''
     };
   },
   validations: {
@@ -85,6 +84,7 @@ export default {
       login: 'account/login'
     }),
     async handleLogin() {
+      // vuelidate (check all fields)
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const result = await this.login({

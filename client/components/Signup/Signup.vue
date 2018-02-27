@@ -66,9 +66,9 @@ export default {
   data() {
     return {
       name: '',
-      email: 'qwe@qwe.com',
-      password: 'qweqweqwe',
-      confirmPassword: 'qweqweqwe',
+      email: '',
+      password: '',
+      confirmPassword: '',
     };
   },
   validations: {
