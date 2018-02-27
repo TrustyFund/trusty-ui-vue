@@ -12,6 +12,7 @@ import BackupDone from '@/components/Backup/BackupDone';
 import BackupFirst from '@/components/Backup/BackupFirst';
 import BackupPhrase from '@/components/Backup/BackupPhrase';
 import BackupVerify from '@/components/Backup/BackupVerify';
+import PortfolioApprove from '@/components/Portfolio/PortfolioApprove';
 
 
 Vue.use(Router);
@@ -54,6 +55,11 @@ export default new Router({
       name: 'manage',
       path: '/manage',
       component: ManagePortfolio
+    },
+    {
+      name: 'manage-approve',
+      path: '/manage/approve',
+      component: PortfolioApprove
     },
     {
       name: 'transactions',
