@@ -60,9 +60,7 @@ export default {
   watch: {
     ready: {
       handler(connected) {
-        if (connected && this.userId) {
-          this.fetchUser(this.userId);
-        }
+        if (connected && this.userId) this.fetchUser(this.userId);
       },
       immediate: true
     }
