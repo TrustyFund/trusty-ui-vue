@@ -1,6 +1,8 @@
 language: node_js
 node_js:
 - '7'
+git:
+  submodules: false
 before_install:
 - npm i -g npm@5
 - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
@@ -13,7 +15,6 @@ script:
 - npm run build
 - npm run lint
 skip_cleanup: true
-
 addons:
   ssh_known_hosts: beta.trusty.fund
 after_success:
