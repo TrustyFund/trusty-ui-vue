@@ -23,3 +23,6 @@ after_success:
 - ssh-add .travis/id_rsa
 - git remote add deploy git@beta.trusty.fund:trusty-ui-vue.git
 - git push deploy master
+cache:
+  directories:
+    - node_modules
