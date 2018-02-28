@@ -30,7 +30,7 @@
      :days="7")
 
   div.transactions-wrap
-    Transactions
+    Transactions(v-if="userId" :limit="5")
 
 
 </template>
@@ -62,7 +62,6 @@ export default {
       handler(connected) {
         if (connected && this.userId) {
           this.fetchUser(this.userId);
-          this.fetchOperations();
         }
       },
       immediate: true
@@ -71,7 +70,6 @@ export default {
   methods: {
     ...mapActions({
       fetchUser: 'user/fetchUser',
-      fetchOperations: 'account/fetchAccountOperations'
     })
   },
 };
