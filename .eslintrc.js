@@ -38,7 +38,8 @@ module.exports = {
     'import/no-unresolved': 0,
     'import/no-dynamic-require': 'off',
     'prefer-template': 0,
-    'operator-assignment': 0
+    'operator-assignment': 0,
+    'object-curly-newline': 0
   },
 
   overrides: [

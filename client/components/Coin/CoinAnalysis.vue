@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import icon from '@/components/icon';
+import icon from '@/components/UI/icon';
 
 const pageData = {
 

@@ -52,9 +52,9 @@ $desk_font_button: 1.2vw;
 	overflow: initial;
 	display: flex;
 	justify-content: space-between;
-	
+
 	&._one_button {
-		button { width: 100%; }	
+		button { width: 100%; }
 	}
 
 	button, span {
@@ -69,17 +69,15 @@ $desk_font_button: 1.2vw;
 		border: 1px solid white;
 
 		@media screen and (min-width: 769px) {
-			width: initial;
-			height: initial;
-			flex: 1;
-			margin: 5px;
-			font-size: $desk_font_button;
-			font-family: Gotham_Pro;
-			padding: 1vw 1.6vw;
-			line-height: 1vw;
+			width: px_from_vw(44);
+			height: px_from_vw(13);
+			line-height: px_from_vw(12.2);
+			font-size: px_from_vw(4.8);
+			padding: px_from_vw(1) px_from_vw(1.6);
+			line-height: px_from_vw(1);
 			&:hover {
 				background: white;
-				color: grey;
+				color: black;
 			}
 		}
 

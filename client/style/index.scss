@@ -5,7 +5,7 @@
 
 
 
-* {  
+* {
 	-webkit-backface-visibility:  hidden;
   -webkit-tap-highlight-color:  transparent;
 }
@@ -27,13 +27,25 @@ body {
 	background: #1e2225;
 }
 
-body, .app {
+html, body, #app {
 	height: 100%;
+}
+
+#app {
+	@media screen and (min-width: 769px){
+		width: $desk_window_width + px;
+		height: 667px;
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+		margin: 0 auto;
+	}
 }
 
 body, html {
 	padding: 0;
 	margin: 0;
+	height: 100%;
 }
 
 button {
@@ -45,11 +57,6 @@ button {
 
 p, span, h1, h2, h3, h4 {
 	color: white;
-}
-
-.trusty_icon svg,
-.trusty_icon svg path {
-	fill: white;
 }
 
 ._trusty_hide_input {
@@ -72,7 +79,7 @@ iframe {
 	margin: 0 auto;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%); 
+	transform: translate(-50%, -50%);
 	overflow: scroll !important;
 }
 
@@ -87,7 +94,7 @@ iframe {
 }
 
 .trusty_owl_loader {
-	width: 60vw;  
+	width: 60vw;
 	opacity: .6;
 	margin: 0 auto;
 	position: fixed;

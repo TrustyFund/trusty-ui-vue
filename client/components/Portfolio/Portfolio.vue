@@ -1,18 +1,18 @@
 <template lang="pug">
-  
-  table.trusty_table.portfolio-container
-    thead
-      tr
-        th._text_left: span ASSET
-        th._text_right: span SHARE 
-        th._text_right: span $VALUE
-        th._text_right: span 7DAYS
-    tbody
-      PortfolioBalance( 
-        v-for="(item, id) in items"
-       :key="id"
-       :item="item"
-       :total-base-value="totalBaseValue")
+
+    table.portfolio-container.trusty_table
+      thead
+        tr
+          th._text_left: span ASSET
+          th._text_right: span SHARE 
+          th._text_right: span $VALUE
+          th._text_right: span 7DAYS
+      tbody
+        PortfolioBalance( 
+          v-for="(item, id) in items"
+         :key="id"
+         :item="item"
+         :total-base-value="totalBaseValue")
 
 </template>
 
@@ -45,6 +45,10 @@ export default {
   },
   components: {
     PortfolioBalance
+  },
+  data() {
+    return {
+    };
   },
   computed: {
     ...mapGetters({
@@ -81,7 +85,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .trusty_table.portfolio-container {
+  .trusty_table {
     width: 100%;
     margin-top: 20px;
     thead, th, tbody {

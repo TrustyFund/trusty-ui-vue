@@ -26,12 +26,16 @@ const names = [
   'coin_head_ogo',
   'coin_head_omg',
   'coin_head_trend_dn',
-  'coin_head_trend_up'
+  'coin_head_trend_up',
+  'tick_backup',
+  'account_backup_ico_photo',
+  'account_backup_ico_safe'
+
 ];
 
 const icons = {};
 names.forEach(name => {
-  icons[name] = require(`../style/icons/${name}.svg`); // eslint-disable-line global-require
+  icons[name] = require(`@/style/icons/${name}.svg`); // eslint-disable-line global-require
 });
 
 
@@ -44,7 +48,11 @@ export default {
     },
     className: {
       default: '',
-      typy: String
+      type: String
+    },
+    initialSvgColors: {
+      default: false,
+      type: Boolean
     }
   },
 
@@ -55,7 +63,8 @@ export default {
   },
   computed: {
     classes() {
-      return this.name + ' ' + this.className;
+      const white = !this.initialSvgColors ? '_white' : '';
+      return this.name + ' ' + this.className + ' ' + white;
     }
   }
 
@@ -66,11 +75,24 @@ export default {
 <style lang="scss">
 
 .trusty_icon {
+
   display: inline-block;
 
   svg {
     width: 100% !important;
     height: auto;
   }
+
+	display: inline-block;
+	svg {
+		width: 100% !important;
+		height: auto;
+	}
+
+	&._white svg,
+	&._white svg path {
+		fill: white;
+	}
+
 }
 </style>

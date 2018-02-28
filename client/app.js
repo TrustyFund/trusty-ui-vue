@@ -1,16 +1,21 @@
 import Vue from 'vue';
 import { sync } from 'vuex-router-sync';
-import root from './root';
+import Notifications from 'vue-notification';
 import router from './router';
 import store from './store';
+import App from './components/App';
 
-
+Vue.use(Notifications);
 sync(store, router);
+
+Vue.config.productionTip = false;
 
 const app = new Vue({
   router,
   store,
-  ...root
+  template: '<App/>',
+  components: { App },
+  render: h => h(App)
 });
 
 export { app, router, store };

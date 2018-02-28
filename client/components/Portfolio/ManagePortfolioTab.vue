@@ -36,7 +36,7 @@
 
 <script>
 
-import iconComponent from '@/components/icon';
+import iconComponent from '@/components/UI/icon';
 
 export default {
   components: { iconComponent },
