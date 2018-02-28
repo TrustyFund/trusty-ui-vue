@@ -22,7 +22,7 @@ export default {
       return (this.item.payload.from === this.userId) ? 'Sent' : 'Recieved';
     },
     amount() {
-      return this.item.payload.amount.amount * (10 ** this.asset.precision);
+      return this.item.payload.amount.amount / (10 ** this.asset.precision);
     },
     asset() {
       return this.assets[this.item.payload.amount.asset_id];

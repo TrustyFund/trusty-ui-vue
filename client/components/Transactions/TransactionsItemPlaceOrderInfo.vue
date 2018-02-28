@@ -27,13 +27,13 @@ export default {
     },
     sell() {
       return {
-        amount: this.item.payload.amount_to_sell.amount * (10 ** this.assetSell.precision),
+        amount: this.item.payload.amount_to_sell.amount / (10 ** this.assetSell.precision),
         assetName: this.assetSell && this.assetSell.symbol
       };
     },
     receive() {
       return {
-        amount: this.item.payload.min_to_receive.amount * (10 ** this.assetReceive.precision),
+        amount: this.item.payload.min_to_receive.amount / (10 ** this.assetReceive.precision),
         assetName: this.assetReceive && this.assetReceive.symbol
       };
     }

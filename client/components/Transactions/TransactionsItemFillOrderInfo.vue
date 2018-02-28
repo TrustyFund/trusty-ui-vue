@@ -29,13 +29,13 @@ export default {
     },
     pays() {
       return {
-        amount: this.item.payload.pays.amount * (10 ** this.assetPays.precision),
+        amount: this.item.payload.pays.amount / (10 ** this.assetPays.precision),
         assetName: this.assetPays.symbol
       };
     },
     receives() {
       return {
-        amount: this.item.payload.receives.amount * (10 ** this.assetReceives.precision),
+        amount: this.item.payload.receives.amount / (10 ** this.assetReceives.precision),
         assetName: this.assetReceives.symbol
       };
     }
