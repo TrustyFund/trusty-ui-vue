@@ -12,15 +12,18 @@ div
           span LogIn
 
       div.bottom_content
-        div._logo_text._mob
-          svg(src='./vendor/img_trusty_logo_last.svg')
+        div._logo_text._mob(v-html="logo")
         div.wrap_img_profile._desk
           img(src='./vendor/img_user_page.png')
         div._desk_right
           div._logo._desk
-          div._logo_text._desk
-          p._slogan
+            svg(src='./vendor/logo.svg')
+          div._logo_text._desk(v-html="logo")
+          p._slogan Investment Wallet
           p._description
+            | One-Click To Invest In
+            br._mob
+            | Crypto Economy
           a._desk
             button INVEST NOW            
       div._fixed_bottom._mob
@@ -96,6 +99,7 @@ const slide5 = require('./vendor/img_chng_portfolio.png');
 const slide6 = require('./vendor/img_index.png');
 const slide7 = require('./vendor/wallet2.gif');
 const arrowDown = require('./vendor/trusty_arrow_down.svg');
+const logo = require('./vendor/img_trusty_logo_last.svg');
 
 
 export default{
@@ -145,7 +149,8 @@ export default{
                 '<br class="_desk" />  to a crypto wallet'
         }
       ],
-      arrowDown
+      arrowDown,
+      logo
     };
   },
   methods: {
