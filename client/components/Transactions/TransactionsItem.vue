@@ -88,6 +88,7 @@ export default {
     font-size: 4vw;
     min-width: 6rem;
     margin-left: 0.5rem;
+    text-align: right;
   }
 
   p._value {
