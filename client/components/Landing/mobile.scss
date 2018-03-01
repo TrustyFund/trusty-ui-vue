@@ -2,105 +2,103 @@
 
 @media screen and (max-width: 768px) {
 
-	button {
-		font-family: Gotham_Pro;
-		border-radius: 10px;
-		margin-top: 10px;
-		height: 10vh;
-		border: 2px solid white;
-		font-size: 6vw;
-	}
-
-	p {
-		font-family: Gotham_Pro_Bold;
-		font-size: 6.3vw;
-		line-height: 4.2vh;
-		text-align: center;
-	}
-
-	.image_area {
-		margin-bottom: 2.5vh;
-		margin-top: 10%;
-	}
-
-	.bottom_content {
-	 	height: 63%;//63vh;
-	 	display: flex;
-	 	flex-direction: column;
-	 	justify-content: center;
-	 	background: url(./vendor/img_owl_opacity.png) no-repeat center;
-		background-size: 60%;
-		background-position: 50% 40%;
-	 	._slogan {
-			font-size: 8.1vw;
-			margin-bottom: 12px;
-	 	}
-	 	._description {
-			font-family: Gotham_Pro;
-			font-size: 6.4vw;
-			line-height: 8.13vw;
-	 	}
-	}
-
-	.top_buttons {
-		height: 15%;//15vh;
-		text-align: center;
-		a { 
-			width: 28.5vw;
-		}
-		span {
-			height: 15vh;
-			line-height: 12vh;
-		}
-	}
-
-	.last_text {
-		@include center_vertical;
-		button {display: block;}
-		p { margin: 7.5vw 0; }
-		button {
-			font-family: Gotham_Pro_Bold;
-		}
-	}
-	._logo._desk, 
-	._logo_text._desk {
-		display: none;
-	}
-
 	#landing {
 		padding: 0 $land_padding 2vh $land_padding;
+		button.land {
+			font-family: Gotham_Pro;
+			border-radius: 10px;
+			margin-top: 10px;
+			height: 10vh;
+			border: 2px solid white;
+			font-size: 6vw;
+			height: 16vw;
+			width: 81vw;
+			display:block;
+			margin: 0 auto;
+			border-radius: 6px;
 
-		button {
-				height: 16vw;
-				width: 81vw;
-				display:block;
-				margin: 0 auto;
-				border-radius: 6px;
 		}
-	}
-	.land_slide {
 
-		&.sl_id-1 {
-			img {
-				width: 90vw !important;
+		p {
+			font-family: Gotham_Pro_Bold;
+			font-size: 6.3vw;
+			line-height: 4.2vh;
+			text-align: center;
+		}
+
+		.image_area {
+			margin-bottom: 2.5vh;
+			margin-top: 10%;
+		}
+
+		.bottom_content {
+		 	height: 63%;//63vh;
+		 	display: flex;
+		 	flex-direction: column;
+		 	justify-content: center;
+		 	background: url(./vendor/img_owl_opacity.png) no-repeat center;
+			background-size: 60%;
+			background-position: 50% 40%;
+		 	._slogan {
+				font-size: 8.1vw;
+				margin-bottom: 12px;
+		 	}
+		 	._description {
+				font-family: Gotham_Pro;
+				font-size: 6.4vw;
+				line-height: 8.13vw;
+		 	}
+		}
+
+		.top_buttons {
+			height: 15%;//15vh;
+			text-align: center;
+			a {
+				width: 28.5vw;
+			}
+			span {
+				height: 15vh;
+				line-height: 12vh;
 			}
 		}
-		&.sl_id-2 {
-			img {
-				width: 66vw !important;
+
+		.last_text {
+			@include center_vertical;
+			button.land {display: block;}
+			p { margin: 7.5vw 0; }
+			button.land {
+				font-family: Gotham_Pro_Bold;
 			}
 		}
-
-		&.sl_id-4 {
-			img {
-				width: 82vw !important;
-			}
+		._logo._desk,
+		._logo_text._desk {
+			display: none;
 		}
 
-		&.sl_id-5 {
-			.image_area { margin-bottom: .5vh; }
-			img {
-				width: 80vw !important;
+		.land_slide {
+
+			&.sl_id-1 {
+				img {
+					width: 90vw !important;
+				}
+			}
+			&.sl_id-2 {
+				img {
+					width: 66vw !important;
+				}
+			}
+
+			&.sl_id-4 {
+				img {
+					width: 82vw !important;
+				}
+			}
+
+			&.sl_id-5 {
+				.image_area { margin-bottom: .5vh; }
+				img {
+					width: 80vw !important;
+				}
 			}
 		}
 	}

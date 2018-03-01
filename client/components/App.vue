@@ -5,8 +5,8 @@
     <div class="connecting-block-screen"
          v-if="!ready">
        <Spinner/>
-     </div>
-     <notifications group="auth" width="100%" position="bottom center"/>
+    </div>
+    <notifications group="auth" width="100%" position="bottom center"/>
   </div>
 </template>
 
