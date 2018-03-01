@@ -47,7 +47,8 @@ export default {
         'backup-phrase': 'backup phrase',
         'backup-verify': 'verify backup',
         'backup-done': 'almost done! let\'s review',
-        transactions: 'recent transactions'
+        transactions: 'recent transactions',
+        'manage-approve': 'update portfolio'
       }
     };
   },
