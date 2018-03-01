@@ -76,7 +76,6 @@ export default {
   font-size: 4.3vw;
   margin-bottom: 4.4vw;
   display: flex;
-  // align-items: center;
   justify-content: space-between;
   &__main {
     width: 100%;
@@ -85,7 +84,6 @@ export default {
     color:#fdf101;
     font-family: Gotham_Pro;
     opacity: 0.8;
-    font-size: 4vw;
     min-width: 6rem;
     margin-left: 0.5rem;
     text-align: right;
