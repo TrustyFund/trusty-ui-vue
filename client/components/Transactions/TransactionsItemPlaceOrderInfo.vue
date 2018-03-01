@@ -26,14 +26,16 @@ export default {
       return this.getAssetById(this.item.payload.min_to_receive.asset_id);
     },
     sell() {
+      const amount = this.item.payload.amount_to_sell.amount / (10 ** this.assetSell.precision);
       return {
-        amount: this.item.payload.amount_to_sell.amount / (10 ** this.assetSell.precision),
+        amount: amount.toFixed(8).replace(/\.?0+$/, ''),
         assetName: this.assetSell && this.assetSell.symbol
       };
     },
     receive() {
+      const amount = this.item.payload.min_to_receive.amount / (10 ** this.assetReceive.precision);
       return {
-        amount: this.item.payload.min_to_receive.amount / (10 ** this.assetReceive.precision),
+        amount: amount.toFixed(8).replace(/\.?0+$/, ''),
         assetName: this.assetReceive && this.assetReceive.symbol
       };
     }

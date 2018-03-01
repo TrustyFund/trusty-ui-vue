@@ -23,7 +23,8 @@ export default {
       return (this.item.payload.from === this.userId) ? 'Sent' : 'Recieved';
     },
     amount() {
-      return this.item.payload.amount.amount / (10 ** this.asset.precision);
+      const amount = (this.item.payload.amount.amount / (10 ** this.asset.precision));
+      return amount.toFixed(8).replace(/\.?0+$/, '');
     },
     asset() {
       return this.getAssetById(this.item.payload.amount.asset_id);
