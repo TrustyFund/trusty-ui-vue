@@ -2,7 +2,7 @@
   .transaction_info
     TransactionType(:type="type")
     div
-      div._date 20 feb 18 16:56
+      div._date {{ getRelativeTime() }}
 
       TransactionsItemTransferInfo(
         v-if="type === 'transfer'" 
@@ -24,11 +24,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import distanceInWordsStrict from 'date-fns/distance_in_words_strict';
 import TransactionType from './TransactionsItemType';
 import TransactionsItemTransferInfo from './TransactionsItemTransferInfo';
 import TransactionsItemPlaceOrderInfo from './TransactionsItemPlaceOrderInfo';
 import TransactionsItemFillOrderInfo from './TransactionsItemFillOrderInfo';
 import TransactionsItemCancelOrderInfo from './TransactionsItemCancelOrderInfo';
+
 
 export default {
   components: {
@@ -57,6 +59,13 @@ export default {
     }),
     type() {
       return this.item.type;
+    }
+  },
+  methods: {
+    getRelativeTime() {
+      return distanceInWordsStrict(new Date(), this.item.date, {
+        addSuffix: true
+      });
     }
   }
 };
