@@ -13,6 +13,7 @@ import BackupFirst from '@/components/Backup/BackupFirst';
 import BackupPhrase from '@/components/Backup/BackupPhrase';
 import BackupVerify from '@/components/Backup/BackupVerify';
 import PortfolioApprove from '@/components/Portfolio/PortfolioApprove';
+import Landing from '@/components/Landing/Landing';
 
 
 Vue.use(Router);
@@ -21,8 +22,13 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      name: 'profile',
+      name: 'landing',
       path: '/',
+      component: Landing
+    },
+    {
+      name: 'profile',
+      path: '/profile',
       component: Profile
     },
     {
@@ -34,12 +40,18 @@ export default new Router({
     {
       name: 'login',
       path: '/login',
-      component: Login
+      component: Login,
+      meta: {
+        requiredAuth: false
+      }
     },
     {
       name: 'signup',
       path: '/signup',
-      component: Signup
+      component: Signup,
+      meta: {
+        requiredAuth: false
+      }
     },
     {
       name: 'deposit',

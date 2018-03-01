@@ -26,13 +26,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      ready: 'connection/isReady'
+      ready: 'connection/isReady',
+      authUser: 'account/getAccountUserId'
     })
   },
   methods: {
     ...mapActions({
       initApp: 'app/initApp',
-      fetchDefaultAssets: 'assets/fetchDefaultAssets',
+      fetchDefaultAssets: 'assets/fetchDefaultAssets'
     })
   },
   watch: {
@@ -41,6 +42,10 @@ export default {
     }
   },
   beforeMount() {
+    const authRequired = (this.$route.meta.requiredAuth === undefined);
+    if (authRequired && this.authUser === null) {
+      console.log('NEED REDIRECT HERE');
+    }
     this.initApp();
   }
 };

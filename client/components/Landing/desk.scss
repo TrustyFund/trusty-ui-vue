@@ -1,0 +1,206 @@
+// DESKTOP
+$screen_wide: 1440;
+
+@function get-vw($target) {   
+	$vw-context: (1440 * 0.01) * 1px;  
+	 @return ($target / $vw-context) * 1vw; 
+}
+
+@function px_from_vw($current_vw, $window_size) {
+	$pixel-screen: ($window_size * 0.01);
+	$one-vw: $pixel-screen/100;
+	@return ($one-vw * $current_vw) * 100px;
+}
+
+@media screen and (min-width: 769px) { 
+
+	.trusty_fixed_background_div { 
+		background-size: 3.3% !important;
+		background-position: -2% 0%; 
+	}
+
+	button:not(.controls-panel__control) { 
+		margin-top: 1.5vw;
+	    width: 18.8vw;
+	    border-radius: 0.7vw;
+	    height: 5vw;
+	    font-family: Gotham_Pro_Medium;
+	    font-size: 1.45vw;
+	    letter-spacing: .1vw;
+	}
+
+
+	.wrap_button {
+		display: block;
+		width: 100%;
+		text-align: center;
+	}
+
+
+	.top_buttons {
+		cursor: pointer;
+		position: absolute;
+		top: 0;
+		right: 0;
+		text-align: right;
+		a { 
+			font-size: 1.3vw;
+    		padding-top: 2.5vw;
+    		padding-bottom: 2.4vw;
+    		padding-right: 2.45vw;
+
+    		&:hover {
+    			color: grey !important;
+    		}
+		}
+
+	}
+
+	.bottom_content {
+		height: 100%;
+		text-align: center;
+		display: flex;
+		justify-content: center;
+		> div {
+			display: inline-block;
+		}
+	}
+
+	.wrap_img_profile {
+		line-height: 100vh;
+		margin-right: 2.5vw;
+		width: 19vw;
+		height: initial;
+		position: relative;
+		img {
+			display: inline-block;
+			
+			width: 100%;
+			height: auto;
+		}
+	}
+
+	._desk_right, .wrap_img_profile {
+		display: inline-flex !important;
+		justify-content: center;
+		flex-direction: column;
+	}
+
+	._desk_right {
+		margin-left: 2.5vw;
+		text-align: left;
+		._logo {
+			width: 10vw;
+			margin: 0;
+		}
+		._logo_text {
+			width: 19vw;
+			margin: 0;
+			padding-top: 2vw;
+			svg {
+				display: inline-block;
+				margin: 0 auto;
+			}
+		}
+		._slogan {
+			font-family: Gotham_Pro_Bold;
+			font-size: 2.4vw;
+			margin-bottom: 0;
+		}
+		._description {
+			margin-top: 1vw;
+			font-size: 1.68vw;
+		}
+	}
+	.bottom_info {
+		padding-left: 10vw;
+		padding-right: 10vw;
+		padding-top: 1.95vw;
+		section {
+			font-size: .95vw;	
+		}
+		section:last-child {
+			padding: 1vw 1vw !important;
+		}
+
+	}
+	.last_text {
+		text-align: center;
+		font-family: Gotham_Pro_Bold;
+		font-size: 2.5vw;
+		background-size: 30% !important;
+		p {
+			line-height: 3.2vw;
+			margin:  1.9vw 0 1.9vw 0 !important;
+		}
+
+	}
+
+
+	._logo._mob, 
+	._logo_text._mob {
+		display: none;
+	}
+
+
+	.land_slide {
+		display: flex;
+		flex-direction: row-reverse;
+		width: 100vw;
+		margin: 12vw 0; 
+		//justify-content: center;
+
+		.image_area, .text_area {
+			width: 34vw !important;
+			height: 45vh;
+			@include center_vertical;
+		}
+
+		.text_area {
+			text-align: left;
+			padding: 0 0 0 0;
+			margin-bottom: .4vh;
+			width: 100%;
+			@include center_vertical;
+			h1 { 
+				font-size: 2.6vw !important; 
+				text-align: left;
+			}
+			._body {
+				font-family: Gotham_Pro;
+				font-size: 1vw;
+				line-height: 1.4vw;
+			}
+		}
+
+		img {
+			width: 23vw !important;
+		}
+
+	}
+
+	.land_slides {
+
+		.sl_id-1 {
+			margin: 0;
+			height: 100vh !important;
+			text-align: center;
+			 .text_area, .image_area {
+			 	width: 100% !important;
+			 	display: block;
+			 	text-align: center;
+			 	margin: 2.6vw 0;
+			 }
+		}
+
+		div:first-child {
+			
+			h1 { text-align: center; }
+		}
+	}
+
+	.trusty_down_arrow {
+		display: none;
+	}
+
+}
