@@ -1,7 +1,6 @@
 <template lang="pug">
-  div.transaction_info__type-wrapper 
-    div.transaction_info__type(
-      :class="'transaction_info__type--' + theme") {{ typeName }}
+  p.transaction_info__type(
+    :class="'transaction_info__type--' + theme") {{ typeName }}
 </template>
 
 <script>
@@ -48,7 +47,7 @@ export default {
 
 <style lang="scss">
 .transaction_info__type-wrapper {
-  min-width: 130px;
+  // min-width: 130px;
   // text-align: center;
 }
 .transaction_info__type {
@@ -57,11 +56,14 @@ export default {
   border: 1px solid white;
   color: white;
   margin-right: 10px;
-  padding: 7px 7px 3px;
+  padding: 4px 7px 1px;
   border-radius: 4px;
   text-transform: uppercase;
   font-family: Gotham_Pro_Regular;
-  font-size: 3.3vw;
+  font-size: 3.0vw;
+  float: left;
+  margin: 0;
+  margin-right: 0.5rem;
   &--green {
     border-color: green;
     color: green;

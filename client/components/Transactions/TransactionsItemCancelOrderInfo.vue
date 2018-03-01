@@ -1,6 +1,5 @@
 <template lang="pug">
-  div
-    p._value Cancelled order {{ item.payload.order }}
+  p._value Cancelled order {{ item.payload.order }}
 </template>
 
 <script>

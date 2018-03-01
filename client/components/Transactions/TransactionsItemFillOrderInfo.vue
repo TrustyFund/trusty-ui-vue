@@ -1,6 +1,5 @@
 <template lang="pug">
-  div
-    p._value Bought {{ receives.amount }} {{ receives.assetName }} at {{ pays.amount }} {{ pays.assetName }}
+  p._value Bought {{ receives.amount }} {{ receives.assetName }} at {{ pays.amount }} {{ pays.assetName }}
 </template>
 
 <script>

@@ -1,6 +1,5 @@
 <template lang="pug">
-  div
-    p._value Placed an order to sell {{ sell.amount }} {{ sell.assetName }} at {{ receive.amount }} {{ receive.assetName }}
+  p._value Placed an order to sell {{ sell.amount }} {{ sell.assetName }} at {{ receive.amount }} {{ receive.assetName }}
 </template>
 
 <script>

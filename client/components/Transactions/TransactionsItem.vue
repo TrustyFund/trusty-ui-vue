@@ -1,9 +1,7 @@
 <template lang="pug">
   .transaction_info
-    TransactionType(:type="type")
-    div
-      div._date {{ getRelativeTime() }}
-
+    div.transaction_info__main
+      //- TransactionType(:type="type")
       TransactionsItemTransferInfo(
         v-if="type === 'transfer'" 
        :item="item")
@@ -19,6 +17,7 @@
       TransactionsItemCancelOrderInfo(
         v-if="type === 'limit_order_cancel'" 
        :item="item")
+    div.transaction_info__date {{ getRelativeTime() }}
 
 </template>
 
@@ -77,12 +76,18 @@ export default {
   font-size: 4.3vw;
   margin-bottom: 4.4vw;
   display: flex;
-  align-items: center;
-  ._date {
+  // align-items: center;
+  justify-content: space-between;
+  &__main {
+    width: 100%;
+  }
+  &__date {
     color:#fdf101;
     font-family: Gotham_Pro;
     opacity: 0.8;
     font-size: 4vw;
+    min-width: 6rem;
+    margin-left: 0.5rem;
   }
 
   p._value {
