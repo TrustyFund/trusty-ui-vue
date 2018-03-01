@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import distanceInWordsStrict from 'date-fns/distance_in_words_strict';
 import TransactionType from './TransactionsItemType';
 import TransactionsItemTransferInfo from './TransactionsItemTransferInfo';
@@ -53,9 +52,6 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters({
-      getAssetById: 'assets/getAssetById'
-    }),
     type() {
       return this.item.type;
     }

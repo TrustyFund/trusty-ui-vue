@@ -46,10 +46,6 @@ export default {
 </script>
 
 <style lang="scss">
-.transaction_info__type-wrapper {
-  // min-width: 130px;
-  // text-align: center;
-}
 .transaction_info__type {
   display: inline-block;
   white-space: nowrap;
