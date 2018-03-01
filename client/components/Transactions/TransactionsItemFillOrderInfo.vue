@@ -4,14 +4,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 
 export default {
   props: {
     item: {
-      type: Object,
-      required: true
-    },
-    assets: {
       type: Object,
       required: true
     }
@@ -20,12 +17,14 @@ export default {
     return {};
   },
   computed: {
+    ...mapGetters({
+      getAssetById: 'assets/getAssetById'
+    }),
     assetPays() {
-      return this.assets[this.item.payload.pays.asset_id];
+      return this.getAssetById(this.item.payload.pays.asset_id);
     },
-
     assetReceives() {
-      return this.assets[this.item.payload.receives.asset_id];
+      return this.getAssetById(this.item.payload.receives.asset_id);
     },
     pays() {
       return {

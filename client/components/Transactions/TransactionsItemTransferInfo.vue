@@ -3,13 +3,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   props: {
     item: {
-      type: Object,
-      required: true
-    },
-    assets: {
       type: Object,
       required: true
     }
@@ -18,6 +16,9 @@ export default {
     return {};
   },
   computed: {
+    ...mapGetters({
+      getAssetById: 'assets/getAssetById'
+    }),
     transferType() {
       return (this.item.payload.from === this.userId) ? 'Sent' : 'Recieved';
     },
@@ -25,7 +26,7 @@ export default {
       return this.item.payload.amount.amount / (10 ** this.asset.precision);
     },
     asset() {
-      return this.assets[this.item.payload.amount.asset_id];
+      return this.getAssetById(this.item.payload.amount.asset_id);
     },
     assetName() {
       return this.asset && this.asset.symbol;

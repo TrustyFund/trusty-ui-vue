@@ -4,10 +4,21 @@
     div
       div._date 20 feb 18 16:56
 
-      TransactionsItemTransferInfo(v-if="type === 'transfer'" :item="item" :assets="assets")
-      TransactionsItemPlaceOrderInfo(v-if="type === 'limit_order_create'" :item="item" :assets="assets")
-      TransactionsItemFillOrderInfo(v-if="type === 'fill_order'" :item="item" :assets="assets")
-      TransactionsItemCancelOrderInfo(v-if="type === 'limit_order_cancel'" :item="item")
+      TransactionsItemTransferInfo(
+        v-if="type === 'transfer'" 
+       :item="item")
+
+      TransactionsItemPlaceOrderInfo(
+        v-if="type === 'limit_order_create'" 
+       :item="item")
+
+      TransactionsItemFillOrderInfo(
+        v-if="type === 'fill_order'" 
+       :item="item")
+
+      TransactionsItemCancelOrderInfo(
+        v-if="type === 'limit_order_cancel'" 
+       :item="item")
 
 </template>
 
@@ -42,7 +53,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      assets: 'assets/getAssets'
+      getAssetById: 'assets/getAssetById'
     }),
     type() {
       return this.item.type;

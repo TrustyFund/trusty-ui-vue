@@ -34,7 +34,6 @@ export default {
       items: 'account/getOperations',
       ready: 'connection/isReady',
       userId: 'account/getAccountUserId',
-      assets: 'assets/getAssets',
       pending: 'account/getAccountOperationsPendingState'
     }),
     filteredItems() {
