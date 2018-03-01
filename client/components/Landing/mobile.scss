@@ -4,8 +4,9 @@
 
 	#landing {
 		padding: 0 $land_padding 2vh $land_padding;
+
 		button.land {
-			font-family: Gotham_Pro;
+			font-family: Gotham_Pro_Bold;
 			border-radius: 10px;
 			margin-top: 10px;
 			height: 10vh;
@@ -17,6 +18,11 @@
 			margin: 0 auto;
 			border-radius: 6px;
 
+		}
+
+		.logo_starter svg {
+			width: 100%;
+			height: 10vw;
 		}
 
 		p {
@@ -66,9 +72,6 @@
 			@include center_vertical;
 			button.land {display: block;}
 			p { margin: 7.5vw 0; }
-			button.land {
-				font-family: Gotham_Pro_Bold;
-			}
 		}
 		._logo._desk,
 		._logo_text._desk {
