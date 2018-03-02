@@ -29,14 +29,12 @@ div
 			div._fixed_bottom._mob
 				a
 					button.land INVEST NOW
-				div.trusty_down_arrow
+				div.trusty_down_arrow(@click="clickScroll(0)")
 					span(v-html="arrowDown")
 
 		div.land_slides
 			template(v-for="(slide, index) in slides")
-				div.land_slide(:class="slideClass(index)", :id="slideClass(index)")
-					div.trusty_down_arrow(v-if="index === 0")
-						span(v-html="arrowDown")
+				section.land_slide(:class="slideClass(index)", :id="slideClass(index)", :ref="slideClass(index)")
 					div.image_area
 						div
 							template(v-if="index === 0")
@@ -47,10 +45,10 @@ div
 					div.text_area
 						h1(v-html="slide.title")
 						div._body(v-if="slide.text" v-html="slide.text")
-					div.trusty_down_arrow(v-if="index > 0")
+					div.trusty_down_arrow(@click="clickScroll(index + 1)")
 						span(v-html="arrowDown")
 
-		div.last_text#last_screen
+		div.last_text#last_screen(ref="last")
 			p
 				| First time in history
 				br._mob
@@ -185,7 +183,22 @@ export default{
       } else {
         this.$router.push({ name: 'profile' });
       }
+    },
+    scrollTo(element) {
+      window.scrollTo({
+        behavior: 'smooth',
+        left: 0,
+        top: element.offsetTop
+      });
+    },
+    clickScroll(index) {
+      if (index === this.slides.length) {
+        this.scrollTo(this.$refs.last);
+      } else {
+        this.scrollTo(this.$refs[this.slideClass(index)][0]);
+      }
     }
   }
 };
+
 </script>

@@ -143,14 +143,17 @@ $arrow_size: 9.8vh;
 			height: 9.8vh;
 			position: absolute;
 			bottom: 0;
+			padding-bottom: 0;
 
 		}
 	}
 
 	.trusty_down_arrow {
-		position: relative;
+		position: absolute;
 		left: initial;
 		width: 100%;
+		bottom: 0;
+		padding-bottom: 3vw;
 		text-align: center;
 
 		span {
