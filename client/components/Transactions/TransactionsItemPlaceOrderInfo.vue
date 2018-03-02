@@ -1,6 +1,6 @@
 <template lang="pug">
-  p._value(v-if="isBuying") Placed an order to buy {{ receive.amount }} {{ receive.assetName }} at {{ sell.amount }} {{ sell.assetName }}
-  p._value(v-else) Placed an order to sell {{ sell.amount }} {{ sell.assetName }} at {{ receive.amount }} {{ receive.assetName }}
+  p._value(v-if="isBuying") Placed an order to buy {{ receive.amount }} {{ receive.assetName }} at {{ ratio }} {{ sell.assetName }}/{{ receive.assetName }}
+  p._value(v-else) Placed an order to sell {{ sell.amount }} {{ sell.assetName }} at {{ ratio }} {{ receive.assetName }}/{{ sell.assetName }}
 </template>
 
 <script>
@@ -42,6 +42,11 @@ export default {
     },
     isBuying() {
       return this.item.buyer;
+    },
+    ratio() {
+      const ratio = this.isBuying ? this.sell.amount / this.receive.amount :
+        this.receive.amount / this.sell.amount;
+      return ratio.toFixed(5);
     }
   }
 };

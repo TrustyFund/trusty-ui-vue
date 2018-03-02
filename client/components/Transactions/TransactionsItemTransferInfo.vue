@@ -24,7 +24,7 @@ export default {
       getAssetById: 'assets/getAssetById'
     }),
     transferType() {
-      return (this.item.payload.from === this.userId) ? 'Sent' : 'Recieved';
+      return (this.item.payload.from === this.userId) ? 'Sent' : 'Received';
     },
     amount() {
       const amount = (this.item.payload.amount.amount / (10 ** this.asset.precision));
