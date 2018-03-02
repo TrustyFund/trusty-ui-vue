@@ -117,14 +117,6 @@ $background_color: #1b1f22;
 		}
 	}
 
-	.trusty_header_fake {
-		width: 100%;
-		.trusty_header {
-			position: relative;
-			z-index: 100;
-			opacity: 0;
-		}
-	}
 }
 
 @import "./mobile.scss";
