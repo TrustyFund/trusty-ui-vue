@@ -143,14 +143,17 @@ $arrow_size: 9.8vh;
 			height: 9.8vh;
 			position: absolute;
 			bottom: 0;
+			padding-bottom: 0;
 
 		}
 	}
 
 	.trusty_down_arrow {
-		position: relative;
+		position: absolute;
 		left: initial;
 		width: 100%;
+		bottom: 0;
+		padding-bottom: 3vw;
 		text-align: center;
 
 		span {
@@ -256,3 +259,21 @@ $arrow_size: 9.8vh;
 
 @import './desk.scss';
 @import './mobile.scss';
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+  #landing {
+	 	.top_buttons {
+			font-size: 4vw;
+	 	}
+  }
+}
+
+@media screen and (min-width: 730px) and (max-width: 768px) {
+	#landing {
+	 	.land_slide:not(.sl_id-1) {
+			img {
+				width: 45vw !important;
+			}
+	 	}
+  }
+}

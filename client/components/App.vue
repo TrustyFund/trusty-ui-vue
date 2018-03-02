@@ -26,8 +26,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      ready: 'connection/isReady',
-      authUser: 'account/getAccountUserId'
+      ready: 'connection/isReady'
     })
   },
   methods: {
@@ -42,10 +41,6 @@ export default {
     }
   },
   beforeMount() {
-    const authRequired = (this.$route.meta.requiredAuth === undefined);
-    if (authRequired && this.authUser === null) {
-      console.log('NEED REDIRECT HERE');
-    }
     this.initApp();
   }
 };

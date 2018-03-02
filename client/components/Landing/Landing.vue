@@ -5,11 +5,11 @@ div
 		div.balls_nav._desk: span(v-for="i in [1,2,3,4,5,6]")
 		div.logo_starter
 			div.top_buttons
-				a(@click="$router.push({name: 'signup'})")
+				a(@click="clickLink('signup')")
 					span SignUp
 				a
 					span Info
-				a(@click="$router.push({name: 'login'})")
+				a(@click="clickLink('login')")
 					span LogIn
 
 			div.bottom_content
@@ -29,14 +29,16 @@ div
 			div._fixed_bottom._mob
 				a
 					button.land INVEST NOW
-				div.trusty_down_arrow
+				div.trusty_down_arrow(@click="clickScroll(0)")
 					span(v-html="arrowDown")
 
 		div.land_slides
 			template(v-for="(slide, index) in slides")
-				div.land_slide(:class="slideClass(index)", :id="slideClass(index)")
-					div.trusty_down_arrow(v-if="index === 0")
-						span(v-html="arrowDown")
+				section.land_slide(
+					:class="slideClass(index)",
+					:id="slideClass(index)",
+					:ref="slideClass(index)",
+					@click="clickScroll(index + 1)")
 					div.image_area
 						div
 							template(v-if="index === 0")
@@ -47,10 +49,10 @@ div
 					div.text_area
 						h1(v-html="slide.title")
 						div._body(v-if="slide.text" v-html="slide.text")
-					div.trusty_down_arrow(v-if="index > 0")
+					div.trusty_down_arrow
 						span(v-html="arrowDown")
 
-		div.last_text#last_screen
+		div.last_text#last_screen(ref="last")
 			p
 				| First time in history
 				br._mob
@@ -92,6 +94,7 @@ div
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import './style.scss';
 
 const slide1 = require('./vendor/how.gif');
@@ -151,7 +154,6 @@ export default{
           image: slide6,
           title: "One-Click<br class='_mob'>To<br class='_desk'>" +
                "Fix Your Income<br class='_desk'> In USD",
-
           text: 'Fix your income to wait out price<br> hyper volatility. Just click to<br> ' +
                 'transfer your funds in<br> USD, EUR, CNY, Gold, etc.'
         },
@@ -168,11 +170,38 @@ export default{
       logoDesk
     };
   },
+  computed: {
+    ...mapGetters({
+      authUser: 'account/getAccountUserId'
+    })
+  },
   methods: {
     slideClass(index) {
       const addString = index + 1;
       return 'sl_id-' + addString;
     },
+    clickLink(destination) {
+      if (this.authUser === null) {
+        this.$router.push({ name: destination });
+      } else {
+        this.$router.push({ name: 'profile' });
+      }
+    },
+    scrollTo(element) {
+      window.scrollTo({
+        behavior: 'smooth',
+        left: 0,
+        top: element.offsetTop
+      });
+    },
+    clickScroll(index) {
+      if (index === this.slides.length) {
+        this.scrollTo(this.$refs.last);
+      } else {
+        this.scrollTo(this.$refs[this.slideClass(index)][0]);
+      }
+    }
   }
 };
+
 </script>

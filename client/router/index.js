@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import Cookies from 'js-cookie';
 import Router from 'vue-router';
 import Deposit from '@/components/Transfer';
 import Profile from '@/components/Profile/Profile.vue';
@@ -18,17 +19,20 @@ import Landing from '@/components/Landing/Landing';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
       name: 'landing',
-      path: '/',
-      component: Landing
+      path: '/home',
+      component: Landing,
+      meta: {
+        requiredAuth: false
+      }
     },
     {
       name: 'profile',
-      path: '/profile',
+      path: '/',
       component: Profile
     },
     {
@@ -111,3 +115,16 @@ export default new Router({
   ]
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiredAuth === undefined) {
+    const userId = Cookies.get('BITSHARES_USER_ID');
+    if (userId === undefined) {
+      next({
+        path: '/home'
+      });
+    }
+  }
+  next();
+});
+
+export default router;
