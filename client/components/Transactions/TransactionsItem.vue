@@ -4,6 +4,7 @@
       //- TransactionType(:type="type")
       TransactionsItemTransferInfo(
         v-if="type === 'transfer'" 
+       :userId="userId"
        :item="item")
 
       TransactionsItemPlaceOrderInfo(

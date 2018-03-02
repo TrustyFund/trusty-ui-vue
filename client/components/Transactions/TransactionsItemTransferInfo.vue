@@ -10,6 +10,10 @@ export default {
     item: {
       type: Object,
       required: true
+    },
+    userId: {
+      type: String,
+      required: true
     }
   },
   data() {

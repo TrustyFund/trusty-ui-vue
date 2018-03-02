@@ -1,5 +1,6 @@
 <template lang="pug">
-  p._value Placed an order to sell {{ sell.amount }} {{ sell.assetName }} at {{ receive.amount }} {{ receive.assetName }}
+  p._value(v-if="isBuying") Placed an order to buy {{ receive.amount }} {{ receive.assetName }} at {{ sell.amount }} {{ sell.assetName }}
+  p._value(v-else) Placed an order to sell {{ sell.amount }} {{ sell.assetName }} at {{ receive.amount }} {{ receive.assetName }}
 </template>
 
 <script>
@@ -38,8 +39,10 @@ export default {
         amount: amount.toFixed(8).replace(/\.?0+$/, ''),
         assetName: this.assetReceive && this.assetReceive.symbol
       };
+    },
+    isBuying() {
+      return this.item.buyer;
     }
-
   }
 };
 </script>
