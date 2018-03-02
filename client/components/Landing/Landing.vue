@@ -5,11 +5,11 @@ div
 		div.balls_nav._desk: span(v-for="i in [1,2,3,4,5,6]")
 		div.logo_starter
 			div.top_buttons
-				a(@click="$router.push({name: 'signup'})")
+				a(@click="clickLink('signup')")
 					span SignUp
 				a
 					span Info
-				a(@click="$router.push({name: 'login'})")
+				a(@click="clickLink('login')")
 					span LogIn
 
 			div.bottom_content
@@ -92,6 +92,7 @@ div
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import './style.scss';
 
 const slide1 = require('./vendor/how.gif');
@@ -168,11 +169,23 @@ export default{
       logoDesk
     };
   },
+  computed: {
+    ...mapGetters({
+      authUser: 'account/getAccountUserId'
+    })
+  },
   methods: {
     slideClass(index) {
       const addString = index + 1;
       return 'sl_id-' + addString;
     },
+    clickLink(destination) {
+      if (this.authUser === null) {
+        this.$router.push({ name: destination });
+      } else {
+        this.$router.push({ name: 'profile' });
+      }
+    }
   }
 };
 </script>
