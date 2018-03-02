@@ -27,7 +27,7 @@ export default {
       return (this.item.payload.from === this.userId);
     },
     transferType() {
-      return (this.userIsSender) ? 'Sent' : 'Received';
+      return this.userIsSender ? 'Sent' : 'Received';
     },
     amount() {
       const amount = (this.item.payload.amount.amount / (10 ** this.asset.precision));
@@ -40,7 +40,7 @@ export default {
       return this.asset && this.asset.symbol;
     },
     otherUserVerb() {
-      return (this.userIsSender) ? 'to' : 'from';
+      return this.userIsSender ? 'to' : 'from';
     },
     otherUserName() {
       return this.item.otherUserName;
