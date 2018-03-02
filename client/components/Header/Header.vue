@@ -1,6 +1,6 @@
 <template lang="pug">
 
-.trusty_header
+.trusty_header(v-if="!isHidden")
 
 		icon-component(
 			name="trusty_fund_logo",
@@ -63,6 +63,9 @@ export default {
     },
     isProfilePage() {
       return this.$route.name === 'profile';
+    },
+    isHidden() {
+      return this.$route.name === 'landing';
     }
   }
 };

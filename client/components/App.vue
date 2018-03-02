@@ -5,8 +5,8 @@
     <div class="connecting-block-screen"
          v-if="!ready">
        <Spinner/>
-     </div>
-     <notifications group="auth" width="100%" position="bottom center"/>
+    </div>
+    <notifications group="auth" width="100%" position="bottom center"/>
   </div>
 </template>
 
@@ -32,7 +32,7 @@ export default {
   methods: {
     ...mapActions({
       initApp: 'app/initApp',
-      fetchDefaultAssets: 'assets/fetchDefaultAssets',
+      fetchDefaultAssets: 'assets/fetchDefaultAssets'
     })
   },
   watch: {
