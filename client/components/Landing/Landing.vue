@@ -1,4 +1,4 @@
-<template lang="pug">
+ <template lang="pug">
 div
 	div.trusty_fixed_background_div
 	div#landing
@@ -127,7 +127,7 @@ export default{
         },
         {
           image: slide2,
-          title: "Easy To Create<br class='_desk'>A<br class='_mob'>" +
+          title: "Easy To Create<br class='_desk'> A<br class='_mob'>" +
                  "Decentralized<br class='_desk'> Account",
           text: 'Click Signup, create password<br> and your account will be secured <br>' +
                 'by the BitShares.org blockchain. <br> You own the private key'
@@ -153,7 +153,7 @@ export default{
         {
           image: slide6,
           title: "One-Click<br class='_mob'>To<br class='_desk'>" +
-               "Fix Your Income<br class='_desk'> In USD",
+               " Fix Your Income<br class='_desk'> In USD",
           text: 'Fix your income to wait out price<br> hyper volatility. Just click to<br> ' +
                 'transfer your funds in<br> USD, EUR, CNY, Gold, etc.'
         },
