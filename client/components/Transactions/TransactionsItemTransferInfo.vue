@@ -1,5 +1,5 @@
 <template lang="pug">
-  p._value {{ transferType }} {{ amount }} {{ assetName }}
+  p._value {{ transferType }} {{ amount }} {{ assetName }} {{ otherUserVerb }} {{ otherUserName }}
 </template>
 
 <script>
@@ -23,8 +23,11 @@ export default {
     ...mapGetters({
       getAssetById: 'assets/getAssetById'
     }),
+    userIsSender() {
+      return (this.item.payload.from === this.userId);
+    },
     transferType() {
-      return (this.item.payload.from === this.userId) ? 'Sent' : 'Received';
+      return (this.userIsSender) ? 'Sent' : 'Received';
     },
     amount() {
       const amount = (this.item.payload.amount.amount / (10 ** this.asset.precision));
@@ -35,6 +38,12 @@ export default {
     },
     assetName() {
       return this.asset && this.asset.symbol;
+    },
+    otherUserVerb() {
+      return (this.userIsSender) ? 'to' : 'from';
+    },
+    otherUserName() {
+      return this.item.otherUserName;
     }
   }
 };
