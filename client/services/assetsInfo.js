@@ -2,9 +2,11 @@ import axios from 'axios';
 
 
 async function getStats(fromSymbol) {
-  const statsQuery = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${fromSymbol}&tsyms=USD&e=CCCAGG`;
+  const statsQuery = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${fromSymbol}` +
+    '&tsyms=USD&e=CCCAGG';
   const nowHourinMS = Date.now();
-  const nowHourQuery = `https://min-api.cryptocompare.com/data/histohour?fsym=${fromSymbol}&tsym=USD&limit=1&aggregate=1&toTs=${nowHourinMS}`;
+  const nowHourQuery = `https://min-api.cryptocompare.com/data/histohour?fsym=${fromSymbol}` +
+    `&tsym=USD&limit=1&aggregate=1&toTs=${nowHourinMS}`;
   try {
     const statsResponse = await axios.get(statsQuery);
     const nowResponse = await axios.get(nowHourQuery);
@@ -48,6 +50,5 @@ async function getStats(fromSymbol) {
     return result;
   }
 }
-
 
 export default { getStats };
