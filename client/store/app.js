@@ -9,6 +9,7 @@ const actions = {
     const { commit } = store;
     store.dispatch('account/checkCachedUserData', null, { root: true });
     store.dispatch('connection/initConnection', null, { root: true });
+    store.dispatch('assetInfo/fetchStats', 'BTC', { root: true });
     commit(APP_INIT);
   }
 };

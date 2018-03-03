@@ -1,50 +1,48 @@
-import AssetInfo from './assetInfo';
+import AssetInfo from '@/services/assetsInfo';
 
-const SET_STATS = 'SET_STATS';
-const SET_SOCIAL = 'SET_SOCIAL';
-const SET_SNAPSHOT = 'SET_SNAPSHOT';
+const FETCH_ASSET_STATS_REQUEST = 'FETCH_ASSET_STATS_REQUEST';
+const FETCH_ASSET_STATS_COMPLETE = 'FETCH_ASSET_STATS_COMPLETE';
+const FETCH_ASSET_STATS_ERROR = 'FETCH_ASSET_STATS_ERROR';
 
 const mutations = {
-  [SET_STATS](state, stats) {
+  [FETCH_ASSET_STATS_REQUEST](state) {
+    state.penging = true;
+  },
+  [FETCH_ASSET_STATS_ERROR](state) {
+    state.penging = false;
+  },
+  [FETCH_ASSET_STATS_COMPLETE](state, { stats }) {
     state.stats = stats;
-  },
-  [SET_SOCIAL](state, social) {
-    state.social = social;
-  },
-  [SET_SNAPSHOT](state, snapShot) {
-    state.snapShot = snapShot;
-  },
+    state.penging = false;
+  }
 };
 
 const actions = {
-  fetchStats({ commit }, stats) {
-
-    commit(SET_STATS, stats);
-  },
-  fetchSocial({ commit }, social) {
-    commit(SET_SOCIAL, social);
-  },
-  fetchSnapshot({ commit }, snapShot) {
-    commit(SET_SNAPSHOT, snapShot);
+  async fetchStats({ commit }, assetSymbol) {
+    commit(FETCH_ASSET_STATS_REQUEST);
+    const result = await AssetInfo.getStats(assetSymbol);
+    if (result.success) {
+      commit(FETCH_ASSET_STATS_COMPLETE, { stats: result.data });
+    } else {
+      commit(FETCH_ASSET_STATS_ERROR);
+    }
+    return result;
   }
 };
 
 const getters = {
   getStats: state => state.stats,
-  getSocial: state => state.social,
-  getSnapShot: state => state.snapShot,
 };
 
 
-const state = {
+const initialState = {
   stats: {},
-  social: {},
-  snapShot: {},
+  penging: false,
 };
 
 export default {
   namespaced: true,
-  state,
+  state: initialState,
   actions,
   mutations,
   getters,
