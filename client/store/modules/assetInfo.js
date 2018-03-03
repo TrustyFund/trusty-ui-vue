@@ -130,7 +130,6 @@ const actions = {
   async fetchSocial({ commit }, assetSymbol) {
     commit(FETCH_ASSET_SOCIAL_REQUEST);
     const result = await AssetInfo.getSocialStats(assetSymbol);
-    console.log('social result', result);
     if (result.success) {
       commit(FETCH_ASSET_SOCIAL_COMPLETE, { social: result.data });
     } else {

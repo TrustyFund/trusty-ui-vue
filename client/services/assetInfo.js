@@ -7,42 +7,46 @@ class AssetInfo {
     const coinsQuery = 'https://min-api.cryptocompare.com/data/all/coinlist';
     const response = await axios.get(coinsQuery);
     console.log('response coins', response);
-    if (response.data) {
-      return response.data.Data;
+    if (response.data.Success) {
+      return {
+        success: true,
+        data: response.data.Data
+      };
     }
-    return false;
+    return {
+      success: false,
+      message: 'no coins'
+    };
   }
 
 
   async getSocialStats(assetSymbol) {
-    if (this.coins === undefined) {
-      this.coins = await AssetInfo.initCoins();
-    }
     if (!this.coins) {
-      return {
-        success: false,
-        error: 'coins cant downloaded'
-      };
+      const coinsResult = await AssetInfo.initCoins();
+      if (coinsResult.success) {
+        this.coins = coinsResult.data;
+      } else {
+        return coinsResult;
+      }
     }
     const coinId = this.coins[assetSymbol].Id;
     const socialQuery = `https://www.cryptocompare.com/api/data/socialstats/?id=${coinId}`;
     try {
-      const socialstats = await axios.get(socialQuery);
-      if (socialstats.data.Response === 'Success') {
+      const socialStats = await axios.get(socialQuery);
+      if (socialStats.data.Response === 'Success') {
         const data = {
-          symbol: socialstats.data.Data.General.Name,
-          name: socialstats.data.Data.General.CoinName,
-          twitter: socialstats.data.Data.Twitter,
-          reddit: socialstats.data.Data.Reddit,
-          facebook: socialstats.data.Data.Facebook,
-          code: []
+          symbol: socialStats.data.Data.General.Name,
+          name: socialStats.data.Data.General.CoinName,
+          twitter: socialStats.data.Data.Twitter,
+          reddit: socialStats.data.Data.Reddit,
+          facebook: socialStats.data.Data.Facebook,
+          code: socialStats.data.Data.CodeRepository.List.map(item => {
+            return {
+              url: item.url,
+              lastUpdate: dateFns.format(new Date(item.last_update * 1000), 'MMMM DD YYYY HH:mm:')
+            };
+          })
         };
-        socialstats.data.Data.CodeRepository.List.forEach(item => {
-          data.code.push({
-            url: item.url,
-            lastUpdate: dateFns.format(new Date(item.last_update * 1000), 'MMMM DD YYYY HH:mm:')
-          });
-        });
         return {
           success: true,
           data
@@ -50,7 +54,7 @@ class AssetInfo {
       }
       return {
         success: false,
-        error: socialstats.data.Message
+        error: socialStats.data.Message
       };
     } catch (error) {
       return {
@@ -61,14 +65,13 @@ class AssetInfo {
   }
 
   async getCoinSnapshot(assetSymbol) {
-    if (this.coins === undefined) {
-      this.coins = await AssetInfo.initCoins();
-    }
     if (!this.coins) {
-      return {
-        success: false,
-        error: 'coins cant downloaded'
-      };
+      const coinsResult = await AssetInfo.initCoins();
+      if (coinsResult.success) {
+        this.coins = coinsResult.data;
+      } else {
+        return coinsResult;
+      }
     }
     const coinId = this.coins[assetSymbol];
     const snapshotQuery = 'https://www.cryptocompare.com/api/data/coinsnapshotfullbyid/' +
