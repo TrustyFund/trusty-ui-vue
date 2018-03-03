@@ -3,7 +3,7 @@
 .trusty_recent_transactions.main_padding
   div.trusty_recent_transactions__spinner-container(v-show="pending")
     Spinner
-  TransactionsItem(v-for="item in filteredItems" 
+  TransactionsItem(v-for="item in filteredOperations" 
                   :item="item"
                   :key="item.id"
                   :userId="userId")
@@ -31,26 +31,26 @@ export default {
   },
   computed: {
     ...mapGetters({
-      items: 'account/getOperations',
       ready: 'connection/isReady',
       userId: 'account/getAccountUserId',
-      pending: 'account/getAccountOperationsPendingState'
+      operations: 'operations/getOperations',
+      pending: 'operations/isFetching',
     }),
-    filteredItems() {
-      if (this.limit) return this.items.slice(0, this.limit);
-      return this.items;
+    filteredOperations() {
+      if (this.limit) return this.operations.slice(0, this.limit);
+      return this.operations;
     }
   },
   methods: {
     ...mapActions({
-      fetchOperations: 'account/fetchAccountOperations'
+      fetchOperations: 'operations/fetchUserOperations'
     })
   },
   watch: {
     ready: {
       handler(connected) {
         if (connected) {
-          this.fetchOperations();
+          this.fetchOperations({ userId: this.userId });
         }
       },
       immediate: true
