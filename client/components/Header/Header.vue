@@ -48,7 +48,8 @@ export default {
         'backup-verify': 'verify backup',
         'backup-done': 'almost done! let\'s review',
         transactions: 'recent transactions',
-        'manage-approve': 'update portfolio'
+        'manage-approve': 'update portfolio',
+        'terms-of-use': 'terms of use'
       }
     };
   },
