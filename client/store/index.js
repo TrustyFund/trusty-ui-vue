@@ -4,13 +4,15 @@ import Vuex from 'vuex';
 import vuexBitshares from 'lib/src';
 import transfer from './transfer';
 import app from './app';
+import assetInfo from './modules/assetInfo';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   modules: {
     transfer,
-    app
+    app,
+    assetInfo,
   }
 });
 vuexBitshares(store);
