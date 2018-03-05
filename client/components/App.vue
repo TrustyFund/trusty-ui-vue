@@ -1,5 +1,5 @@
 <template>
-	<div id="app" :class="headerSpace">
+	<div id="app" :class="activeClass">
 		<Header/>
 		<router-view></router-view>
 		<div class="connecting-block-screen"
@@ -26,8 +26,8 @@ export default {
     return {};
   },
   computed: {
-    headerSpace() {
-      return this.$route.name === 'landing' ? '' : '_header_space';
+    activeClass() {
+      return this.$route.name === 'landing' ? '_landing_page' : '_header_space';
     },
     ...mapGetters({
       ready: 'connection/isReady'
