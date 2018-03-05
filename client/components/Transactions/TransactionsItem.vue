@@ -1,7 +1,6 @@
 <template lang="pug">
   .transaction_info
     div.transaction_info__main
-      //- TransactionType(:type="type")
       TransactionsItemTransferInfo(
         v-if="type === 'transfer'" 
        :userId="userId"
@@ -24,7 +23,6 @@
 
 <script>
 import distanceInWordsStrict from 'date-fns/distance_in_words_strict';
-import TransactionType from './TransactionsItemType';
 import TransactionsItemTransferInfo from './TransactionsItemTransferInfo';
 import TransactionsItemPlaceOrderInfo from './TransactionsItemPlaceOrderInfo';
 import TransactionsItemFillOrderInfo from './TransactionsItemFillOrderInfo';
@@ -33,7 +31,6 @@ import TransactionsItemCancelOrderInfo from './TransactionsItemCancelOrderInfo';
 
 export default {
   components: {
-    TransactionType,
     TransactionsItemTransferInfo,
     TransactionsItemPlaceOrderInfo,
     TransactionsItemFillOrderInfo,
