@@ -23,8 +23,12 @@
 
 		.logo_starter svg {
 			width: 100%;
-			height: 10vw;
+			height: 12vw;
 		}
+		._logo_text {
+			margin-bottom: 0 !important;
+		}
+
 
 		p {
 			font-family: Gotham_Pro_Bold;
@@ -54,6 +58,7 @@
 				font-family: Gotham_Pro;
 				font-size: 6.4vw;
 				line-height: 8.13vw;
+				margin-top: 0;
 		 	}
 		}
 
