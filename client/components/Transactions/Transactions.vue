@@ -36,25 +36,36 @@ export default {
       operations: 'operations/getOperations',
       pending: 'operations/isFetching',
     }),
+    sortedOperations() {
+      return this.operations.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateB - dateA;
+      });
+    },
     filteredOperations() {
-      if (this.limit) return this.operations.slice(0, this.limit);
-      return this.operations;
+      if (this.limit) return this.sortedOperations.slice(0, this.limit);
+      return this.sortedOperations;
     }
   },
   methods: {
     ...mapActions({
-      fetchOperations: 'operations/fetchUserOperations'
+      initializeOperations: 'operations/fetchAndSubscribe',
+      unsubscribeFromUserOperations: 'operations/unsubscribeFromUserOperations'
     })
   },
   watch: {
     ready: {
       handler(connected) {
         if (connected) {
-          this.fetchOperations({ userId: this.userId });
+          this.initializeOperations({ userId: this.userId });
         }
       },
       immediate: true
     }
+  },
+  beforeDestroy() {
+    this.unsubscribeFromUserOperations();
   }
 };
 </script>

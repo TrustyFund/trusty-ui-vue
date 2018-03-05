@@ -18,7 +18,7 @@
       TransactionsItemCancelOrderInfo(
         v-if="type === 'limit_order_cancel'" 
        :item="item")
-    div.transaction_info__date {{ getRelativeTime() }}
+    div.transaction_info__date {{ relativeTime }}
 
 </template>
 
@@ -55,10 +55,8 @@ export default {
   computed: {
     type() {
       return this.item.type;
-    }
-  },
-  methods: {
-    getRelativeTime() {
+    },
+    relativeTime() {
       return distanceInWordsStrict(new Date(), this.item.date, {
         addSuffix: true
       });

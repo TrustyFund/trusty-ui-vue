@@ -39,7 +39,6 @@
     "event-listener": "^1.1.0",
     "fractional": "^1.0.0",
     "js-cookie": "^2.2.0",
-    "lodash": "^4.17.5",
     "promise-polyfill": "^6.0.2",
     "sockjs-client": "^1.1.4",
     "vue": "^2.5.13",
