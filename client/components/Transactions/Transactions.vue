@@ -3,6 +3,7 @@
 .trusty_recent_transactions.main_padding
   div.trusty_recent_transactions__spinner-container(v-show="pending")
     Spinner
+  div.trusty_recent_transactions__error(v-show="error") Error when fetching user's transactions
   TransactionsItem(v-for="item in filteredOperations" 
                   :item="item"
                   :key="item.id"
@@ -35,6 +36,7 @@ export default {
       userId: 'account/getAccountUserId',
       operations: 'operations/getOperations',
       pending: 'operations/isFetching',
+      error: 'operations/isError'
     }),
     sortedOperations() {
       return this.operations.sort((a, b) => {
