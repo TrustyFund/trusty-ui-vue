@@ -11,8 +11,10 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-  data() {
+  /* data() {
     return {
       phrase: [
         'talk', 'divide', 'trophy', 'next',
@@ -21,8 +23,18 @@ export default {
         'cishion',
       ]
     };
-  }
+  }, */
+  computed: {
+    ...mapGetters({
+      phrase: 'account/getBrainkey'
+    })
+  },
 };
 
 </script>
 
+<style scoped>
+.trusty_big_font span {
+  white-space: nowrap;
+}
+</style>

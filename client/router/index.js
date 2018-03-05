@@ -13,6 +13,7 @@ import BackupDone from '@/components/Backup/BackupDone';
 import BackupFirst from '@/components/Backup/BackupFirst';
 import BackupPhrase from '@/components/Backup/BackupPhrase';
 import BackupVerify from '@/components/Backup/BackupVerify';
+import BackupPassword from '@/components/Backup/BackupPasswordCheck';
 import PortfolioApprove from '@/components/Portfolio/PortfolioApprove';
 import Landing from '@/components/Landing/Landing';
 
@@ -90,6 +91,11 @@ const router = new Router({
           path: '',
           name: 'backup',
           component: BackupFirst
+        },
+        {
+          path: 'password',
+          name: 'backup-password',
+          component: BackupPassword
         },
         {
           path: 'phrase',
