@@ -1,10 +1,18 @@
 
 @media screen and (max-width: 768px) {
 
+	body {
+		padding-top: $header_size !important;
+	}
+
   .trusty_header {
-
+  	background: #1e2225;
     height: $header_size;
-
+		position: fixed;
+		z-index: 300;
+		top: 0;
+		left:0;
+		right:0;
     .trusty_header_logo {
       line-height: 14vw;
       width: 57vw;
@@ -58,16 +66,16 @@
   }
 
   .trusty_arrow_back {
-    position: absolute !important;
-    width: 12vw !important;
-    height: 12vw !important;
+    position: absolute;
+    width: 12vw;
+    height: 12vw;
     line-height: 13.5vw;
-    top: .4vw !important;
-    left: -.2vw !important;
+    top: .4vw;
+    left: -.2vw;
     text-align: center;
     svg {
       display: inline-block;
-      height: 45% !important;
+      height: 45%;
     }
   }
 
