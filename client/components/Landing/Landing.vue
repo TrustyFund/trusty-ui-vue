@@ -110,12 +110,6 @@ const logo = require('./vendor/img_trusty_logo_last.svg');
 const logoDesk = require('./vendor/logo.svg');
 
 export default{
-  mounted() {
-    document.getElementById('app').classList.add('_landing_page');
-  },
-  beforeDestroy() {
-    document.getElementById('app').classList.remove('_landing_page');
-  },
   data() {
     return {
       slides: [
@@ -136,7 +130,7 @@ export default{
           image: slide3,
           title: 'Deposit Fiat<br>Or Cryptocurrencies',
           text: 'Invest USD, RUB, EUR, CNY at the best exchange rate or pay 0% ' +
-                 'commission to deposit cryptocurrencies directly'
+               'commission to deposit cryptocurrencies directly'
         },
         {
           image: slide4,
@@ -153,16 +147,16 @@ export default{
         {
           image: slide6,
           title: "One-Click<br class='_mob'>To<br class='_desk'>" +
-               " Fix Your Income<br class='_desk'> In USD",
+              " Fix Your Income<br class='_desk'> In USD",
           text: 'Fix your income to wait out price<br> hyper volatility. Just click to<br> ' +
-                'transfer your funds in<br> USD, EUR, CNY, Gold, etc.'
+              'transfer your funds in<br> USD, EUR, CNY, Gold, etc.'
         },
         {
           image: slide7,
           title: 'Withdraw Fiat<br> Or Cryptocurrencies',
           text: 'Withdraw funds in USD, RUB, EUR, CNY<br class="_desk" /> directly to a bank card' +
-                ', payment service<br class="_desk" />  account or send cryptocurrencies' +
-                '<br class="_desk" />  to a crypto wallet'
+               ', payment service<br class="_desk" />  account or send cryptocurrencies' +
+               '<br class="_desk" />  to a crypto wallet'
         }
       ],
       arrowDown,
