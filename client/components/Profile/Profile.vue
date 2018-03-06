@@ -45,7 +45,7 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   data() {
     return {
-      username: '',
+      username: ''
     };
   },
   computed: {
@@ -69,7 +69,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchUser: 'user/fetchUser',
+      fetchUser: 'user/fetchUser'
     })
   },
 };
