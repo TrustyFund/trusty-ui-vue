@@ -2,7 +2,7 @@
 
 .trusty_recent_transactions(:class="{'main_padding': !minMode, 'trusty_recent_transactions--min-mode': minMode }" 
                            @click="goToFullMode"
-                           v-show="!minMode || filteredOperations.length")
+                           v-show="!minMode || filteredOperations.length || pending")
   div.trusty_recent_transactions__title(v-show="minMode") Recent transactions
   div.trusty_recent_transactions__empty(v-show="!filteredOperations.length && !pending") No transactions yet
   div.trusty_recent_transactions__spinner-container(v-show="pending")
