@@ -1,8 +1,10 @@
 <template lang="pug">
 
 .trusty_recent_transactions(:class="{'main_padding': !minMode, 'trusty_recent_transactions--min-mode': minMode }" 
-                           @click="goToFullMode")
+                           @click="goToFullMode"
+                           v-show="!minMode || filteredOperations.length")
   div.trusty_recent_transactions__title(v-show="minMode") Recent transactions
+  div.trusty_recent_transactions__empty(v-show="!filteredOperations.length") No transactions yet
   div.trusty_recent_transactions__spinner-container(v-show="pending")
     Spinner
   div.trusty_recent_transactions__error(v-show="error") Error when fetching user's transactions
@@ -93,11 +95,15 @@ export default {
   &--min-mode {
     cursor: pointer;
   }
-  &__title {
+  &__title,
+  &__empty {
     font-size: 4.4vw;
     color: white;
     font-family: 'Gotham_Pro_Regular';
     text-transform: uppercase;
+  }
+  &__empty {
+    opacity: 0.8;
   }
   &__spinner-container {
     position: relative;
