@@ -43,7 +43,6 @@ export default {
   methods: {
     next() {
       this.$store.dispatch('app/setModal', null);
-      // this.$router.push({ name: 'backup-phrase' });
       this.$router.push({ name: 'backup-password' });
     },
   },
