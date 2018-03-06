@@ -28,7 +28,7 @@ export default {
       required: false,
       default: 100
     },
-    // pass true when the component is nexted inside another with
+    // pass true when the component is nested inside another with
     // ability to go into full mode on click
     minMode: {
       type: Boolean,
