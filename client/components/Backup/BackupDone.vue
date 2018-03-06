@@ -6,9 +6,6 @@
 		._info
 			p.trusty_help_text(v-html="text")
 
-	.trusty_inline_buttons._one_button
-		button copy password
-
 	._bottom_fixed.main_padding
 		.tick_container
 			._tick: icon(name="tick_backup", :initialSvgColors="true")
@@ -18,11 +15,13 @@
 					span._yellow The terms of use
 
 		.trusty_inline_buttons._one_button
-			button finish backup
+			button(@click="doneBackup") finish backup
 
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+import dateFns from 'date-fns';
 
 import icon from '@/components/UI/icon';
 /*eslint-disable*/
@@ -39,11 +38,6 @@ const infos = [
 		cash, my funds can only be<br/>
 		accessed with the backed pharse
 
-	`,
-  `
-		I undersatand that I need to<br/>
-		confirm every transaction with<br/>
-		the password
 	`
 ];
 
@@ -55,6 +49,15 @@ export default {
     return {
       infos
     };
+  },
+  methods: {
+  	...mapActions({
+  		storeBackupDate: 'account/storeBackupDate'
+  	}),
+  	doneBackup(){
+  		const date = dateFns.format(new Date(), 'MMMM DD YYYY HH:mm');
+  		this.storeBackupDate({ date });
+  	}
   }
 };
 
