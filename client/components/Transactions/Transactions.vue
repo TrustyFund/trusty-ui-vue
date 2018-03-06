@@ -4,7 +4,7 @@
                            @click="goToFullMode"
                            v-show="!minMode || filteredOperations.length")
   div.trusty_recent_transactions__title(v-show="minMode") Recent transactions
-  div.trusty_recent_transactions__empty(v-show="!filteredOperations.length") No transactions yet
+  div.trusty_recent_transactions__empty(v-show="!filteredOperations.length && !pending") No transactions yet
   div.trusty_recent_transactions__spinner-container(v-show="pending")
     Spinner
   div.trusty_recent_transactions__error(v-show="error") Error when fetching user's transactions
@@ -25,7 +25,8 @@ export default {
     // limit number of last transactions to show
     limit: {
       type: Number,
-      required: false
+      required: false,
+      default: 100
     },
     // pass true when the component is nexted inside another with
     // ability to go into full mode on click
@@ -74,7 +75,7 @@ export default {
     ready: {
       handler(connected) {
         if (connected) {
-          this.initializeOperations({ userId: this.userId });
+          this.initializeOperations({ userId: this.userId, limit: this.limit });
         }
       },
       immediate: true
