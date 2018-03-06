@@ -2,7 +2,11 @@
 div
 	div.trusty_fixed_background_div
 	div#landing
-		div.balls_nav._desk: span(v-for="i in [1,2,3,4,5,6]")
+		div.balls_nav._desk
+			span(
+				v-for="refer in slideRefers",
+				@click="scrollTo(refer)",
+				:class="{ _selected: referClass === refer }")
 		div.logo_starter(:style="{ height: windowHeight }")
 			div.top_buttons
 				a(@click="clickLink('signup')")
@@ -165,10 +169,14 @@ export default{
       arrowDown,
       logo,
       logoDesk,
-      scroll: new SmoothScroll()
+      scroll: new SmoothScroll(),
+      referClass: ''
     };
   },
   computed: {
+    slideRefers() {
+      return [1, 2, 3, 4, 5, 6, 7].map(item => `sl_id-${item}`);
+    },
     slideHeight() {
       return isMobile() ? { height: this.windowHeight } : {};
     },
@@ -192,13 +200,22 @@ export default{
       }
     },
     scrollTo(element) {
-      this.scroll.animateScroll(element);
+      let current;
+      if (typeof element === 'string') {
+      	this.referClass = element;
+        current = document.getElementById(element);
+      } else {
+      	current = element;
+      }
+      this.scroll.animateScroll(current);
     },
     clickScroll(index) {
       if (index === this.slides.length) {
         this.scrollTo(this.$refs.last);
+      	this.referClass = `sl_id-${this.slides.length}`;
       } else {
         this.scrollTo(this.$refs[this.slideClass(index)][0]);
+        this.referClass = `sl_id-${index + 1}`;
       }
     }
   }

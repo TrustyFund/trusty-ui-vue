@@ -36,11 +36,10 @@ $arrow_size: 9.8vh;
 		margin: .8vw 2.5vw;
 		border-radius: 50%;
 		border: 2px solid white;
-		&:hover {
+		&:hover, &._selected {
 			cursor: pointer;
 			background: white;
 		}
-
 	}
 }
 
