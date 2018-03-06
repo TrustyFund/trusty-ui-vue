@@ -1,6 +1,8 @@
 <template lang="pug">
-  p._value(v-if="isBuying") Bought {{ receives.amount }} {{ receives.assetName }} at {{ ratio }} {{ pays.assetName }}/{{ receives.assetName }}
-  p._value(v-else) Sold {{ pays.amount }} {{ pays.assetName }} at {{ ratio }} {{ receives.assetName }}/{{ pays.assetName }}
+  p._value(v-if="isBuying") Bought {{ receives.amount }} {{ receives.assetName }} at {{ ratio }} 
+    span.ratio-assets {{ pays.assetName }}/{{ receives.assetName }}
+  p._value(v-else) Sold {{ pays.amount }} {{ pays.assetName }} at {{ ratio }} 
+    span.ratio-assets {{ receives.assetName }}/{{ pays.assetName }}
 </template>
 
 <script>
@@ -53,4 +55,8 @@ export default {
 </script>
 
 <style lang="scss">
+  .ratio-assets {
+    color: inherit;
+    border-bottom: 1px dotted white;
+  }
 </style>

@@ -1,12 +1,14 @@
 <template lang="pug">
 
-.trusty_recent_transactions.main_padding
+.trusty_recent_transactions(:class="{'main_padding': !minMode, 'trusty_recent_transactions--min-mode': minMode }" 
+                           @click="goToFullMode")
+  div.trusty_recent_transactions__title(v-show="minMode") Recent transactions
   div.trusty_recent_transactions__spinner-container(v-show="pending")
     Spinner
   div.trusty_recent_transactions__error(v-show="error") Error when fetching user's transactions
-  TransactionsItem(v-for="item in filteredOperations" 
-                  :item="item"
-                  :key="item.id"
+  TransactionsItem(v-for="item in filteredOperations",
+                  :item="item",
+                  :key="item.id",
                   :userId="userId")
 
 </template>
@@ -22,6 +24,13 @@ export default {
     limit: {
       type: Number,
       required: false
+    },
+    // pass true when the component is nexted inside another with
+    // ability to go into full mode on click
+    minMode: {
+      type: Boolean,
+      requred: false,
+      default: false
     }
   },
   components: {
@@ -54,7 +63,10 @@ export default {
     ...mapActions({
       initializeOperations: 'operations/fetchAndSubscribe',
       unsubscribeFromUserOperations: 'operations/unsubscribeFromUserOperations'
-    })
+    }),
+    goToFullMode() {
+      if (this.minMode) this.$router.push({ name: 'transactions' });
+    }
   },
   watch: {
     ready: {
@@ -78,6 +90,15 @@ export default {
 
 .trusty_recent_transactions {
   margin-top: 2vw;
+  &--min-mode {
+    cursor: pointer;
+  }
+  &__title {
+    font-size: 4.4vw;
+    color: white;
+    font-family: 'Gotham_Pro_Regular';
+    text-transform: uppercase;
+  }
   &__spinner-container {
     position: relative;
     height: 5rem;

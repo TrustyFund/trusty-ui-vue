@@ -9,7 +9,7 @@
       button WITHDRAW
 
     .trusty_total_funds(v-if="account")
-      p {{ account.name}}
+      p {{ account.name}} TOTAL FUNDS
       h3._text_center: span 0$
     
     ._wrap_desk_buttons._desk
@@ -18,6 +18,10 @@
         button WITHDRAW
       .trusty_inline_buttons._one_button: button MANAGE FUND
 
+    div.transactions-wrap
+      Transactions(v-if="userId" 
+                  :limit="5" 
+                  :min-mode="true")
     .trusty_inline_buttons._mob._one_button: button MANAGE FUND
 
   
@@ -29,8 +33,6 @@
       fiat-id="1.3.121"
      :days="7")
 
-  div.transactions-wrap
-    Transactions(v-if="userId" :limit="5")
 
 
 </template>

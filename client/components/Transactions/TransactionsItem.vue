@@ -65,17 +65,18 @@ export default {
 <style lang="scss">
 
 .transaction_info {
-  font-size: 4.3vw;
-  margin-bottom: 4.4vw;
+  font-size: 3.3vw;
+  margin-bottom: 2vw;
   display: flex;
   justify-content: space-between;
+  opacity: 0.8;
   &__main {
     width: 100%;
   }
   &__date {
     color:#fdf101;
     font-family: Gotham_Pro;
-    opacity: 0.8;
+    opacity: 0.7;
     min-width: 6rem;
     margin-left: 0.5rem;
     text-align: right;
@@ -88,8 +89,8 @@ export default {
   }
 
   @media screen and (min-width: 768px) {
-    font-size: px_from_vw(4.3);
-    margin-bottom: px_from_vw(4.4);
+    font-size: px_from_vw(3.3);
+    margin-bottom: px_from_vw(2);
   }
 }
 
