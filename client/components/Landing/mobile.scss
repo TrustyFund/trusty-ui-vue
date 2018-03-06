@@ -63,7 +63,7 @@
 		}
 
 		.top_buttons {
-			height: 15%;//15vh;
+			height: 15%;
 			text-align: center;
 			a {
 				width: 28.5vw;
@@ -84,8 +84,14 @@
 			display: none;
 		}
 
+		.land_slide:not(.sl_id-1) {
+			.text_area {
+				margin-bottom: 11vh;
+			}
+
+		}
+
 		.land_slide {
-			height: 100vh;
 
 			&.sl_id-1 {
 				img {
@@ -100,7 +106,7 @@
 
 			&.sl_id-4 {
 				img {
-					width: 82vw !important;
+					width: 76vw !important;
 				}
 			}
 
