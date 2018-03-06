@@ -2,7 +2,7 @@
 div
 	div.trusty_fixed_background_div
 	div#landing
-		div.balls_nav._desk
+		div.balls_nav(v-if="showBalls")._desk
 			span(
 				v-for="refer in slideRefers",
 				@click="scrollTo(refer)",
@@ -101,6 +101,7 @@ div
 <script>
 import { mapGetters } from 'vuex';
 import SmoothScroll from 'smooth-scroll';
+import listen from 'event-listener';
 import { isMobile } from './utils';
 import './style.scss';
 
@@ -116,7 +117,21 @@ const arrowDown = require('./vendor/trusty_arrow_down.svg');
 const logo = require('./vendor/img_trusty_logo_last.svg');
 const logoDesk = require('./vendor/logo.svg');
 
-export default{
+export default {
+  mounted() {
+    this.listen = listen(window, 'scroll', () => {
+    	if (!this.isMobile) {
+	      this.slideRefers.forEach(refer => {
+	        const el = this.$refs[refer][0];
+	        const rect = el.getBoundingClientRect();
+	        if (Math.abs(rect.top) >= 0 && rect.top <= el.clientHeight) {
+	          this.referClass = refer;
+	        }
+	        this.showBalls = window.scrollY >= parseFloat(this.windowHeight);
+	      });
+    	}
+    });
+  },
   data() {
     return {
       slides: [
@@ -170,7 +185,8 @@ export default{
       logo,
       logoDesk,
       scroll: new SmoothScroll(),
-      referClass: ''
+      referClass: '',
+      showBalls: false
     };
   },
   computed: {
@@ -202,20 +218,17 @@ export default{
     scrollTo(element) {
       let current;
       if (typeof element === 'string') {
-      	this.referClass = element;
         current = document.getElementById(element);
       } else {
-      	current = element;
+        current = element;
       }
       this.scroll.animateScroll(current);
     },
     clickScroll(index) {
       if (index === this.slides.length) {
         this.scrollTo(this.$refs.last);
-      	this.referClass = `sl_id-${this.slides.length}`;
       } else {
         this.scrollTo(this.$refs[this.slideClass(index)][0]);
-        this.referClass = `sl_id-${index + 1}`;
       }
     }
   }
