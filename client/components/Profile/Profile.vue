@@ -27,8 +27,7 @@
   
   .table_wrap
     Portfolio( 
-      v-if="account && userBalances"
-      :balances="userBalances"
+     :min-mode="true"
       base-id="1.3.0"
       fiat-id="1.3.121"
      :days="7")
@@ -38,7 +37,7 @@
 </template>
 
 <script>
-import Portfolio from '@/components/Portfolio/Portfolio';
+import Portfolio from '@/components/Portfolio/PortfolioContainer';
 import Transactions from '@/components/Transactions/Transactions';
 import { mapGetters, mapActions } from 'vuex';
 
@@ -74,7 +73,6 @@ export default {
     goToManagePortfolio() {
       this.$router.push({ name: 'manage' });
     }
-
   },
 };
 </script>

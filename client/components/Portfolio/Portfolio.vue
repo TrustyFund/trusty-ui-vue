@@ -1,5 +1,6 @@
 <template lang="pug">
-
+  div(:class="{'main_padding': !minMode}")
+    .trusty_inline_buttons._mob._one_button(@click="goToManagePortfolio" v-show="!minMode"): button MANAGE FUND
     table.portfolio-container.trusty_table
       thead
         tr
@@ -17,30 +18,15 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import PortfolioBalance from './PortfolioBalance.vue';
 
 export default {
   props: {
-    balances: {
-      required: true,
-      type: Object,
-      default: {}
-    },
-    baseId: {
-      required: true,
-      type: String,
-      default: '1.3.0'
-    },
-    fiatId: {
-      required: true,
-      type: String,
-      default: '1.3.121'
-    },
-    days: {
-      required: true,
-      type: Number,
-      default: 7
+    minMode: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   },
   components: {
@@ -61,25 +47,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      fetchAssets: 'assets/fetchAssets',
-      fetchPortfolioData: 'portfolio/fetchPortfolioData',
-      resetPortfolioState: 'portfolio/resetPortfolioState'
-    })
-  },
-  beforeMount() {
-    const assetsIds = Object.keys(this.balances);
-    this.fetchAssets({ assets: assetsIds }).then(() => {
-      this.fetchPortfolioData({
-        balances: this.balances,
-        baseId: this.baseId,
-        fiatId: this.fiatId,
-        days: this.days
-      });
-    });
-  },
-  beforeDestroy() {
-    this.resetPortfolioState();
+    goToManagePortfolio() {
+      this.$router.push({ name: 'manage' });
+    }
   }
 };
 </script>

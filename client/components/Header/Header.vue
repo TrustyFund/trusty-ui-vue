@@ -49,7 +49,8 @@ export default {
         'backup-done': 'almost done! let\'s review',
         transactions: 'recent transactions',
         'manage-approve': 'update portfolio',
-        'terms-of-use': 'terms of use'
+        'terms-of-use': 'terms of use',
+        portfolio: 'portfolio'
       }
     };
   },

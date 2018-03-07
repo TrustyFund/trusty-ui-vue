@@ -6,7 +6,9 @@ import Profile from '@/components/Profile/Profile.vue';
 import User from '@/components/User/User.vue';
 import Signup from '@/components/Signup/Signup.vue';
 import Login from '@/components/Login/Login.vue';
-import ManagePortfolio from '@/components/ManagePortfolio/ManagePortfolio.vue';
+import PortfolioContainer from '@/components/Portfolio/PortfolioContainer.vue';
+import Portfolio from '@/components/Portfolio/Portfolio.vue';
+import ManagePortfolio from '@/components/Portfolio/ManagePortfolio/ManagePortfolio.vue';
 import Transactions from '@/components/Transactions/Transactions';
 import Backup from '@/components/Backup/Backup';
 import BackupDone from '@/components/Backup/BackupDone';
@@ -51,6 +53,22 @@ const router = new Router({
       }
     },
     {
+      path: '/portfolio',
+      component: PortfolioContainer,
+      children: [
+        {
+          path: '/',
+          name: 'portfolio',
+          component: Portfolio
+        },
+        {
+          path: 'manage',
+          name: 'manage',
+          component: ManagePortfolio
+        }
+      ]
+    },
+    {
       name: 'signup',
       path: '/signup',
       component: Signup,
@@ -67,11 +85,6 @@ const router = new Router({
       name: 'withdraw',
       path: '/withdraw',
       component: Deposit
-    },
-    {
-      name: 'manage',
-      path: '/manage',
-      component: ManagePortfolio
     },
     {
       name: 'manage-approve',
