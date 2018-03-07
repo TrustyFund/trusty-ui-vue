@@ -44,7 +44,7 @@ export default {
   methods: {
     clear() {
       this.comprehendPhrase = [];
-      this.phrase = this.shuffleBrainkey(this.splitedPhrase);
+      this.phrase = this.shuffleBrainkey(this.splitedPhrase).slice();
     },
     pushWord(word, index) {
       this.comprehendPhrase.push(word);
