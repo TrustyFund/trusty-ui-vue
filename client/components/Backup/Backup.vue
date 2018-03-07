@@ -2,7 +2,7 @@
 
 #trusty_backup.main_padding
 
-	router-view
+	router-view(@doneBackup="handleExit")
 
 	.modal_alert.main_padding(@click="setModal(null)", v-if="getModalName==='backup_try_again'")
 		.modal_content: p.trusty_big_font TRY AGAIN
@@ -18,16 +18,30 @@
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
+  data() {
+    return {
+      prevAddress: ''
+    };
+  },
   computed: {
     ...mapGetters('app', ['getModalName']),
   },
   methods: {
-    ...mapActions('app', ['setModal'])
+    ...mapActions('app', ['setModal']),
+    // this.$router.go(-1);
+    handleExit() {
+      this.$router.push({ name: this.prevAddress });
+    }
   },
   mounted() {
     // this.setModal('backup_try_again');
     // this.setModal('backup_copied_password');
     // this.setModal('backup-screenshots');
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.prevAddress = from.name;
+    });
   }
 };
 </script>

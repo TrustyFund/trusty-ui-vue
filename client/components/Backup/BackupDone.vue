@@ -15,7 +15,7 @@
 					span._yellow The terms of use
 
 		.trusty_inline_buttons._one_button
-			button(@click="doneBackup") finish backup
+			button(@click="done") finish backup
 
 </template>
 
@@ -53,9 +53,10 @@ export default {
   	...mapActions({
   		storeBackupDate: 'account/storeBackupDate'
   	}),
-  	doneBackup(){
+  	done(){
   		const date = new Date();
   		this.storeBackupDate({ date });
+			this.$emit('doneBackup');
   	}
   }
 };
