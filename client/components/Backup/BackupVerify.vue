@@ -33,7 +33,10 @@ export default {
   computed: {
     ...mapGetters({
       sourcePhrase: ('account/getBrainkey')
-    })
+    }),
+    splitedPhrase() {
+      return this.sourcePhrase.split(' ');
+    }
   },
   mounted() {
     this.clear();
@@ -41,7 +44,7 @@ export default {
   methods: {
     clear() {
       this.comprehendPhrase = [];
-      this.phrase = this.shuffleBrainkey(this.sourcePhrase.split(' '));
+      this.phrase = this.shuffleBrainkey(this.splitedPhrase);
     },
     pushWord(word, index) {
       this.comprehendPhrase.push(word);
@@ -71,11 +74,7 @@ export default {
         return false;
       }
       for (let i = 0; i < array1.length; i += 1) {
-        if (array1[i] instanceof Array && array2[i] instanceof Array) {
-          if (!array1[i].compare(array2[i])) {
-            return false;
-          }
-        } else if (array1[i] !== array2[i]) {
+        if (array1[i] !== array2[i]) {
           return false;
         }
       }
