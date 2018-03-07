@@ -21,7 +21,6 @@
 
 <script>
 import { mapActions } from 'vuex';
-import dateFns from 'date-fns';
 
 import icon from '@/components/UI/icon';
 /*eslint-disable*/
@@ -55,7 +54,7 @@ export default {
   		storeBackupDate: 'account/storeBackupDate'
   	}),
   	doneBackup(){
-  		const date = dateFns.format(new Date(), 'MMMM DD YYYY HH:mm');
+  		const date = new Date();
   		this.storeBackupDate({ date });
   	}
   }
