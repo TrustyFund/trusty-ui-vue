@@ -5,7 +5,7 @@ const actions = {
   setModal({ commit }, val) {
     commit(APP_SET_MODAL, val);
   },
-  async initApp(store) {
+  initApp(store) {
     const { commit } = store;
     store.dispatch('account/checkCachedUserData', null, { root: true });
     store.dispatch('connection/initConnection', null, { root: true });
