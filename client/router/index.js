@@ -6,7 +6,7 @@ import Profile from '@/components/Profile/Profile.vue';
 import User from '@/components/User/User.vue';
 import Signup from '@/components/Signup/Signup.vue';
 import Login from '@/components/Login/Login.vue';
-import ManagePortfolio from '@/components/Portfolio/ManagePortfolio.vue';
+import ManagePortfolio from '@/components/ManagePortfolio/ManagePortfolio.vue';
 import Transactions from '@/components/Transactions/Transactions';
 import Backup from '@/components/Backup/Backup';
 import BackupDone from '@/components/Backup/BackupDone';

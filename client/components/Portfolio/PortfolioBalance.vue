@@ -36,7 +36,9 @@ export default {
       return this.item.balanceFiat.toFixed(0);
     },
     formattedChange() {
-      return this.item.change.toFixed(0);
+      let change = this.item.change.toFixed(0).toString();
+      if (change.length > 3) change = change.substring(0, 3);
+      return change;
     }
   }
 };

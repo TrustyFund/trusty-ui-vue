@@ -16,13 +16,13 @@
       .trusty_inline_buttons
         button DEPOSIT
         button WITHDRAW
-      .trusty_inline_buttons._one_button: button MANAGE FUND
+      .trusty_inline_buttons._one_button(@click="goToManagePortfolio"): button MANAGE FUND
 
     div.transactions-wrap
       Transactions(v-if="userId" 
                   :limit="5" 
                   :min-mode="true")
-    .trusty_inline_buttons._mob._one_button: button MANAGE FUND
+    .trusty_inline_buttons._mob._one_button(@click="goToManagePortfolio"): button MANAGE FUND
 
   
   .table_wrap
@@ -70,7 +70,11 @@ export default {
   methods: {
     ...mapActions({
       fetchUser: 'user/fetchUser'
-    })
+    }),
+    goToManagePortfolio() {
+      this.$router.push({ name: 'manage' });
+    }
+
   },
 };
 </script>
