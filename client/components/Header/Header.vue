@@ -44,6 +44,7 @@ export default {
         user: 'user page',
         profile: 'user profile',
         backup: 'compulsory backup',
+        'backup-password': 'check password',
         'backup-phrase': 'backup phrase',
         'backup-verify': 'verify backup',
         'backup-done': 'almost done! let\'s review',
