@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import PortfolioBalance from './PortfolioBalance.vue';
 
 export default {
@@ -27,6 +26,11 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    items: {
+      type: Object,
+      required: true,
+      default: {}
     }
   },
   components: {
@@ -37,9 +41,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      items: 'portfolio/getPortfolioList'
-    }),
     totalBaseValue() {
       return Object.keys(this.items).reduce((result, id) => {
         return result + this.items[id].balanceBase;

@@ -1,7 +1,7 @@
 <template lang="pug">
   div.portfolio-wrapper
-    <router-view v-if="account && userBalances && !pending"></router-view>
-    Portfolio(v-if="minMode" :min-mode="minMode")
+    <router-view v-if="account && userBalances && items && !pending" :items="items"></router-view>
+    Portfolio(v-if="minMode" :items="items" :min-mode="minMode")
 </template>
 
 <script>
@@ -44,7 +44,8 @@ export default {
       ready: 'connection/isReady',
       userId: 'account/getAccountUserId',
       userBalances: 'user/getBalances',
-      account: 'user/getAccountObject'
+      account: 'user/getAccountObject',
+      items: 'portfolio/getPortfolioList'
     })
   },
   watch: {
@@ -74,7 +75,9 @@ export default {
           baseId: this.baseId,
           fiatId: this.fiatId,
           days: this.days
-        }).then(() => this.pending = false);
+        }).then(() => {
+          this.pending = false;
+        });
       });
     }
   },
