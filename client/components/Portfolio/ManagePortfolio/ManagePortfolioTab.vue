@@ -19,24 +19,26 @@
         td
           .portfolio_item._index
             .fake_line_height
-            a._minus.normal.portfolio_asset(@click="minusShare(item)")
+            a._minus.normal.portfolio_asset(:class="{'_disable': item.share === 0}" @click="item.share--")
               Icon(name="trusty_minus")
             span.normal.portfolio_asset {{ item.share + '%' }}
-            a._plus.normal.portfolio_asset._disable(@click="plusShare(item)")
+            a._plus.normal.portfolio_asset(:class="{'_disable': sharesTotal === 100}" @click="item.share++")
               Icon(name="trusty_plus")
 
   .wrap.main_padding
     .trusty_inline_buttons._one_button
-      button Suggest Portfolio
+      button._disable Suggest Portfolio
 
     .trusty_inline_buttons._one_button
-      button Update Portfolio
+      button(:class="{'_disable': sharesTotal < 100}" @click="updatePortfolio") Update Portfolio
 
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import Icon from '@/components/UI/icon';
+// eslint-disable-next-line
+import { calcPortfolioDistributionChange } from 'lib/src/utils';
 
 export default {
   props: {
@@ -49,6 +51,7 @@ export default {
   components: { Icon },
   data() {
     return {
+      initialPercents: {},
       percents: {}
     };
   },
@@ -66,26 +69,43 @@ export default {
       return Object.keys(this.percents).reduce((result, id) => {
         return result + this.percents[id].share;
       }, 0);
+    },
+    baseValues() {
+      const baseValues = {};
+      Object.keys(this.items).forEach(id => {
+        baseValues[id] = this.items[id].balanceBase;
+      });
+      return baseValues;
     }
   },
   methods: {
     computeInitialPercents() {
       const initialPercents = {};
       Object.keys(this.items).forEach(id => {
+        const share = ((this.items[id].balanceBase / this.totalBaseValue) * 100).toFixed(0);
         initialPercents[id] = {
           name: this.items[id].name,
-          share: parseInt(((this.items[id].balanceBase / this.totalBaseValue) * 100).toFixed(0), 10)
+          share: parseInt(share, 10)
         };
       });
+      this.initialPercents = JSON.parse(JSON.stringify(initialPercents));
       return initialPercents;
     },
-    minusShare(item) {
-      if (item.share === 0) return;
-      item.share--;
+    calcDistributions(percents) {
+      const distributions = {};
+      Object.keys(percents).forEach(id => {
+        distributions[id] = percents[id].share / 100;
+      });
+      return distributions;
     },
-    plusShare(item) {
-      if (this.sharesTotal === 100) return;
-      item.share++;
+    updatePortfolio() {
+      const baseValues = this.baseValues;
+      const distributions = this.calcDistributions(this.percents);
+      const initialDistributions = this.calcDistributions(this.initialPercents);
+      console.log('base values: ', baseValues);
+      console.log('initial distributions: ', initialDistributions);
+      console.log('distributions: ', distributions);
+      console.log(calcPortfolioDistributionChange(baseValues, distributions));
     }
   },
   mounted() {
@@ -95,4 +115,11 @@ export default {
 </script>
 
 <style lang="scss">
+  .normal.portfolio_asset._disable {
+    pointer-events: none;
+  }
+  .trusty_inline_buttons._one_button button._disable {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 </style>
