@@ -51,17 +51,24 @@ export default {
 </script>
 
 <style lang="scss">
-	#app {
-		position: relative;
-		display: flex;
-		flex-direction: column;
+#app {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	@media screen and (max-width: 768px) {
+		&._header_space {
+			padding-top: 12vw !important;
+		}
 	}
-	.connecting-block-screen {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(30, 34, 37, 0.7);
-	}
+}
+
+.connecting-block-screen {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(30, 34, 37, 0.7);
+}
+
 </style>

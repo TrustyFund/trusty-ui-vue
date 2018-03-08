@@ -119,18 +119,10 @@ const logoDesk = require('./vendor/logo.svg');
 
 export default {
   mounted() {
-    this.listen = listen(window, 'scroll', () => {
-      if (!this.isMobile) {
-        this.slideRefers.forEach(refer => {
-          const el = this.$refs[refer][0];
-          const rect = el.getBoundingClientRect();
-          if (Math.abs(rect.top) >= 0 && rect.top <= el.clientHeight) {
-            this.referClass = refer;
-          }
-          this.showBalls = window.scrollY >= parseFloat(this.windowHeight);
-        });
-      }
-    });
+    this.scrollListen = listen(window, 'scroll', this.handleScroll);
+  },
+  beforeDestroy() {
+    this.scrollListen.remove();
   },
   data() {
     return {
@@ -204,6 +196,18 @@ export default {
     })
   },
   methods: {
+    handleScroll() {
+      if (!this.isMobile) {
+        this.slideRefers.forEach(refer => {
+          const el = this.$refs[refer][0];
+          const rect = el.getBoundingClientRect();
+          if (Math.abs(rect.top) >= 0 && rect.top <= el.clientHeight) {
+            this.referClass = refer;
+          }
+          this.showBalls = window.scrollY >= parseFloat(this.windowHeight);
+        });
+      }
+    },
     slideClass(index) {
       const addString = index + 1;
       return 'sl_id-' + addString;
