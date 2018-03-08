@@ -53,4 +53,8 @@ export default {
 </script>
 
 <style lang="scss">
+
+.backup_modal .trusty_inline_buttons {
+	padding-top: 0 !important;
+}
 </style>

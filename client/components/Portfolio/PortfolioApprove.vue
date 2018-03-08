@@ -30,10 +30,9 @@ export default {
 </script>
 
 <style lang="scss">
+
 p._value {
 	padding-top: 1vw;
 }
-.trusty_inline_buttons._one_button {
-	padding-top: 5vw;
-}
+
 </style>
