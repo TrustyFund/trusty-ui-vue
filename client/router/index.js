@@ -61,17 +61,26 @@ const router = new Router({
     {
       name: 'deposit',
       path: '/deposit',
-      component: Deposit
+      component: Deposit,
+      meta: {
+        requiredBackup: true
+      }
     },
     {
       name: 'withdraw',
       path: '/withdraw',
-      component: Deposit
+      component: Deposit,
+      meta: {
+        requiredBackup: true
+      }
     },
     {
       name: 'manage',
       path: '/manage',
-      component: ManagePortfolio
+      component: ManagePortfolio,
+      meta: {
+        requiredBackup: true
+      }
     },
     {
       name: 'manage-approve',
@@ -127,6 +136,14 @@ router.beforeEach((to, from, next) => {
     if (userId === undefined) {
       next({
         path: '/home'
+      });
+    }
+  }
+  if (to.meta.requiredBackup) {
+    const backupDate = Cookies.get('BACKUP_DATE');
+    if (backupDate === undefined) {
+      next({
+        path: '/backup'
       });
     }
   }

@@ -81,7 +81,7 @@ export default {
   		storeBackupDate: 'account/storeBackupDate'
   	}),
   	checkOption(index){
-  		this.infos[index].checked = true
+  		this.infos[index].checked = !this.infos[index].checked;
   	},
   	done(){
   		if (this.allChecks) {
