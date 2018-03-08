@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import Cookies from 'js-cookie';
 import Router from 'vue-router';
 
 import Coin from '@/components/Coin/Coin';
@@ -14,12 +15,23 @@ import BackupDone from '@/components/Backup/BackupDone';
 import BackupFirst from '@/components/Backup/BackupFirst';
 import BackupPhrase from '@/components/Backup/BackupPhrase';
 import BackupVerify from '@/components/Backup/BackupVerify';
+import PortfolioApprove from '@/components/Portfolio/PortfolioApprove';
+import Landing from '@/components/Landing/Landing';
+import TermsOfUse from '@/components/TermsOfUse/TermsOfUse';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
+    {
+      name: 'landing',
+      path: '/home',
+      component: Landing,
+      meta: {
+        requiredAuth: false
+      }
+    },
     {
       name: 'profile',
       path: '/',
@@ -34,12 +46,18 @@ export default new Router({
     {
       name: 'login',
       path: '/login',
-      component: Login
+      component: Login,
+      meta: {
+        requiredAuth: false
+      }
     },
     {
       name: 'signup',
       path: '/signup',
-      component: Signup
+      component: Signup,
+      meta: {
+        requiredAuth: false
+      }
     },
     {
       name: 'deposit',
@@ -59,7 +77,13 @@ export default new Router({
     {
       name: 'coin',
       path: '/coin/:name',
-      component: Coin
+      component: Coin,
+    },
+    {
+      name: 'manage-approve',
+      path: '/manage/approve',
+      component: PortfolioApprove
+
     },
     {
       name: 'transactions',
@@ -93,9 +117,30 @@ export default new Router({
       ]
     },
     {
+      path: '/terms',
+      name: 'terms-of-use',
+      component: TermsOfUse,
+      meta: {
+        requiredAuth: false
+      }
+    },
+    {
       path: '*',
       redirect: '/'
     }
   ]
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiredAuth === undefined) {
+    const userId = Cookies.get('BITSHARES_USER_ID');
+    if (userId === undefined) {
+      next({
+        path: '/home'
+      });
+    }
+  }
+  next();
+});
+
+export default router;

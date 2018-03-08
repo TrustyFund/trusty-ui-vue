@@ -1,17 +1,17 @@
 <template lang="pug">
 #asset_tab
 	h5 Please select shares of assets #[br] in your portfolio
-	
+
 	table.managePortfolio
 		thead
-			
+
 			tr
 				th ASSET
 				th SHARE
 		tbody
 
 			tr(v-for="item in portfolio")
-				td 
+				td
 					.portfolio_item._index
 						.fake_line_height
 						span {{ item.asset }}

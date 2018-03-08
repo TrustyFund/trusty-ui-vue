@@ -52,6 +52,7 @@ import icon from '@/components/UI/icon';
 import investment from './CoinInvestment';
 import predictions from './CoinPredictions';
 import analysis from './CoinAnalysis';
+import { mapGetters } from 'vuex';
 
 
 export default {
@@ -59,6 +60,11 @@ export default {
     return {
       tab: ''
     };
+  },
+  computed: {
+  	...mapGetters({
+
+  	})
   },
   components: {
     icon,
