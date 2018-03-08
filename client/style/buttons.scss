@@ -58,6 +58,13 @@ $desk_font_button: 1.2vw;
 		button { width: 100%; }
 	}
 
+	&._disabled {
+		button {
+			color: grey;
+			border-color: grey;
+		}
+	}
+
 	button, span {
 
 		font-family: Gotham_Pro_Medium;

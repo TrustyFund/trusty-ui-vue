@@ -108,8 +108,11 @@ $light_grey: #6d6e70;
 			._tick {
 				width: 10%;
 				padding-top: 2vw;
-				svg, g, polygon{
-					fill: #FFEB3B;
+
+				._disabled_tick {
+					svg, g, polygon, path{
+						fill: white;
+					}
 				}
 
 			}
