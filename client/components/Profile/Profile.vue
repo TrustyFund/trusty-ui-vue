@@ -18,7 +18,7 @@
         button WITHDRAW
       .trusty_inline_buttons._one_button: button MANAGE FUND
 
-    .trusty_inline_buttons._mob._one_button: button(@click="$router.push({ name: 'backup' })") MANAGE FUND
+    .trusty_inline_buttons._mob._one_button: button MANAGE FUND
 
   
   .table_wrap
