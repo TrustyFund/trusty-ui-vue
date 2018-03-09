@@ -101,7 +101,6 @@ div
 <script>
 import { mapGetters } from 'vuex';
 import SmoothScroll from 'smooth-scroll';
-import listen from 'event-listener';
 import { isMobile } from './utils';
 import './style.scss';
 
@@ -118,12 +117,6 @@ const logo = require('./vendor/img_trusty_logo_last.svg');
 const logoDesk = require('./vendor/logo.svg');
 
 export default {
-  mounted() {
-    this.scrollListen = listen(window, 'scroll', this.handleScroll);
-  },
-  beforeDestroy() {
-    this.scrollListen.remove();
-  },
   data() {
     return {
       slides: [
@@ -178,22 +171,25 @@ export default {
       logoDesk,
       scroll: new SmoothScroll(),
       referClass: '',
-      showBalls: false
+      showBalls: false,
+      slideRefers: '',
+      slideHeight: '',
+      windowHeight: '',
     };
   },
   computed: {
-    slideRefers() {
-      return [1, 2, 3, 4, 5, 6, 7].map(item => `sl_id-${item}`);
-    },
-    slideHeight() {
-      return isMobile() ? { height: this.windowHeight } : {};
-    },
-    windowHeight() {
-      return window.innerHeight + 'px';
-    },
     ...mapGetters({
       authUser: 'account/getAccountUserId'
     })
+  },
+  mounted() {
+    this.windowHeight = window.innerHeight + 'px';
+    this.slideRefers = [1, 2, 3, 4, 5, 6, 7].map(item => `sl_id-${item}`);
+    this.slideHeight = isMobile() ? { height: this.windowHeight } : {};
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
     handleScroll() {
