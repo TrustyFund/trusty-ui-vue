@@ -10,6 +10,7 @@ const base = require('./webpack.base')
 const pkg = require('../package')
 const _ = require('./utils')
 const config = require('./config')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 if (config.electron) {
   // remove files in dist folder in electron mode
@@ -30,13 +31,17 @@ base.plugins.push(
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify('production')
   }),
-  new webpack.optimize.UglifyJsPlugin({
+  // for building with arrow functions
+  new UglifyJsPlugin({
     sourceMap: true,
-    compress: {
-      warnings: false
-    },
-    output: {
-      comments: false
+    uglifyOptions: {
+      ecma:8,
+      compress: {
+        warnings: false
+      },
+      output: {
+        comments: false
+      },
     }
   }),
   // extract vendor chunks
