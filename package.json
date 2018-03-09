@@ -6,6 +6,7 @@
   "scripts": {
     "test": "testcafe all test/e2e/index.js --app \"npm run dev\" --app-init-delay 10000",
     "build": "webpack --config build/webpack.dev.js --display-error-details",
+    "prod": "webpack --config build/webpack.prod.js --display-error-details",
     "dev": "node build/server.js",
     "lint": "eslint **/client/**/*.{vue,js}"
   },
@@ -18,7 +19,9 @@
         {
           "useBuiltIns": true
         }
-      ]
+      ],
+      "es2015",
+      "es2016"
     ]
   },
   "postcss": {
@@ -56,6 +59,8 @@
     "babel-core": "^6.16.0",
     "babel-eslint": "^8.2.1",
     "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2016": "^6.24.1",
     "babel-preset-vue-app": "^1.1.1",
     "chalk": "^1.1.3",
     "copy-webpack-plugin": "^4.0.1",
@@ -90,6 +95,7 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.13.1",
     "testcafe": "^0.12.1",
+    "uglifyjs-webpack-plugin": "1.1.6",
     "vue-loader": "^11.0.0",
     "vue-template-compiler": "^2.2.0",
     "webpack": "2.2.0",
