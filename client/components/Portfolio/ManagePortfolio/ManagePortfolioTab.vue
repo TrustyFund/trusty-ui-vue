@@ -73,7 +73,7 @@ export default {
     baseValues() {
       const baseValues = {};
       Object.keys(this.items).forEach(id => {
-        baseValues[id] = this.items[id].balanceBase;
+        baseValues[id] = (this.items[id].balanceBase * (10 ** this.items[id].precision)).toFixed(0);
       });
       return baseValues;
     }
@@ -99,13 +99,12 @@ export default {
       return distributions;
     },
     updatePortfolio() {
-      const baseValues = this.baseValues;
       const distributions = this.calcDistributions(this.percents);
       const initialDistributions = this.calcDistributions(this.initialPercents);
-      console.log('base values: ', baseValues);
+      console.log('base values: ', this.baseValues);
       console.log('initial distributions: ', initialDistributions);
       console.log('distributions: ', distributions);
-      console.log(calcPortfolioDistributionChange(baseValues, distributions));
+      console.log(calcPortfolioDistributionChange(this.baseValues, distributions));
     }
   },
   mounted() {

@@ -1,7 +1,13 @@
 <template lang="pug">
   div.portfolio-wrapper
-    <router-view v-if="account && userBalances && items && !pending" :items="items"></router-view>
-    Portfolio(v-if="minMode" :items="items" :min-mode="minMode")
+    <router-view v-if="account && userBalances && items && !marketFetching" :items="items"></router-view>
+    Portfolio(
+      v-if="minMode && !marketFetching" 
+      :items="items" 
+      :min-mode="minMode" 
+      :balances="userBalances" 
+      :market="history" 
+      :fiatId="featId")
 </template>
 
 <script>
@@ -45,7 +51,10 @@ export default {
       userId: 'account/getAccountUserId',
       userBalances: 'user/getBalances',
       account: 'user/getAccountObject',
-      items: 'portfolio/getPortfolioList'
+      items: 'portfolio/getPortfolioList',
+      history: 'market/getMarketHistory',
+      marketFetching: 'market/isFetching',
+      marketError: 'market/isError'
     })
   },
   watch: {
@@ -65,11 +74,18 @@ export default {
       fetchUser: 'user/fetchUser',
       fetchAssets: 'assets/fetchAssets',
       fetchPortfolioData: 'portfolio/fetchPortfolioData',
-      resetPortfolioState: 'portfolio/resetPortfolioState'
+      resetPortfolioState: 'portfolio/resetPortfolioState',
+      fetchMarketHistory: 'market/fetchMarketHistory'
     }),
     requestPortfolioData() {
       const assetsIds = Object.keys(this.userBalances);
       this.fetchAssets({ assets: assetsIds }).then(() => {
+        this.fetchMarketHistory({
+          baseId: this.baseId,
+          assetsIds,
+          days: 7
+        });
+
         this.fetchPortfolioData({
           balances: this.userBalances,
           baseId: this.baseId,

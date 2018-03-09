@@ -9,16 +9,23 @@
           th._text_right: span $VALUE
           th._text_right: span 7DAYS
       tbody
-        PortfolioBalance( 
-          v-for="(item, id) in items"
-         :key="id"
-         :item="item"
-         :total-base-value="totalBaseValue")
+        PortfolioBalanceNew( 
+          v-for="(balance, id) in balances"
+          :key="id"
+          :balance="balance"
+          :asset="assets[id]"
+          :prices="market[id]"
+          :fiatMultiplier="fiatMultiplier"
+          :totalBaseValue="totalBaseValue")
+
+
 
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import PortfolioBalance from './PortfolioBalance.vue';
+import PortfolioBalanceNew from './PortfolioBalanceNew.vue';
 
 export default {
   props: {
@@ -31,19 +38,48 @@ export default {
       type: Object,
       required: true,
       default: {}
+    },
+    balances: {
+      type: Object,
+      required: true,
+      default: {}
+    },
+    market: {
+      type: Object,
+      required: true,
+      default: {}
+    },
+    fiatId: {
+      type: String,
+      required: true
     }
   },
   components: {
-    PortfolioBalance
+    PortfolioBalance, PortfolioBalanceNew
   },
   data() {
     return {
     };
   },
   computed: {
-    totalBaseValue() {
+    ...mapGetters({
+      assets: 'assets/getAssets',
+      getAssetMultiplier: 'market/getAssetMultiplier'
+    }),
+    fiatMultiplier() {
+      return this.getAssetMultiplier(this.fiatId);
+    },
+    totalBaseValueOld() {
       return Object.keys(this.items).reduce((result, id) => {
         return result + this.items[id].balanceBase;
+      }, 0);
+    },
+    totalBaseValue() {
+      return Object.keys(this.balances).reduce((result, id) => {
+        console.log(this.market[id]);
+        if (!this.market[id]) return result;
+        console.log(this.balances[id]);
+        return result + (this.market[id].last * this.balances[id].balance);
       }, 0);
     }
   },
