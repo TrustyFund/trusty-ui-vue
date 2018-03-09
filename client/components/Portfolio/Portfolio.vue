@@ -69,7 +69,7 @@ export default {
   },
   beforeMount() {
     const assetsIds = Object.keys(this.balances);
-    this.fetchAssets(assetsIds).then(() => {
+    this.fetchAssets({ assets: assetsIds }).then(() => {
       this.fetchPortfolioData({
         balances: this.balances,
         baseId: this.baseId,
