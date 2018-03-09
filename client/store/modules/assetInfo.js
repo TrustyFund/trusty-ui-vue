@@ -140,7 +140,7 @@ const actions = {
 
   async fetchSnapshot({ commit }, assetSymbol) {
     commit(FETCH_ASSET_SNAPSHOT_REQUEST);
-    const result = await AssetInfo.getSnapShot(assetSymbol);
+    const result = await AssetInfo.getCoinSnapshot(assetSymbol);
     if (result.success) {
       commit(FETCH_ASSET_SNAPSHOT_COMPLETE, { snapShot: result.data });
     } else {

@@ -301,16 +301,24 @@ $color_bg_grey: #d8d9d9;
 
   ._grey_key_list {
     font-family: Gotham_Pro;
-    p {
+
+    a, a:hover, a:focus {
+			color: grey;
+			border-color: grey;
+    }
+
+    > p {
       margin-top: 0vw;
       margin-bottom: 0vw;
     }
-    p:first-child {
+
+    > p:first-child {
       color: #a3a2a4;
       font-size: 2.7vw;
       margin-bottom: .7vw;
+      text-transform: uppercase;
     }
-    p:last-child {
+    > p:last-child {
       font-size: 4.3vw;
       margin-bottom: 2.4vw;
     }
