@@ -13,20 +13,21 @@
 		.top_values
 			section._db_left._db_bottom
 				h4 Mkt. Cap.
-				._val: span {{ getStats.marketcap }}
+				._val: span._mark {{ getStats.marketcap }}
 			section._db_right._db_left._db_bottom
 				h4 Vol. 24H
-				._val: span {{ getStats.total24 }}
+				._val: span._mark {{ getStats.total24 }}
 			section._db_left
 				h4 Open 24h
 				._val
-					span $ 8,249.91
-					icon(v-if="true" name="coin_head_trend_dn", :originalColors="true")
-					icon(v-else name="coin_head_trend_up", :originalColors="true")
+					span._mark
+						| $ 8,249.91
+						icon(v-if="true" name="coin_head_trend_dn", :originalColors="true")
+						icon(v-else name="coin_head_trend_up", :originalColors="true")
 
 			section._db_right._db_left
 				h4 Low/High 24h
-				._val: span $ 8,031.69 - $ 8,907.59
+				._val: span._mark $ 8,031.69 - $ 8,907.59
 
 	#coin_analysis._belongings
 
@@ -178,18 +179,22 @@ $color_green_value: #659d1a;
 			box-sizing: border-box;
 			width: 50%;
 			text-align: center;
-			border: 1px solid #606365;
 
-			&._db_right {
-				border-right: none;
-			}
-			&._db_left{
-				border-left: none;
-			}
-			&._db_bottom{
-				border-bottom: none;
-			}
+		}
 
+		&._bordered {
+			section {
+				border: 1px solid #606365;
+				&._db_right {
+					border-right: none;
+				}
+				&._db_left{
+					border-left: none;
+				}
+				&._db_bottom{
+					border-bottom: none;
+				}
+			}
 		}
 
 		h4 {
@@ -203,11 +208,11 @@ $color_green_value: #659d1a;
 		}
 
 		._val  {
-			background: #c6c8cc;
-			margin: 1vw 4vw 5vw 4vw;
 
-			span {
-				font-family: Gotham_Pro_Bold !important;
+			span._mark {
+				padding: 2vw 4vw 2vw 4vw;
+				background: #e4e6e8;
+				border-radius: 5px;
 				color: black !important;
 			}
 		}
