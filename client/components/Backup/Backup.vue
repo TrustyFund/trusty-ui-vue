@@ -113,6 +113,9 @@ $light_grey: #6d6e70;
 					svg, g, polygon, path{
 						fill: white;
 					}
+					polygon {
+						display: none;
+					}
 				}
 
 			}
