@@ -36,11 +36,10 @@ $arrow_size: 9.8vh;
 		margin: .8vw 2.5vw;
 		border-radius: 50%;
 		border: 2px solid white;
-		&:hover {
+		&:hover, &._selected {
 			cursor: pointer;
 			background: white;
 		}
-
 	}
 }
 
@@ -63,6 +62,8 @@ $arrow_size: 9.8vh;
 	transform: initial;
 	top: initial;
 }
+
+//https://www.kylejlarson.com/blog/iphone-6-screen-size-web-design-tips/
 
 #landing {
 
@@ -117,7 +118,6 @@ $arrow_size: 9.8vh;
 	}
 
 	.logo_starter {
-		height: 100vh;
 		position: relative;
 		svg {
 			fill: white;
@@ -140,7 +140,7 @@ $arrow_size: 9.8vh;
 		}
 
 		.trusty_down_arrow {
-			height: 9.8vh;
+			height: 6.8vh;
 			position: absolute;
 			bottom: 0;
 			padding-bottom: 0;
@@ -176,8 +176,6 @@ $arrow_size: 9.8vh;
 
 	.land_slide {
 		position: relative;
-		//transition: all .7s;
-		//height: 100vh;
 		text-align: center;
 		font-family: Gotham_Pro;
 		display: flex;
