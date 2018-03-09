@@ -2,12 +2,14 @@
 
 #trusty_coin_overview
 
-	.omise_go
+	._head_title
 		//icon(name="coin_head_ogo", :originalColors="true")
-		span.omise_font {{ $route.params.name }}
+		span._font {{ $route.params.name }}
+
+		div._price {{ getStats.price }}
+		div._24change {{ getStats.change24Percent }}
 		//icon(name="coin_head_omg", :originalColors="true")
 
-	p.trusty_ps_text Overview provided by cryptocompare.com
 
 	.coin_info
 		.top_values
@@ -56,17 +58,19 @@
 					p {{ parseUnderscore(k) }}
 					p(v-html="one")
 
+	p.trusty_ps_text Overview provided by cryptocompare.com
 
-	.coin_vista.main_padding
-		.trusty_inline_buttons
-			button(@click="tab='analysis'") analysis
-			button(@click="tab='investment'") investment
+	//-template
+		.coin_vista.main_padding
+			.trusty_inline_buttons
+				button(@click="tab='analysis'") analysis
+				button(@click="tab='investment'") investment
 
-		.trusty_inline_buttons._one_button
-			button predictions
+			.trusty_inline_buttons._one_button
+				button predictions
 
-	investment(v-if="tab=='investment'")
-	analysis(v-if="tab=='analysis'")
+		investment(v-if="tab=='investment'")
+		analysis(v-if="tab=='analysis'")
 
 
 </template>
@@ -94,16 +98,16 @@ export default {
 
   methods: {
     parseUnderscore(string) {
-    	if (typeof string === 'string') {
-    		return string.replace(/_/g, ' ');
-    	}
-    	return '';
+      if (typeof string === 'string') {
+        return string.replace(/_/g, ' ');
+      }
+      return '';
     },
-  	parseCamel(string) {
-  		return string
+    parseCamel(string) {
+      return string
         .replace(/([a-z])([A-Z])/g, '$1 $2')
         .replace(/\b([A-Z]+)([A-Z])([a-z])/, '$1 $2$3');
-  	}
+    }
   },
   components: {
     icon,
@@ -147,7 +151,7 @@ $color_green_value: #659d1a;
 			padding-top: 1vw;
 			padding-bottom: 6vw;
 			color: white;
-			.omise_font {
+			._font {
 				text-align: center;
 				font-size: 6vw;
 				letter-spacing: .25vw;
@@ -174,10 +178,12 @@ $color_green_value: #659d1a;
 
 		display: flex;
 		flex-wrap: wrap;
+		//justify-content: center;
 
 		section {
 			box-sizing: border-box;
-			width: 50%;
+			//width: 50%;
+			margin: 1vw;
 			text-align: center;
 
 		}
@@ -198,22 +204,25 @@ $color_green_value: #659d1a;
 		}
 
 		h4 {
-
 			//color: black;
 			margin: 0;
 			//background: #c6c8cc;
 			font-size: 4.9vw;
 			font-family: Gotham_Pro;
 			font-weight: initial;
+
+
+			text-align: left;
+			font-size: 3.8vw;
 		}
 
 		._val  {
 
 			span._mark {
 				padding: 2vw 4vw 2vw 4vw;
-				background: #e4e6e8;
-				border-radius: 5px;
-				color: black !important;
+				//background: black;
+				border: 1px solid white;
+				color: white !important;
 			}
 		}
 
@@ -237,14 +246,14 @@ $color_green_value: #659d1a;
 	}
 
 
-	.omise_font {
+	._font {
 		font-family: Gotham_Pro;
 		font-size: 7vw;
 		height: 100%;
 		margin: auto 2vw;
 	}
 
-	.omise_go {
+	._head_title {
 		text-align: center;
 		padding-top: 1.9vw;
 		span {
@@ -259,6 +268,25 @@ $color_green_value: #659d1a;
 		.coin_head_omg {
 			padding-top: 1vw;
 			width:13vw;
+		}
+
+		._font:first-letter {
+			text-transform: uppercase;
+		}
+
+		._price {
+			margin: 2vw 0;
+			font-size: 7.7vw;
+			color: white;
+			font-family: Gotham_Pro;
+		}
+
+		._24change {
+			font-size: 5vw;
+			color: white;
+			font-family: Gotham_Pro;
+			color: $color_green_value;
+			margin-bottom: 2vw;
 		}
 	}
 
