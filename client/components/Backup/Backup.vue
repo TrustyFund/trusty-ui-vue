@@ -40,7 +40,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      vm.prevAddress = from.name;
+      vm.prevAddress = to.query.redirect;
     });
   }
 };

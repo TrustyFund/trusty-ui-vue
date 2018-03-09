@@ -141,9 +141,10 @@ router.beforeEach((to, from, next) => {
   }
   if (to.meta.requiredBackup) {
     const backupDate = Cookies.get('BACKUP_DATE');
-    if (backupDate === undefined) {
+    if (!backupDate) {
       next({
-        path: '/backup'
+        path: '/backup',
+        query: { redirect: to.name }
       });
     }
   }
