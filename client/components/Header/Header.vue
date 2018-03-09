@@ -48,7 +48,8 @@ export default {
         'backup-verify': 'verify backup',
         'backup-done': 'almost done! let\'s review',
         transactions: 'recent transactions',
-        'manage-approve': 'update portfolio'
+        'manage-approve': 'update portfolio',
+        'terms-of-use': 'terms of use'
       }
     };
   },
@@ -120,14 +121,6 @@ $background_color: #1b1f22;
 		}
 	}
 
-	.trusty_header_fake {
-		width: 100%;
-		.trusty_header {
-			position: relative;
-			z-index: 100;
-			opacity: 0;
-		}
-	}
 }
 
 @import "./mobile.scss";

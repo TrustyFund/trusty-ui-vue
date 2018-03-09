@@ -15,6 +15,7 @@ import BackupPhrase from '@/components/Backup/BackupPhrase';
 import BackupVerify from '@/components/Backup/BackupVerify';
 import PortfolioApprove from '@/components/Portfolio/PortfolioApprove';
 import Landing from '@/components/Landing/Landing';
+import TermsOfUse from '@/components/TermsOfUse/TermsOfUse';
 
 
 Vue.use(Router);
@@ -107,6 +108,14 @@ const router = new Router({
           component: BackupVerify
         },
       ]
+    },
+    {
+      path: '/terms',
+      name: 'terms-of-use',
+      component: TermsOfUse,
+      meta: {
+        requiredAuth: false
+      }
     },
     {
       path: '*',
