@@ -3,16 +3,15 @@
 #trusty_coin_overview
 
 	._head_title
-		//icon(name="coin_head_ogo", :originalColors="true")
-		span._font {{ $route.params.name }}
 
-		div._price {{ getStats.price }}
-		div._24change {{ getStats.change24Percent }}
-		//icon(name="coin_head_omg", :originalColors="true")
+		div._indicators
+			span._price {{ getStats.price }}
+			span._24change {{ getStats.change24Percent }}% 24H
 
 
-	.coin_info
+	.coin_info.main_padding
 		.top_values
+
 			section._db_left._db_bottom
 				h4 Mkt. Cap.
 				._val: span._mark {{ getStats.marketcap }}
@@ -20,25 +19,21 @@
 				h4 Vol. 24H
 				._val: span._mark {{ getStats.total24 }}
 			section._db_left
-				h4 Open 24h
-				._val
-					span._mark
-						| $ 8,249.91
-						icon(v-if="true" name="coin_head_trend_dn", :originalColors="true")
-						icon(v-else name="coin_head_trend_up", :originalColors="true")
+				h4 Open 24H
+				._val: span._mark $ 8,249.91
 
 			section._db_right._db_left
-				h4 Low/High 24h
+				h4 Low/High 24H
 				._val: span._mark $ 8,031.69 - $ 8,907.59
 
 	#coin_analysis._belongings
 
 		._items
-			._list_item
+			._list_item(:class="{_opened_article: true}")
 				span.text_button ABOUT
 				icon(name="trusty_arrow_down")
 
-		.wrap_content.main_padding
+		.wrap_content.main_padding(v-if="true")
 
 			._grey_key_list(v-for="(val, key) in getSnapShot")
 				template(v-if="key !== 'image'")
@@ -46,7 +41,7 @@
 					p(v-html="val") {{ val }}
 
 		._items
-			._list_item
+			._list_item(:class="{_opened_article: true}")
 				span.text_button SOCIAL
 				icon(name="trusty_arrow_down")
 
@@ -60,7 +55,7 @@
 
 	p.trusty_ps_text Overview provided by cryptocompare.com
 
-	//-template
+	template
 		.coin_vista.main_padding
 			.trusty_inline_buttons
 				button(@click="tab='analysis'") analysis
@@ -83,6 +78,13 @@ import predictions from './CoinPredictions';
 import analysis from './CoinAnalysis';
 
 export default {
+  mounted() {
+  	const conformity = {
+  		bitcoin: 'BTC'
+  	};
+  	const { name } = this.$route.params;
+    this.fetchStats(conformity[name]);
+  },
   data() {
     return {
       tab: ''
@@ -97,6 +99,9 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      fetchStats: 'assetInfo/fetchStats'
+    }),
     parseUnderscore(string) {
       if (typeof string === 'string') {
         return string.replace(/_/g, ' ');
@@ -141,10 +146,21 @@ $color_green_value: #659d1a;
 		._list_item:first-child {
 			border-top: 1px solid white;
 		}
+
 		._list_item {
 			padding-top: 3vw;
 			padding-bottom: 3vw;
 			border-bottom: 1px solid white;
+
+			&._opened_article {
+				border-bottom: none;
+
+
+				.trusty_arrow_down {
+					transform: rotate(180deg);
+				}
+			}
+
 		}
 
 		._title {
@@ -174,6 +190,10 @@ $color_green_value: #659d1a;
 		margin-bottom: 3vw;
 	}
 
+	.coin_info {
+		margin-bottom: 3vw;
+	}
+
 	.top_values {
 
 		display: flex;
@@ -183,7 +203,7 @@ $color_green_value: #659d1a;
 		section {
 			box-sizing: border-box;
 			//width: 50%;
-			margin: 1vw;
+			margin-right: 2vw;
 			text-align: center;
 
 		}
@@ -219,7 +239,7 @@ $color_green_value: #659d1a;
 		._val  {
 
 			span._mark {
-				padding: 2vw 4vw 2vw 4vw;
+				padding: 2vw 2vw 2vw 2vw;
 				//background: black;
 				border: 1px solid white;
 				color: white !important;
@@ -251,11 +271,14 @@ $color_green_value: #659d1a;
 		font-size: 7vw;
 		height: 100%;
 		margin: auto 2vw;
+		color: white;
 	}
 
 	._head_title {
+
 		text-align: center;
 		padding-top: 1.9vw;
+
 		span {
 			display: inline-block;
 			vertical-align: middle;
@@ -274,20 +297,27 @@ $color_green_value: #659d1a;
 			text-transform: uppercase;
 		}
 
-		._price {
-			margin: 2vw 0;
-			font-size: 7.7vw;
-			color: white;
-			font-family: Gotham_Pro;
+		._indicators {
+			margin-bottom: 6vw;
+
+			> span {
+				vertical-align: middle;
+				color: white;
+			}
+
+			span._price {
+				margin: 2vw 0;
+				font-size: 7.7vw;
+				font-family: Gotham_Pro_Bold;
+			}
+
+			span._24change {
+				font-size: 5vw;
+				font-family: Gotham_Pro_Regular;
+				margin-left: 2vw;
+			}
 		}
 
-		._24change {
-			font-size: 5vw;
-			color: white;
-			font-family: Gotham_Pro;
-			color: $color_green_value;
-			margin-bottom: 2vw;
-		}
 	}
 
 	.coin_vista {
