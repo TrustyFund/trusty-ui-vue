@@ -20,11 +20,11 @@
 				._val: span._mark {{ getStats.total24 }}
 			section._db_left
 				h4 Open 24H
-				._val: span._mark $ 8,249.91
+				._val: span._mark {{ getStats.open24Hour }}
 
 			section._db_right._db_left
 				h4 Low/High 24H
-				._val: span._mark $ 8,031.69 - $ 8,907.59
+				._val: span._mark {{ getStats.low24Hour }} - {{ getStats.high24Hour }}
 
 	#coin_analysis._belongings
 
@@ -79,10 +79,10 @@ import analysis from './CoinAnalysis';
 
 export default {
   mounted() {
-  	const conformity = {
-  		bitcoin: 'BTC'
-  	};
-  	const { name } = this.$route.params;
+    const conformity = {
+      bitcoin: 'BTC'
+    };
+    const { name } = this.$route.params;
     this.fetchStats(conformity[name]);
   },
   data() {
