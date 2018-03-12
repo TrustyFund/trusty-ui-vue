@@ -57,7 +57,7 @@ export default {
 	flex-direction: column;
 	height: 100%;
 	@media screen and (max-width: 768px) {
-		height: calc( 100% - 12vw);
+		box-sizing: border-box;
 		&._header_space {
 			padding-top: 12vw !important;
 		}
