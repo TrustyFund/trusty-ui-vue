@@ -1,16 +1,18 @@
 <template lang="pug">
   div.portfolio-wrapper
     <router-view v-if="account && userBalances && items && !marketFetching" :items="items"></router-view>
+      //- :items="items" 
     Portfolio(
       v-if="minMode && !marketFetching" 
-      :items="items" 
       :min-mode="minMode" 
-      :balances="userBalances" 
-      :market="history" 
-      :fiatId="featId")
+      :items="items"
+      :total-base-value="totalBaseValue"
+      :fiatPrecision="fiatPrecision")
 </template>
 
 <script>
+// eslint-disable-next-line
+import { calcPortfolioItem } from 'lib/src/utils';
 import { mapGetters, mapActions } from 'vuex';
 import Portfolio from './Portfolio.vue';
 
@@ -26,7 +28,7 @@ export default {
       required: false,
       default: '1.3.0'
     },
-    featId: {
+    fiatId: {
       type: String,
       required: false,
       default: '1.3.121'
@@ -54,8 +56,43 @@ export default {
       items: 'portfolio/getPortfolioList',
       history: 'market/getMarketHistory',
       marketFetching: 'market/isFetching',
-      marketError: 'market/isError'
-    })
+      marketError: 'market/isError',
+      getAssetMultiplier: 'market/getAssetMultiplier',
+      assets: 'assets/getAssets'
+    }),
+    items() {
+      const items = {};
+      const assetIds = Object.keys(this.userBalances);
+      if (!assetIds.length) return items;
+      Object.keys(this.userBalances).forEach(id => {
+        const { balance } = this.userBalances[id];
+        const asset = this.assets[id];
+        let prices = this.history[id];
+        if (!prices) return;
+        const multiplier = this.fiatMultiplier;
+        if (id === this.baseId) prices = { first: 1, last: 1 };
+
+        items[id] = calcPortfolioItem({
+          balance,
+          asset,
+          prices,
+          baseAsset: this.assets[this.baseId],
+          fiatMultiplier: multiplier
+        });
+      });
+      return items;
+    },
+    fiatMultiplier() {
+      return this.getAssetMultiplier(this.fiatId);
+    },
+    fiatPrecision() {
+      return (this.assets[this.fiatId] && this.assets[this.fiatId].precision) || 0;
+    },
+    totalBaseValue() {
+      return Object.keys(this.items).reduce((result, id) => {
+        return result + this.items[id].baseValue;
+      }, 0);
+    }
   },
   watch: {
     ready: {
@@ -86,14 +123,12 @@ export default {
           days: 7
         });
 
-        this.fetchPortfolioData({
-          balances: this.userBalances,
-          baseId: this.baseId,
-          fiatId: this.fiatId,
-          days: this.days
-        }).then(() => {
-          this.pending = false;
-        });
+        // this.fetchPortfolioData({
+        //   balances: this.userBalances,
+        //   baseId: this.baseId,
+        //   fiatId: this.fiatId,
+        //   days: this.days
+        // });
       });
     }
   },

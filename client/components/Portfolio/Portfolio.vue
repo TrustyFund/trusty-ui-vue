@@ -9,23 +9,17 @@
           th._text_right: span $VALUE
           th._text_right: span 7DAYS
       tbody
-        PortfolioBalanceNew( 
-          v-for="(balance, id) in balances"
-          :key="id"
-          :balance="balance"
-          :asset="assets[id]"
-          :prices="market[id]"
-          :fiatMultiplier="fiatMultiplier"
-          :totalBaseValue="totalBaseValue")
-
-
+        PortfolioBalance(
+        v-for="item in items"
+        :key="item.name"
+        :item="item"
+        :totalBaseValue="totalBaseValue"
+        :fiatPrecision="fiatPrecision")
 
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import PortfolioBalance from './PortfolioBalance.vue';
-import PortfolioBalanceNew from './PortfolioBalanceNew.vue';
 
 export default {
   props: {
@@ -37,51 +31,25 @@ export default {
     items: {
       type: Object,
       required: true,
-      default: {}
+      default: () => { return {}; }
     },
-    balances: {
-      type: Object,
+    totalBaseValue: {
+      type: Number,
       required: true,
-      default: {}
+      default: 0
     },
-    market: {
-      type: Object,
+    fiatPrecision: {
+      type: Number,
       required: true,
-      default: {}
-    },
-    fiatId: {
-      type: String,
-      required: true
+      default: 0
     }
   },
   components: {
-    PortfolioBalance, PortfolioBalanceNew
+    PortfolioBalance
   },
   data() {
     return {
     };
-  },
-  computed: {
-    ...mapGetters({
-      assets: 'assets/getAssets',
-      getAssetMultiplier: 'market/getAssetMultiplier'
-    }),
-    fiatMultiplier() {
-      return this.getAssetMultiplier(this.fiatId);
-    },
-    totalBaseValueOld() {
-      return Object.keys(this.items).reduce((result, id) => {
-        return result + this.items[id].balanceBase;
-      }, 0);
-    },
-    totalBaseValue() {
-      return Object.keys(this.balances).reduce((result, id) => {
-        console.log(this.market[id]);
-        if (!this.market[id]) return result;
-        console.log(this.balances[id]);
-        return result + (this.market[id].last * this.balances[id].balance);
-      }, 0);
-    }
   },
   methods: {
     goToManagePortfolio() {
