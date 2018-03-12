@@ -28,12 +28,16 @@ export default {
   },
   methods: {
     ...mapActions('app', ['setModal']),
+    ...mapActions({
+      lockWallet: 'account/lockWallet'
+    }),
     // this.$router.go(-1);
     handleExit() {
       this.$router.push({ name: this.prevAddress });
     }
   },
   mounted() {
+    this.lockWallet();
     // this.setModal('backup_try_again');
     // this.setModal('backup_copied_password');
     // this.setModal('backup-screenshots');
