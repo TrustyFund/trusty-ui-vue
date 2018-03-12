@@ -6,7 +6,7 @@
 
 		div._indicators
 			span._price {{ format(getStats.price) }}
-			span._24change {{ format(getStats.change24Percent) }}% 24H
+			span._24change {{ change24 }}% 24H
 
 
 	.coin_info.main_padding
@@ -94,6 +94,14 @@ export default {
     };
   },
   computed: {
+    change24() {
+      const num = this.getStats.change24Percent;
+      const mark = parseFloat(num).toFixed(1);
+      if (mark > 0) {
+        return '+' + this.format(num);
+      }
+      return this.format(num);
+    },
     ...mapGetters({
       getStats: 'assetInfo/getStats',
       getSocial: 'assetInfo/getSocial',
@@ -104,7 +112,7 @@ export default {
   methods: {
     isNumeric(n) {
       // eslint-disable-next-line
-      return !isNaN(parseFloat(n)) && isFinite(n);
+			return !isNaN(parseFloat(n)) && isFinite(n);
     },
     commaFormat(num) {
       const n = num.toString();
@@ -117,9 +125,9 @@ export default {
       if (string) {
         const nums = string.split(' ');
         nums.forEach((item, index) => {
-          const maybeString = item.replace(/,/g, '');
-          if (this.isNumeric(maybeString)) {
-            nums[index] = this.commaFormat(parseFloat(maybeString).toFixed(1));
+          const maybeNumber = item.replace(/,/g, '');
+          if (this.isNumeric(maybeNumber)) {
+            nums[index] = this.commaFormat(parseFloat(maybeNumber).toFixed(1));
           }
         });
         return nums.join(' ');
@@ -341,6 +349,7 @@ $color_green_value: #659d1a;
 			}
 
 			span._24change {
+				display: block;
 				font-size: 5vw;
 				font-family: Gotham_Pro_Regular;
 				margin-left: 2vw;
