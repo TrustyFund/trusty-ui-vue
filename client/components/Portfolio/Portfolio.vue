@@ -4,11 +4,11 @@
       thead
         tr
           th._text_left: span ASSET
-          th._text_right: span SHARE 
+          th._text_right: span SHARE
           th._text_right: span $VALUE
           th._text_right: span 7DAYS
       tbody
-        PortfolioBalance( 
+        PortfolioBalance(
           v-for="(item, id) in items"
          :key="id"
          :item="item"
@@ -93,6 +93,25 @@ export default {
       border: none;
       background-color: transparent;
     }
+
+
+    tbody {
+	    td:first-child span {
+				display: inline-block;
+				position: relative;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				max-width: 25vw;
+			}
+    }
+
+		td span {
+			display: inline-block;
+			overflow: hidden;
+			text-overflow: ellipsys;
+			max-width: 15vw;
+		}
+
     th span {
       color: #cccccc;
       font-family: 'Gotham_Pro_Regular';

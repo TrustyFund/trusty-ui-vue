@@ -1,10 +1,10 @@
 <template lang="pug">
 
-  tr.portfolio-container__balance 
-        td._text_left  {{ item.name }}
-        td._text_right {{ formattedShare }}%
-        td._text_right {{ formattedBalanceFiat }}$
-        td._text_right {{ formattedChange }}%
+  tr.portfolio-container__balance
+        td._text_left: span  {{ item.name }}
+        td._text_right: span {{ formattedShare }}%
+        td._text_right: span {{ formattedBalanceFiat }}$
+        td._text_right: span {{ formattedChange }}%
 
 </template>
 
@@ -54,8 +54,8 @@ export default {
     }
     td {
       @media screen and (max-width: 750px){
-        margin-top: 10px;   
+        margin-top: 10px;
       }
-    } 
+    }
   }
 </style>

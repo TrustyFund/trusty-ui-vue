@@ -59,7 +59,7 @@ export default {
 	@media screen and (max-width: 768px) {
 		box-sizing: border-box;
 		&._header_space {
-			padding-top: 12vw !important;
+			padding-top: 12.5vw !important;
 		}
 	}
 }
