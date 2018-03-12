@@ -2,7 +2,7 @@
 
 #trusty_auth
 
-  .input_area 
+  .input_area
     .left
 
       trusty-input(label="new account name")
@@ -16,7 +16,7 @@
           input(v-model="email" @input="$v.email.$touch()")
       .trusty_font_error(v-if="!$v.email.required && this.$v.email.$dirty") Enter e-mail
       .trusty_font_error(v-if="!$v.email.email && this.$v.email.$dirty") Invalid e-mail
-            
+
       trusty-input(label="password")
         template(slot="input")
           input(v-model="password" @input="$v.password.$touch()" type="password")
@@ -25,29 +25,24 @@
 
       trusty-input(label="confirm password")
         template(slot="input")
-          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="password") 
+          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="password")
       .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") Passwords do not match
 
-    .right
-      ._logo_owl._desk
-        Icon(name="trusty_owl_small_logo")
-
-  
   p._tooltip_p._yellow
-    | Write down your password, it CAN'T BE RECOVERED 
+    | Write down your password, it CAN'T BE RECOVERED
 
   .trusty_buttons
     button(@click="handleSignUp" v-show="!pending") Sign up
     button(v-show="pending") loading....
 
-  p._tooltip_p._text_center 
+  p._tooltip_p._text_center
     | Before continuing, make sure your device is secure
 
   ._bottom_link(@click="$router.push({ name: 'login' })"): span Log in with existing account
 
-  ._bottom_link._margins: span I accept Terms of use
+  ._bottom_link._margins: span(@click="$router.push({name:'terms-of-use'})") I accept Terms of use
 
-  ._logo_owl._mob
+  ._logo_owl
     Icon(name="trusty_owl_small_logo")
 
 </template>

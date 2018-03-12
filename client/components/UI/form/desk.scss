@@ -1,0 +1,89 @@
+@media screen and (min-width: 769px) {
+
+	.trusty_input_container.select_input {
+		select { font-size: px_from_vw(5.4); }
+	}
+
+	.trusty_input_container.text_area {
+
+		textarea {
+			padding-top: px_from_vw(6);
+		}
+
+		._input_space {
+			height: px_from_vw(6);
+		}
+
+		&.opened_text_area {
+			textarea {
+        height: 80%;
+      }
+			label {
+				top: px_from_vw(1);
+				bottom: initial;
+			}
+			._input_space {
+				height: px_from_vw(30.5) !important;
+			}
+		}
+
+	}
+
+	.trusty_input_container {
+		width: 100%;
+
+		span.fake_option_width {
+			font-size: px_from_vw(6.5);
+		}
+
+
+		.trusty_arrow_down {
+			width: px_from_vw(4.5);
+			top: 20%;
+		}
+
+		._input_space {
+			margin-top: px_from_vw(6);
+		}
+
+		.trusty_place_holder {
+			position: absolute;
+			left: 0;
+			bottom: px_from_vw(6.8);
+		}
+
+		.trusty_place_holder.no_opened {
+			letter-spacing: px_from_vw(.23);
+			font-size: px_from_vw(4);
+			bottom: 0;
+			padding-bottom: px_from_vw(1.7);
+		}
+
+		label {
+			font-size: px_from_vw(2.5);
+			margin-bottom: 0 !important;
+		}
+
+		select {
+			font-size: px_from_vw(6.5);
+			color: white;
+		}
+
+		input {
+			height: px_from_vw(6.4);
+			font-size: px_from_vw(5.4);
+			position: relative;
+			bottom: 0;
+		}
+
+		.trusty_input_close {
+			padding-bottom: 6vw;
+		}
+
+		textarea {
+			padding-left: 0;
+			font-size: px_from_vw(5.4);
+		}
+	}
+}
+
