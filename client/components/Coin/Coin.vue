@@ -5,8 +5,8 @@
 	._head_title
 
 		div._indicators
-			span._price {{ getStats.price }}
-			span._24change {{ getStats.change24Percent }}% 24H
+			span._price {{ format(getStats.price) }}
+			span._24change {{ format(getStats.change24Percent) }}% 24H
 
 
 	.coin_info.main_padding
@@ -14,17 +14,17 @@
 
 			section._db_left._db_bottom
 				h4 Mkt. Cap.
-				._val: span._mark {{ getStats.marketcap }}
+				._val: span._mark {{ format(getStats.marketcap) }}
 			section._db_right._db_left._db_bottom
 				h4 Vol. 24H
-				._val: span._mark {{ getStats.total24 }}
+				._val: span._mark {{ format(getStats.total24) }}
 			section._db_left
 				h4 Open 24H
-				._val: span._mark {{ getStats.open24Hour }}
+				._val: span._mark {{ format(getStats.open24Hour) }}
 
 			section._db_right._db_left
 				h4 Low/High 24H
-				._val: span._mark {{ getStats.low24Hour }} - {{ getStats.high24Hour }}
+				._val: span._mark {{ format(getStats.low24Hour) }} - {{ format(getStats.high24Hour) }}
 
 	#coin_analysis._belongings
 
@@ -55,7 +55,7 @@
 
 	p.trusty_ps_text Overview provided by cryptocompare.com
 
-	template
+	//-template
 		.coin_vista.main_padding
 			.trusty_inline_buttons
 				button(@click="tab='analysis'") analysis
@@ -83,7 +83,10 @@ export default {
       bitcoin: 'BTC'
     };
     const { name } = this.$route.params;
-    this.fetchStats(conformity[name]);
+    const coin = conformity[name];
+    this.fetchStats(coin);
+    this.fetchSocial(coin);
+    this.fetchSnapshot(coin);
   },
   data() {
     return {
@@ -99,8 +102,34 @@ export default {
   },
 
   methods: {
+    isNumeric(n) {
+      // eslint-disable-next-line
+      return !isNaN(parseFloat(n)) && isFinite(n);
+    },
+    commaFormat(num) {
+      const n = num.toString();
+      const p = n.indexOf('.');
+      return n.replace(/\d(?=(?:\d{3})+(?:\.|$))/g, ($0, i) => {
+        return p < 0 || i < p ? ($0 + ',') : $0;
+      });
+    },
+    format(string) {
+      if (string) {
+        const nums = string.split(' ');
+        nums.forEach((item, index) => {
+          const maybeString = item.replace(/,/g, '');
+          if (this.isNumeric(maybeString)) {
+            nums[index] = this.commaFormat(parseFloat(maybeString).toFixed(1));
+          }
+        });
+        return nums.join(' ');
+      }
+      return string;
+    },
     ...mapActions({
-      fetchStats: 'assetInfo/fetchStats'
+      fetchStats: 'assetInfo/fetchStats',
+      fetchSocial: 'assetInfo/fetchSocial',
+      fetchSnapshot: 'assetInfo/fetchSnapshot'
     }),
     parseUnderscore(string) {
       if (typeof string === 'string') {

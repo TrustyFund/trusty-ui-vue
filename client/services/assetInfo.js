@@ -134,7 +134,6 @@ class AssetInfo {
         const { close, open } = nowResponse.data.Data[1];
         let hourDivision;
         let side;
-
         if (close > open) {
           side = '+';
           hourDivision = close / open;
