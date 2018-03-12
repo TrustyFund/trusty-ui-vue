@@ -2,8 +2,8 @@
 #verify
 
 	p.trusty_help_text Let't verify your backup phrase
-	.verify_area(ref="areaVerify", :style="verifyHeightStyle")
-		p.trusty_help_text(ref="wrapVerify")
+	.verify_area
+		p.trusty_help_text
 			span(@click="dropWord(index)" v-for="(word,index) in comprehendPhrase") {{ word }}
 	p.trusty_help_text(v-if="phrase.length") Please tap each word in the #[br] correct order
 	.random_area
@@ -28,21 +28,7 @@ export default {
     return {
       comprehendPhrase: [],
       phrase: '',
-      verifyHeightStyle: {},
-      areaHeight: 0
     };
-  },
-  watch: {
-    comprehendPhrase() {
-      this.$nextTick(() => {
-        const wrapHeight = this.$refs.wrapVerify.offsetHeight;
-        if (this.areaHeight < wrapHeight) {
-          this.verifyHeightStyle = { height: wrapHeight + 40 + 'px' };
-        } else {
-          this.verifyHeightStyle = {};
-        }
-      });
-    }
   },
   computed: {
     ...mapGetters({
@@ -53,7 +39,6 @@ export default {
     }
   },
   mounted() {
-    this.areaHeight = this.$refs.areaVerify.clientHeight;
     this.clear();
   },
   methods: {

@@ -223,6 +223,11 @@ $light_grey: #6d6e70;
 	}
 
 	.verify_area {
+		min-height: 28.6vh;
+		max-height: 52.6vh;
+		margin-bottom: 5.3vw;
+		border-top: 1px dashed white;
+		border-bottom: 1px dashed white;
 		overflow: scroll;
 		span {
 			cursor: pointer;
@@ -230,6 +235,9 @@ $light_grey: #6d6e70;
 			margin: 1.4vw;
 			border: 1px dashed white;
 			padding: 1.5vw 3vw;
+		}
+		p {
+			margin-bottom:1.2vw;
 		}
 	}
 
@@ -250,16 +258,6 @@ $light_grey: #6d6e70;
 			border: 1px solid white;
 			padding: 1.5vw 3vw;
 		}
-	}
-
-	.verify_area {
-		height: 28.6vh;
-		max-height: 52.6vh;
-		margin-bottom: 5.3vw;
-		border-top: 1px dashed white;
-		border-bottom: 1px dashed white;
-		//overflow: scroll;
-
 	}
 
 	@media screen and (min-width: 769px) {
@@ -360,7 +358,8 @@ $light_grey: #6d6e70;
 		}
 
 		.verify_area {
-			height: 28.6vh;
+			min-height: 28.6vh;
+			max-height: 52.6vh;
 			margin-bottom: px_from_vw(5.3);
 
 		}
