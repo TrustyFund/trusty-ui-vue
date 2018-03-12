@@ -1,7 +1,10 @@
 <template lang="pug">
   div.portfolio-wrapper
-    <router-view v-if="account && userBalances && items && !marketFetching" :items="items"></router-view>
-      //- :items="items" 
+    router-view(v-if="!marketFetching" 
+              :items="items"
+              :total-base-value="totalBaseValue"
+              :fiatPrecision="fiatPrecision")
+
     Portfolio(
       v-if="minMode && !marketFetching" 
       :min-mode="minMode" 
@@ -51,8 +54,7 @@ export default {
     ...mapGetters({
       ready: 'connection/isReady',
       userId: 'account/getAccountUserId',
-      userBalances: 'user/getBalances',
-      account: 'user/getAccountObject',
+      balances: 'user/getBalances',
       items: 'portfolio/getPortfolioList',
       history: 'market/getMarketHistory',
       marketFetching: 'market/isFetching',
@@ -62,10 +64,10 @@ export default {
     }),
     items() {
       const items = {};
-      const assetIds = Object.keys(this.userBalances);
+      const assetIds = Object.keys(this.balances);
       if (!assetIds.length) return items;
-      Object.keys(this.userBalances).forEach(id => {
-        const { balance } = this.userBalances[id];
+      Object.keys(this.balances).forEach(id => {
+        const { balance } = this.balances[id];
         const asset = this.assets[id];
         let prices = this.history[id];
         if (!prices) return;
@@ -115,20 +117,13 @@ export default {
       fetchMarketHistory: 'market/fetchMarketHistory'
     }),
     requestPortfolioData() {
-      const assetsIds = Object.keys(this.userBalances);
+      const assetsIds = Object.keys(this.balances);
       this.fetchAssets({ assets: assetsIds }).then(() => {
         this.fetchMarketHistory({
           baseId: this.baseId,
           assetsIds,
           days: 7
         });
-
-        // this.fetchPortfolioData({
-        //   balances: this.userBalances,
-        //   baseId: this.baseId,
-        //   fiatId: this.fiatId,
-        //   days: this.days
-        // });
       });
     }
   },

@@ -62,7 +62,7 @@ export default {
     }),
     totalBaseValue() {
       return Object.keys(this.items).reduce((result, id) => {
-        return result + this.items[id].balanceBase;
+        return result + this.items[id].baseValue;
       }, 0);
     },
     sharesTotal() {
@@ -73,7 +73,7 @@ export default {
     baseValues() {
       const baseValues = {};
       Object.keys(this.items).forEach(id => {
-        baseValues[id] = (this.items[id].balanceBase * (10 ** this.items[id].precision)).toFixed(0);
+        baseValues[id] = this.items[id].baseValue;
       });
       return baseValues;
     }
@@ -82,7 +82,7 @@ export default {
     computeInitialPercents() {
       const initialPercents = {};
       Object.keys(this.items).forEach(id => {
-        const share = ((this.items[id].balanceBase / this.totalBaseValue) * 100).toFixed(0);
+        const share = ((this.items[id].baseValue / this.totalBaseValue) * 100).toFixed(0);
         initialPercents[id] = {
           name: this.items[id].name,
           share: parseInt(share, 10)
