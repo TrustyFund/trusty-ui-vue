@@ -2,12 +2,16 @@
 div
 	div.trusty_fixed_background_div
 	div#landing
-		div.balls_nav._desk: span(v-for="i in [1,2,3,4,5,6]")
-		div.logo_starter
+		div.balls_nav(v-if="showBalls")._desk
+			span(
+				v-for="refer in slideRefers",
+				@click="scrollTo(refer)",
+				:class="{ _selected: referClass === refer }")
+		div.logo_starter(:style="{ height: windowHeight }")
 			div.top_buttons
 				a(@click="clickLink('signup')")
 					span SignUp
-				a
+				a(@click="clickLink('terms-of-use')")
 					span Info
 				a(@click="clickLink('login')")
 					span LogIn
@@ -35,6 +39,7 @@ div
 		div.land_slides
 			template(v-for="(slide, index) in slides")
 				section.land_slide(
+					:style="slideHeight"
 					:class="slideClass(index)",
 					:id="slideClass(index)",
 					:ref="slideClass(index)",
@@ -95,6 +100,8 @@ div
 
 <script>
 import { mapGetters } from 'vuex';
+import SmoothScroll from 'smooth-scroll';
+import { isMobile } from './utils';
 import './style.scss';
 
 const slide1 = require('./vendor/how.gif');
@@ -109,13 +116,7 @@ const arrowDown = require('./vendor/trusty_arrow_down.svg');
 const logo = require('./vendor/img_trusty_logo_last.svg');
 const logoDesk = require('./vendor/logo.svg');
 
-export default{
-  mounted() {
-    document.getElementById('app').classList.add('_landing_page');
-  },
-  beforeDestroy() {
-    document.getElementById('app').classList.remove('_landing_page');
-  },
+export default {
   data() {
     return {
       slides: [
@@ -128,46 +129,52 @@ export default{
         {
           image: slide2,
           title: "Easy To Create<br class='_desk'> A<br class='_mob'>" +
-                 "Decentralized<br class='_desk'> Account",
+"Decentralized<br class='_desk'> Account",
           text: 'Click Signup, create password<br> and your account will be secured <br>' +
-                'by the BitShares.org blockchain. <br> You own the private key'
+'by the BitShares.org blockchain. <br> You own the private key'
         },
         {
           image: slide3,
           title: 'Deposit Fiat<br>Or Cryptocurrencies',
           text: 'Invest USD, RUB, EUR, CNY at the best exchange rate or pay 0% ' +
-                 'commission to deposit cryptocurrencies directly'
+'commission to deposit cryptocurrencies directly'
         },
         {
           image: slide4,
           title: 'One-Click To<br> Buy A Portfolio Of Cryptos',
           text: 'After deposit, you are a click<br> away from your own customized<br>' +
-                'portfolio of crypto assets.<br> Forget the hassle of buying<br> assets separately'
+'portfolio of crypto assets.<br> Forget the hassle of buying<br> assets separately'
         },
         {
           image: slide5,
           title: "One-Click<br>To Manage<br class='_desk'> Your Portfolio",
           text: 'Manage your portfolio by mirroring<br> trades of ranked portfolio<br> managers, ' +
-                'applying index rules or<br> using the portfolio rebalancing tool'
+'applying index rules or<br> using the portfolio rebalancing tool'
         },
         {
           image: slide6,
-          title: "One-Click<br class='_mob'>To<br class='_desk'>" +
-               " Fix Your Income<br class='_desk'> In USD",
+          title: "One-Click To<br class='_desk'>" +
+" Fix <br class='_mob'> Your Income<br class='_desk'> In USD",
           text: 'Fix your income to wait out price<br> hyper volatility. Just click to<br> ' +
-                'transfer your funds in<br> USD, EUR, CNY, Gold, etc.'
+'transfer your funds in<br> USD, EUR, CNY, Gold, etc.'
         },
         {
           image: slide7,
           title: 'Withdraw Fiat<br> Or Cryptocurrencies',
           text: 'Withdraw funds in USD, RUB, EUR, CNY<br class="_desk" /> directly to a bank card' +
-                ', payment service<br class="_desk" />  account or send cryptocurrencies' +
-                '<br class="_desk" />  to a crypto wallet'
+', payment service<br class="_desk" />  account or send cryptocurrencies' +
+'<br class="_desk" />  to a crypto wallet'
         }
       ],
       arrowDown,
       logo,
-      logoDesk
+      logoDesk,
+      scroll: new SmoothScroll(),
+      referClass: '',
+      showBalls: false,
+      slideRefers: '',
+      slideHeight: '',
+      windowHeight: '',
     };
   },
   computed: {
@@ -175,7 +182,28 @@ export default{
       authUser: 'account/getAccountUserId'
     })
   },
+  mounted() {
+    this.windowHeight = window.innerHeight + 'px';
+    this.slideRefers = [1, 2, 3, 4, 5, 6, 7].map(item => `sl_id-${item}`);
+    this.slideHeight = isMobile() ? { height: this.windowHeight } : {};
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
   methods: {
+    handleScroll() {
+      if (!this.isMobile) {
+        this.slideRefers.forEach(refer => {
+          const el = this.$refs[refer][0];
+          const rect = el.getBoundingClientRect();
+          if (Math.abs(rect.top) >= 0 && rect.top <= el.clientHeight) {
+            this.referClass = refer;
+          }
+          this.showBalls = window.scrollY >= parseFloat(this.windowHeight);
+        });
+      }
+    },
     slideClass(index) {
       const addString = index + 1;
       return 'sl_id-' + addString;
@@ -188,11 +216,13 @@ export default{
       }
     },
     scrollTo(element) {
-      window.scrollTo({
-        behavior: 'smooth',
-        left: 0,
-        top: element.offsetTop
-      });
+      let current;
+      if (typeof element === 'string') {
+        current = document.getElementById(element);
+      } else {
+        current = element;
+      }
+      this.scroll.animateScroll(current);
     },
     clickScroll(index) {
       if (index === this.slides.length) {

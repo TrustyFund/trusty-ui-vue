@@ -1,17 +1,89 @@
 <template lang="pug">
-#trusty_recent_transactions.main_padding
-  .transaction_info
-    ._date 20 feb 18 16:56
-    p._value Receive 0.00364 BTS
-  .transaction_info
-    ._date 19 feb 18 13:56
-    p._value Receive 0.0034 ETH
+
+.trusty_recent_transactions(:class="{'main_padding': !minMode, 'trusty_recent_transactions--min-mode': minMode }" 
+                           @click="goToFullMode"
+                           v-show="!minMode || filteredOperations.length || pending")
+  div.trusty_recent_transactions__title(v-show="minMode") Recent transactions
+  div.trusty_recent_transactions__empty(v-show="!filteredOperations.length && !pending") No transactions yet
+  div.trusty_recent_transactions__spinner-container(v-show="pending")
+    Spinner
+  div.trusty_recent_transactions__error(v-show="error") Error when fetching user's transactions
+  TransactionsItem(v-for="item in filteredOperations",
+                  :item="item",
+                  :key="item.id",
+                  :userId="userId")
 
 </template>
 
 <script>
-export default {
+import { mapGetters, mapActions } from 'vuex';
+import Spinner from '@/components/UI/Spinner';
+import TransactionsItem from './TransactionsItem';
 
+export default {
+  props: {
+    // limit number of last transactions to show
+    limit: {
+      type: Number,
+      required: false,
+      default: 100
+    },
+    // pass true when the component is nested inside another with
+    // ability to go into full mode on click
+    minMode: {
+      type: Boolean,
+      requred: false,
+      default: false
+    }
+  },
+  components: {
+    TransactionsItem, Spinner
+  },
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapGetters({
+      ready: 'connection/isReady',
+      userId: 'account/getAccountUserId',
+      operations: 'operations/getOperations',
+      pending: 'operations/isFetching',
+      error: 'operations/isError'
+    }),
+    sortedOperations() {
+      return this.operations.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateB - dateA;
+      });
+    },
+    filteredOperations() {
+      if (this.limit) return this.sortedOperations.slice(0, this.limit);
+      return this.sortedOperations;
+    }
+  },
+  methods: {
+    ...mapActions({
+      initializeOperations: 'operations/fetchAndSubscribe',
+      unsubscribeFromUserOperations: 'operations/unsubscribeFromUserOperations'
+    }),
+    goToFullMode() {
+      if (this.minMode) this.$router.push({ name: 'transactions' });
+    }
+  },
+  watch: {
+    ready: {
+      handler(connected) {
+        if (connected) {
+          this.initializeOperations({ userId: this.userId, limit: this.limit });
+        }
+      },
+      immediate: true
+    }
+  },
+  beforeDestroy() {
+    this.unsubscribeFromUserOperations();
+  }
 };
 </script>
 
@@ -19,30 +91,25 @@ export default {
 
 @import "~@/style/mixins";
 
-#trusty_recent_transactions {
+.trusty_recent_transactions {
   margin-top: 2vw;
-}
-
-
-.transaction_info {
-  font-size: 4.3vw;
-  margin-bottom: 4.4vw;
-  ._date {
-    color:#fdf101;
-    font-family: Gotham_Pro;
+  &--min-mode {
+    cursor: pointer;
   }
-
-  p._value {
-    color:#fdf101;
-    margin: 0;
-    font-family: Gotham_Pro_Regular;
+  &__title,
+  &__empty {
+    font-size: 4.4vw;
+    color: white;
+    font-family: 'Gotham_Pro_Regular';
+    text-transform: uppercase;
   }
-
-  @media screen and (min-width: 768px) {
-    font-size: px_from_vw(4.3);
-    margin-bottom: px_from_vw(4.4);
+  &__empty {
+    opacity: 0.8;
+  }
+  &__spinner-container {
+    position: relative;
+    height: 5rem;
   }
 }
-
 
 </style>
