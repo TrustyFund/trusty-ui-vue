@@ -19,13 +19,13 @@
 
       trusty-input(label="password")
         template(slot="input")
-          input(v-model="password" @input="$v.password.$touch()" type="password")
+          input(v-model="password" @input="$v.password.$touch()" type="number")
       .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter password
       .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") Password must be 8 characters or more
 
       trusty-input(label="confirm password")
         template(slot="input")
-          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="password")
+          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="number")
       .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") Passwords do not match
 
   p._tooltip_p._yellow

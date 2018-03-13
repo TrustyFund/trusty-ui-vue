@@ -107,10 +107,6 @@ export default {
 
 @import "~@/style/mixins";
 
-input[type=number] {
-    -webkit-text-security: disc;
-}
-
 #trusty_auth {
 	@include trusty_main_padding;
 }
