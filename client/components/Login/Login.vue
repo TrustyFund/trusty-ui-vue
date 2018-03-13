@@ -109,12 +109,14 @@ export default {
 
 #trusty_auth {
 	@include trusty_main_padding;
-
-
 	&.signup {
 		.trusty_buttons {
 			margin-top: 4.6vw;
 		}
+	}
+
+	.text_area {
+		margin-bottom: 2vw;
 	}
 }
 
@@ -157,6 +159,19 @@ export default {
 
 
 @media screen and (min-width: 769px) {
+
+	#trusty_auth {
+		&.signup {
+			.trusty_buttons {
+				margin-top: px_from_vw(4.6);
+			}
+		}
+		.text_area {
+			margin-bottom: px_from_vw(2);
+		}
+	}
+
+
   ._tooltip_p {
     line-height: px_from_vw(4);
     margin-top: px_from_vw(2);
