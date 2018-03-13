@@ -47,7 +47,8 @@ export default {
         this.fetchCurrentUser();
         // then fetch assets & market
       }
-    }
+    },
+    immediate: true
   },
   beforeMount() {
     this.initApp();
