@@ -20,13 +20,13 @@
       .trusty_inline_buttons
         button DEPOSIT
         button WITHDRAW
-      .trusty_inline_buttons._one_button(@click="goToManagePortfolio"): button MANAGE FUND
+      //- .trusty_inline_buttons._one_button(@click="goToManagePortfolio"): button MANAGE FUND
 
     div.transactions-wrap
       Transactions(v-if="userId"
                   :limit="5"
                   :min-mode="true")
-    .trusty_inline_buttons._mob._one_button(@click="goToManagePortfolio"): button MANAGE FUND
+    
 
   
   .table_wrap
@@ -63,12 +63,7 @@ export default {
   },
   components: {
     Portfolio, Transactions, TotalFunds
-  },
-  methods: {
-    goToManagePortfolio() {
-      this.$router.push({ name: 'manage' });
-    }
-  },
+  }
 };
 </script>
 

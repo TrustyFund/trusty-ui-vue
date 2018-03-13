@@ -45,6 +45,7 @@ export default {
       if (connected) {
         this.fetchDefaultAssets();
         this.fetchCurrentUser();
+        // then fetch assets & market
       }
     }
   },

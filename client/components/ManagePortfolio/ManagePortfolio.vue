@@ -20,6 +20,11 @@ import { mapGetters } from 'vuex';
 import ManagePortfolioTab from './ManagePortfolioTab.vue';
 
 export default {
+  components: { ManagePortfolioTab },
+  data() {
+    return {
+    };
+  },
   computed: {
     ...mapGetters({
       userData: 'account/getCurrentUserData',
@@ -29,11 +34,9 @@ export default {
       assets: 'assets/getAssets'
     }),
     combinedBalances() {
-      console.log(this.defaultAssetsIds);
       const combinedBalances = { ...this.balances };
       this.defaultAssetsIds.forEach(id => {
         if (combinedBalances[id]) return;
-        console.log(id);
         combinedBalances[id] = { balance: 0 };
       });
       return combinedBalances;
@@ -43,7 +46,7 @@ export default {
       Object.keys(this.combinedBalances).forEach(id => {
         const { balance } = this.combinedBalances[id];
         const price = (this.history[id] && this.history[id].last) || 0;
-        const baseValue = balance * price;
+        const baseValue = parseInt((balance * price).toFixed(0), 10);
         const name = (this.assets[id] && this.assets[id].symbol) || '...';
         items[id] = {
           baseValue,
@@ -53,23 +56,14 @@ export default {
       return items;
     }
   },
-  components: { ManagePortfolioTab },
-  data() {
-    return {
-    };
-  },
   methods: {
-    requestPortfolioData() {
-      const assetsIds = Object.keys(this.combinedBalances);
-      this.fetchAssets({ assets: assetsIds }).then(() => {
-        this.fetchMarketHistory({
-          baseId: this.baseId,
-          assetsIds,
-          days: 7
-        });
-      });
+    calcPercents() {
+
     }
   },
+  mounted() {
+    this.calcPercents();
+  }
 };
 
 </script>

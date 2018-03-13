@@ -35,10 +35,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import Icon from '@/components/UI/icon';
 // eslint-disable-next-line
-import { calcPortfolioDistributionChange } from 'lib/src/utils';
+import { calcPortfolioDistributionChange, distributionFromBalances, distributionSampling } from 'lib/src/utils';
 
 export default {
   props: {
@@ -56,10 +55,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      balances: 'user/getBalances',
-      getAssetById: 'assets/getAssetById',
-    }),
     totalBaseValue() {
       return Object.keys(this.items).reduce((result, id) => {
         return result + this.items[id].baseValue;
@@ -100,9 +95,11 @@ export default {
     },
     updatePortfolio() {
       const distributions = this.calcDistributions(this.percents);
-      const initialDistributions = this.calcDistributions(this.initialPercents);
+      const initialDistributions = distributionFromBalances(this.baseValues);
       console.log('base values: ', this.baseValues);
+      // console.log(distributionFromBalances(this.baseValues));
       console.log('initial distributions: ', initialDistributions);
+      console.log('sampled : ', distributionSampling(initialDistributions, 3));
       console.log('distributions: ', distributions);
       console.log(calcPortfolioDistributionChange(this.baseValues, distributions));
     }

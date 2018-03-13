@@ -1,5 +1,6 @@
 <template lang="pug">
   div
+    .trusty_inline_buttons._mob._one_button(@click="goToManagePortfolio"): button MANAGE FUND
     table.portfolio-container.trusty_table
       thead
         tr
@@ -48,7 +49,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      items: 'portfolio/getPortfolioList',
       history: 'market/getMarketHistory',
       marketFetching: 'market/isFetching',
       marketError: 'market/isError',
@@ -122,6 +122,9 @@ export default {
           days: 7
         });
       });
+    },
+    goToManagePortfolio() {
+      this.$router.push({ name: 'manage' });
     }
   },
   mounted() {
