@@ -8,9 +8,8 @@
       button DEPOSIT
       button WITHDRAW
 
-    .trusty_total_funds(v-if="account")
-      p {{ account.name}} TOTAL FUNDS
-      h3._text_center: span 0$
+
+    TotalFunds(v-if="userData" :name="userName" :balances="userBalances")
     
     ._wrap_desk_buttons._desk
       .trusty_inline_buttons
@@ -41,37 +40,27 @@
 <script>
 import Portfolio from '@/components/Portfolio/PortfolioContainer';
 import Transactions from '@/components/Transactions/Transactions';
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
+import TotalFunds from './ProfileTotalFunds';
 
 export default {
   data() {
     return {
-      username: ''
     };
   },
   computed: {
     ...mapGetters({
       userId: 'account/getAccountUserId',
       ready: 'connection/isReady',
-      userBalances: 'user/getBalances',
-      account: 'user/getAccountObject',
+      userBalances: 'account/getCurrentUserBalances',
+      userName: 'account/getCurrentUserName',
+      userData: 'account/getCurrentUserData'
     })
   },
   components: {
-    Portfolio, Transactions
-  },
-  watch: {
-    ready: {
-      handler(connected) {
-        if (connected && this.userId) this.fetchUser(this.userId);
-      },
-      immediate: true
-    }
+    Portfolio, Transactions, TotalFunds
   },
   methods: {
-    ...mapActions({
-      fetchUser: 'user/fetchUser'
-    }),
     goToManagePortfolio() {
       this.$router.push({ name: 'manage' });
     }
@@ -96,22 +85,6 @@ export default {
   }
   .table_wrap {
     width: 100%;
-  }
-  .trusty_total_funds {
-    margin-top: 1.3vw;
-    margin-bottom: 1.2vw;
-    p {
-      font-family: 'Gotham_Pro_Regular';
-      text-transform: uppercase;
-      text-align: center;
-      margin-bottom: 0; 
-    }
-    h3 {
-      font-family: 'Gotham_Pro_Medium';
-      margin-top: 0;
-      margin-bottom: 0;
-      line-height: initial;
-    }
   }
 }
 

@@ -36,12 +36,16 @@ export default {
   methods: {
     ...mapActions({
       initApp: 'app/initApp',
-      fetchDefaultAssets: 'assets/fetchDefaultAssets'
+      fetchDefaultAssets: 'assets/fetchDefaultAssets',
+      fetchCurrentUser: 'account/fetchCurrentUser'
     })
   },
   watch: {
     ready(connected) {
-      if (connected) this.fetchDefaultAssets();
+      if (connected) {
+        this.fetchDefaultAssets();
+        this.fetchCurrentUser();
+      }
     }
   },
   beforeMount() {
