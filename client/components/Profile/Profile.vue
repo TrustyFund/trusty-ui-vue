@@ -23,27 +23,26 @@
       .trusty_inline_buttons._one_button(@click="goToManagePortfolio"): button MANAGE FUND
 
     div.transactions-wrap
-      Transactions(v-if="userId" 
-                  :limit="5" 
+      Transactions(v-if="userId"
+                  :limit="5"
                   :min-mode="true")
     .trusty_inline_buttons._mob._one_button(@click="goToManagePortfolio"): button MANAGE FUND
 
   
   .table_wrap
     Portfolio( 
-     :min-mode="true"
+     v-if="userData"
      :balances="userBalances"
       base-id="1.3.0"
       fiat-id="1.3.121"
-     :days="7"
-     :user-id="userId")
+     :days="7")
 
 
 
 </template>
 
 <script>
-import Portfolio from '@/components/Portfolio/PortfolioContainer';
+import Portfolio from '@/components/Portfolio/Portfolio';
 import Transactions from '@/components/Transactions/Transactions';
 import { mapGetters } from 'vuex';
 import TotalFunds from './ProfileTotalFunds';

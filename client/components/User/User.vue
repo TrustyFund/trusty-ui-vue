@@ -9,7 +9,7 @@
 
       <!-- baseId - BTS, fiatId - USD -->
       <Portfolio :balances="userBalances"
-                 v-if="userBalances"
+                 v-if="account"
                  base-id="1.3.0"
                  fiat-id="1.3.121"
                  :days="7"
@@ -20,7 +20,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import Portfolio from '@/components/Portfolio/PortfolioContainer.vue';
+import Portfolio from '@/components/Portfolio/Portfolio.vue';
 import Spinner from '@/components/UI/Spinner.vue';
 
 export default {

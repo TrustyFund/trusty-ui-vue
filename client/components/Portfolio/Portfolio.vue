@@ -1,6 +1,5 @@
 <template lang="pug">
-  div(:class="{'main_padding': !minMode}")
-    .trusty_inline_buttons._mob._one_button(@click="goToManagePortfolio" v-show="!minMode"): button MANAGE FUND
+  div
     table.portfolio-container.trusty_table
       thead
         tr
@@ -19,29 +18,86 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+// eslint-disable-next-line
+import { calcPortfolioItem } from 'lib/src/utils';
 import PortfolioBalance from './PortfolioBalance.vue';
 
 export default {
   props: {
-    minMode: {
-      type: Boolean,
+    baseId: {
+      type: String,
       required: false,
-      default: false,
+      default: '1.3.0'
     },
-    items: {
+    fiatId: {
+      type: String,
+      required: false,
+      default: '1.3.121'
+    },
+    days: {
+      type: Number,
+      required: false,
+      default: 7
+    },
+    balances: {
       type: Object,
       required: true,
       default: () => { return {}; }
+    }
+  },
+  computed: {
+    ...mapGetters({
+      items: 'portfolio/getPortfolioList',
+      history: 'market/getMarketHistory',
+      marketFetching: 'market/isFetching',
+      marketError: 'market/isError',
+      getAssetMultiplier: 'market/getAssetMultiplier',
+      assets: 'assets/getAssets',
+      defaultAssetsIds: 'assets/getDefaultAssetsIds'
+    }),
+    combinedBalances() {
+      console.log(this.defaultAssetsIds);
+      const combinedBalances = { ...this.balances };
+      this.defaultAssetsIds.forEach(id => {
+        if (combinedBalances[id]) return;
+        console.log(id);
+        combinedBalances[id] = { balance: 0 };
+      });
+      return combinedBalances;
     },
-    totalBaseValue: {
-      type: Number,
-      required: true,
-      default: 0
+    items() {
+      const items = {};
+      const assetsIds = Object.keys(this.combinedBalances);
+      if (!assetsIds.length) return items;
+      assetsIds.forEach(id => {
+        const { balance } = this.combinedBalances[id];
+        const asset = this.assets[id];
+        let prices = this.history[id];
+        if (!prices) return;
+        const multiplier = this.fiatMultiplier;
+        if (id === this.baseId) prices = { first: 1, last: 1 };
+
+        items[id] = calcPortfolioItem({
+          balance,
+          asset,
+          prices,
+          baseAsset: this.assets[this.baseId],
+          fiatMultiplier: multiplier
+        });
+      });
+      return items;
     },
-    fiatPrecision: {
-      type: Number,
-      required: true,
-      default: 0
+    fiatMultiplier() {
+      return this.getAssetMultiplier(this.fiatId);
+    },
+    fiatPrecision() {
+      return (this.assets[this.fiatId] && this.assets[this.fiatId].precision) || 0;
+    },
+    totalBaseValue() {
+      return Object.keys(this.items).reduce((result, id) => {
+        return result + this.items[id].baseValue;
+      }, 0);
     }
   },
   components: {
@@ -52,9 +108,24 @@ export default {
     };
   },
   methods: {
-    goToManagePortfolio() {
-      this.$router.push({ name: 'manage' });
+    ...mapActions({
+      fetchAssets: 'assets/fetchAssets',
+      resetPortfolioState: 'portfolio/resetPortfolioState',
+      fetchMarketHistory: 'market/fetchMarketHistory'
+    }),
+    requestPortfolioData() {
+      const assetsIds = Object.keys(this.combinedBalances);
+      this.fetchAssets({ assets: assetsIds }).then(() => {
+        this.fetchMarketHistory({
+          baseId: this.baseId,
+          assetsIds,
+          days: 7
+        });
+      });
     }
+  },
+  mounted() {
+    this.requestPortfolioData();
   }
 };
 </script>
