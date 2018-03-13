@@ -5,13 +5,13 @@
   .input_area
     .left
 
-      trusty-input(label="password")
+      trusty-input(label="enter pin code")
         template(slot="input")
           input(v-model="password" @input="$v.password.$touch()" type="number")
       .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter password
       .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") Password must be 8 characters or more
 
-      trusty-input(label="confirm password")
+      trusty-input(label="confirm pin")
         template(slot="input")
           input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="number")
       .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") Passwords do not match
