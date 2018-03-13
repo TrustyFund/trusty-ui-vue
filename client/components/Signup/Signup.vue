@@ -20,13 +20,13 @@
       trusty-input(label="enter pin code")
         template(slot="input")
           input(v-model="password" @input="$v.password.$touch()" type="tel")
-      .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter password
-      .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") Password must be 6 characters or more
+      .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter PIN
+      .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") PIN must be 6 characters or more
 
       trusty-input(label="confirm pin")
         template(slot="input")
           input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="tel")
-      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") Passwords do not match
+      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PINS do not match
 
   .trusty_buttons
     button(@click="handleSignUp" v-show="!pending") Sign up
