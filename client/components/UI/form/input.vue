@@ -166,6 +166,9 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 
 	input, textarea {
 		cursor: pointer;
+		display: inline-block;
+		position: relative;
+		z-index: 200;
 	}
 
 	.trusty_input_container.text_area {
@@ -205,6 +208,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 		color: $color_light_grey;
 		transition: all .2s;
 		text-transform: uppercase;
+		z-index: 100;
 	}
 
 
