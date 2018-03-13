@@ -6,7 +6,9 @@ git:
 before_install:
 - npm i -g npm@5
 - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
-- git submodule update --init --recursive
+- git submodule init
+- git submodule sync
+- git submodule update
 - openssl aes-256-cbc -K $encrypted_dec11682187e_key -iv $encrypted_dec11682187e_iv
   -in .travis/id_rsa.enc -out .travis/id_rsa -d
 install:
