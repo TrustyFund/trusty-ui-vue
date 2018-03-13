@@ -164,6 +164,10 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 
 .trusty_input_container {
 
+	input, textarea {
+		cursor: pointer;
+	}
+
 	.trusty_input_container.text_area {
 
 		._input_space {
@@ -175,6 +179,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 		margin-top: 0;
 		input, textarea {
 			opacity: 1;
+			cursor: text;
 		}
 	}
 
