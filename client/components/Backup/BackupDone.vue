@@ -1,7 +1,7 @@
 <template lang="pug">
 
 #done
-	.tick_container(v-for="(option,index) in infos" v-if="index !== lastIndex")
+	.tick_container(v-for="(option,index) in infos")
 		._tick(@click="checkOption(index)")
 			icon(
 				name="tick_backup",
@@ -12,13 +12,13 @@
 
 	._bottom_fixed.main_padding
 		.tick_container
-			._tick(@click="checkOption(lastIndex)")
+			._tick(@click="checkTermOfUse()")
 				icon(
 					name="tick_backup",
-					:class="{_disabled_tick: !infos[lastIndex].checked }",
+					:class="{_disabled_tick: !termOfUse.checked }",
 					:initialSvgColors="true")
 			._info
-				p.trusty_help_text(@click="$router.push({name:'terms-of-use'})" v-html="infos[lastIndex].text")
+				p.trusty_help_text(@click="$router.push({name:'terms-of-use'})" v-html="termOfUse.text")
 
 		.trusty_inline_buttons._one_button(:class="{_disabled: !allChecks }")
 			button(@click="done") finish backup
@@ -28,7 +28,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import icon from '@/components/UI/icon';
-
+// v-if="index !== lastIndex"
 /*eslint-disable*/
 const infos = [
 {
@@ -49,15 +49,17 @@ accessed with the backed pharse
 	`,
 	checked: false
 },
-{
-	text:`
+
+];
+
+const termOfUse ={
+  text:`
 I have read, understood, and<br/>gree&nbsp
 <span class="_yellow">The terms of use</span>
 `,
-	checked: false
-}
+  checked: false
+};
 
-];
 
 /*eslint-disable*/
 
@@ -68,6 +70,7 @@ export default {
   data() {
     return {
       infos,
+      termOfUse
     };
   },
   computed: {
@@ -75,7 +78,7 @@ export default {
   		return this.infos.length-1
   	},
     allChecks() {
-    	return this.infos.every(option=>!!option.checked)
+    	return this.infos.every(option=>!!option.checked) && this.termOfUse.checked;
     },
     ...mapGetters({
       userId: 'account/getAccountUserId'
@@ -88,6 +91,9 @@ export default {
   	checkOption(index){
   		this.infos[index].checked = !this.infos[index].checked;
   	},
+    checkTermOfUse(){
+      this.termOfUse.checked = !this.termOfUse.checked;
+    },
   	done() {
   		if (this.allChecks) {
 	  		const date = new Date();
