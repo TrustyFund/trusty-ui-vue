@@ -40,6 +40,11 @@ export default {
       type: Number,
       required: false,
       default: 7
+    },
+    balances: {
+      type: Object,
+      required: true,
+      default: () => { return {}; }
     }
   },
   components: {
@@ -54,7 +59,7 @@ export default {
     ...mapGetters({
       ready: 'connection/isReady',
       userId: 'account/getAccountUserId',
-      balances: 'user/getBalances',
+      userBalances: 'user/getBalances',
       items: 'portfolio/getPortfolioList',
       history: 'market/getMarketHistory',
       marketFetching: 'market/isFetching',

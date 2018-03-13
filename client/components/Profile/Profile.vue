@@ -28,9 +28,11 @@
   .table_wrap
     Portfolio( 
      :min-mode="true"
+     :balances="userBalances"
       base-id="1.3.0"
       fiat-id="1.3.121"
-     :days="7")
+     :days="7"
+     :user-id="userId")
 
 
 

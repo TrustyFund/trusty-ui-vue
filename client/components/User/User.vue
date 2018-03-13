@@ -12,14 +12,15 @@
                  v-if="userBalances"
                  base-id="1.3.0"
                  fiat-id="1.3.121"
-                 :days="7"/> 
+                 :days="7"
+                 :min-mode="true"/> 
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import Portfolio from '@/components/Portfolio/Portfolio.vue';
+import Portfolio from '@/components/Portfolio/PortfolioContainer.vue';
 import Spinner from '@/components/UI/Spinner.vue';
 
 export default {
@@ -41,7 +42,7 @@ export default {
       account: 'user/getAccountObject',
       userBalances: 'user/getBalances',
       fetching: 'user/isFetching',
-      ready: 'connection/isReady',
+      ready: 'connection/isReady'
     })
   },
   methods: {
