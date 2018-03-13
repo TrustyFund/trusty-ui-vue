@@ -29,10 +29,10 @@ div
 						br._mob
 						| Crypto Economy
 					a._desk
-						button.land INVEST NOW
+						button.land(@click="clickLink('signup')") INVEST NOW
 			div._fixed_bottom._mob
 				a
-					button.land INVEST NOW
+					button.land(@click="clickLink('signup')") INVEST NOW
 				div.trusty_down_arrow(@click="clickScroll(0)")
 					span(v-html="arrowDown")
 
@@ -69,7 +69,7 @@ div
 				br
 				| yet infant, technology
 			a.wrap_button
-				button.land INVEST NOW
+				button.land(@click="clickLink('signup')") INVEST NOW
 			p
 				| Depositing into Trusty.Fund
 				br._mob

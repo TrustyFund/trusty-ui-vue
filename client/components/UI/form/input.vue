@@ -111,6 +111,10 @@ export default {
 
 @import '~@/style/mixins';
 
+input[type=number] {
+    -webkit-text-security: disc;
+}
+
 .trusty_input_container:not(.text_area) {
   margin-bottom: 2vw;
   position: relative;
