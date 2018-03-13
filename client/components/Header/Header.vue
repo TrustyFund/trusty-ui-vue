@@ -13,7 +13,7 @@
 
 		span._options._mob(
 			v-if="isProfilePage"
-			@click='logout')
+			@click='backAction')
 			icon-component(name="trusty_options")
 
 		.header_title(v-if="!isProfilePage") {{ headerTitle }}
