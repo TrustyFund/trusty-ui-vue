@@ -1,6 +1,6 @@
 <template lang="pug">
 
-#trusty_auth
+#trusty_auth.signup
 
   .input_area
     .left
@@ -27,9 +27,6 @@
         template(slot="input")
           input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="password")
       .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") Passwords do not match
-
-  p._tooltip_p._yellow
-    | Write down your password, it CAN'T BE RECOVERED
 
   .trusty_buttons
     button(@click="handleSignUp" v-show="!pending") Sign up
@@ -123,4 +120,6 @@ export default {
 };
 
 </script>
+
+
 

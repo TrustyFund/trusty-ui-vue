@@ -113,6 +113,13 @@ input[type=number] {
 
 #trusty_auth {
 	@include trusty_main_padding;
+
+
+	&.signup {
+		.trusty_buttons {
+			margin-top: 4.6vw;
+		}
+	}
 }
 
 ._logo_owl {
