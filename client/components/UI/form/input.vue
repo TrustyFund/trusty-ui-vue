@@ -47,43 +47,48 @@ export default {
       type: Boolean
     }
   },
+  methods: {
+  	focusBlur() {
+	    const current = this.type === 'textarea' ? 'textarea' : 'input';
+	    const target = this.$refs.input_space.querySelector(current);
 
-  watch: {
-    opened(val) {
-      if (val) {
-        const current = this.type === 'textarea' ? 'textarea' : 'input';
-        const target = this.$refs.input_space.querySelector(current);
-        if (target) {
-          target.focus();
-          this.blur = listen(target, 'blur', () => {
-            if (!target.value.length) this.opened = false;
-          });
-        }
-      }
-    }
+	    if (target) {
+	      this.focus = listen(target, 'focus', () => {
+	        this.opened = true;
+	      });
+	      this.blur = listen(target, 'blur', () => {
+	        if (!target.value.length) this.opened = false;
+	      });
+	    }
+  	},
+
+  	selectResize() {
+	    const select = this.$refs.right_space.querySelector('select');
+
+	    function resize() {
+	      const fake = this.$refs.right_space.querySelector('.fake_option_width');
+	      const selected = select.options[select.selectedIndex];
+	      fake.textContent = selected.text;
+	      select.style.width = fake.offsetWidth + 25 + 'px';
+	    }
+
+	    if (select) {
+	      resize.call(this);
+	      this.resize = listen(select, 'change', resize.bind(this));
+	    }
+  	}
   },
 
   mounted() {
     if (this.isOpen) this.opened = true;
-
-    const select = this.$refs.right_space.querySelector('select');
-
-    function resize() {
-      const fake = this.$refs.right_space.querySelector('.fake_option_width');
-      const selected = select.options[select.selectedIndex];
-      fake.textContent = selected.text;
-      select.style.width = fake.offsetWidth + 25 + 'px';
-    }
-
-    if (select) {
-      resize.call(this);
-      this.resizeSelect = listen(select, 'change', resize.bind(this));
-    }
+    this.focusBlur();
+    this.selectResize();
   },
 
   beforeDestroy() {
     if (this.blur) this.blur.remove();
-    if (this.resizeSelect) this.resizeSelect.remove();
+    if (this.resize) this.resize.remove();
+    if (this.focus) this.focus.remove();
   },
 
   data() {
@@ -132,7 +137,7 @@ export default {
     display: inline-block;
     background-color: transparent !important;
     width: 100% !important;
-    margin-left: -1000px !important;
+    opacity: 0;
     margin-right: 0 !important;
     margin-top: 0 !important;
     margin-bottom: 0 !important;
@@ -165,7 +170,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
   ._input_space.active_input {
     margin-top: 0;
     input, textarea {
-      margin-left: 0 !important;
+    	opacity: 1;
     }
   }
 
@@ -267,7 +272,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     }
 
     textarea {
-      margin-left: -1000px !important;
+    	opacity: 0;
     }
 
     textarea:hover, textarea:active, textarea:focus, textarea {
