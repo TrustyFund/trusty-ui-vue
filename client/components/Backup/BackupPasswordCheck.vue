@@ -8,11 +8,8 @@
   .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter password
   .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") Password must be 8 characters or more
 
-  .trusty_inline_buttons._one_button(v-if="isLocked()")
+  .trusty_inline_buttons._one_button
     button(@click="checkPassword()") Check
-
-  .trusty_inline_buttons._one_button(v-else)
-    button(@click="next") Go next
 
 </template>
 
@@ -57,6 +54,7 @@ export default {
       if (!this.$v.$invalid) {
         if (this.isValidPassword(this.password)) {
           this.unlockWallet(this.password);
+          this.next();
         } else {
           this.$notify({
             group: 'auth',
