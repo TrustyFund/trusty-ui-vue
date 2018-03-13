@@ -13,7 +13,7 @@
 
 		span._options._mob(
 			v-if="isProfilePage"
-			@click='backAction')
+			@click='logout')
 			icon-component(name="trusty_options")
 
 		.header_title(v-if="!isProfilePage") {{ headerTitle }}
@@ -27,7 +27,7 @@
 
 <script>
 import iconComponent from '@/components/UI/icon';
-
+import { mapActions } from 'vuex';
 
 export default {
   components: {
@@ -55,9 +55,16 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      logoutAccount: 'account/logout'
+    }),
+    logout() {
+      this.logoutAccount();
+      this.$router.push({ name: 'login' });
+    },
     backAction() {
       this.$router.go(-1);
-    },
+    }
   },
   computed: {
     headerTitle() {

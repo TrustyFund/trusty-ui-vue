@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-
+import { mapActions, mapGetters } from 'vuex';
 import icon from '@/components/UI/icon';
+
 /*eslint-disable*/
 const infos = [
 {
@@ -61,7 +61,9 @@ I have read, understood, and<br/>gree&nbsp
 
 /*eslint-disable*/
 
+
 export default {
+
 	components: {icon},
   data() {
     return {
@@ -74,7 +76,10 @@ export default {
   	},
     allChecks() {
     	return this.infos.every(option=>!!option.checked)
-    }
+    },
+    ...mapGetters({
+      userId: 'account/getAccountUserId'
+    })
   },
   methods: {
   	...mapActions({
@@ -86,8 +91,9 @@ export default {
   	done() {
   		if (this.allChecks) {
 	  		const date = new Date();
-	  		this.storeBackupDate({ date });
-				this.$emit('doneBackup');
+        const userId = this.userId;
+        this.storeBackupDate({ date, userId});
+        this.$emit('doneBackup');
   		}
   	}
   }
