@@ -60,9 +60,6 @@ export default {
       balances: 'user/getBalances',
       getAssetById: 'assets/getAssetById',
     }),
-    items() {
-
-    },
     totalBaseValue() {
       return Object.keys(this.items).reduce((result, id) => {
         return result + this.items[id].baseValue;

@@ -52,7 +52,12 @@ const router = new Router({
     },
     {
       path: '/manage',
-      component: ManagePortfolio
+      name: 'manage',
+      component: ManagePortfolio,
+      beforeEnter: (to, from, next) => {
+        if (from.name !== 'profile') next({ name: 'profile' });
+        next();
+      }
     },
     {
       name: 'signup',

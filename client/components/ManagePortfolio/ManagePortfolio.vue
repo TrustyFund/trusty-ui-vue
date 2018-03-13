@@ -16,21 +16,60 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import ManagePortfolioTab from './ManagePortfolioTab.vue';
 
 export default {
-  props: {
-    items: {
-      type: Object,
-      required: true,
-      default: {}
+  computed: {
+    ...mapGetters({
+      userData: 'account/getCurrentUserData',
+      balances: 'account/getCurrentUserBalances',
+      defaultAssetsIds: 'assets/getDefaultAssetsIds',
+      history: 'market/getMarketHistory',
+      assets: 'assets/getAssets'
+    }),
+    combinedBalances() {
+      console.log(this.defaultAssetsIds);
+      const combinedBalances = { ...this.balances };
+      this.defaultAssetsIds.forEach(id => {
+        if (combinedBalances[id]) return;
+        console.log(id);
+        combinedBalances[id] = { balance: 0 };
+      });
+      return combinedBalances;
+    },
+    items() {
+      const items = {};
+      Object.keys(this.combinedBalances).forEach(id => {
+        const { balance } = this.combinedBalances[id];
+        const price = (this.history[id] && this.history[id].last) || 0;
+        const baseValue = balance * price;
+        const name = (this.assets[id] && this.assets[id].symbol) || '...';
+        items[id] = {
+          baseValue,
+          name
+        };
+      });
+      return items;
     }
   },
   components: { ManagePortfolioTab },
   data() {
     return {
     };
-  }
+  },
+  methods: {
+    requestPortfolioData() {
+      const assetsIds = Object.keys(this.combinedBalances);
+      this.fetchAssets({ assets: assetsIds }).then(() => {
+        this.fetchMarketHistory({
+          baseId: this.baseId,
+          assetsIds,
+          days: 7
+        });
+      });
+    }
+  },
 };
 
 </script>
