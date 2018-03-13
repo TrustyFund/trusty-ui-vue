@@ -197,11 +197,11 @@ export default {
           const el = this.$refs[refer][0];
           const rect = el.getBoundingClientRect();
           if (window.scrollY >= parseFloat(this.windowHeight)) {
-	          if (Math.abs(rect.top) >= 0 && rect.top <= el.clientHeight) {
-	            this.referClass = refer;
-	          }
+            if (Math.abs(rect.top) >= 0 && rect.top <= el.clientHeight) {
+              this.referClass = refer;
+            }
           } else {
-          	this.referClass = '';
+            this.referClass = '';
           }
         });
       }
