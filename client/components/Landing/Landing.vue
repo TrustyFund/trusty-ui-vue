@@ -2,7 +2,7 @@
 div
 	div.trusty_fixed_background_div
 	div#landing
-		div.balls_nav(v-if="showBalls")._desk
+		div.balls_nav._desk
 			span(
 				v-for="refer in slideRefers",
 				@click="scrollTo(refer)",
@@ -171,7 +171,6 @@ export default {
       logoDesk,
       scroll: new SmoothScroll(),
       referClass: '',
-      showBalls: false,
       slideRefers: '',
       slideHeight: '',
       windowHeight: '',
@@ -197,10 +196,13 @@ export default {
         this.slideRefers.forEach(refer => {
           const el = this.$refs[refer][0];
           const rect = el.getBoundingClientRect();
-          if (Math.abs(rect.top) >= 0 && rect.top <= el.clientHeight) {
-            this.referClass = refer;
+          if (window.scrollY >= parseFloat(this.windowHeight)) {
+	          if (Math.abs(rect.top) >= 0 && rect.top <= el.clientHeight) {
+	            this.referClass = refer;
+	          }
+          } else {
+          	this.referClass = '';
           }
-          this.showBalls = window.scrollY >= parseFloat(this.windowHeight);
         });
       }
     },
