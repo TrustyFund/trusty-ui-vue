@@ -69,10 +69,10 @@ export default {
     };
   },
   computed: {
-  	lastIndex(){
+  	lastIndex() {
   		return this.infos.length-1
   	},
-    allChecks(){
+    allChecks() {
     	return this.infos.every(option=>!!option.checked)
     }
   },
@@ -83,7 +83,7 @@ export default {
   	checkOption(index){
   		this.infos[index].checked = !this.infos[index].checked;
   	},
-  	done(){
+  	done() {
   		if (this.allChecks) {
 	  		const date = new Date();
 	  		this.storeBackupDate({ date });
