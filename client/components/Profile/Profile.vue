@@ -9,7 +9,12 @@
       button WITHDRAW
 
 
-    TotalFunds(v-if="userData" :name="userName" :balances="userBalances")
+    TotalFunds(
+      v-if="userData" 
+     :name="userName" 
+     :balances="userBalances"
+     base-id="1.3.0"
+     fiat-id="1.3.121")
     
     ._wrap_desk_buttons._desk
       .trusty_inline_buttons

@@ -1,7 +1,7 @@
 <template lang="pug">
-  .trusty_total_funds(v-if="userData")
+  .trusty_total_funds
     p {{ name }} TOTAL FUNDS
-    h3._text_center: span {{ totalFunds }}$
+    h3._text_center: span {{ totalFunds.toFixed(1) }}$
 
 </template>
 
@@ -18,6 +18,14 @@ export default {
     balances: {
       type: Object,
       required: true
+    },
+    baseId: {
+      type: String,
+      required: true
+    },
+    fiatId: {
+      type: String,
+      required: true
     }
   },
   data() {
@@ -26,10 +34,28 @@ export default {
   },
   computed: {
     ...mapGetters({
-
+      assets: 'assets/getAssets',
+      prices: 'market/getMarketHistory'
     }),
+    baseAsset() {
+      return this.assets[this.baseId];
+    },
+    fiatAsset() {
+      return this.assets[this.fiatId];
+    },
     totalFunds() {
-      return 0;
+      if (!this.prices[this.fiatId]) return 0;
+
+      const totalBaseValue = Object.keys(this.balances).reduce((result, id) => {
+        if (!this.prices[id]) return result;
+        return result + (this.balances[id].balance * this.prices[id].last);
+      }, 0);
+
+      const fiatMultiplier = 1 / this.prices[this.fiatId].last;
+      const totalFiatValue = totalBaseValue * fiatMultiplier;
+      const fiatPrecision = this.fiatAsset.precision;
+
+      return totalFiatValue / (10 ** fiatPrecision);
     }
   },
   methods: {
