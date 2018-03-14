@@ -72,26 +72,27 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 import icon from '@/components/UI/icon';
 import investment from './CoinInvestment';
 import predictions from './CoinPredictions';
 import analysis from './CoinAnalysis';
-import { mapActions, mapGetters } from 'vuex';
+
 
 export default {
   mounted() {
-    const conformity = {
-      bitcoin: 'BTC'
-    };
-    const { name } = this.$route.params;
-    const coin = conformity[name];
-    this.fetchStats(coin);
-    this.fetchSocial(coin);
-    this.fetchSnapshot(coin);
+    this.preloadData();
+  },
+  props: {
+    symbol: {
+      type: String,
+      required: true
+    }
   },
   data() {
     return {
-      tab: ''
+      tab: '',
+      coin: '',
     };
   },
   computed: {
@@ -111,6 +112,11 @@ export default {
   },
 
   methods: {
+    async preloadData() {
+      this.fetchStats(this.symbol);
+      this.fetchSnapshot(this.symbol);
+      this.fetchSocial(this.symbol);
+    },
     isNumeric(n) {
       // eslint-disable-next-line
 			return !isNaN(parseFloat(n)) && isFinite(n);

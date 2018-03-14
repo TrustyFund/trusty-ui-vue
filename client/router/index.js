@@ -86,8 +86,9 @@ const router = new Router({
     },
     {
       name: 'coin',
-      path: '/coin/:name',
+      path: '/coin/:symbol',
       component: Coin,
+      props: true
     },
     {
       name: 'manage-approve',
