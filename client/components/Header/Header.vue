@@ -8,12 +8,12 @@
 			className="fund_logo",
 			@click="router.push('/')")
 
-		span._back(v-if="!isProfilePage" @click='backAction')
+		span._back(v-if="!isProfilePage" @click='handleBack')
 			icon-component(name="trusty_arrow_back")
 
 		span._options._mob(
 			v-if="isProfilePage"
-			@click='backAction')
+			@click='handleLogout')
 			icon-component(name="trusty_options")
 
 		.header_title(v-if="!isProfilePage") {{ headerTitle }}
@@ -27,7 +27,7 @@
 
 <script>
 import iconComponent from '@/components/UI/icon';
-import mapGetters from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   components: {
@@ -55,18 +55,10 @@ export default {
       }
     };
   },
-  methods: {
-    backAction() {
-      this.$router.go(-1);
-    },
-  },
   computed: {
-    // ...mapGetters({
-    //   userId: 'account/getAccountUserId'
-    // }),
-    userId() {
-      return '123';
-    },
+    ...mapGetters({
+      userId: 'account/getAccountUserId'
+    }),
     headerTitle() {
       return this.titles[this.$route.name];
     },
@@ -75,6 +67,17 @@ export default {
     },
     isHidden() {
       return this.$route.name === 'entry' && !this.userId;
+    }
+  },
+  methods: {
+    ...mapActions({
+      logout: 'account/logout'
+    }),
+    handleLogout() {
+      this.logout();
+    },
+    handleBack() {
+      this.$router.go(-1);
     }
   }
 };
