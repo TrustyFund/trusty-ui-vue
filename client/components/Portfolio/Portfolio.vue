@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 // eslint-disable-next-line
 import { calcPortfolioItem } from 'lib/src/utils';
 import PortfolioBalance from './PortfolioBalance.vue';
@@ -35,11 +35,6 @@ export default {
       type: String,
       required: false,
       default: '1.3.121'
-    },
-    days: {
-      type: Number,
-      required: false,
-      default: 7
     },
     balances: {
       type: Object,
@@ -57,11 +52,11 @@ export default {
       defaultAssetsIds: 'assets/getDefaultAssetsIds'
     }),
     combinedBalances() {
-      console.log(this.defaultAssetsIds);
+      // console.log(this.defaultAssetsIds);
       const combinedBalances = { ...this.balances };
       this.defaultAssetsIds.forEach(id => {
         if (combinedBalances[id]) return;
-        console.log(id);
+        // console.log(id);
         combinedBalances[id] = { balance: 0 };
       });
       return combinedBalances;
@@ -108,27 +103,9 @@ export default {
     };
   },
   methods: {
-    ...mapActions({
-      fetchAssets: 'assets/fetchAssets',
-      resetPortfolioState: 'portfolio/resetPortfolioState',
-      fetchMarketHistory: 'market/fetchMarketHistory'
-    }),
-    requestPortfolioData() {
-      const assetsIds = Object.keys(this.combinedBalances);
-      this.fetchAssets({ assets: assetsIds }).then(() => {
-        this.fetchMarketHistory({
-          baseId: this.baseId,
-          assetsIds,
-          days: 7
-        });
-      });
-    },
     goToManagePortfolio() {
       this.$router.push({ name: 'manage' });
     }
-  },
-  mounted() {
-    this.requestPortfolioData();
   }
 };
 </script>

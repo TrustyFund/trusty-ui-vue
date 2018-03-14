@@ -1,13 +1,13 @@
 <template>
-	<div id="app" :class="activeClass">
-		<Header/>
-		<router-view></router-view>
-		<div class="connecting-block-screen"
-				 v-if="!ready">
-			 <Spinner/>
-		</div>
-		<notifications group="auth" width="100%" position="bottom center"/>
-	</div>
+  <div id="app" :class="activeClass">
+    <Header/>
+    <router-view></router-view>
+    <div class="connecting-block-screen"
+         v-if="!ready && !isLanding">
+       <Spinner/>
+    </div>
+    <notifications group="auth" width="100%" position="bottom center"/>  
+  </div>
 </template>
 
 <script>
@@ -21,36 +21,28 @@ export default {
   components: {
     Header, Spinner
   },
-
   data() {
     return {};
   },
   computed: {
     activeClass() {
-      return this.$route.name === 'landing' ? '_landing_page' : '_header_space';
+      return this.isLanding ? '_landing_page' : '_header_space';
+    },
+    isLanding() {
+      return this.$route.name === 'entry' && !this.userId;
     },
     ...mapGetters({
-      ready: 'connection/isReady'
+      ready: 'connection/isReady',
+      userId: 'account/getAccountUserId'
     })
   },
   methods: {
     ...mapActions({
-      initApp: 'app/initApp',
-      fetchDefaultAssets: 'assets/fetchDefaultAssets',
-      fetchCurrentUser: 'account/fetchCurrentUser'
+      initApp: 'app/initApp'
     })
   },
-  watch: {
-    ready(connected) {
-      if (connected) {
-        this.fetchDefaultAssets();
-        this.fetchCurrentUser();
-        // then fetch assets & market
-      }
-    },
-    immediate: true
-  },
   beforeMount() {
+    // retrieve cached user data & connect to bitsharesjs-ws
     this.initApp();
   }
 };

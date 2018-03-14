@@ -27,7 +27,7 @@
 
 <script>
 import iconComponent from '@/components/UI/icon';
-
+import mapGetters from 'vuex';
 
 export default {
   components: {
@@ -50,7 +50,8 @@ export default {
         transactions: 'recent transactions',
         'manage-approve': 'update portfolio',
         'terms-of-use': 'terms of use',
-        portfolio: 'portfolio'
+        portfolio: 'portfolio',
+        entry: 'profile'
       }
     };
   },
@@ -60,14 +61,20 @@ export default {
     },
   },
   computed: {
+    // ...mapGetters({
+    //   userId: 'account/getAccountUserId'
+    // }),
+    userId() {
+      return '123';
+    },
     headerTitle() {
       return this.titles[this.$route.name];
     },
     isProfilePage() {
-      return this.$route.name === 'profile';
+      return this.$route.name === 'entry' && this.userId;
     },
     isHidden() {
-      return this.$route.name === 'landing';
+      return this.$route.name === 'entry' && !this.userId;
     }
   }
 };

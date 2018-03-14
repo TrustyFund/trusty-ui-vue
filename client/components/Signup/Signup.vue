@@ -107,7 +107,7 @@ export default {
           dictionary: dictionary.en
         });
         if (result.success) {
-          this.$router.push({ name: 'profile' });
+          this.$router.push({ name: 'entry' });
         } else {
           this.$notify({
             group: 'auth',
