@@ -27,7 +27,7 @@
 
 <script>
 import iconComponent from '@/components/UI/icon';
-
+import { mapActions } from 'vuex';
 
 export default {
   components: {
@@ -44,21 +44,28 @@ export default {
         user: 'user page',
         profile: 'user profile',
         backup: 'compulsory backup',
+        'backup-password': 'check password',
         'backup-phrase': 'backup phrase',
         'backup-verify': 'verify backup',
         'backup-done': 'almost done! let\'s review',
         transactions: 'recent transactions',
         coin: 'coin overview',
+        'terms-of-use': 'terms of use',
         'manage-approve': 'update portfolio',
-        'terms-of-use': 'terms of use'
-
       }
     };
   },
   methods: {
+    ...mapActions({
+      logoutAccount: 'account/logout'
+    }),
+    logout() {
+      this.logoutAccount();
+      this.$router.push({ name: 'login' });
+    },
     backAction() {
       this.$router.go(-1);
-    },
+    }
   },
   computed: {
     headerTitle() {

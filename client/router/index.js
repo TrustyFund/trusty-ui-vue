@@ -15,6 +15,7 @@ import BackupDone from '@/components/Backup/BackupDone';
 import BackupFirst from '@/components/Backup/BackupFirst';
 import BackupPhrase from '@/components/Backup/BackupPhrase';
 import BackupVerify from '@/components/Backup/BackupVerify';
+import BackupPassword from '@/components/Backup/BackupPasswordCheck';
 import PortfolioApprove from '@/components/Portfolio/PortfolioApprove';
 import Landing from '@/components/Landing/Landing';
 import TermsOfUse from '@/components/TermsOfUse/TermsOfUse';
@@ -62,17 +63,26 @@ const router = new Router({
     {
       name: 'deposit',
       path: '/deposit',
-      component: Deposit
+      component: Deposit,
+      meta: {
+        requiredBackup: true
+      }
     },
     {
       name: 'withdraw',
       path: '/withdraw',
-      component: Deposit
+      component: Deposit,
+      meta: {
+        requiredBackup: true
+      }
     },
     {
       name: 'manage',
       path: '/manage',
-      component: ManagePortfolio
+      component: ManagePortfolio,
+      meta: {
+        requiredBackup: true
+      }
     },
     {
       name: 'coin',
@@ -83,7 +93,6 @@ const router = new Router({
       name: 'manage-approve',
       path: '/manage/approve',
       component: PortfolioApprove
-
     },
     {
       name: 'transactions',
@@ -98,6 +107,11 @@ const router = new Router({
           path: '',
           name: 'backup',
           component: BackupFirst
+        },
+        {
+          path: 'password',
+          name: 'backup-password',
+          component: BackupPassword
         },
         {
           path: 'phrase',
@@ -137,6 +151,15 @@ router.beforeEach((to, from, next) => {
     if (userId === undefined) {
       next({
         path: '/home'
+      });
+    }
+  }
+  if (to.meta.requiredBackup) {
+    const backupDate = Cookies.get('BACKUP_DATE');
+    if (!backupDate) {
+      next({
+        path: '/backup',
+        query: { redirect: to.name }
       });
     }
   }

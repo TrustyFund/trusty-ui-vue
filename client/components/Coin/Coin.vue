@@ -2,6 +2,7 @@
 
 #trusty_coin_overview
 
+
 	._head_title
 
 		div._indicators
@@ -71,11 +72,11 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
 import icon from '@/components/UI/icon';
 import investment from './CoinInvestment';
 import predictions from './CoinPredictions';
 import analysis from './CoinAnalysis';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   mounted() {
@@ -156,7 +157,7 @@ export default {
     investment,
     predictions,
     analysis
-  },
+  }
 };
 
 </script>
