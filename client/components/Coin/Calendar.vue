@@ -26,7 +26,7 @@ export default {
     getMonthData(year, monthNumber) {
       const total = this.daysInMonth(year, monthNumber);
       const page = [];
-      for (let i = 1; i < total + 1; i++) {
+      for (let i = 1; i < total + 1; i += 1) {
         page.push({
           date: i,
           month: monthNumber,
