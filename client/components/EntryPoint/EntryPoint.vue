@@ -33,6 +33,7 @@ export default {
     computedComponent() {
       return this.userId ? 'Profile' : 'Landing';
     },
+    // user balances + default assets
     combinedBalances() {
       const combinedBalances = { ...this.userBalances };
       this.defaultAssetsIds.forEach(id => {
@@ -45,10 +46,7 @@ export default {
   watch: {
     ready: {
       handler(connected) {
-        if (connected) {
-          this.fetchDefaultAssets();
-          this.fetchUserData();
-        }
+        if (connected) this.fetchUserData();
       },
       immediate: true
     },
@@ -69,7 +67,9 @@ export default {
       fetchCurrentUser: 'account/fetchCurrentUser',
       fetchAssets: 'assets/fetchAssets',
       fetchMarketHistory: 'market/fetchMarketHistory',
-      clearOperations: 'operations/resetState'
+      clearOperations: 'operations/resetState',
+      subscribeToMarket: 'market/subscribeToMarket',
+      unsubscribeFromMarket: 'market/unsubscribeFromMarket'
     }),
     async fetchUserData() {
       await Promise.all([this.fetchDefaultAssets(), this.fetchCurrentUser()]);
@@ -80,12 +80,12 @@ export default {
         assetsIds: combinedAssetsIds,
         days: 7
       });
-      // then fetch assets & market
+      this.subscribeToMarket({ balances: this.combinedBalances });
     },
     cleanUpUserData() {
       console.log('cleanup user data');
       this.clearOperations();
-      // cleanup user data & subscriptions
+      this.unsubscribeFromMarket({ balances: this.combinedBalances });
     }
   },
 };

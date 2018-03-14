@@ -39,7 +39,7 @@ export default {
     },
     formattedBalanceFiat() {
       if (!this.item.fiatValue) return 0;
-      const precisedFiatValue = (this.item.fiatValue / (10 ** this.fiatPrecision)).toFixed(1);
+      const precisedFiatValue = (this.item.fiatValue / (10 ** this.fiatPrecision)).toFixed(3);
       return precisedFiatValue;
     },
     formattedChange() {
