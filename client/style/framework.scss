@@ -12,6 +12,14 @@
   @include trusty_main_padding;
 }
 
+
+.trusty_small_font {
+  font-family: Gotham_Pro;
+  font-size: 4.2vw;
+}
+
+
+
 .main_centered_container {
   @media screen and (min-width: 769px){
     margin: 0 auto;

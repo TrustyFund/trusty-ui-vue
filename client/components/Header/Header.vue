@@ -49,8 +49,12 @@ export default {
         'backup-verify': 'verify backup',
         'backup-done': 'almost done! let\'s review',
         transactions: 'recent transactions',
+<<<<<<< HEAD
         'manage-approve': 'update portfolio',
         'terms-of-use': 'terms of use'
+=======
+        coin: 'coin overview'
+>>>>>>> c813d00e962e0865044d6fbb9595df02b8c91e2f
       }
     };
   },

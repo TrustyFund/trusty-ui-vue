@@ -1,6 +1,6 @@
 HTML {
   background-repeat: no-repeat;
-  background-position:  50% 0px;
+  background-position:  50% 1135px;
   /* По умолчанию показывается мобильный макет */
     /* Планшетный макет */
     //background-image: url( "./screens/profile.png");
@@ -12,7 +12,18 @@ HTML {
   HTML {
     //background-image: url("./screens/trusty_fund_750.png");
 
+<<<<<<< HEAD
     //background-image: url("./screens/account_backup_6_popup.png");
+=======
+    //background-image: url("./screens/coin_overview/investment/investment_4.png");
+    //background-image: url("./screens/coin_overview/predictions/predictions_3b.png");
+    //background-image: url("./screens/coin_overview/analysis_2.png");
+    background-image: url("./screens/coin_overview/analysis/analysis_2.png");
+    //background-image: url("./screens/coin_overview/resources.png");
+
+
+    background-image: url("./screens/account_backup_6_popup.png");
+>>>>>>> c813d00e962e0865044d6fbb9595df02b8c91e2f
     //background-image: url("./screens/account_backup_5.png");
 
     //background-image: url("./screens/account_backup_5_popup.png");
@@ -24,6 +35,7 @@ HTML {
 
     //background-image: url("./screens/account_backup_1_popup.png");
     //background-image: url("./screens/account_backup_1.png");
+
     //background-image: url("./screens/manage_portfolio_manual.png");
     //background-image: url("./screens/payment_method_user_profile_perfect.png");
     //background-image: url("./screens/login.png")
