@@ -7,7 +7,7 @@ class AssetInfo {
     const coinsQuery = 'https://min-api.cryptocompare.com/data/all/coinlist';
     const response = await axios.get(coinsQuery);
     console.log('response coins', response);
-    if (response.data.Success) {
+    if (response.status === 200) {
       return {
         success: true,
         data: response.data.Data
@@ -73,7 +73,7 @@ class AssetInfo {
         return coinsResult;
       }
     }
-    const coinId = this.coins[assetSymbol];
+    const coinId = this.coins[assetSymbol].Id;
     const snapshotQuery = 'https://www.cryptocompare.com/api/data/coinsnapshotfullbyid/' +
 `?id=${coinId}`;
     try {
