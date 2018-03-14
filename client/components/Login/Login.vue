@@ -1,19 +1,19 @@
 <template lang="pug">
 
 #trusty_auth
-    
-  .input_area 
+
+  .input_area
     .left
-      
+
       trusty-input(label="password")
         template(slot="input")
-          input(v-model="password" @input="$v.password.$touch()" type="password")
+          input(v-model="password" @input="$v.password.$touch()" type="number")
       .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter password
       .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") Password must be 8 characters or more
 
       trusty-input(label="confirm password")
         template(slot="input")
-          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="password")
+          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="number")
       .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") Passwords do not match
 
       trusty-input(label="brainkey" type="textarea")
@@ -21,26 +21,20 @@
           textarea(v-model="brainkey" @input="$v.brainkey.$touch()")
       .trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter brainkey
 
-    .right
-      ._logo_owl._desk
-        Icon(name="trusty_owl_small_logo")
-  
-  p._tooltip_p 
+  p._tooltip_p
     | Please enter account brainkey once for new devices, #[br]
     | 12 words, you backed up, when account was created
 
   .trusty_buttons
     button(@click="handleLogin" v-show="!pending") Log in
     button(v-show="pending") Loading....
-    span._desk(style="display:inline-block; width: 1vw")
-    button(@click="$router.push({ name: 'signup' })")._grey_style._desk Sign up
 
-  p._tooltip_p._text_center 
+  p._tooltip_p._text_center
     | Before continuing, make sure your device is secure #[br]
 
-  ._bottom_link._mob(@click="$router.push({ name: 'signup' })"): span Sign up with new account
+  ._bottom_link(@click="$router.push({ name: 'signup' })"): span Sign up with new account
 
-  ._logo_owl._mob
+  ._logo_owl
     Icon(name="trusty_owl_small_logo")
 
 </template>
@@ -114,16 +108,15 @@ export default {
 @import "~@/style/mixins";
 
 #trusty_auth {
-	@include trusty_main_padding; 
+	@include trusty_main_padding;
 }
 
 ._logo_owl {
-  
+
   text-align: center;
 
   span.trusty_owl_small_logo {
      display: inline-block;
-     width: 16vw !important;
   }
 
   span {
@@ -151,59 +144,34 @@ export default {
 }
 
 ._bottom_link {
+	cursor: pointer;
   text-align: center;
-  span {
-    font-size: 1.3vw;
-  }
-  &._margins {
-    margin-top: 5.8vw;
-    margin-bottom: 4vw;
-  }
 }
 
 
 @media screen and (min-width: 769px) {
+  ._tooltip_p {
+    line-height: px_from_vw(4);
+    margin-top: px_from_vw(2);
+    font-size: px_from_vw(3.3);
+    margin-bottom: px_from_vw(4.6);
+  }
+
+  ._bottom_link {
+    span {
+      font-size: px_from_vw(3.3);
+    }
+    &._margins {
+      margin-top: px_from_vw(5.8);
+      margin-bottom: px_from_vw(4);
+    }
+  }
 
   ._logo_owl {
-    line-height: 100%;
-    height: 100%;
-    padding-top: 0;
-    text-align: left;
-    padding-left: 3vw;
-    
-    span { 
-      display: inline-block;
-      position: relative; 
-      top: 60%;
-      transform: translateY(-50%);
-    }
-  }
-
-  ._tooltip_p { 
-    
     text-align: center;
-
-  }
-
-  #trusty_auth {
-    width: 80vw;
-    margin: 0 auto;
-  }
-
-  .input_area {
-    margin: 10vh auto;
-    display: flex;
-    justify-content: center;
-
-    .left, .right {
-      flex: 1;
-    }
-
-    .left {
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      padding: 0 12vw 0 8vw;
+    padding-top: px_from_vw(6);
+    span.trusty_owl_small_logo {
+       width: px_from_vw(34);
     }
   }
 }
@@ -231,11 +199,10 @@ export default {
     text-align: center;
     padding-top: 6vw;
     span.trusty_owl_small_logo {
-       display: inline-block;
-       width: 34vw !important;
+       width: 34vw;
     }
   }
-  
+
 }
 
 </style>

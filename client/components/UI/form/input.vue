@@ -20,6 +20,7 @@
 </template>
 
 <script>
+
 import listen from 'event-listener';
 
 export default {
@@ -108,20 +109,28 @@ export default {
 
 <style lang="scss">
 
-@mixin column_trusty_inputs {
+@import '~@/style/mixins';
 
-  .trusty_input_container:not(.text_area) {
-    margin-bottom: 2vw;
-    position: relative;
-    height: 10.7vw;;
-    .w_input {
-      position: absolute;
-      width: 100%;
-      bottom:0;
-    }
-  }
-  
+input[type=number] {
+    -webkit-text-security: disc;
 }
+
+.trusty_input_container:not(.text_area) {
+  margin-bottom: 2vw;
+  position: relative;
+  height: 10.7vw;;
+  .w_input {
+    position: absolute;
+    width: 100%;
+    bottom:0;
+  }
+  @media screen and (min-width: 769px) {
+  	height: px_from_vw(10.7);;
+  	margin-bottom: px_from_vw(2);
+  }
+}
+
+
 
 @mixin input_tag_style {
     display: inline-block;
@@ -150,28 +159,10 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 
 .trusty_input_container {
 
-
   .trusty_input_container.text_area {
 
-    textarea {
-      padding-top: 6vw;
-    }
-
     ._input_space {
-      height: 6vw;
       transition: all .2s;
-    }
-    &.opened_text_area {
-      label {
-        top: 1vw;
-        bottom: initial;
-      }
-      textarea {
-        height: 80%;
-      }
-      ._input_space {
-        height: 30.5vw !important;
-      }
     }
   }
 
@@ -186,34 +177,23 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     width: 100%;
     font-family: Gotham_Pro_Regular;
     text-transform: uppercase;
-    color: white !important;
-    letter-spacing: .13vw !important;
-    font-size: 2vw !important;
-    letter-spacing: .4vw;
-    bottom: .4vw;
     position: absolute;
     color: white;
   }
 
   .w_input {
     position: relative;
-    @media screen and (min-width: 769px) {
-      margin-top: .4vw;
-    }
   }
 
   input {
-    height: 3.2vw;
-    font-size: 2.4vw !important;
     font-family: "Gotham_Pro_Regular";
   }
 
   label {
+  	cursor: pointer;
     font-family: Gotham_Pro_Regular;
     color: $color_light_grey;
     transition: all .2s;
-    font-size: 1.5vw;
-    margin-bottom: 0 !important;
     text-transform: uppercase;
   }
 
@@ -222,11 +202,8 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     padding-left: 0;
     width: 100%;
     border: none;
-    height: 22vw;
     outline: none;
-    font-size: 2.4vw;
     color: white;
-    height: 6.4vw;
     font-family: "Gotham_Pro_Regular";
   }
 
@@ -269,11 +246,6 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     input {
       color: white;
       @include input_tag_style;
-    }
-
-
-    @media screen and (min-width: 769px) {
-      height: 5vw;
     }
 
     input::placeholder {
@@ -346,7 +318,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 
 }
 
-
+@import "./desk.scss";
 @import "./mobile.scss";
 
 </style>

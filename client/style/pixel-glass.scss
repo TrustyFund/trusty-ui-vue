@@ -10,15 +10,16 @@ HTML {
 /* Планшет */
 @media ( max-width: 768px ) {
   HTML {
+    //background-image: url("./screens/trusty_fund_750.png");
+
 
     //background-image: url("./screens/coin_overview/investment/investment_4.png");
     //background-image: url("./screens/coin_overview/predictions/predictions_3b.png");
     //background-image: url("./screens/coin_overview/analysis_2.png");
     background-image: url("./screens/coin_overview/analysis/analysis_2.png");
     //background-image: url("./screens/coin_overview/resources.png");
-
-
     background-image: url("./screens/account_backup_6_popup.png");
+
     //background-image: url("./screens/account_backup_5.png");
 
     //background-image: url("./screens/account_backup_5_popup.png");
