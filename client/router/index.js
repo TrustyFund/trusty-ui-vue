@@ -91,8 +91,9 @@ const router = new Router({
     },
     {
       name: 'coin',
-      path: '/coin/:name',
-      component: Coin
+      path: '/coin/:symbol',
+      component: Coin,
+      props: true
     },
     {
       name: 'transactions',

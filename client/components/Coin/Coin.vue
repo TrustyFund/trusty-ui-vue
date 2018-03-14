@@ -4,7 +4,7 @@
 
   .omise_go
     icon(name="coin_head_ogo", :originalColors="true")
-    span.omise_font OmiseGO
+    span.omise_font zashecoin
     icon(name="coin_head_omg", :originalColors="true")
 
   p.trusty_ps_text Overview provided by cryptocompare.com
@@ -52,6 +52,7 @@ import icon from '@/components/UI/icon';
 import investment from './CoinInvestment';
 import predictions from './CoinPredictions';
 import analysis from './CoinAnalysis';
+import { mapActions, mapGetters } from 'vuex';
 
 
 export default {
@@ -60,11 +61,25 @@ export default {
       tab: ''
     };
   },
+  props: {
+    symbol: {
+      type: String,
+      required: true
+    }
+  },
   components: {
     icon,
     investment,
     predictions,
     analysis
+  },
+  methods: {
+    ...mapActions({
+      fetchStats: 'assetInfo/fetchStats'
+    })
+  },
+  mounted() {
+    console.log(this.symbol);
   }
 };
 // example of need data from crypto compare
