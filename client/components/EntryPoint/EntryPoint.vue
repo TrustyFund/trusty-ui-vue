@@ -68,7 +68,8 @@ export default {
       fetchDefaultAssets: 'assets/fetchDefaultAssets',
       fetchCurrentUser: 'account/fetchCurrentUser',
       fetchAssets: 'assets/fetchAssets',
-      fetchMarketHistory: 'market/fetchMarketHistory'
+      fetchMarketHistory: 'market/fetchMarketHistory',
+      clearOperations: 'operations/resetState'
     }),
     async fetchUserData() {
       await Promise.all([this.fetchDefaultAssets(), this.fetchCurrentUser()]);
@@ -83,6 +84,7 @@ export default {
     },
     cleanUpUserData() {
       console.log('cleanup user data');
+      this.clearOperations();
       // cleanup user data & subscriptions
     }
   },
