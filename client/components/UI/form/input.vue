@@ -116,7 +116,7 @@ export default {
 
 @import '~@/style/mixins';
 
-input[type=number] {
+input[type=tel] {
     -webkit-text-security: disc;
 }
 
