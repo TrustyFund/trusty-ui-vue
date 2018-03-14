@@ -47,7 +47,9 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchUser: 'user/fetchUser'
+      fetchUser: 'user/fetchUser',
+      fetchMarketHistory: 'market/fetchMarketHistory',
+      fetchAssets: 'assets/fetchAssets'
     })
   },
   watch: {
@@ -62,7 +64,16 @@ export default {
                 title: '',
                 text: this.name + ' : ' + result.error
               });
-              this.$router.push({ name: 'profile' });
+              this.$router.push({ name: 'entry' });
+            } else {
+              const assetsIds = Object.keys(this.userBalances);
+              this.fetchAssets({ assets: assetsIds }).then(() => {
+                this.fetchMarketHistory({
+                  baseId: '1.3.0',
+                  assetsIds,
+                  days: 7
+                });
+              });
             }
           });
         }

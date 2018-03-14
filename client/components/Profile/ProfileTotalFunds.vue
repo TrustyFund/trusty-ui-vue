@@ -55,7 +55,7 @@ export default {
       const totalFiatValue = totalBaseValue * fiatMultiplier;
       const fiatPrecision = this.fiatAsset.precision;
 
-      return totalFiatValue / (10 ** fiatPrecision);
+      return (totalFiatValue / (10 ** fiatPrecision)) || 0;
     }
   },
   methods: {

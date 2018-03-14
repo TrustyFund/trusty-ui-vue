@@ -1,10 +1,10 @@
 <template lang="pug">
 
   tr.portfolio-container__balance 
-        td._text_left  {{ item.name }}
-        td._text_right {{ formattedShare }}%
-        td._text_right {{ formattedBalanceFiat }}$
-        td._text_right {{ formattedChange }}%
+    td._text_left  {{ item.name }}
+    td._text_right {{ formattedShare }}%
+    td._text_right {{ formattedBalanceFiat }}$
+    td._text_right {{ formattedChange }}%
 
 </template>
 
@@ -39,7 +39,7 @@ export default {
     },
     formattedBalanceFiat() {
       if (!this.item.fiatValue) return 0;
-      const precisedFiatValue = (this.item.fiatValue / (10 ** this.fiatPrecision)).toFixed(3);
+      const precisedFiatValue = (this.item.fiatValue / (10 ** this.fiatPrecision)).toFixed(1);
       return precisedFiatValue;
     },
     formattedChange() {

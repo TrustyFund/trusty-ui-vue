@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    .trusty_inline_buttons._mob._one_button(@click="goToManagePortfolio"): button MANAGE FUND
+    .trusty_inline_buttons._mob._one_button(@click="goToManagePortfolio" v-show="!minMode"): button MANAGE FUND
     table.portfolio-container.trusty_table
       thead
         tr
@@ -40,6 +40,11 @@ export default {
       type: Object,
       required: true,
       default: () => { return {}; }
+    },
+    minMode: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   computed: {

@@ -46,17 +46,14 @@ export default {
   watch: {
     ready: {
       handler(connected) {
-        if (connected) this.fetchUserData();
+        if (connected) this.fetchUserRelatedData();
       },
       immediate: true
     },
     userId(newVal) {
       if (!this.ready) return;
-      // triggered after logout & login
-      console.log('user changed : ', newVal);
-      if (newVal) {
-        this.fetchUserData();
-      } else {
+      // cleanup after logout
+      if (!newVal) {
         this.cleanUpUserData();
       }
     }
@@ -71,7 +68,7 @@ export default {
       subscribeToMarket: 'market/subscribeToMarket',
       unsubscribeFromMarket: 'market/unsubscribeFromMarket'
     }),
-    async fetchUserData() {
+    async fetchUserRelatedData() {
       await Promise.all([this.fetchDefaultAssets(), this.fetchCurrentUser()]);
       const combinedAssetsIds = Object.keys(this.combinedBalances);
       await this.fetchAssets({ assets: combinedAssetsIds });
