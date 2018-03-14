@@ -57,11 +57,9 @@ export default {
       defaultAssetsIds: 'assets/getDefaultAssetsIds'
     }),
     combinedBalances() {
-      // console.log(this.defaultAssetsIds);
       const combinedBalances = { ...this.balances };
       this.defaultAssetsIds.forEach(id => {
         if (combinedBalances[id]) return;
-        // console.log(id);
         combinedBalances[id] = { balance: 0 };
       });
       return combinedBalances;
