@@ -80,7 +80,6 @@ export default {
       this.subscribeToMarket({ balances: this.combinedBalances });
     },
     cleanUpUserData() {
-      console.log('cleanup user data');
       this.clearOperations();
       this.unsubscribeFromMarket({ balances: this.combinedBalances });
     }
