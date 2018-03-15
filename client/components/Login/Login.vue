@@ -34,8 +34,6 @@
 
   ._bottom_link(@click="$router.push({ name: 'signup' })"): span Sign up with new account
 
-  ._logo_owl
-    Icon(name="trusty_owl_small_logo")
 
 </template>
 
@@ -150,6 +148,10 @@ export default {
 ._tooltip_p {
   font-family: "Gotham_Pro";
   color: white;
+
+  .input_area & {
+		margin-bottom: 0;
+  }
 }
 
 ._bottom_link {
