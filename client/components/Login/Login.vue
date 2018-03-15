@@ -139,6 +139,10 @@ export default {
 ._tooltip_p {
   font-family: "Gotham_Pro";
   color: white;
+
+  .input_area & {
+		margin-bottom: 0;
+  }
 }
 
 ._bottom_link {
@@ -181,10 +185,6 @@ export default {
     margin-top: 2vw;
     font-size: 3.3vw;
     margin-bottom: 4.6vw;
-
-    .left & {
-			margin-bottom: 0;
-    }
   }
 
   ._bottom_link {
