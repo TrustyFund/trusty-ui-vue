@@ -88,6 +88,10 @@ $background_color: #1b1f22;
 	flex-shrink: 0;
 	position: relative;
 
+	span._options {
+		box-sizing: border-box;
+	}
+
 	.header_title {
 		height: 3vw;
 		line-height: 3vw;
