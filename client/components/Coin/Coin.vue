@@ -7,7 +7,9 @@
 
 		div._indicators
 			span._price {{ format(getStats.price) }}
-			span._24change {{ change24 }}% 24H
+			span._24change
+				span {{ change24 }}%&nbsp
+				span 24H
 
 
 	.coin_info.main_padding
@@ -410,6 +412,10 @@ $color_green_value: #659d1a;
 				font-size: 5vw;
 				font-family: Gotham_Pro_Regular;
 				margin-left: 2vw;
+				> span:nth-child(2){
+					font-size: 3.6vw;
+					font-family: Gotham_Pro;
+				}
 			}
 		}
 
