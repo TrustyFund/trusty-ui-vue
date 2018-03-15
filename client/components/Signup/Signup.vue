@@ -1,6 +1,6 @@
 <template lang="pug">
 
-#trusty_auth
+#trusty_auth.signup
 
   .input_area
     .left
@@ -17,19 +17,16 @@
       .trusty_font_error(v-if="!$v.email.required && this.$v.email.$dirty") Enter e-mail
       .trusty_font_error(v-if="!$v.email.email && this.$v.email.$dirty") Invalid e-mail
 
-      trusty-input(label="password")
+      trusty-input(label="enter pin code")
         template(slot="input")
-          input(v-model="password" @input="$v.password.$touch()" type="number")
-      .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter password
-      .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") Password must be 8 characters or more
+          input(v-model="password" @input="$v.password.$touch()" type="tel")
+      .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter PIN
+      .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") PIN must be 6 characters or more
 
-      trusty-input(label="confirm password")
+      trusty-input(label="confirm pin")
         template(slot="input")
-          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="number")
-      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") Passwords do not match
-
-  p._tooltip_p._yellow
-    | Write down your password, it CAN'T BE RECOVERED
+          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="tel")
+      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PINS do not match
 
   .trusty_buttons
     button(@click="handleSignUp" v-show="!pending") Sign up
@@ -80,7 +77,7 @@ export default {
     },
     password: {
       required,
-      minLength: minLength(8)
+      minLength: minLength(6)
     },
     confirmPassword: {
       sameAsPassword: sameAs('password')
@@ -123,4 +120,6 @@ export default {
 };
 
 </script>
+
+
 

@@ -5,16 +5,16 @@
   .input_area
     .left
 
-      trusty-input(label="password")
+      trusty-input(label="enter pin code")
         template(slot="input")
-          input(v-model="password" @input="$v.password.$touch()" type="number")
-      .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter password
-      .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") Password must be 8 characters or more
+          input(v-model="password" @input="$v.password.$touch()" type="tel")
+      .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter PIN
+      .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") PIN must be 6 characters or more
 
-      trusty-input(label="confirm password")
+      trusty-input(label="confirm pin")
         template(slot="input")
-          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="number")
-      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") Passwords do not match
+          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="tel")
+      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PINS do not match
 
       trusty-input(label="brainkey" type="textarea")
         template(slot="input")
@@ -59,7 +59,7 @@ export default {
   validations: {
     password: {
       required,
-      minLength: minLength(8)
+      minLength: minLength(6)
     },
     confirmPassword: {
       sameAsPassword: sameAs('password')
@@ -109,6 +109,15 @@ export default {
 
 #trusty_auth {
 	@include trusty_main_padding;
+	&.signup {
+		.trusty_buttons {
+			margin-top: 4.6vw;
+		}
+	}
+
+	.text_area {
+		margin-bottom: 2vw;
+	}
 }
 
 ._logo_owl {
@@ -150,6 +159,19 @@ export default {
 
 
 @media screen and (min-width: 769px) {
+
+	#trusty_auth {
+		&.signup {
+			.trusty_buttons {
+				margin-top: px_from_vw(4.6);
+			}
+		}
+		.text_area {
+			margin-bottom: px_from_vw(2);
+		}
+	}
+
+
   ._tooltip_p {
     line-height: px_from_vw(4);
     margin-top: px_from_vw(2);
