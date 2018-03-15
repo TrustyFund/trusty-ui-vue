@@ -3,7 +3,7 @@
   tr.portfolio-container__balance 
     td._text_left  {{ item.name }}
     td._text_right {{ formattedShare }}%
-    td._text_right {{ formattedBalanceFiat }}$
+    td._text_right {{ formattedBalanceFiat }}
     td._text_right {{ formattedChange }}%
 
 </template>
@@ -38,8 +38,8 @@ export default {
       return (this.share && this.share.toFixed(0)) || 0;
     },
     formattedBalanceFiat() {
-      if (!this.item.fiatValue) return 0;
-      const precisedFiatValue = (this.item.fiatValue / (10 ** this.fiatPrecision)).toFixed(1);
+      if (!this.item.fiatValue) return '0.00';
+      const precisedFiatValue = (this.item.fiatValue / (10 ** this.fiatPrecision)).toFixed(2);
       return precisedFiatValue;
     },
     formattedChange() {
