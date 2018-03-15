@@ -1,8 +1,5 @@
 <template>
 	<div class="entry-point">
-    <!-- <component v-if="routerName === 'entry'" 
-               v-bind:is="computedComponent">             
-    </component> -->
     <Landing v-if="routerName === 'entry' && !userId"/>
     <Profile v-if="routerName === 'entry' && userId"/>
     <router-view v-if="userId"></router-view>
@@ -29,20 +26,16 @@ export default {
     }),
     routerName() {
       return this.$route.name;
-    },
-    computedComponent() {
-      return this.userId ? 'Profile' : 'Landing';
     }
   },
   watch: {
     ready: {
       handler(connected) {
-        if (connected) this.initUserData();
+        if (connected && this.userId) this.initUserData();
       },
       immediate: true
     },
     userId(newVal) {
-      if (!this.ready) return;
       // cleanup after logout
       if (!newVal) this.resetUserData();
     }

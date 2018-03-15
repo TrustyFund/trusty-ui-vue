@@ -11,9 +11,12 @@ const actions = {
     store.dispatch('connection/initConnection', null, { root: true });
     commit(APP_INIT);
   },
+
   // fetch current user, his assets & market data
   initUserData: async (store) => {
     const { rootGetters } = store;
+    const userId = rootGetters['account/getAccountUserId'];
+
     await Promise.all([
       store.dispatch('assets/fetchDefaultAssets', null, { root: true }),
       store.dispatch('account/fetchCurrentUser', null, { root: true })
@@ -37,8 +40,9 @@ const actions = {
     }, { root: true });
 
     store.dispatch('market/subscribeToMarket', { balances }, { root: true });
-    console.log();
+    store.dispatch('operations/fetchAndSubscribe', { userId, limit: 100 }, { root: true });
   },
+
   // reset user-related data & unsub from market
   resetUserData(store) {
     const { rootGetters } = store;
@@ -52,6 +56,7 @@ const actions = {
     });
 
     store.dispatch('market/unsubscribeFromMarket', { balances }, { root: true });
+    store.dispatch('operations/unsubscribeFromUserOperations', null, { root: true });
     store.dispatch('operations/resetState', null, { root: true });
   }
 };
