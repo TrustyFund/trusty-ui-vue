@@ -29,47 +29,48 @@
 
 	#coin_analysis._belongings
 
-		._items
-			._list_item(:class="{_opened_article: true}")
-				span.text_button ABOUT
-				icon(name="trusty_arrow_down")
+		.content_area(:class="{_opened_article: opened==='about'}")
+			._items(@click="opened = opened==='about' ? '':'about'")
+				._list_item
+					span.text_button ABOUT
+					icon(name="trusty_arrow_down")
 
-		.wrap_content.main_padding(v-if="true")
+			.wrap_content.main_padding
 
-			._grey_key_list(v-for="(val, key) in getSnapShot")
-				template(v-if="key !== 'image'&&key!=='ico'")
-					p {{ parseCamel(key) }}
-					p(v-html="val") {{ val }}
-				template(v-if="key==='ico'")
-					h3._list_title {{ key }}
-					._grey_key_list
-						p STATUS
-						p {{ val.status}}
-					._grey_key_list
-						p white paper
-						p {{ val.whitePaper}}
-
-
-
-		._items
-			._list_item(:class="{_opened_article: true}")
-				span.text_button SOCIAL
-				icon(name="trusty_arrow_down")
-
-		.wrap_content.main_padding
-
-			template(v-for="(val, key) in getSocial")
-				template(v-if="key!=='code'")
-					template(v-if="key!=='symbol'&&key!=='name'")
+				._grey_key_list(v-for="(val, key) in getSnapShot")
+					template(v-if="key !== 'image'&&key!=='ico'")
+						p {{ parseCamel(key) }}
+						p(v-html="val") {{ val }}
+					template(v-if="key==='ico'")
 						h3._list_title {{ key }}
-						._grey_key_list(v-for="(one, k) in val")
-							p {{ parseUnderscore(k) }}
-							p(v-html="one")
-				template(v-else)
-					h3._list_title {{ key }}
-					._grey_key_list(v-for="(one, k) in val", @click="showLink(one.url)")
-						p {{ one.url }}
-						p updated {{ one.lastUpdate}}
+						._grey_key_list
+							p STATUS
+							p {{ val.status}}
+						._grey_key_list
+							p white paper
+							p {{ val.whitePaper}}
+
+
+		.content_area(:class="{_opened_article: opened==='social'}")
+			._items(@click="opened = opened==='social' ? '':'social'")
+				._list_item
+					span.text_button SOCIAL
+					icon(name="trusty_arrow_down")
+
+			.wrap_content.main_padding
+
+				template(v-for="(val, key) in getSocial")
+					template(v-if="key!=='code'")
+						template(v-if="key!=='symbol'&&key!=='name'")
+							h3._list_title {{ key }}
+							._grey_key_list(v-for="(one, k) in val")
+								p {{ parseUnderscore(k) }}
+								p(v-html="one")
+					template(v-else)
+						h3._list_title {{ key }}
+						._grey_key_list(v-for="(one, k) in val", @click="showLink(one.url)")
+							p {{ one.url }}
+							p updated {{ one.lastUpdate}}
 
 
 	p.trusty_ps_text Overview provided by cryptocompare.com
@@ -111,6 +112,7 @@ export default {
     return {
       tab: '',
       coin: '',
+      opened: ''
     };
   },
   computed: {
@@ -211,6 +213,14 @@ $color_green_value: #659d1a;
 
 		._list_item:first-child {
 			border-top: 1px solid white;
+
+		}
+
+
+		.content_area:first-child {
+			._list_item {
+				border-bottom: 0;
+			}
 		}
 
 		._list_item {
@@ -218,14 +228,29 @@ $color_green_value: #659d1a;
 			padding-bottom: 3vw;
 			border-bottom: 1px solid white;
 
-			&._opened_article {
+
+		}
+
+
+		.wrap_content {
+			height: 0;
+			overflow: hidden;
+		}
+
+		.content_area._opened_article {
+
+			._list_item {
 				border-bottom: none;
-
-
-				.trusty_arrow_down {
-					transform: rotate(180deg);
-				}
 			}
+
+			.trusty_arrow_down {
+				transform: rotate(180deg);
+			}
+
+			.wrap_content {
+				height: auto;
+			}
+
 
 		}
 
