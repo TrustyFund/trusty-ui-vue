@@ -1,8 +1,10 @@
 <template>
 	<div class="entry-point">
-    <component v-if="routerName === 'entry'" 
+    <!-- <component v-if="routerName === 'entry'" 
                v-bind:is="computedComponent">             
-    </component>
+    </component> -->
+    <Landing v-if="routerName === 'entry' && !userId"/>
+    <Profile v-if="routerName === 'entry' && userId"/>
     <router-view v-if="userId"></router-view>
   </div>
 </template>
@@ -23,25 +25,14 @@ export default {
   computed: {
     ...mapGetters({
       ready: 'connection/isReady',
-      userId: 'account/getAccountUserId',
-      userBalances: 'account/getCurrentUserBalances',
-      defaultAssetsIds: 'assets/getDefaultAssetsIds'
+      userId: 'account/getAccountUserId'
     }),
     routerName() {
       return this.$route.name;
     },
     computedComponent() {
       return this.userId ? 'Profile' : 'Landing';
-    },
-    // user balances + default assets
-    combinedBalances() {
-      const combinedBalances = { ...this.userBalances };
-      this.defaultAssetsIds.forEach(id => {
-        if (combinedBalances[id]) return;
-        combinedBalances[id] = { balance: 0 };
-      });
-      return combinedBalances;
-    },
+    }
   },
   watch: {
     ready: {
