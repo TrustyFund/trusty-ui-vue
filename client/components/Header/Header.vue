@@ -175,7 +175,7 @@ $background_color: #1b1f22;
 
     span._options {
 
-      padding-top: px_from_vw(3.1);
+      padding-top: px_from_vw(2.9);
       padding-right: px_from_vw(.7);
       text-align: center;
       position: absolute;
