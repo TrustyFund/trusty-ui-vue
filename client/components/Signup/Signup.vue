@@ -5,17 +5,12 @@
   .input_area
     .left
 
-      trusty-input(label="new account name")
+      trusty-input(label="enter email or account name")
         template(slot="input")
           input(v-model="name" @input="$v.name.$touch()")
       .trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter account name
       .trusty_font_error(v-if="!$v.name.isUnique && !this.$v.$pending && this.$v.name.$dirty") Account name already taken
-
-      trusty-input(label="enter email")
-        template(slot="input"  )
-          input(v-model="email" @input="$v.email.$touch()")
-      .trusty_font_error(v-if="!$v.email.required && this.$v.email.$dirty") Enter e-mail
-      .trusty_font_error(v-if="!$v.email.email && this.$v.email.$dirty") Invalid e-mail
+      p._tooltip_p Please enter your email address to receive important notifications
 
       trusty-input(label="password")
         template(slot="input")

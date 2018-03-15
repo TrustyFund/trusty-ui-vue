@@ -181,6 +181,10 @@ export default {
     margin-top: 2vw;
     font-size: 3.3vw;
     margin-bottom: 4.6vw;
+
+    .left & {
+			margin-bottom: 0;
+    }
   }
 
   ._bottom_link {
