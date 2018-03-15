@@ -112,7 +112,8 @@ export default {
     return {
       tab: '',
       coin: '',
-      opened: ''
+      opened: '',
+
     };
   },
   computed: {
@@ -128,7 +129,10 @@ export default {
       getStats: 'assetInfo/getStats',
       getSocial: 'assetInfo/getSocial',
       getSnapShot: 'assetInfo/getSnapShot'
-    })
+    }),
+    getSymbol() {
+      return this.symbol.toUpperCase();
+    }
   },
 
   methods: {
@@ -136,10 +140,10 @@ export default {
       window.open(link);
     },
     async preloadData() {
-      const symbol = 'BTC';
-      this.fetchStats(symbol);
-      this.fetchSnapshot(symbol);
-      this.fetchSocial(symbol);
+      console.log(this.getSymbol);
+      this.fetchStats(this.getSymbol);
+      this.fetchSnapshot(this.getSymbol);
+      this.fetchSocial(this.getSymbol);
     },
     isNumeric(n) {
       // eslint-disable-next-line
