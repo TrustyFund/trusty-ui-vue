@@ -137,7 +137,7 @@ export default {
 
   methods: {
     showLink(link) {
-    	if (link.indexOf('http') !== -1) { window.open(link); }
+      if (link.indexOf('http') !== -1) { window.open(link); }
     },
     async preloadData() {
       this.fetchStats(this.getSymbol);
