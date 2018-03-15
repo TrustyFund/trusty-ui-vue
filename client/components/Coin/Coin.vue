@@ -63,7 +63,7 @@
 					template(v-if="key!=='code'")
 						template(v-if="key!=='symbol'&&key!=='name'")
 							h3._list_title {{ key }}
-							._grey_key_list(v-for="(one, k) in val")
+							._grey_key_list(v-for="(one, k) in val" @click="showLink(one)")
 								p {{ parseUnderscore(k) }}
 								p(v-html="one")
 					template(v-else)
@@ -137,7 +137,7 @@ export default {
 
   methods: {
     showLink(link) {
-      window.open(link);
+    	if (link.indexOf('http') !== -1) { window.open(link); }
     },
     async preloadData() {
       this.fetchStats(this.getSymbol);

@@ -307,6 +307,11 @@ $color_bg_grey: #d8d9d9;
 			border-color: grey;
     }
 
+    p {
+    	overflow:hidden;
+			text-overflow: ellipsis;
+    }
+
     > p {
       margin-top: 0vw;
       margin-bottom: 0vw;
