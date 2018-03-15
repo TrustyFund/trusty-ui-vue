@@ -57,6 +57,7 @@ const actions = {
 
     store.dispatch('market/unsubscribeFromMarket', { balances }, { root: true });
     store.dispatch('operations/unsubscribeFromUserOperations', null, { root: true });
+    store.dispatch('account/clearCurrentUserData', null, { root: true });
     store.dispatch('operations/resetState', null, { root: true });
   }
 };
