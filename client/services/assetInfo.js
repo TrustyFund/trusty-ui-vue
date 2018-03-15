@@ -87,6 +87,7 @@ class AssetInfo {
           algorithm: snapshotStats.data.Data.General.Algorithm,
           proofType: snapshotStats.data.Data.General.ProofType,
           startDate: snapshotStats.data.Data.General.StartDate,
+          name: snapshotStats.data.Data.General.Name,
           ico: {
             status: snapshotStats.data.Data.ICO.Status,
             whitePaper: snapshotStats.data.Data.ICO.WhitePaper
