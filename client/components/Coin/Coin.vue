@@ -37,9 +37,19 @@
 		.wrap_content.main_padding(v-if="true")
 
 			._grey_key_list(v-for="(val, key) in getSnapShot")
-				template(v-if="key !== 'image'")
+				template(v-if="key !== 'image'&&key!=='ico'")
 					p {{ parseCamel(key) }}
 					p(v-html="val") {{ val }}
+				template(v-if="key==='ico'")
+					h3._list_title {{ key }}
+					._grey_key_list
+						p STATUS
+						p {{ val.status}}
+					._grey_key_list
+						p white paper
+						p {{ val.whitePaper}}
+
+
 
 		._items
 			._list_item(:class="{_opened_article: true}")
@@ -49,11 +59,12 @@
 		.wrap_content.main_padding
 
 			template(v-for="(val, key) in getSocial")
-				template(v-if="key!=='symbol'&&key!=='name'&&key!=='code'")
-					h3._list_title {{ key }}
-					._grey_key_list(v-for="(one, k) in val")
-						p {{ parseUnderscore(k) }}
-						p(v-html="one")
+				template(v-if="key!=='code'")
+					template(v-if="key!=='symbol'&&key!=='name'")
+						h3._list_title {{ key }}
+						._grey_key_list(v-for="(one, k) in val")
+							p {{ parseUnderscore(k) }}
+							p(v-html="one")
 				template(v-else)
 					h3._list_title {{ key }}
 					._grey_key_list(v-for="(one, k) in val", @click="showLink(one.url)")
