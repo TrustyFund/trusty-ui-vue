@@ -81,7 +81,8 @@ export default {
           asset,
           prices,
           baseAsset: this.assets[this.baseId],
-          fiatMultiplier: multiplier
+          fiatMultiplier: multiplier,
+          isFiat: id === this.fiatId
         });
       });
       return items;
