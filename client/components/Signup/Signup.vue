@@ -42,8 +42,6 @@
 
   ._bottom_link._margins: span(@click="$router.push({name:'terms-of-use'})") I accept Terms of use
 
-  ._logo_owl
-    Icon(name="trusty_owl_small_logo")
 
 </template>
 
