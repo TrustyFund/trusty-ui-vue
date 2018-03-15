@@ -43,7 +43,7 @@ class AssetInfo {
           code: socialStats.data.Data.CodeRepository.List.map(item => {
             return {
               url: item.url,
-              lastUpdate: dateFns.format(new Date(item.last_update * 1000), 'MMMM DD YYYY HH:mm:')
+              lastUpdate: dateFns.format(new Date(item.last_update * 1000), 'MMMM DD YYYY HH:mm')
             };
           })
         };

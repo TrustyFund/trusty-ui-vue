@@ -27,7 +27,7 @@
 
 <script>
 import iconComponent from '@/components/UI/icon';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -65,12 +65,15 @@ export default {
     },
     backAction() {
       this.$router.go(-1);
+    },
+    getAssetName() {
+      return this.fetchAssetSnapShot.name;
     }
   },
   computed: {
     headerTitle() {
       if (this.$route.name === 'coin') {
-        return `${this.$route.params.name}`;
+        return this.getAssetName();
       }
       return this.titles[this.$route.name];
     },
@@ -79,7 +82,10 @@ export default {
     },
     isHidden() {
       return this.$route.name === 'landing';
-    }
+    },
+    ...mapGetters({
+      fetchAssetSnapShot: 'assetInfo/getSnapShot'
+    }),
   }
 };
 

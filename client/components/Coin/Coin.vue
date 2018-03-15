@@ -48,7 +48,7 @@
 							p {{ val.status}}
 						._grey_key_list
 							p white paper
-							p {{ val.whitePaper}}
+							p {{ val.whitePaper }}
 
 
 		.content_area(:class="{_opened_article: opened==='social'}")
