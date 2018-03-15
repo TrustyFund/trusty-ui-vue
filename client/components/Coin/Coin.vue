@@ -74,7 +74,7 @@
 
 	p.trusty_ps_text Overview provided by cryptocompare.com
 
-	template
+	//-template
 		.coin_vista.main_padding
 			.trusty_inline_buttons
 				button(@click="tab='analysis'") analysis
