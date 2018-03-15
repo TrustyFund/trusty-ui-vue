@@ -132,11 +132,11 @@ export default {
   },
 
   methods: {
-  	showLink(link) {
-  		window.open(link);
-  	},
+    showLink(link) {
+      window.open(link);
+    },
     async preloadData() {
-    	const symbol = 'BTC';
+      const symbol = 'BTC';
       this.fetchStats(symbol);
       this.fetchSnapshot(symbol);
       this.fetchSocial(symbol);
