@@ -48,15 +48,22 @@
 
 		.wrap_content.main_padding
 
-			template(v-for="(val, key) in getSocial", v-if="key!=='symbol'&&key!=='name'")
-				h3._list_title {{ key }}
-				._grey_key_list(v-for="(one, k) in val")
-					p {{ parseUnderscore(k) }}
-					p(v-html="one")
+			template(v-for="(val, key) in getSocial")
+				template(v-if="key!=='symbol'&&key!=='name'&&key!=='code'")
+					h3._list_title {{ key }}
+					._grey_key_list(v-for="(one, k) in val")
+						p {{ parseUnderscore(k) }}
+						p(v-html="one")
+				template(v-else)
+					h3._list_title {{ key }}
+					._grey_key_list(v-for="(one, k) in val", @click="showLink(one.url)")
+						p {{ one.url }}
+						p updated {{ one.lastUpdate}}
+
 
 	p.trusty_ps_text Overview provided by cryptocompare.com
 
-	//-template
+	template
 		.coin_vista.main_padding
 			.trusty_inline_buttons
 				button(@click="tab='analysis'") analysis
@@ -112,10 +119,14 @@ export default {
   },
 
   methods: {
+  	showLink(link) {
+  		window.open(link);
+  	},
     async preloadData() {
-      this.fetchStats(this.symbol);
-      this.fetchSnapshot(this.symbol);
-      this.fetchSocial(this.symbol);
+    	const symbol = 'BTC';
+      this.fetchStats(symbol);
+      this.fetchSnapshot(symbol);
+      this.fetchSocial(symbol);
     },
     isNumeric(n) {
       // eslint-disable-next-line
