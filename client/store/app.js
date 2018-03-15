@@ -10,6 +10,49 @@ const actions = {
     store.dispatch('account/checkCachedUserData', null, { root: true });
     store.dispatch('connection/initConnection', null, { root: true });
     commit(APP_INIT);
+  },
+  // fetch current user, his assets & market data
+  initUserData: async (store) => {
+    const { rootGetters } = store;
+    await Promise.all([
+      store.dispatch('assets/fetchDefaultAssets', null, { root: true }),
+      store.dispatch('account/fetchCurrentUser', null, { root: true })
+    ]);
+
+    const balances = { ...rootGetters['account/getCurrentUserBalances'] };
+    const defaultAssetsIds = rootGetters['assets/getDefaultAssetsIds'];
+    defaultAssetsIds.forEach(id => {
+      if (balances[id]) return;
+      balances[id] = { balance: 0 };
+    });
+    const combinedAssetsIds = Object.keys(balances);
+    await store.dispatch('assets/fetchAssets', {
+      assets: combinedAssetsIds
+    }, { root: true });
+
+    store.dispatch('market/fetchMarketHistory', {
+      baseId: '1.3.0',
+      assetsIds: combinedAssetsIds,
+      days: 7
+    }, { root: true });
+
+    store.dispatch('market/subscribeToMarket', { balances }, { root: true });
+    console.log();
+  },
+  // reset user-related data & unsub from market
+  resetUserData(store) {
+    const { rootGetters } = store;
+
+    // temporary, move to market
+    const balances = { ...rootGetters['account/getCurrentUserBalances'] };
+    const defaultAssetsIds = rootGetters['assets/getDefaultAssetsIds'];
+    defaultAssetsIds.forEach(id => {
+      if (balances[id]) return;
+      balances[id] = { balance: 0 };
+    });
+
+    store.dispatch('market/unsubscribeFromMarket', { balances }, { root: true });
+    store.dispatch('operations/resetState', null, { root: true });
   }
 };
 

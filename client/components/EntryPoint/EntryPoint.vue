@@ -46,43 +46,21 @@ export default {
   watch: {
     ready: {
       handler(connected) {
-        if (connected) this.fetchUserRelatedData();
+        if (connected) this.initUserData();
       },
       immediate: true
     },
     userId(newVal) {
       if (!this.ready) return;
       // cleanup after logout
-      if (!newVal) {
-        this.cleanUpUserData();
-      }
+      if (!newVal) this.resetUserData();
     }
   },
   methods: {
     ...mapActions({
-      fetchDefaultAssets: 'assets/fetchDefaultAssets',
-      fetchCurrentUser: 'account/fetchCurrentUser',
-      fetchAssets: 'assets/fetchAssets',
-      fetchMarketHistory: 'market/fetchMarketHistory',
-      clearOperations: 'operations/resetState',
-      subscribeToMarket: 'market/subscribeToMarket',
-      unsubscribeFromMarket: 'market/unsubscribeFromMarket'
-    }),
-    async fetchUserRelatedData() {
-      await Promise.all([this.fetchDefaultAssets(), this.fetchCurrentUser()]);
-      const combinedAssetsIds = Object.keys(this.combinedBalances);
-      await this.fetchAssets({ assets: combinedAssetsIds });
-      this.fetchMarketHistory({
-        baseId: '1.3.0',
-        assetsIds: combinedAssetsIds,
-        days: 7
-      });
-      this.subscribeToMarket({ balances: this.combinedBalances });
-    },
-    cleanUpUserData() {
-      this.clearOperations();
-      this.unsubscribeFromMarket({ balances: this.combinedBalances });
-    }
+      initUserData: 'app/initUserData',
+      resetUserData: 'app/resetUserData'
+    })
   },
 };
 </script>
