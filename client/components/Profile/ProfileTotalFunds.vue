@@ -48,6 +48,7 @@ export default {
 
       const totalBaseValue = Object.keys(this.balances).reduce((result, id) => {
         if (!this.prices[id]) return result;
+        if (id === this.baseId) return result + this.balances[id].balance;
         return result + (this.balances[id].balance * this.prices[id].last);
       }, 0);
 
