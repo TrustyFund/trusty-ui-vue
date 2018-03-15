@@ -10,7 +10,7 @@
           th._text_right: span 7DAYS
       tbody
         PortfolioBalance(
-        v-for="item in items"
+        v-for="item in itemsAsArray"
         :key="item.name"
         :item="item"
         :totalBaseValue="totalBaseValue"
@@ -85,6 +85,13 @@ export default {
         });
       });
       return items;
+    },
+    itemsAsArray() {
+      const array = Object.keys(this.items).map(assetId => this.items[assetId]);
+      const sortedArray = array.sort((a, b) => {
+        return a.baseValue === b.baseValue ? 0 : +(b.baseValue > a.baseValue) || -1;
+      });
+      return sortedArray;
     },
     fiatMultiplier() {
       return this.getAssetMultiplier(this.fiatId);
