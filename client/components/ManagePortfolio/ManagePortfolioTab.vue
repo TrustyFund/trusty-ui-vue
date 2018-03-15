@@ -99,8 +99,8 @@ export default {
       console.log('base values: ', this.baseValues);
       // console.log(distributionFromBalances(this.baseValues));
       console.log('initial distributions: ', initialDistributions);
-      console.log('sampled : ', distributionSampling(initialDistributions, 3));
       console.log('distributions: ', distributions);
+      console.log('sampled : ', distributionSampling(distributions, 3));
       console.log(calcPortfolioDistributionChange(this.baseValues, distributions));
     }
   },
