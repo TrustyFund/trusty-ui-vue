@@ -140,7 +140,6 @@ export default {
       window.open(link);
     },
     async preloadData() {
-      console.log(this.getSymbol);
       this.fetchStats(this.getSymbol);
       this.fetchSnapshot(this.getSymbol);
       this.fetchSocial(this.getSymbol);

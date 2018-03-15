@@ -6,7 +6,6 @@ class AssetInfo {
   static async initCoins() {
     const coinsQuery = 'https://min-api.cryptocompare.com/data/all/coinlist';
     const response = await axios.get(coinsQuery);
-    console.log('response coins', response);
     if (response.status === 200) {
       return {
         success: true,
@@ -30,7 +29,8 @@ class AssetInfo {
       }
     }
     const coinId = this.coins[assetSymbol].Id;
-    const socialQuery = `https://www.cryptocompare.com/api/data/socialstats/?id=${coinId}`;
+    const server = 'http://localhost:3000/';
+    const socialQuery = server + `socialstats/?id=${coinId}`;
     try {
       const socialStats = await axios.get(socialQuery);
       if (socialStats.data.Response === 'Success') {
@@ -74,14 +74,12 @@ class AssetInfo {
       }
     }
     const coinId = this.coins[assetSymbol].Id;
-    const snapshotQuery = 'https://www.cryptocompare.com/api/data/coinsnapshotfullbyid/' +
-`?id=${coinId}`;
+    const server = 'http://localhost:3000/';
+    const snapshotQuery = server + `coinsnapshotfullbyid/?id=${coinId}`;
     try {
       const snapshotStats = await axios.get(snapshotQuery);
-      console.log(snapshotStats.data.Response);
       if (snapshotStats.data.Response === 'Success') {
         const data = {
-          image: `https://www.cryptocompare.com${snapshotStats.data.Data.General.ImageUrl}`,
           description: snapshotStats.data.Data.General.Description,
           features: snapshotStats.data.Data.General.Features,
           technology: snapshotStats.data.Data.General.Technology,
