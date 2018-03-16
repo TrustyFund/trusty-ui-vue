@@ -97,10 +97,9 @@ export default {
       const distributions = this.calcDistributions(this.percents);
       const initialDistributions = distributionFromBalances(this.baseValues);
       console.log('base values: ', this.baseValues);
-      // console.log(distributionFromBalances(this.baseValues));
       console.log('initial distributions: ', initialDistributions);
-      console.log('distributions: ', distributions);
       console.log('sampled : ', distributionSampling(initialDistributions, 2));
+      console.log('distributions: ', distributions);
       console.log(calcPortfolioDistributionChange(this.baseValues, distributions));
     }
   },
