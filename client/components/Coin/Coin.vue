@@ -7,7 +7,9 @@
 
 		div._indicators
 			span._price {{ format(getStats.price) }}
-			span._24change {{ change24 }}% 24H
+			span._24change
+				span {{ change24 }}%&nbsp
+				span 24H
 
 
 	.coin_info.main_padding
@@ -48,7 +50,7 @@
 							p {{ val.status}}
 						._grey_key_list
 							p white paper
-							p {{ val.whitePaper }}
+							p(v-html="val.whitePaper")
 
 
 		.content_area(:class="{_opened_article: opened==='social'}")
@@ -63,7 +65,7 @@
 					template(v-if="key!=='code'")
 						template(v-if="key!=='symbol'&&key!=='name'")
 							h3._list_title {{ key }}
-							._grey_key_list(v-for="(one, k) in val")
+							._grey_key_list(v-for="(one, k) in val" @click="showLink(one)")
 								p {{ parseUnderscore(k) }}
 								p(v-html="one")
 					template(v-else)
@@ -137,7 +139,7 @@ export default {
 
   methods: {
     showLink(link) {
-      window.open(link);
+      if (link.indexOf('http') !== -1) { window.open(link); }
     },
     async preloadData() {
       this.fetchStats(this.getSymbol);
@@ -410,6 +412,10 @@ $color_green_value: #659d1a;
 				font-size: 5vw;
 				font-family: Gotham_Pro_Regular;
 				margin-left: 2vw;
+				> span:nth-child(2){
+					font-size: 3.6vw;
+					font-family: Gotham_Pro;
+				}
 			}
 		}
 
