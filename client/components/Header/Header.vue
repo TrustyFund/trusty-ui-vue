@@ -65,15 +65,12 @@ export default {
     },
     backAction() {
       this.$router.go(-1);
-    },
-    getAssetName() {
-      return this.fetchAssetSnapShot.name;
     }
   },
   computed: {
     headerTitle() {
       if (this.$route.name === 'coin') {
-        return this.getAssetName();
+        return this.getAssetSnapShot.name;
       }
       return this.titles[this.$route.name];
     },
@@ -84,7 +81,7 @@ export default {
       return this.$route.name === 'landing';
     },
     ...mapGetters({
-      fetchAssetSnapShot: 'assetInfo/getSnapShot'
+      getAssetSnapShot: 'assetInfo/getSnapShot'
     }),
   }
 };
