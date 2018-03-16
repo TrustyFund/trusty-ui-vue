@@ -100,7 +100,7 @@ export default {
       // console.log(distributionFromBalances(this.baseValues));
       console.log('initial distributions: ', initialDistributions);
       console.log('distributions: ', distributions);
-      console.log('sampled : ', distributionSampling(distributions, 3));
+      console.log('sampled : ', distributionSampling(initialDistributions, 2));
       console.log(calcPortfolioDistributionChange(this.baseValues, distributions));
     }
   },

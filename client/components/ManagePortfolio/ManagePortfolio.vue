@@ -31,6 +31,7 @@ export default {
       balances: 'account/getCurrentUserBalances',
       defaultAssetsIds: 'assets/getDefaultAssetsIds',
       history: 'market/getMarketHistory',
+      baseId: 'market/getBaseAssetId',
       assets: 'assets/getAssets'
     }),
     combinedBalances() {
@@ -45,7 +46,8 @@ export default {
       const items = {};
       Object.keys(this.combinedBalances).forEach(id => {
         const { balance } = this.combinedBalances[id];
-        const price = (this.history[id] && this.history[id].last) || 0;
+        let price = (this.history[id] && this.history[id].last) || 0;
+        if (id === this.baseId) price = 1;
         const baseValue = parseInt((balance * price).toFixed(0), 10);
         const name = (this.assets[id] && this.assets[id].symbol) || '...';
         items[id] = {
