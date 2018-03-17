@@ -103,10 +103,8 @@ export default {
     },
     updatePortfolio() {
       const distributions = this.calcDistributions(this.percents);
-      const initialDistributions = distributionFromBalances(this.baseValues);
       console.log('base values: ', this.baseValues);
-      console.log('initial distributions: ', initialDistributions);
-      console.log('sampled : ', distributionSampling(initialDistributions, 2));
+      console.log('initial distributions: ', distributions);
       console.log('distributions: ', distributions);
 
       const update = calcPortfolioDistributionChange(this.baseValues, distributions);
@@ -118,6 +116,7 @@ export default {
       toSell.forEach(item => {
         console.log('Sell : ' + (item.amount / (10 ** item.asset.precision)) + ' ' + item.asset.symbol);
       });
+      // calc total base asset aquired
       const toBuy = Object.keys(update.buy).map(assetId => ({
         asset: this.assets[assetId],
         share: update.buy[assetId]
