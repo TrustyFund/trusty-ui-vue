@@ -7,9 +7,9 @@
 		p._value Send 0.00364 BTS to Email-notifier
 		p._value Sell 100 BTS for 500 EOS
 
-	trustyInput(label="ENTER PASSWORD TO CONFIRM")
+	trustyInput(label="ENTER PIN TO CONFIRM")
 		template(slot="input")
-			input(v-model="password" type="password")
+			input(v-model="pin" type="pin")
 
 	.trusty_inline_buttons._one_button
 		button CONFIRM
@@ -23,7 +23,7 @@ export default {
   components: { trustyInput },
   data() {
     return {
-      password: ''
+      pin: ''
     };
   }
 };
@@ -35,5 +35,8 @@ p._value {
 }
 .trusty_inline_buttons._one_button {
 	padding-top: 5vw;
+}
+#approve_update_portfolio .transaction_info {
+	flex-direction: column;
 }
 </style>

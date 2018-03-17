@@ -10,7 +10,7 @@
         th SHARE
     tbody
 
-      tr(v-for="item in percents")
+      tr(v-for="item in percentsAsArray")
         td
           .portfolio_item._index
             .fake_line_height
@@ -36,6 +36,7 @@
 
 <script>
 import Icon from '@/components/UI/icon';
+import { mapGetters } from 'vuex';
 // eslint-disable-next-line
 import { calcPortfolioDistributionChange, distributionFromBalances, distributionSampling } from 'lib/src/utils';
 
@@ -55,6 +56,10 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      assets: 'assets/getAssets',
+      balances: 'account/getCurrentUserBalances'
+    }),
     totalBaseValue() {
       return Object.keys(this.items).reduce((result, id) => {
         return result + this.items[id].baseValue;
@@ -71,6 +76,13 @@ export default {
         baseValues[id] = this.items[id].baseValue;
       });
       return baseValues;
+    },
+    percentsAsArray() {
+      const array = Object.keys(this.percents).map(assetId => this.percents[assetId]);
+      const sortedArray = array.sort((a, b) => {
+        return a.share === b.share ? 0 : +(b.share > a.share) || -1;
+      });
+      return sortedArray;
     }
   },
   methods: {
@@ -100,7 +112,23 @@ export default {
       console.log('initial distributions: ', initialDistributions);
       console.log('sampled : ', distributionSampling(initialDistributions, 2));
       console.log('distributions: ', distributions);
-      console.log(calcPortfolioDistributionChange(this.baseValues, distributions));
+
+      const update = calcPortfolioDistributionChange(this.baseValues, distributions);
+      console.log(update);
+      const toSell = Object.keys(update.sell).map(assetId => ({
+        asset: this.assets[assetId],
+        amount: Math.floor(update.sell[assetId] * this.balances[assetId].balance)
+      }));
+      toSell.forEach(item => {
+        console.log('Sell : ' + (item.amount / (10 ** item.asset.precision)) + ' ' + item.asset.symbol);
+      });
+      const toBuy = Object.keys(update.buy).map(assetId => ({
+        asset: this.assets[assetId],
+        share: update.buy[assetId]
+      }));
+      toBuy.forEach(item => {
+        console.log('Buy : ' + item.share + '% ' + item.asset.symbol);
+      });
     }
   },
   mounted() {
