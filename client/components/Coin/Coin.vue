@@ -108,6 +108,10 @@ export default {
     symbol: {
       type: String,
       required: true
+    },
+    assetId: {
+      default: '1.3.1999',
+      type: String
     }
   },
   data() {
@@ -130,10 +134,21 @@ export default {
     ...mapGetters({
       getStats: 'assetInfo/getStats',
       getSocial: 'assetInfo/getSocial',
-      getSnapShot: 'assetInfo/getSnapShot'
+      getSnapShot: 'assetInfo/getSnapShot',
+      getAssetById: 'assets/getAssetById'
     }),
     getSymbol() {
       return this.symbol.toUpperCase();
+    },
+    getBitsharesDescription() {
+      const { description } = this.getAssetById([this.assetId]).options;
+      try {
+        const descriptionObj = JSON.parse(description);
+        const bitsharesDescription = descriptionObj.main;
+        return bitsharesDescription;
+      } catch (ex) {
+        return '';
+      }
     }
   },
 
@@ -146,6 +161,7 @@ export default {
       this.fetchSnapshot(this.getSymbol);
       this.fetchSocial(this.getSymbol);
     },
+
     isNumeric(n) {
       // eslint-disable-next-line
 			return !isNaN(parseFloat(n)) && isFinite(n);
@@ -173,7 +189,7 @@ export default {
     ...mapActions({
       fetchStats: 'assetInfo/fetchStats',
       fetchSocial: 'assetInfo/fetchSocial',
-      fetchSnapshot: 'assetInfo/fetchSnapshot'
+      fetchSnapshot: 'assetInfo/fetchSnapshot',
     }),
     parseUnderscore(string) {
       if (typeof string === 'string') {
