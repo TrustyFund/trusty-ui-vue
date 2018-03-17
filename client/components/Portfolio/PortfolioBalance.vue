@@ -35,7 +35,7 @@ export default {
       return (this.item.baseValue / this.totalBaseValue) * 100;
     },
     formattedShare() {
-      return (this.share && this.share.toFixed(0)) || 0;
+      return (this.share && Math.round(this.share, 0)) || 0;
     },
     formattedBalanceFiat() {
       if (!this.item.fiatValue) return '0.00';

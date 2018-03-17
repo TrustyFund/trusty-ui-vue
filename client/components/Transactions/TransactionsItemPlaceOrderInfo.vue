@@ -13,6 +13,11 @@ export default {
     item: {
       type: Object,
       required: true
+    },
+    noText: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {

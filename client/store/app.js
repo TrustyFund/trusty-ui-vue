@@ -70,7 +70,7 @@ const mutations = {
   [APP_SET_MODAL](state, modalName) {
     state.modalName = modalName;
   },
-  [APP_INIT](state) {
+  [APP_INIT]() {
   }
 };
 

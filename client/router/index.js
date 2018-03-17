@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Cookies from 'js-cookie';
 import Router from 'vue-router';
 import Deposit from '@/components/Transfer';
-// import Profile from '@/components/Profile/Profile.vue';
 import User from '@/components/User/User.vue';
 import Signup from '@/components/Signup/Signup.vue';
 import Login from '@/components/Login/Login.vue';
@@ -13,8 +12,7 @@ import BackupDone from '@/components/Backup/BackupDone';
 import BackupFirst from '@/components/Backup/BackupFirst';
 import BackupPhrase from '@/components/Backup/BackupPhrase';
 import BackupVerify from '@/components/Backup/BackupVerify';
-import PortfolioApprove from '@/components/Portfolio/PortfolioApprove';
-// import Landing from '@/components/Landing/Landing';
+import ConfirmTransactions from '@/components/ConfirmTransactions/ConfirmTransactions';
 import TermsOfUse from '@/components/TermsOfUse/TermsOfUse';
 import EntryPoint from '@/components/EntryPoint/EntryPoint';
 
@@ -77,9 +75,13 @@ const router = new Router({
           }
         },
         {
-          name: 'manage-approve',
-          path: '/manage/approve',
-          component: PortfolioApprove
+          name: 'confirm-transactions',
+          path: '/confirm',
+          component: ConfirmTransactions,
+          beforeEnter: (to, from, next) => {
+            if (from.name !== 'manage') next({ name: 'entry' });
+            next();
+          }
         },
         {
           name: 'deposit',

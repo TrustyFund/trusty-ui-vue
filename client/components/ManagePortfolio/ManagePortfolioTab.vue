@@ -36,8 +36,9 @@
 
 <script>
 import Icon from '@/components/UI/icon';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 // eslint-disable-next-line
+import API from 'lib/src/services/api.js';
 import { calcPortfolioDistributionChange, distributionFromBalances, distributionSampling } from 'lib/src/utils';
 
 export default {
@@ -59,7 +60,8 @@ export default {
   computed: {
     ...mapGetters({
       assets: 'assets/getAssets',
-      balances: 'account/getCurrentUserBalances'
+      balances: 'account/getCurrentUserBalances',
+      userId: 'account/getAccountUserId'
     }),
     sharesTotal() {
       return Object.keys(this.percents).reduce((result, id) => {
@@ -75,6 +77,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      createOrdersFromUpdate: 'transactions/createOrdersFromUpdate'
+    }),
     computeInitialPercents() {
       const rawDistributions = distributionFromBalances(this.baseValues);
       const initialPercents = distributionSampling(rawDistributions, 2);
@@ -101,29 +106,11 @@ export default {
       });
       return distributions;
     },
-    updatePortfolio() {
+    async updatePortfolio() {
       const distributions = this.calcDistributions(this.percents);
-      console.log('base values: ', this.baseValues);
-      console.log('initial distributions: ', distributions);
-      console.log('distributions: ', distributions);
-
       const update = calcPortfolioDistributionChange(this.baseValues, distributions);
-      console.log(update);
-      const toSell = Object.keys(update.sell).map(assetId => ({
-        asset: this.assets[assetId],
-        amount: Math.floor(update.sell[assetId] * this.balances[assetId].balance)
-      }));
-      toSell.forEach(item => {
-        console.log('Sell : ' + (item.amount / (10 ** item.asset.precision)) + ' ' + item.asset.symbol);
-      });
-      // calc total base asset aquired
-      const toBuy = Object.keys(update.buy).map(assetId => ({
-        asset: this.assets[assetId],
-        share: update.buy[assetId]
-      }));
-      toBuy.forEach(item => {
-        console.log('Buy : ' + item.share + '% ' + item.asset.symbol);
-      });
+      await this.createOrdersFromUpdate({ update });
+      this.$router.push({ name: 'confirm-transactions' });
     }
   },
   mounted() {

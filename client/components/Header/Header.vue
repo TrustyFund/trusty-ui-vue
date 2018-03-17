@@ -48,7 +48,7 @@ export default {
         'backup-verify': 'verify backup',
         'backup-done': 'almost done! let\'s review',
         transactions: 'recent transactions',
-        'manage-approve': 'update portfolio',
+        'confirm-transactions': 'confirm transactions',
         'terms-of-use': 'terms of use',
         portfolio: 'portfolio',
         entry: 'profile'
