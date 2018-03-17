@@ -21,7 +21,7 @@
             .fake_line_height
             a._minus.normal.portfolio_asset(:class="{'_disable': item.share === 0}" @click="item.share--")
               Icon(name="trusty_minus")
-            span.normal.portfolio_asset {{ item.share + '%' }}
+            span.normal.portfolio_asset {{ item.share }}%
             a._plus.normal.portfolio_asset(:class="{'_disable': sharesTotal === 100}" @click="item.share++")
               Icon(name="trusty_plus")
 
@@ -30,7 +30,7 @@
       button._disable Suggest Portfolio
 
     .trusty_inline_buttons._one_button
-      button(:class="{'_disable': sharesTotal < 100}" @click="updatePortfolio") Update Portfolio
+      button(:class="{'_disable': sharesTotal < 1}" @click="updatePortfolio") Update Portfolio
 
 </template>
 
@@ -52,7 +52,8 @@ export default {
   data() {
     return {
       initialPercents: {},
-      percents: {}
+      percents: {},
+      percentsAsArray: []
     };
   },
   computed: {
@@ -60,11 +61,6 @@ export default {
       assets: 'assets/getAssets',
       balances: 'account/getCurrentUserBalances'
     }),
-    totalBaseValue() {
-      return Object.keys(this.items).reduce((result, id) => {
-        return result + this.items[id].baseValue;
-      }, 0);
-    },
     sharesTotal() {
       return Object.keys(this.percents).reduce((result, id) => {
         return result + this.percents[id].share;
@@ -76,27 +72,27 @@ export default {
         baseValues[id] = this.items[id].baseValue;
       });
       return baseValues;
-    },
-    percentsAsArray() {
-      const array = Object.keys(this.percents).map(assetId => this.percents[assetId]);
-      const sortedArray = array.sort((a, b) => {
-        return a.share === b.share ? 0 : +(b.share > a.share) || -1;
-      });
-      return sortedArray;
     }
   },
   methods: {
     computeInitialPercents() {
-      const initialPercents = {};
-      Object.keys(this.items).forEach(id => {
-        const share = ((this.items[id].baseValue / this.totalBaseValue) * 100).toFixed(0);
+      const rawDistributions = distributionFromBalances(this.baseValues);
+      const initialPercents = distributionSampling(rawDistributions, 2);
+      Object.keys(initialPercents).forEach(id => {
+        console.log(initialPercents[id]);
         initialPercents[id] = {
-          name: this.items[id].name,
-          share: parseInt(share, 10)
+          share: Math.round(initialPercents[id] * 100, 2),
+          name: this.assets[id].symbol
         };
       });
-      this.initialPercents = JSON.parse(JSON.stringify(initialPercents));
       return initialPercents;
+    },
+    convertPercentsToArray(percentsObj) {
+      const array = Object.keys(percentsObj).map(assetId => percentsObj[assetId]);
+      const sortedArray = array.sort((a, b) => {
+        return a.share === b.share ? 0 : +(b.share > a.share) || -1;
+      });
+      return sortedArray;
     },
     calcDistributions(percents) {
       const distributions = {};
@@ -132,7 +128,9 @@ export default {
     }
   },
   mounted() {
-    this.percents = this.computeInitialPercents();
+    this.initialPercents = this.computeInitialPercents();
+    this.percents = JSON.parse(JSON.stringify(this.initialPercents));
+    this.percentsAsArray = this.convertPercentsToArray(this.percents);
   }
 };
 </script>

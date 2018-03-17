@@ -27,7 +27,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userData: 'account/getCurrentUserData',
       balances: 'account/getCurrentUserBalances',
       defaultAssetsIds: 'assets/getDefaultAssetsIds',
       history: 'market/getMarketHistory',
@@ -57,14 +56,6 @@ export default {
       });
       return items;
     }
-  },
-  methods: {
-    calcPercents() {
-
-    }
-  },
-  mounted() {
-    this.calcPercents();
   }
 };
 
