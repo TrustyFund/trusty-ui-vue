@@ -145,7 +145,6 @@ export default {
       try {
         const descriptionObj = JSON.parse(description);
         const bitsharesDescription = descriptionObj.main;
-        console.log(bitsharesDescription);
         return bitsharesDescription;
       } catch (ex) {
         return '';
@@ -161,7 +160,6 @@ export default {
       this.fetchStats(this.getSymbol);
       this.fetchSnapshot(this.getSymbol);
       this.fetchSocial(this.getSymbol);
-      this.getBitsharesDescription();
     },
 
     isNumeric(n) {
