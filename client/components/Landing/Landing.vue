@@ -2,7 +2,7 @@
 div
 	div.trusty_fixed_background_div
 	div#landing
-		div.balls_nav(v-if="showBalls")._desk
+		div.balls_nav._desk
 			span(
 				v-for="refer in slideRefers",
 				@click="scrollTo(refer)",
@@ -25,7 +25,7 @@ div
 					div._logo_text._desk(v-html="logo")
 					p._slogan Investment Wallet
 					p._description
-						| One-Click To Invest In
+						| One-Click To Invest In&nbsp
 						br._mob
 						| Crypto Economy
 					a._desk
@@ -59,11 +59,11 @@ div
 
 		div.last_text#last_screen(ref="last")
 			p
-				| First time in history
+				| First time in history&nbsp
 				br._mob
 				| everybody
 				br._desk
-				|   can invest
+				|   can invest&nbsp
 				br._mob
 				|  in a globally disruptive,
 				br
@@ -128,7 +128,7 @@ export default {
         },
         {
           image: slide2,
-          title: "Easy To Create<br class='_desk'> A<br class='_mob'>" +
+          title: "Easy To Create<br class='_desk'> A<br class='_mob'>&nbsp" +
 "Decentralized<br class='_desk'> Account",
           text: 'Click Signup, create password<br> and your account will be secured <br>' +
 'by the BitShares.org blockchain. <br> You own the private key'
@@ -171,7 +171,6 @@ export default {
       logoDesk,
       scroll: new SmoothScroll(),
       referClass: '',
-      showBalls: false,
       slideRefers: '',
       slideHeight: '',
       windowHeight: '',
@@ -197,10 +196,13 @@ export default {
         this.slideRefers.forEach(refer => {
           const el = this.$refs[refer][0];
           const rect = el.getBoundingClientRect();
-          if (Math.abs(rect.top) >= 0 && rect.top <= el.clientHeight) {
-            this.referClass = refer;
+          if (window.scrollY >= parseFloat(this.windowHeight)) {
+            if (Math.abs(rect.top) >= 0 && rect.top <= el.clientHeight) {
+              this.referClass = refer;
+            }
+          } else {
+            this.referClass = '';
           }
-          this.showBalls = window.scrollY >= parseFloat(this.windowHeight);
         });
       }
     },
