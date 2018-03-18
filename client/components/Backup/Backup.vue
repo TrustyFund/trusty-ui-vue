@@ -243,10 +243,6 @@ $light_grey: #6d6e70;
 
 		.trusty_help_text {
 			margin: auto;
-			span:hover {
-				color: black;
-				background: white;
-			}
 		}
 
 		span {
@@ -348,6 +344,11 @@ $light_grey: #6d6e70;
 		}
 
 		.random_area {
+
+			span:hover {
+				color: black;
+				background: white;
+			}
 
 			span {
 				margin: px_from_vw(1.4);
