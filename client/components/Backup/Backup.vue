@@ -226,8 +226,6 @@ $light_grey: #6d6e70;
 		min-height: 28.6vh;
 		max-height: 52.6vh;
 		margin-bottom: 5.3vw;
-		border-top: 1px dashed white;
-		border-bottom: 1px dashed white;
 		overflow: scroll;
 		span {
 			cursor: pointer;
