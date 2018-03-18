@@ -148,6 +148,15 @@ $light_grey: #6d6e70;
 
 	#verify {
 
+		.trusty_inline_buttons {
+			margin-bottom: 3.6vw;
+		}
+
+		.trusty_inline_buttons:last-child {
+			padding-top: 0;
+		}
+
+
 		> p:first-child {
 			margin: .95vw 0 6vw 0;
 		}
@@ -282,6 +291,10 @@ $light_grey: #6d6e70;
 		}
 
 		#verify {
+
+			.trusty_inline_buttons {
+				margin-bottom: px_from_vw(3.6);
+			}
 
 			> p:first-child {
 				margin: px_from_vw(.95) 0 px_from_vw(6) 0;
