@@ -29,8 +29,8 @@ class AssetInfo {
       }
     }
     const coinId = this.coins[assetSymbol].Id;
-    const server = 'http://localhost:3000/';
-    const socialQuery = server + `socialstats/?id=${coinId}`;
+    const socialQuery = 'https://proxy.trusty.fund/' +
+      `socialstats/?id=${coinId}`;
     try {
       const socialStats = await axios.get(socialQuery);
       if (socialStats.data.Response === 'Success') {
@@ -74,8 +74,8 @@ class AssetInfo {
       }
     }
     const coinId = this.coins[assetSymbol].Id;
-    const server = 'http://localhost:3000/';
-    const snapshotQuery = server + `coinsnapshotfullbyid/?id=${coinId}`;
+    const snapshotQuery = 'https://proxy.trusty.fund/' +
+      `coinsnapshotfullbyid/?id=${coinId}`;
     try {
       const snapshotStats = await axios.get(snapshotQuery);
       if (snapshotStats.data.Response === 'Success') {
