@@ -30,7 +30,7 @@
         ._val: span._mark {{ format(getStats.low24Hour) }} - {{ format(getStats.high24Hour) }}
 
   #coin_analysis._belongings
-    
+
     .content_area(:class="{_opened_article: opened==='about asset issuer'}")
       ._items(@click="opened = opened==='about asset issuer' ? '':'about asset issuer'")
         ._list_item
@@ -49,7 +49,7 @@
 
       .wrap_content.main_padding
 
-        ._grey_key_list(v-for="(val, key) in getSnapShot")
+        ._grey_key_list(v-for="(val, key) in getSnapShot" v-if="val")
           template(v-if="key !== 'image'&&key!=='ico'")
             p {{ parseCamel(key) }}
             p(v-html="val") {{ val }}
@@ -71,7 +71,7 @@
 
       .wrap_content.main_padding
 
-        template(v-for="(val, key) in getSocial")
+        template(v-for="(val, key) in getSocial" v-if="val")
           template(v-if="key!=='code'")
             template(v-if="key!=='symbol'&&key!=='name'")
               h3._list_title {{ key }}
