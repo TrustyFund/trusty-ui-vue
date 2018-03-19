@@ -87,7 +87,7 @@
 
   p.trusty_ps_text Overview provided by cryptocompare.com
 
-  //-template
+  template
     .coin_vista.main_padding
       .trusty_inline_buttons
         button(@click="tab='analysis'") analysis
@@ -108,6 +108,7 @@ import icon from '@/components/UI/icon';
 import investment from './CoinInvestment';
 import predictions from './CoinPredictions';
 import analysis from './CoinAnalysis';
+import './style.scss';
 
 
 export default {
@@ -269,8 +270,8 @@ $color_green_value: #659d1a;
 
 
     .wrap_content {
-      height: 0;
-      overflow: hidden;
+      //height: 0;
+      //overflow: hidden;
     }
 
     .content_area._opened_article {

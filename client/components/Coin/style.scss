@@ -1,0 +1,170 @@
+$color_bg_grey: #d8d9d9;
+
+#coin_analysis {
+	span {
+		display: inline-block;
+	}
+	h3._list_title {
+		font-family: Gotham_Pro;
+		text-align: center;
+		font-size: 4.8vw;
+	}
+
+	._grey_key_list {
+		font-family: Gotham_Pro;
+
+		a, a:hover, a:focus {
+			color: grey;
+			border-color: grey;
+		}
+
+		p {
+			overflow:hidden;
+			text-overflow: ellipsis;
+		}
+
+		> p {
+			margin-top: 0vw;
+			margin-bottom: 0vw;
+		}
+
+		> p:first-child {
+			color: #a3a2a4;
+			font-size: 2.7vw;
+			margin-bottom: .7vw;
+			text-transform: uppercase;
+		}
+		> p:last-child {
+			font-size: 4.3vw;
+			margin-bottom: 2.4vw;
+		}
+	}
+
+	._grey_key_list:first-child {
+		margin-top: 2vw;
+
+	}
+
+	._team_area .h3 {
+		margin-bottom: 3vw;
+		padding-left: 4.6vw;
+		//-webkit-padding-start: 0;
+		color: white;
+		font-size: 4.8vw;
+	}
+
+	._scores_indicate  {
+		margin-top: 7vw;
+		._black_bg {
+
+			margin-bottom: 5vw;
+			background: rgba(0,0,0,0.49);
+			padding: 1vw 0 0 0;
+			._indicator {
+				background: black;
+				padding: .6vw 1.5vw;
+				span:not(._show_span) {
+					margin-left: 2vw;
+					color: white;
+					font-size: 4.6vw;
+					font-family: Gotham_Pro_Bold;
+				}
+				._show_span {
+					height: 3vw;
+					background: white;
+					width: 83%;
+				}
+			}
+		}
+
+		._title_ind {
+			color: white;
+			font-family: Gotham_Pro;
+			letter-spacing: .07vw;
+			font-size: 4.7vw;
+			text-align: center;
+			padding: 2vw 0;
+		}
+
+		._grey_key_list {
+			margin-top: 1vw;
+			margin-bottom: 3vw;
+		}
+
+		 ._points {
+			position: relative;
+
+			> span:first-child {
+				display: inline-block;
+				font-family: Gotham_Pro_Regular;
+				font-size: 6.5vw;
+				line-height:5vw;
+			}
+
+			._right_tabs {
+				position: absolute;
+				top:0;
+				right: 0;
+
+				.trusty_icon {
+					position: absolute;
+					background: transparent;
+					width: 3.4vw;
+					margin-top:0;
+					svg {
+						fill: black;
+					}
+				}
+
+				span {
+					background: black;
+					font-family: Gotham_Pro;
+					font-size: 4.8vw;
+					padding-left: 1vw;
+					padding-right: 5vw;
+					height: 6vw;
+				}
+
+				span:nth-child(2) {
+					background: #ffffff;
+					color: black;
+					padding-left: 2vw;
+					padding-right: 7.8vw;
+					height: 6.04vw;
+
+				}
+
+			}
+		}
+	}
+
+	._why_area {
+
+		margin-top: .5vw;
+		._top {
+			background: white;
+			padding: 2.2vw;
+		}
+		._grey_key_list p, ._grey_key_list {
+			margin-bottom: 0;
+			margin-top: 0;
+			:last-child {
+				color: black;
+			}
+		}
+		._grey_key_list {
+			margin-bottom: 1vw;
+		}
+		._underarm {
+			background: $color_bg_grey;
+			padding: 2.2vw;
+			span {
+				color: black;
+			}
+			span:first-child {
+				font-family: Gotham_Pro_Bold;
+			}
+		}
+	}
+
+}

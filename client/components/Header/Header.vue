@@ -51,6 +51,7 @@ export default {
         transactions: 'recent transactions',
         coin: 'coin overview',
         'terms-of-use': 'terms of use',
+        faq: 'FAQ',
         'manage-approve': 'update portfolio',
       }
     };
