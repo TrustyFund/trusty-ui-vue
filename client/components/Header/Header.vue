@@ -103,6 +103,10 @@ $background_color: #1b1f22;
 	flex-shrink: 0;
 	position: relative;
 
+	span._options {
+		box-sizing: border-box;
+	}
+
 	.header_title {
 		height: 3vw;
 		line-height: 3vw;
@@ -185,18 +189,18 @@ $background_color: #1b1f22;
 		}
 
 		span._options {
+      padding-top: px_from_vw(2.9);
+      padding-right: px_from_vw(.7);
+      text-align: center;
+      position: absolute;
+      top:0;
+      right:0;
+      display: inline-block;
+      width: px_from_vw(12);
+      height: px_from_vw(12);
+    }
+  }
 
-			padding-top: px_from_vw(3.1);
-			padding-right: px_from_vw(.7);
-			text-align: center;
-			position: absolute;
-			top:0;
-			right:0;
-			display: inline-block;
-			width: px_from_vw(12);
-			height: px_from_vw(12);
-		}
-	}
 
 	.trusty_arrow_back {
 		position: absolute;
