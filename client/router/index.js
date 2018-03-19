@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Cookies from 'js-cookie';
 import Router from 'vue-router';
+
+import Coin from '@/components/Coin/Coin';
 import Deposit from '@/components/Transfer';
 import Profile from '@/components/Profile/Profile.vue';
 import User from '@/components/User/User.vue';
@@ -17,7 +19,6 @@ import BackupPassword from '@/components/Backup/BackupPasswordCheck';
 import PortfolioApprove from '@/components/Portfolio/PortfolioApprove';
 import Landing from '@/components/Landing/Landing';
 import TermsOfUse from '@/components/TermsOfUse/TermsOfUse';
-
 
 Vue.use(Router);
 
@@ -82,6 +83,12 @@ const router = new Router({
       meta: {
         requiredBackup: true
       }
+    },
+    {
+      name: 'coin',
+      path: '/coin/:symbol',
+      component: Coin,
+      props: true
     },
     {
       name: 'manage-approve',

@@ -27,7 +27,7 @@
 
 <script>
 import iconComponent from '@/components/UI/icon';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -49,8 +49,9 @@ export default {
         'backup-verify': 'verify backup',
         'backup-done': 'let\'s review',
         transactions: 'recent transactions',
+        coin: 'coin overview',
+        'terms-of-use': 'terms of use',
         'manage-approve': 'update portfolio',
-        'terms-of-use': 'terms of use'
       }
     };
   },
@@ -68,6 +69,9 @@ export default {
   },
   computed: {
     headerTitle() {
+      if (this.$route.name === 'coin') {
+        return this.getAssetSnapShot.name;
+      }
       return this.titles[this.$route.name];
     },
     isProfilePage() {
@@ -75,7 +79,10 @@ export default {
     },
     isHidden() {
       return this.$route.name === 'landing';
-    }
+    },
+    ...mapGetters({
+      getAssetSnapShot: 'assetInfo/getSnapShot'
+    }),
   }
 };
 
@@ -139,50 +146,49 @@ $background_color: #1b1f22;
 
 @media screen and (min-width: 769px) {
 
-  .trusty_header {
+	.trusty_header {
 
-    height: px_from_vw($header_desk_size);
+		height: px_from_vw($header_desk_size);
 
-    .trusty_header_logo {
-      line-height: px_from_vw(14);
-      width: px_from_vw(57);
-      height: px_from_vw(12);
-      padding-left:px_from_vw( 4);
-    }
+		.trusty_header_logo {
+			line-height: px_from_vw(14);
+			width: px_from_vw(57);
+			height: px_from_vw(12);
+			padding-left:px_from_vw( 4);
+		}
 
-    .fund_logo {
-      position: absolute;
-      top: px_from_vw(3.1);
-      left: 0;
-      width:px_from_vw(53);
-      padding-left: px_from_vw(3.6);
-      svg { fill: white; }
-    }
+		.fund_logo {
+			position: absolute;
+			top: px_from_vw(3.1);
+			left: 0;
+			width:px_from_vw(53);
+			padding-left: px_from_vw(3.6);
+			svg { fill: white; }
+		}
 
-    .header_title {
-      line-height: px_from_vw($header_desk_size);
-      font-size: px_from_vw(4.8);
-    }
+		.header_title {
+			line-height: px_from_vw($header_desk_size);
+			font-size: px_from_vw(4.8);
+		}
 
-    span._back {
-      top:0;
-      left:0;
-      width: px_from_vw(12);
-      line-height: px_from_vw(15);
-      svg {
-        height: px_from_vw(5.7);
-      }
-    }
+		span._back {
+			top:0;
+			left:0;
+			width: px_from_vw(12);
+			line-height: px_from_vw(15);
+			svg {
+				height: px_from_vw(5.7);
+			}
+		}
 
-    .trusty_options {
-      svg {
-        display: inline-block;
-        width: 51%;
-      }
-    }
+		.trusty_options {
+			svg {
+				display: inline-block;
+				width: 51%;
+			}
+		}
 
-    span._options {
-
+		span._options {
       padding-top: px_from_vw(2.9);
       padding-right: px_from_vw(.7);
       text-align: center;
@@ -195,19 +201,20 @@ $background_color: #1b1f22;
     }
   }
 
-  .trusty_arrow_back {
-    position: absolute;
-    width: px_from_vw(12);
-    height: px_from_vw(12);
-    line-height: px_from_vw(13.5);
-    top: px_from_vw(.4);
-    left: px_from_vw(-.2);
-    text-align: center;
-    svg {
-      display: inline-block;
-      height: 45%;
-    }
-  }
+
+	.trusty_arrow_back {
+		position: absolute;
+		width: px_from_vw(12);
+		height: px_from_vw(12);
+		line-height: px_from_vw(13.5);
+		top: px_from_vw(.4);
+		left: px_from_vw(-.2);
+		text-align: center;
+		svg {
+			display: inline-block;
+			height: 45%;
+		}
+	}
 
 }
 
