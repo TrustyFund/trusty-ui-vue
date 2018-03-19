@@ -5,24 +5,24 @@
   .trusty_portfolio_tabs
    
     .tabs-header-container
-      .tab-link.tab-link-active Manual
-      .tab-link Index
-      .tab-link Mirror
+      .tab-link(@click="$router.push({ name: 'manage-percent' })", :class="{'tab-link-active': isPercent }") Percent
+      .tab-link(@click="$router.push({ name: 'manage-value' })", :class="{'tab-link-active': isValue }") Value
+      .tab-link.disabled Mirror
 
     .tabs-content-container
-      ManagePortfolioTab(:items="items")
+      router-view(:items="items", fiat-id="1.3.121")
+
       
 
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import ManagePortfolioTab from './ManagePortfolioTab.vue';
 
 export default {
-  components: { ManagePortfolioTab },
   data() {
     return {
+      fiatId: '1.3.121'
     };
   },
   computed: {
@@ -31,7 +31,8 @@ export default {
       defaultAssetsIds: 'assets/getDefaultAssetsIds',
       history: 'market/getMarketHistory',
       baseId: 'market/getBaseAssetId',
-      assets: 'assets/getAssets'
+      assets: 'assets/getAssets',
+      getAssetMultiplier: 'market/getAssetMultiplier'
     }),
     combinedBalances() {
       const combinedBalances = { ...this.balances };
@@ -46,15 +47,28 @@ export default {
       Object.keys(this.combinedBalances).forEach(id => {
         const { balance } = this.combinedBalances[id];
         let price = (this.history[id] && this.history[id].last) || 0;
+        const multiplier = { ...this.multiplier };
         if (id === this.baseId) price = 1;
+        if (id === this.fiatId) multiplier.last = 1;
         const baseValue = parseInt((balance * price).toFixed(0), 10);
+        const fiatValue = parseInt((baseValue * this.fiatMultiplier.last).toFixed(0), 10);
         const name = (this.assets[id] && this.assets[id].symbol) || '...';
         items[id] = {
           baseValue,
+          fiatValue,
           name
         };
       });
       return items;
+    },
+    fiatMultiplier() {
+      return this.getAssetMultiplier(this.fiatId);
+    },
+    isPercent() {
+      return this.$route.name === 'manage-percent';
+    },
+    isValue() {
+      return this.$route.name === 'manage-value';
     }
   }
 };
@@ -185,6 +199,11 @@ export default {
   width: 33.33333%;
   float: left;
   text-align: center;
+  cursor: pointer;
+  &.disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
 }
 
 .tabs-container:after {

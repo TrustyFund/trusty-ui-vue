@@ -77,7 +77,7 @@ export default {
       this.logout();
     },
     handleBack() {
-      this.$router.go(-1);
+      this.$router.push({ name: 'entry' });
     }
   }
 };

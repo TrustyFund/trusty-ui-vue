@@ -38,8 +38,8 @@
 import Icon from '@/components/UI/icon';
 import { mapGetters, mapActions } from 'vuex';
 // eslint-disable-next-line
-import API from 'lib/src/services/api.js';
-import { calcPortfolioDistributionChange, distributionFromBalances, distributionSampling } from 'lib/src/utils';
+import { calcPortfolioDistributionChange, distributionFromBalances, 
+  distributionSampling } from 'lib/src/utils';
 
 export default {
   props: {

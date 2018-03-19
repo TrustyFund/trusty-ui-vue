@@ -6,6 +6,8 @@ import User from '@/components/User/User.vue';
 import Signup from '@/components/Signup/Signup.vue';
 import Login from '@/components/Login/Login.vue';
 import ManagePortfolio from '@/components/ManagePortfolio/ManagePortfolio';
+import ManagePortfolioPercent from '@/components/ManagePortfolio/ManagePortfolioPercent';
+import ManagePortfolioValue from '@/components/ManagePortfolio/ManagePortfolioValue';
 import Transactions from '@/components/Transactions/Transactions';
 import Backup from '@/components/Backup/Backup';
 import BackupDone from '@/components/Backup/BackupDone';
@@ -68,18 +70,35 @@ const router = new Router({
         {
           path: '/manage',
           name: 'manage',
+          redirect: '/manage/percent',
           component: ManagePortfolio,
           beforeEnter: (to, from, next) => {
+            console.log('from : ', from.name);
+            console.log('to : ', to.name);
             if (from.name !== 'entry') next({ name: 'entry' });
             next();
-          }
+          },
+          children: [
+            {
+              path: 'percent',
+              name: 'manage-percent',
+              component: ManagePortfolioPercent
+            },
+            {
+              path: 'value',
+              name: 'manage-value',
+              component: ManagePortfolioValue
+            }
+          ]
         },
         {
           name: 'confirm-transactions',
           path: '/confirm',
           component: ConfirmTransactions,
           beforeEnter: (to, from, next) => {
-            if (from.name !== 'manage') next({ name: 'entry' });
+            if (from.name !== 'manage-percent' && from.name !== 'manage-value') {
+              next({ name: 'entry' });
+            }
             next();
           }
         },
