@@ -83,7 +83,7 @@ div
 				br._mob
 				|  used internet
 			a.wrap_button
-				button.land FAQ
+				button.land(@click="clickLink('faq')") FAQ
 
 	div._land_bottom_info
 		section
