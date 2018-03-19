@@ -43,7 +43,7 @@ export default {
   methods: {
     next() {
       this.$store.dispatch('app/setModal', null);
-      this.$router.push({ name: 'backup-phrase' });
+      this.$router.push({ name: 'backup-password' });
     },
   },
   computed: {
@@ -53,4 +53,8 @@ export default {
 </script>
 
 <style lang="scss">
+
+.backup_modal .trusty_inline_buttons {
+	padding-top: 0 !important;
+}
 </style>
