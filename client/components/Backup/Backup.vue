@@ -2,7 +2,7 @@
 
 #trusty_backup.main_padding
 
-	router-view
+	router-view(@doneBackup="handleExit")
 
 	.modal_alert.main_padding(@click="setModal(null)", v-if="getModalName==='backup_try_again'")
 		.modal_content: p.trusty_big_font TRY AGAIN
@@ -18,16 +18,34 @@
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
+  data() {
+    return {
+      prevAddress: ''
+    };
+  },
   computed: {
     ...mapGetters('app', ['getModalName']),
   },
   methods: {
-    ...mapActions('app', ['setModal'])
+    ...mapActions('app', ['setModal']),
+    ...mapActions({
+      lockWallet: 'account/lockWallet'
+    }),
+    // this.$router.go(-1);
+    handleExit() {
+      this.$router.push({ name: this.prevAddress });
+    }
   },
   mounted() {
+    this.lockWallet();
     // this.setModal('backup_try_again');
     // this.setModal('backup_copied_password');
     // this.setModal('backup-screenshots');
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.prevAddress = to.query.redirect;
+    });
   }
 };
 </script>
@@ -94,8 +112,14 @@ $light_grey: #6d6e70;
 			._tick {
 				width: 10%;
 				padding-top: 2vw;
-				svg, g, polygon{
-					fill: #FFEB3B;
+
+				._disabled_tick {
+					svg, g, polygon, path{
+						fill: white;
+					}
+					polygon {
+						display: none;
+					}
 				}
 
 			}
@@ -199,6 +223,11 @@ $light_grey: #6d6e70;
 	}
 
 	.verify_area {
+		min-height: 28.6vh;
+		max-height: 52.6vh;
+		margin-bottom: 5.3vw;
+		border-top: 1px dashed white;
+		border-bottom: 1px dashed white;
 		overflow: scroll;
 		span {
 			cursor: pointer;
@@ -206,6 +235,9 @@ $light_grey: #6d6e70;
 			margin: 1.4vw;
 			border: 1px dashed white;
 			padding: 1.5vw 3vw;
+		}
+		p {
+			margin-bottom:1.2vw;
 		}
 	}
 
@@ -226,15 +258,6 @@ $light_grey: #6d6e70;
 			border: 1px solid white;
 			padding: 1.5vw 3vw;
 		}
-	}
-
-	.verify_area {
-		height: 28.6vh;
-		margin-bottom: 5.3vw;
-		border-top: 1px dashed white;
-		border-bottom: 1px dashed white;
-		//overflow: scroll;
-
 	}
 
 	@media screen and (min-width: 769px) {
@@ -335,7 +358,8 @@ $light_grey: #6d6e70;
 		}
 
 		.verify_area {
-			height: 28.6vh;
+			min-height: 28.6vh;
+			max-height: 52.6vh;
 			margin-bottom: px_from_vw(5.3);
 
 		}

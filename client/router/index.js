@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Cookies from 'js-cookie';
 import Router from 'vue-router';
+
+import Coin from '@/components/Coin/Coin';
 import Deposit from '@/components/Transfer';
 import User from '@/components/User/User.vue';
 import Signup from '@/components/Signup/Signup.vue';
@@ -12,12 +14,12 @@ import Transactions from '@/components/Transactions/Transactions';
 import Backup from '@/components/Backup/Backup';
 import BackupDone from '@/components/Backup/BackupDone';
 import BackupFirst from '@/components/Backup/BackupFirst';
+import BackupPassword from '@/components/Backup/BackupPasswordCheck';
 import BackupPhrase from '@/components/Backup/BackupPhrase';
 import BackupVerify from '@/components/Backup/BackupVerify';
 import ConfirmTransactions from '@/components/ConfirmTransactions/ConfirmTransactions';
 import TermsOfUse from '@/components/TermsOfUse/TermsOfUse';
 import EntryPoint from '@/components/EntryPoint/EntryPoint';
-
 
 Vue.use(Router);
 
@@ -113,6 +115,12 @@ const router = new Router({
           component: Deposit
         },
         {
+          name: 'coin',
+          path: '/coin/:symbol',
+          component: Coin,
+          props: true
+        },
+        {
           path: '/backup',
           component: Backup,
           children: [
@@ -120,6 +128,11 @@ const router = new Router({
               path: '',
               name: 'backup',
               component: BackupFirst
+            },
+            {
+              path: 'password',
+              name: 'backup-password',
+              component: BackupPassword
             },
             {
               path: 'phrase',
@@ -153,6 +166,15 @@ router.beforeEach((to, from, next) => {
     if (userId === undefined) {
       next({
         path: '/'
+      });
+    }
+  }
+  if (to.meta.requiredBackup) {
+    const backupDate = Cookies.get('BACKUP_DATE');
+    if (!backupDate) {
+      next({
+        path: '/backup',
+        query: { redirect: to.name }
       });
     }
   }

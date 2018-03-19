@@ -54,7 +54,15 @@ $desk_font_button: 1.2vw;
 	justify-content: space-between;
 
 	&._one_button {
+		padding-top: 5vw;
 		button { width: 100%; }
+	}
+
+	&._disabled {
+		button {
+			color: grey;
+			border-color: grey;
+		}
 	}
 
 	button, span {
