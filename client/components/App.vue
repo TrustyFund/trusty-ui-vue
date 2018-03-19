@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     activeClass() {
-      return {}; // this.$route.name === 'landing' ? '_landing_page' : '_header_space';
+      return this.$route.name === 'landing' ? '_landing_page' : '';
     },
     ...mapGetters({
       ready: 'connection/isReady'
