@@ -41,6 +41,7 @@ export default {
     },
     items() {
       const items = [];
+      if (!this.sellOrders || !this.buyOrders) return [];
       this.sellOrders.forEach(order => {
         items.push({
           payload: order,

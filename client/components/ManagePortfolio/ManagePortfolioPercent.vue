@@ -38,8 +38,7 @@
 import Icon from '@/components/UI/icon';
 import { mapGetters, mapActions } from 'vuex';
 // eslint-disable-next-line
-import { calcPortfolioDistributionChange, distributionFromBalances, 
-  distributionSampling } from 'lib/src/utils';
+import { distributionFromBalances, distributionSampling } from 'lib/src/utils';
 
 export default {
   props: {
@@ -78,7 +77,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      createOrdersFromUpdate: 'transactions/createOrdersFromUpdate'
+      setPendingDistribution: 'transactions/setPendingDistribution'
     }),
     computeInitialPercents() {
       const rawDistributions = distributionFromBalances(this.baseValues);
@@ -106,10 +105,20 @@ export default {
       });
       return distributions;
     },
+    calcChangedPercents() {
+      const changed = {};
+      Object.keys(this.percents).forEach(id => {
+        if (this.percents[id].share !== this.initialPercents[id].share) {
+          changed[id] = this.percents[id].share;
+        }
+      });
+      return changed;
+    },
     async updatePortfolio() {
-      const distributions = this.calcDistributions(this.percents);
-      const update = calcPortfolioDistributionChange(this.baseValues, distributions);
-      await this.createOrdersFromUpdate({ update });
+      const distribution = this.calcDistributions(this.percents);
+      const changed = this.calcChangedPercents();
+      console.log('changed: ', changed);
+      this.setPendingDistribution({ distribution });
       this.$router.push({ name: 'confirm-transactions' });
     }
   },
