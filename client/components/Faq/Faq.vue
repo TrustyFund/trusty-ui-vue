@@ -17,16 +17,18 @@
 						template(v-if="item.list")
 
 							._team_area
-
-								ol(v-if="item.list.type === 'numbers'")
-									template(v-for="one in item.list.items")
-										li(v-html="one")
-										br
-
-								ul(:class="getListClass(item.list.type)"  v-else)
-									template(v-for="one in item.list.items")
-										li(v-html="one")
-										br
+								template(v-if="item.list.type === 'numbers'")
+									h3._list_title {{ item.list.title }}
+									ol
+										template(v-for="one in item.list.items")
+											li(v-html="one")
+											br
+								template(v-else)
+									h3._list_title {{ item.list.title }}
+									ul(:class="getListClass(item.list.type)"  )
+										template(v-for="one in item.list.items")
+											li(v-html="one")
+											br
 
 </template>
 
@@ -68,7 +70,6 @@ export default {
 	li {
 		color: white;
 	}
-
 
 	ol {
 
