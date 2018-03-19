@@ -252,7 +252,8 @@ $color_green_value: #659d1a;
     }
 
 
-    .content_area:first-child {
+    .content_area:first-child,
+    .content_area:nth-child(2) {
       ._list_item {
         border-bottom: 0;
       }
