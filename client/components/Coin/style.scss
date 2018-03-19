@@ -34,7 +34,14 @@ $color_bg_grey: #d8d9d9;
 			margin-bottom: .7vw;
 			text-transform: uppercase;
 		}
-		> p:last-child {
+		> p:last-child, {
+			font-size: 4.3vw;
+			margin-bottom: 2.4vw;
+		}
+
+		p._text {
+			text-transform: initial;
+			color: white;
 			font-size: 4.3vw;
 			margin-bottom: 2.4vw;
 		}

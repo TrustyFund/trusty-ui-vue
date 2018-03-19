@@ -270,8 +270,8 @@ $color_green_value: #659d1a;
 
 
     .wrap_content {
-      //height: 0;
-      //overflow: hidden;
+      // height: 0;
+      // overflow: hidden;
     }
 
     .content_area._opened_article {

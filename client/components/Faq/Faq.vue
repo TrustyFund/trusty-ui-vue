@@ -1,16 +1,19 @@
 <template lang="pug">
-#trusty_fag
+#trusty_coin_overview.trusty_faq
 
 	#coin_analysis._belongings
 
 		.content_area
+			template(v-for="item, index in info")
+				._items
+					._list_item(:class="{_none_top_border: index === 0}")
+						span.text_button {{ item.title }}
+						icon(name="trusty_arrow_down")
 
-			.wrap_content.main_padding
-				template(v-for="item in info")
-					h3._list_title {{ item.title }}
+				.wrap_content.main_padding
+
 					._grey_key_list
-						p {{ item.title }}
-						p(v-html="item.text")
+						p._text(v-html="item.text")
 						template(v-if="item.list")
 
 							._team_area
@@ -28,9 +31,13 @@
 </template>
 
 <script>
+import icon from '@/components/UI/icon';
 import info from './info.js';
 
 export default {
+  components: {
+    icon,
+  },
   data() {
     return {
       info
@@ -48,7 +55,12 @@ export default {
 
 <style lang="scss">
 
-#trusty_fag {
+#trusty_coin_overview.trusty_faq  {
+
+	._list_item._none_top_border {
+		border-top: none;
+	}
+
 	span._bordered_item {
 		border-bottom: 1px solid white;
 	}
@@ -60,39 +72,39 @@ export default {
 
 	ol {
 
-	  counter-reset: item;
-	  margin-left: 0;
-	  padding-left: 0;
+		counter-reset: item;
+		margin-left: 0;
+		padding-left: 0;
 
 		li {
-		  display: block;
-		  margin-left: 4vw;
+			display: block;
+			margin-left: 4vw;
 		}
 
 		li::before {
-		  display: inline-block;
-		  content: counter(item) ") ";
-		  counter-increment: item;
-		  //width: 2em;
-		  //margin-left: -2em;
+			display: inline-block;
+			content: counter(item) ") ";
+			counter-increment: item;
+			//width: 2em;
+			//margin-left: -2em;
 		}
 
 	}
 
 
 	ul._dashed {
-    list-style: none; /* Remove list bullets */
-    padding: 0;
-    margin: 0;
+		list-style: none; /* Remove list bullets */
+		padding: 0;
+		margin: 0;
 
 		li {
-		    padding-left: 16px;
+				padding-left: 16px;
 		}
 
 		li:before {
-	    content: "—";
-	    padding-right: 8px;
-	    color: white;
+			content: "—";
+			padding-right: 8px;
+			color: white;
 		}
 
 	}
