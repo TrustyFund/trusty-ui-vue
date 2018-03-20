@@ -3,10 +3,10 @@
 
 	#coin_analysis._belongings
 
-		.content_area
-			template(v-for="item, index in info")
-				._items
-					._list_item(:class="{_none_top_border: index === 0}")
+		template(v-for="item, index in info")
+			.content_area(:class="{_opened_article: opened===index}")
+				._items(@click="open(index)")
+					._list_item._many_lines(:class="{_none_top_border: index === 0}")
 						span.text_button {{ item.title }}
 						icon(name="trusty_arrow_down")
 
@@ -14,15 +14,18 @@
 
 					._grey_key_list
 						p._text(v-html="item.text")
+
 						template(v-if="item.list")
 
 							._team_area
+
 								template(v-if="item.list.type === 'numbers'")
 									h3._list_title {{ item.list.title }}
 									ol
 										template(v-for="one in item.list.items")
 											li(v-html="one")
 											br
+
 								template(v-else)
 									h3._list_title {{ item.list.title }}
 									ul(:class="getListClass(item.list.type)"  )
@@ -42,10 +45,14 @@ export default {
   },
   data() {
     return {
-      info
+      info,
+      opened: null,
     };
   },
   methods: {
+  	open(index) {
+  		this.opened = this.opened === index ? null : index;
+  	},
     getListClass(type) {
       return {
         _dashed: type === 'dashed'
@@ -58,6 +65,21 @@ export default {
 <style lang="scss">
 
 #trusty_coin_overview.trusty_faq  {
+
+	._list_item._many_lines {
+		position: relative;
+		padding-right: 15vw;
+	}
+
+	.trusty_arrow_down {
+		position: absolute;
+		top: 3vw;
+		right: 0;
+	}
+
+	._list_item {
+		border-bottom: none;
+	}
 
 	._list_item._none_top_border {
 		border-top: none;
@@ -94,7 +116,7 @@ export default {
 
 
 	ul._dashed {
-		list-style: none; /* Remove list bullets */
+		list-style: none;
 		padding: 0;
 		margin: 0;
 

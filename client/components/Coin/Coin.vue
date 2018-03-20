@@ -108,7 +108,6 @@ import icon from '@/components/UI/icon';
 import investment from './CoinInvestment';
 import predictions from './CoinPredictions';
 import analysis from './CoinAnalysis';
-import './style.scss';
 
 
 export default {
@@ -229,7 +228,7 @@ export default {
 </script>
 
 <style lang="scss">
-
+@import "./style";
 $color_red_value: #f42c2e;
 $color_green_value: #659d1a;
 
@@ -270,22 +269,30 @@ $color_green_value: #659d1a;
 
 
     .wrap_content {
-      // height: 0;
-      // overflow: hidden;
+      overflow: hidden;
+      -webkit-transition: max-height .3s;
+		  -moz-transition: max-height .3s;
+		  -ms-transition: max-height .3s;
+		  -o-transition: max-height .3s;
+		  transition: max-height .3s;
+		  overflow: hidden;
+		  max-height: 0;
     }
 
     .content_area._opened_article {
 
       ._list_item {
+      	transition: all .3s linear;
         border-bottom: none;
       }
 
       .trusty_arrow_down {
+      	transition: all .3s linear;
         transform: rotate(180deg);
       }
 
       .wrap_content {
-        height: auto;
+        max-height: 2000px;
       }
 
 
