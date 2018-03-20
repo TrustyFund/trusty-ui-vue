@@ -1,12 +1,14 @@
 <template lang="pug">
 #phrase
-	p.trusty_help_text._second Please carefully#[br] write down this phrase
-	p.trusty_big_font: span(v-for="word in phrase.split(' ')") {{word}}&nbsp
+	._wrap_warnings
 
-	._bottom_fixed.main_padding
-		p.trusty_help_text._second We'll confirm on the next sreen
-		.trusty_inline_buttons._one_button
-			button(@click="$router.push({ name: 'backup-verify' });") i've written it down
+		p.trusty_help_text._second Please carefully#[br] write down this phrase
+		p.trusty_big_font: span(v-for="word in phrase.split(' ')") {{word}}&nbsp
+
+		._bottom_button.main_padding
+			p.trusty_help_text._second We'll confirm on the next sreen
+			.trusty_inline_buttons._one_button
+				button(@click="$router.push({ name: 'backup-verify' });") i've written it down
 
 </template>
 
@@ -23,8 +25,11 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss">
+
 .trusty_big_font span {
   white-space: nowrap;
 }
+
+
 </style>

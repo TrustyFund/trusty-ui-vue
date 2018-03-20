@@ -134,7 +134,8 @@ $light_grey: #6d6e70;
 	}
 
 	#phrase {
-		padding-top: 42vw;
+
+		height: inherit;
 		> p:first-child {
 			margin: 0 0 7.5vw 0;
 		}
@@ -282,7 +283,7 @@ $light_grey: #6d6e70;
 		}
 
 		#phrase {
-			padding-top: px_from_vw(42);
+			//padding-top: px_from_vw(42);
 			> p:first-child {
 				margin: 0 0 px_from_vw(7.5) 0;
 			}

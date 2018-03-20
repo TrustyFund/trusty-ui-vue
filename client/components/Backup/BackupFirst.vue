@@ -1,19 +1,19 @@
 <template lang="pug">
 #first
-	p.trusty_help_text You need to backup account#[br] before using it
-	._wrap_icon
-		icon(name="account_backup_ico_safe", :initialSvgColors="true")
-	._warnings
-		p.trusty_big_font Are you being watched?
-		p.trusty_big_font Near by windows?
-		p.trusty_big_font Hidden cameras?
-		p.trusty_big_font Shoulder-spies?
+	._wrap_warnings
+		p.trusty_help_text You need to backup account#[br] before using it
+		._wrap_icon
+			icon(name="account_backup_ico_safe", :initialSvgColors="true")
+		._warnings
+			p.trusty_big_font Are you being watched?
+			p.trusty_big_font Near by windows?
+			p.trusty_big_font Hidden cameras?
+			p.trusty_big_font Shoulder-spies?
 
-	._bottom_fixed.main_padding
-		p.trusty_help_text._second Anyone with your backup phrase can#[br] access or spend your funds
-
-		.trusty_inline_buttons._one_button
-			button(@click="$store.dispatch('app/setModal','backup-screenshots')") Continue to backup
+		._bottom_button.main_padding
+			p.trusty_help_text._second Anyone with your backup phrase can#[br] access or spend your funds
+			.trusty_inline_buttons._one_button
+				button(@click="$store.dispatch('app/setModal','backup-screenshots')") Continue to backup
 
 
 	.backup_modal(v-if="getModalName==='backup-screenshots'")
@@ -53,6 +53,38 @@ export default {
 </script>
 
 <style lang="scss">
+
+._wrap_warnings {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: inherit;
+}
+
+#first, #phrase {
+	height: inherit;
+	box-sizing: border-box;
+}
+
+
+@media screen and (max-width: 768px) {
+	#first, #phrase {
+		padding-bottom: 3.6vw;
+	}
+	._wrap_warnings {
+
+		span, div {
+			margin: 0 !important;
+			padding: 0 !important;
+		}
+	  .trusty_big_font {
+			line-height: initial;
+	  }
+	  .account_backup_ico_safe {
+		  width:23.2vh !important;
+	  }
+	}
+}
 
 .backup_modal {
 	.trusty_help_text {
