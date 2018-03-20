@@ -44,7 +44,7 @@
 <script>
 import Portfolio from '@/components/Portfolio/Portfolio';
 import Transactions from '@/components/Transactions/Transactions';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import TotalFunds from './ProfileTotalFunds';
 
 export default {
@@ -63,6 +63,14 @@ export default {
   },
   components: {
     Portfolio, Transactions, TotalFunds
+  },
+  methods: {
+    ...mapActions({
+      fetchCurrentUser: 'account/fetchCurrentUser'
+    })
+  },
+  mounted() {
+    this.fetchCurrentUser();
   }
 };
 </script>
