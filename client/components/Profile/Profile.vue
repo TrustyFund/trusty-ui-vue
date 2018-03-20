@@ -70,7 +70,7 @@ export default {
     })
   },
   mounted() {
-    this.fetchCurrentUser();
+    if (this.ready) this.fetchCurrentUser();
   }
 };
 </script>

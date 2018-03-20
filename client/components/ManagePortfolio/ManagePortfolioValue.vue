@@ -130,12 +130,15 @@ export default {
     calcDistributions(values, total) {
       const distributions = {};
       Object.keys(values).forEach(id => {
-        distributions[id] = values[id].value / total;
+        distributions[id] = values[id] / total;
       });
       return distributions;
     },
     updatePortfolio() {
-      const distribution = this.calcDistributions(this.values, this.initialTotalValue);
+      const changed = this.calcChangedValues();
+      console.log('changed : ', changed);
+      const distribution = this.calcDistributions(changed, this.initialTotalValue);
+      console.log('distribution : ', distribution);
       this.setPendingDistribution({ distribution });
       this.$router.push({ name: 'confirm-transactions' });
     },
@@ -147,7 +150,16 @@ export default {
           assetId: asset.id
         }
       });
-    }
+    },
+    calcChangedValues() {
+      const changed = {};
+      Object.keys(this.values).forEach(id => {
+        if (this.values[id].value !== this.initialValues[id].value) {
+          changed[id] = this.values[id].value;
+        }
+      });
+      return changed;
+    },
   },
   mounted() {
     this.computeInitialValues();
