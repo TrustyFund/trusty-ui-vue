@@ -8,7 +8,7 @@
     div.spinner-container(v-show="getPendingStats")
       Spinner
 
-    div._indicators(v-show="!getPendingStats")
+    div._indicators(v-show="!getPendingStats && change24")
       span._price {{ format(getStats.price) }}
       span._24change
         span {{ change24 }}%&nbsp
@@ -16,7 +16,7 @@
 
 
   .coin_info.main_padding
-    .top_values(v-show="!getPendingStats")
+    .top_values(v-show="!getPendingStats && change24")
 
       section._db_left._db_bottom
         h4 Mkt. Cap.
@@ -159,7 +159,7 @@ export default {
       return this.symbol.toUpperCase();
     },
     getBitsharesDescription() {
-      const assetObj = this.getAssetById([this.assetId]);
+      const assetObj = this.getAssetById(this.assetId);
       if (!assetObj.options) {
         return '';
       }

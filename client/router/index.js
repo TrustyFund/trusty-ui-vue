@@ -157,7 +157,11 @@ const router = new Router({
       path: '*',
       redirect: '/'
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    console.log('scrollBehavior');
+    return { x: 0, y: 0 };
+  }
 });
 
 router.beforeEach((to, from, next) => {
