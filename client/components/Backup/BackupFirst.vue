@@ -61,35 +61,24 @@ export default {
 	height: inherit;
 }
 
-#first {
+#first, #phrase {
 	height: inherit;
 	box-sizing: border-box;
 }
 
 
 @media screen and (max-width: 768px) {
-	#first {
+	#first, #phrase {
 		padding-bottom: 3.6vw;
 	}
 	._wrap_warnings {
-
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		height: inherit;
 
 		span, div {
 			margin: 0 !important;
 			padding: 0 !important;
 		}
-
-		.trusty_help_text {
-			font-size: 2.7vh;
-		}
 	  .trusty_big_font {
-			font-size: 4vh;
 			line-height: initial;
-			line-height: 4.8vh;
 	  }
 	  .account_backup_ico_safe {
 		  width:23.2vh !important;
