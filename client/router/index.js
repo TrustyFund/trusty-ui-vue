@@ -74,6 +74,7 @@ const router = new Router({
           name: 'manage',
           redirect: '/manage/percent',
           component: ManagePortfolio,
+          meta: { requiredBackup: true },
           beforeEnter: (to, from, next) => {
             console.log('from : ', from.name);
             console.log('to : ', to.name);
