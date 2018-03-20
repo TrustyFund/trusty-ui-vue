@@ -42,17 +42,21 @@
       .wrap_content.main_padding
 
         ._grey_key_list(v-for="(val, key) in getSnapShot" v-if="val")
-          template(v-if="key !== 'image'&&key!=='ico'")
+          template(v-if="key")
             p {{ parseCamel(key) }}
             p(v-html="val") {{ val }}
-          template(v-if="key==='ico'")
-            h3._list_title {{ key }}
-            ._grey_key_list
-              p STATUS
-              p {{ val.status}}
-            ._grey_key_list
-              p white paper
-              p(v-html="val.whitePaper")
+
+    .content_area(:class="{_opened_article: opened==='ico'}" v-show="ICOExist")
+      ._items(@click="opened = opened==='ico' ? '':'ico'")
+        ._list_item
+          span.text_button ICO
+          icon(name="trusty_arrow_down")
+
+      .wrap_content.main_padding
+        ._grey_key_list(v-for="(val, key) in getICO" v-if="val")
+          template(v-if="key")
+            p {{ parseCamel(key) }}
+            p(v-html="val") {{ val }}
 
 
     .content_area(:class="{_opened_article: opened==='social'}")
@@ -146,7 +150,8 @@ export default {
       getStats: 'assetInfo/getStats',
       getSocial: 'assetInfo/getSocial',
       getSnapShot: 'assetInfo/getSnapShot',
-      getAssetById: 'assets/getAssetById'
+      getAssetById: 'assets/getAssetById',
+      getICO: 'assetInfo/getICO'
     }),
     getSymbol() {
       return this.symbol.toUpperCase();
@@ -164,6 +169,9 @@ export default {
       } catch (ex) {
         return '';
       }
+    },
+    ICOExist() {
+      return Object.keys(this.getICO).length > 0;
     }
   },
 

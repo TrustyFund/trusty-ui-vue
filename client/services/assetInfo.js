@@ -1,6 +1,6 @@
 /* eslint class-methods-use-this: [
   "error", {
-   "exceptMethods": ["getStats", "filterEmptyFields"]
+   "exceptMethods": ["getStats", "filterFields"]
   }
  ] */
 import axios from 'axios';
@@ -84,7 +84,7 @@ class AssetInfo {
     try {
       const snapshotStats = await axios.get(snapshotQuery);
       if (snapshotStats.data.Response === 'Success') {
-        const data = {
+        const snapShot = {
           description: snapshotStats.data.Data.General.Description,
           features: snapshotStats.data.Data.General.Features,
           technology: snapshotStats.data.Data.General.Technology,
@@ -93,11 +93,14 @@ class AssetInfo {
           proofType: snapshotStats.data.Data.General.ProofType,
           startDate: snapshotStats.data.Data.General.StartDate,
           name: snapshotStats.data.Data.General.Name,
-          ico: this.filterEmptyFields(snapshotStats.data.Data.ICO)
         };
+        const ico = this.filterFields(snapshotStats.data.Data.ICO);
         return {
           success: true,
-          data
+          data: {
+            snapShot,
+            ico
+          }
         };
       }
       return {
@@ -113,9 +116,9 @@ class AssetInfo {
     }
   }
 
-  filterEmptyFields(source) {
+  filterFields(source) {
     Object.keys(source).forEach((key) => {
-      if (source[key] === 'N/A' || source[key] === '-') {
+      if (source[key] === 'N/A' || source[key] === '-' || key.includes('Link')) {
         delete source[key];
       }
     });

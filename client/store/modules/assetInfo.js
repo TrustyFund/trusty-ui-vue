@@ -20,6 +20,7 @@ const snapShotStub = {};
 
 const socialStub = {};
 
+const icoStub = {};
 
 const mutations = {
   [FETCH_ASSET_STATS_REQUEST](state) {
@@ -50,8 +51,9 @@ const mutations = {
   [FETCH_ASSET_SNAPSHOT_ERROR](state) {
     state.penging = false;
   },
-  [FETCH_ASSET_SNAPSHOT_COMPLETE](state, { snapShot }) {
+  [FETCH_ASSET_SNAPSHOT_COMPLETE](state, { snapShot, ico }) {
     state.snapShot = snapShot;
+    state.ico = ico;
     state.penging = false;
   },
 };
@@ -83,7 +85,9 @@ const actions = {
     commit(FETCH_ASSET_SNAPSHOT_REQUEST);
     const result = await AssetInfo.getCoinSnapshot(assetSymbol);
     if (result.success) {
-      commit(FETCH_ASSET_SNAPSHOT_COMPLETE, { snapShot: result.data });
+      commit(FETCH_ASSET_SNAPSHOT_COMPLETE, {
+        snapShot: result.data.snapShot, ico: result.data.ico
+      });
     } else {
       commit(FETCH_ASSET_SNAPSHOT_ERROR);
     }
@@ -95,6 +99,7 @@ const getters = {
   getStats: state => state.stats,
   getSocial: state => state.social,
   getSnapShot: state => state.snapShot,
+  getICO: state => state.ico
 };
 
 
@@ -102,6 +107,7 @@ const initialState = {
   stats: statsStub,
   social: socialStub,
   snapShot: snapShotStub,
+  ico: icoStub,
   penging: false,
 };
 
