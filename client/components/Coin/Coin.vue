@@ -87,28 +87,12 @@
 
   p.trusty_ps_text Overview provided by cryptocompare.com
 
-  template
-    .coin_vista.main_padding
-      .trusty_inline_buttons
-        button(@click="tab='analysis'") analysis
-        button(@click="tab='investment'") investment
-
-      .trusty_inline_buttons._one_button
-        button predictions
-
-    investment(v-if="tab=='investment'")
-    analysis(v-if="tab=='analysis'")
-
 
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import icon from '@/components/UI/icon';
-import investment from './CoinInvestment';
-import predictions from './CoinPredictions';
-import analysis from './CoinAnalysis';
-
 
 export default {
   mounted() {
@@ -126,10 +110,8 @@ export default {
   },
   data() {
     return {
-      tab: '',
       coin: '',
       opened: '',
-
     };
   },
   computed: {
@@ -218,10 +200,7 @@ export default {
     }
   },
   components: {
-    icon,
-    investment,
-    predictions,
-    analysis
+    icon
   }
 };
 
