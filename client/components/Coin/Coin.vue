@@ -31,20 +31,12 @@
 
   #coin_analysis._belongings
 
-    .content_area(:class="{_opened_article: opened==='about asset issuer'}")
-      ._items(@click="opened = opened==='about asset issuer' ? '':'about asset issuer'")
-        ._list_item
-          span.text_button about asset issuer
-          icon(name="trusty_arrow_down")
-        .wrap_content.main_padding
-          ._grey_key_list
-            p description
-            p {{getBitsharesDescription}}
+    
 
-    .content_area(:class="{_opened_article: opened==='about'}")
-      ._items(@click="opened = opened==='about' ? '':'about'")
+    .content_area(:class="{_opened_article: opened==='description'}")
+      ._items(@click="opened = opened==='description' ? '':'description'")
         ._list_item
-          span.text_button ABOUT
+          span.text_button DESCRITION
           icon(name="trusty_arrow_down")
 
       .wrap_content.main_padding
@@ -83,7 +75,16 @@
             ._grey_key_list(v-for="(one, k) in val", @click="showLink(one.url)")
               p {{ one.url }}
               p updated {{ one.lastUpdate}}
-
+    
+    .content_area(:class="{_opened_article: opened==='about asset issuer'}")
+          ._items(@click="opened = opened==='about asset issuer' ? '':'about asset issuer'")
+            ._list_item
+              span.text_button about asset issuer
+              icon(name="trusty_arrow_down")
+            .wrap_content.main_padding
+              ._grey_key_list
+                p description
+                p {{getBitsharesDescription}}
 
   p.trusty_ps_text Overview provided by cryptocompare.com
 
