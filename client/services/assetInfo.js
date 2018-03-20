@@ -28,7 +28,13 @@ class AssetInfo {
         return coinsResult;
       }
     }
-    const coinId = this.coins[assetSymbol].Id;
+    const coinId = (this.coins[assetSymbol] && this.coins[assetSymbol].Id) || '';
+    if (!coinId) {
+      return {
+        success: false,
+        error: 'Coin not found'
+      };
+    }
     const socialQuery = 'https://proxy.trusty.fund/' +
       `socialstats/?id=${coinId}`;
     try {
@@ -73,7 +79,13 @@ class AssetInfo {
         return coinsResult;
       }
     }
-    const coinId = this.coins[assetSymbol].Id;
+    const coinId = (this.coins[assetSymbol] && this.coins[assetSymbol].Id) || '';
+    if (!coinId) {
+      return {
+        success: false,
+        error: 'Coin not found'
+      };
+    }
     const snapshotQuery = 'https://proxy.trusty.fund/' +
       `coinsnapshotfullbyid/?id=${coinId}`;
     try {

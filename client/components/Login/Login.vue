@@ -14,7 +14,7 @@
       trusty-input(label="confirm pin")
         template(slot="input")
           input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="tel")
-      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PINS do not match
+      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PIN codes do not match
 
       trusty-input(label="brainkey" type="textarea")
         template(slot="input")
@@ -86,7 +86,7 @@ export default {
           brainkey: this.brainkey
         });
         if (result.success) {
-          this.$router.push({ name: 'profile' });
+          this.$router.push({ name: 'entry' });
         } else {
           this.$notify({
             group: 'auth',

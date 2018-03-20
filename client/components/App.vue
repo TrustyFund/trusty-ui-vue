@@ -1,9 +1,11 @@
 <template>
 	<div id="app" :class="activeClass">
 		<Header/>
-		<div class="router_content"><router-view></router-view></div>
+		<div class="router_content" ref="routerContent">
+      <router-view></router-view>
+    </div>
 		<div class="connecting-block-screen"
-				 v-if="!ready">
+				 v-if="!ready && !isLanding">
 			 <Spinner/>
 		</div>
 		<notifications group="auth" width="100%" position="bottom center"/>
@@ -21,31 +23,34 @@ export default {
   components: {
     Header, Spinner
   },
-
   data() {
     return {};
   },
   computed: {
     activeClass() {
-      return this.$route.name === 'landing' ? '_landing_page' : '';
+      return this.isLanding ? '_landing_page' : '';
+    },
+    isLanding() {
+      return this.$route.name === 'entry' && !this.userId;
     },
     ...mapGetters({
-      ready: 'connection/isReady'
+      ready: 'connection/isReady',
+      userId: 'account/getAccountUserId'
     })
   },
   methods: {
     ...mapActions({
-      initApp: 'app/initApp',
-      fetchDefaultAssets: 'assets/fetchDefaultAssets'
+      initApp: 'app/initApp'
     })
   },
-  watch: {
-    ready(connected) {
-      if (connected) this.fetchDefaultAssets();
-    }
-  },
   beforeMount() {
+    // retrieve cached user data & connect to bitsharesjs-ws
     this.initApp();
+  },
+  watch: {
+    $route() {
+      this.$refs.routerContent.scrollTop = 0;
+    }
   }
 };
 </script>
@@ -77,6 +82,7 @@ export default {
 	width: 100%;
 	height: 100%;
 	background-color: rgba(30, 34, 37, 0.7);
+  z-index: 100;
 }
 
 </style>

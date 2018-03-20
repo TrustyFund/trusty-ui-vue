@@ -86,6 +86,9 @@ export default {
     color:#fdf101;
     margin: 0;
     font-family: Gotham_Pro_Regular;
+    span {
+      color:#fdf101;
+    }
   }
 
   @media screen and (min-width: 768px) {
