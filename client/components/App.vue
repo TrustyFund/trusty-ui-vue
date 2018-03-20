@@ -1,13 +1,13 @@
 <template>
-  <div id="app" :class="activeClass">
-    <Header/>
-    <router-view></router-view>
-    <div class="connecting-block-screen"
-         v-if="!ready && !isLanding">
-       <Spinner/>
-    </div>
-    <notifications group="auth" width="100%" position="bottom center"/>  
-  </div>
+	<div id="app" :class="activeClass">
+		<Header/>
+		<div class="router_content"><router-view></router-view></div>
+		<div class="connecting-block-screen"
+				 v-if="!ready && !isLanding">
+			 <Spinner/>
+		</div>
+		<notifications group="auth" width="100%" position="bottom center"/>
+	</div>
 </template>
 
 <script>
@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     activeClass() {
-      return this.isLanding ? '_landing_page' : '_header_space';
+      return this.isLanding ? '_landing_page' : '';
     },
     isLanding() {
       return this.$route.name === 'entry' && !this.userId;
@@ -53,10 +53,18 @@ export default {
 	position: relative;
 	display: flex;
 	flex-direction: column;
+	overflow: hidden;
 	@media screen and (max-width: 768px) {
 		&._header_space {
 			padding-top: 12vw !important;
 		}
+	}
+
+	.router_content {
+		height: 100%;
+		position: relative;
+		overflow-y: scroll;
+		overflow-x: hidden;
 	}
 }
 

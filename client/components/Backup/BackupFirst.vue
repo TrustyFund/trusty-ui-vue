@@ -54,7 +54,12 @@ export default {
 
 <style lang="scss">
 
-.backup_modal .trusty_inline_buttons {
-	padding-top: 0 !important;
+.backup_modal {
+	.trusty_help_text {
+		margin-top: 1.3vw;
+	}
+	.trusty_inline_buttons {
+		padding-top: 0 !important;
+	}
 }
 </style>

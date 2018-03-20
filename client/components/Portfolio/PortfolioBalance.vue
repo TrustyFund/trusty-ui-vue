@@ -1,10 +1,10 @@
 <template lang="pug">
 
   tr.portfolio-container__balance 
-    td._text_left  {{ item.name }}
-    td._text_right {{ formattedShare }}%
-    td._text_right {{ formattedBalanceFiat }}
-    td._text_right {{ formattedChange }}%
+    td._text_left: span  {{ item.name }}
+    td._text_right: span {{ formattedShare }}%
+    td._text_right: span {{ formattedBalanceFiat }}
+    td._text_right: span {{ formattedChange }}%
 
 </template>
 

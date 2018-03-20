@@ -5,7 +5,7 @@
       thead
         tr
           th._text_left: span ASSET
-          th._text_right: span SHARE 
+          th._text_right: span SHARE
           th._text_right: span $VALUE
           th._text_right: span 7DAYS
       tbody
@@ -136,6 +136,22 @@ export default {
       @media screen and (max-width: 768px){
         font-size: 4.4vw;
       }
+    }
+    tbody {
+     td:first-child span {
+       display: inline-block;
+       position: relative;
+       overflow: hidden;
+       text-overflow: ellipsis;
+       max-width: 30vw;
+     }
+    }
+
+    td span {
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsys;
+      max-width: 15vw;
     }
   }
 </style>

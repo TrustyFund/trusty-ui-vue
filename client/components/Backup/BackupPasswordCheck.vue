@@ -2,11 +2,11 @@
 
 #password_check
 
-  trusty-input(label=" enter password")
+  trusty-input(label="enter pin code")
     template(slot="input")
       input(v-model="password" @input="$v.password.$touch()" type="password")
-  .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter password
-  .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") Password must be 8 characters or more
+  .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") enter PIN
+  .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") PIN must be 6 characters or more
 
   .trusty_inline_buttons._one_button
     button(@click="checkPassword()") Check
@@ -30,7 +30,7 @@ export default {
   validations: {
     password: {
       required,
-      minLength: minLength(8)
+      minLength: minLength(6)
     }
   },
   computed: {
