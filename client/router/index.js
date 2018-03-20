@@ -3,7 +3,8 @@ import Cookies from 'js-cookie';
 import Router from 'vue-router';
 
 import Coin from '@/components/Coin/Coin';
-import Deposit from '@/components/Transfer';
+import Deposit from '@/components/DepositWithdraw/Deposit';
+import Withdraw from '@/components/DepositWithdraw/Withdraw';
 import User from '@/components/User/User.vue';
 import Signup from '@/components/Signup/Signup.vue';
 import Login from '@/components/Login/Login.vue';
@@ -113,7 +114,7 @@ const router = new Router({
         {
           name: 'withdraw',
           path: '/withdraw',
-          component: Deposit
+          component: Withdraw
         },
         {
           name: 'coin',

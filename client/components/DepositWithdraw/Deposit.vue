@@ -31,8 +31,8 @@ import trusty from './Trusty/Deposit';
 import './style.scss';
 
 const methodsByGate = {
-  trusy: ['SBERBANK', 'TINKOFF'],
-  openledger: ['openledger', 'sdasdsad']
+  trusty: ['SBERBANK', 'TINKOFF'],
+  openledger: ['openledger']
 };
 
 export default {
@@ -53,7 +53,7 @@ export default {
       selectedcoin: 'BTC',
       paymentmethod: 'openledger',
       amount: '',
-      coins: ['BTC', 'ETH', 'RUB']
+      coins: ['BTC', 'ETH', 'LTC', 'NEO', 'RUB']
     };
   }
 };

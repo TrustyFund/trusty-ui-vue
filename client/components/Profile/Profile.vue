@@ -5,8 +5,8 @@
   .useful_wrap
 
     .trusty_inline_buttons._mob
-      button DEPOSIT
-      button WITHDRAW
+      button(@click='deposit') DEPOSIT
+      button(@click='withdraw') WITHDRAW
 
 
     TotalFunds(
@@ -18,8 +18,8 @@
     
     ._wrap_desk_buttons._desk
       .trusty_inline_buttons
-        button DEPOSIT
-        button WITHDRAW
+        button(@click='deposit') DEPOSIT
+        button(@click='withdraw') WITHDRAW
       //- .trusty_inline_buttons._one_button(@click="goToManagePortfolio"): button MANAGE FUND
 
     div.transactions-wrap
@@ -67,7 +67,13 @@ export default {
   methods: {
     ...mapActions({
       fetchCurrentUser: 'account/fetchCurrentUser'
-    })
+    }),
+    deposit() {
+      this.$router.push({ name: 'deposit' });
+    },
+    withdraw() {
+      this.$router.push({ name: 'withdraw' });
+    }
   },
   mounted() {
     if (this.ready) this.fetchCurrentUser();
