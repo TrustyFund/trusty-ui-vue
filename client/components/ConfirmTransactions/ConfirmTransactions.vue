@@ -5,12 +5,13 @@
     p._value(v-for="item in items") 
       PlaceOrderInfo(:item="item")
 
-  TrustyInput(label="ENTER PIN TO CONFIRM")
+  TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
     template(slot="input")
       input(v-model="pin" type="pin")
 
-  .trusty_inline_buttons._one_button(@click="confirm")
-    button CONFIRM
+  .trusty_inline_buttons._one_button
+    button(v-show="!pending" @click="confirm") CONFIRM
+    button(v-show="pending") PROCESSING...
 
 </template>
 
@@ -31,7 +32,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      pendingOrders: 'transactions/getPendingOrders'
+      pendingOrders: 'transactions/getPendingOrders',
+      isLocked: 'account/isLocked',
+      pending: 'transactions/areTransactionsProcessing',
+      isValidPassword: 'account/isValidPassword'
     }),
     sellOrders() {
       return this.pendingOrders.sellOrders;
@@ -60,10 +64,52 @@ export default {
   methods: {
     ...mapActions({
       processPendingOrders: 'transactions/processPendingOrders',
-      removePendingDistribution: 'transactions/removePendingDistribution'
+      removePendingDistribution: 'transactions/removePendingDistribution',
+      unlockWallet: 'account/unlockWallet'
     }),
-    confirm() {
-      this.processPendingOrders();
+    async confirm() {
+      if (this.isLocked) {
+        if (!this.pin) {
+          this.$notify({
+            group: 'auth',
+            type: 'success',
+            title: 'error',
+            text: 'Enter PIN'
+          });
+          return;
+        }
+        if (this.isValidPassword(this.pin)) {
+          this.unlockWallet(this.pin);
+          if (this.isLocked) return;
+        } else {
+          this.$notify({
+            group: 'auth',
+            type: 'error',
+            title: 'error',
+            text: 'Invalid PIN'
+          });
+          return;
+        }
+      }
+
+      const result = await this.processPendingOrders();
+      if (result.success) {
+        this.$notify({
+          group: 'auth',
+          type: 'success',
+          title: 'Success',
+          text: 'Orders placed'
+        });
+        this.$router.push({ name: 'entry' });
+        this.removePendingDistribution();
+      } else {
+        this.$notify({
+          group: 'auth',
+          type: 'error',
+          title: 'Transactions error',
+          text: result.error
+        });
+      }
     }
   },
   beforeDestroy() {
