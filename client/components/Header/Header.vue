@@ -47,7 +47,7 @@ export default {
         'backup-password': 'check password',
         'backup-phrase': 'backup phrase',
         'backup-verify': 'verify backup',
-        'backup-done': 'almost done! let\'s review',
+        'backup-done': 'let\'s review',
         transactions: 'recent transactions',
         coin: 'coin overview',
         'terms-of-use': 'terms of use',

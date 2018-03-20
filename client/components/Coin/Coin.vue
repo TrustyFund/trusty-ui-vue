@@ -5,7 +5,10 @@
 
   ._head_title
 
-    div._indicators
+    div.spinner-container(v-show="getPendingStats")
+      Spinner
+
+    div._indicators(v-show="!getPendingStats")
       span._price {{ format(getStats.price) }}
       span._24change
         span {{ change24 }}%&nbsp
@@ -13,7 +16,7 @@
 
 
   .coin_info.main_padding
-    .top_values
+    .top_values(v-show="!getPendingStats")
 
       section._db_left._db_bottom
         h4 Mkt. Cap.
@@ -109,6 +112,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import Spinner from '@/components/UI/Spinner';
 import icon from '@/components/UI/icon';
 import investment from './CoinInvestment';
 import predictions from './CoinPredictions';
@@ -151,7 +155,8 @@ export default {
       getSocial: 'assetInfo/getSocial',
       getSnapShot: 'assetInfo/getSnapShot',
       getAssetById: 'assets/getAssetById',
-      getICO: 'assetInfo/getICO'
+      getICO: 'assetInfo/getICO',
+      getPendingStats: 'assetInfo/getPendingStats'
     }),
     getSymbol() {
       return this.symbol.toUpperCase();
@@ -230,7 +235,8 @@ export default {
     icon,
     investment,
     predictions,
-    analysis
+    analysis,
+    Spinner
   }
 };
 
@@ -251,7 +257,11 @@ $color_green_value: #659d1a;
 
 #trusty_coin_overview {
 
+
+
   height: inherit;
+
+
 
   ._belongings {
 
@@ -433,6 +443,12 @@ $color_green_value: #659d1a;
       text-transform: uppercase;
     }
 
+    .spinner-container {
+      position: relative;
+      height: 5rem;
+    }
+    
+
     ._indicators {
       margin-bottom: 6vw;
 
@@ -457,6 +473,8 @@ $color_green_value: #659d1a;
           font-family: Gotham_Pro;
         }
       }
+
+      
     }
 
   }

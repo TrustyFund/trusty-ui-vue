@@ -24,37 +24,46 @@ const icoStub = {};
 
 const mutations = {
   [FETCH_ASSET_STATS_REQUEST](state) {
-    state.penging = true;
+    state.pending = true;
+    state.pendingStats = true;
   },
   [FETCH_ASSET_STATS_ERROR](state) {
-    state.penging = false;
+    state.pending = false;
+    state.pendingStats = false;
   },
   [FETCH_ASSET_STATS_COMPLETE](state, { stats }) {
     state.stats = stats;
-    state.penging = false;
+    state.pending = false;
+    state.pendingStats = false;
   },
 
   [FETCH_ASSET_SOCIAL_REQUEST](state) {
-    state.penging = true;
+    state.pending = true;
+    state.pendingSocial = true;
   },
   [FETCH_ASSET_SOCIAL_ERROR](state) {
-    state.penging = false;
+    state.pending = false;
+    state.pendingSocial = false;
   },
   [FETCH_ASSET_SOCIAL_COMPLETE](state, { social }) {
     state.social = social;
-    state.penging = false;
+    state.pending = false;
+    state.pendingSocial = false;
   },
 
   [FETCH_ASSET_SNAPSHOT_REQUEST](state) {
-    state.penging = true;
+    state.pending = true;
+    state.pendingSnapShot = true;
   },
   [FETCH_ASSET_SNAPSHOT_ERROR](state) {
-    state.penging = false;
+    state.pending = false;
+    state.pendingSnapShot = false;
   },
   [FETCH_ASSET_SNAPSHOT_COMPLETE](state, { snapShot, ico }) {
     state.snapShot = snapShot;
     state.ico = ico;
-    state.penging = false;
+    state.pending = false;
+    state.pendingSnapShot = false;
   },
 };
 
@@ -99,14 +108,20 @@ const getters = {
   getStats: state => state.stats,
   getSocial: state => state.social,
   getSnapShot: state => state.snapShot,
-  getICO: state => state.ico
+  getICO: state => state.ico,
+  getPendingStats: state => state.pendingStats,
+  getPendingSocial: state => state.pendingSocial,
+  getPendingSnapShot: state => state.pendingSnapShot
 };
 
 
 const initialState = {
   stats: statsStub,
+  pendingStats: false,
   social: socialStub,
+  pendingSocial: false,
   snapShot: snapShotStub,
+  pendingSnapShot: false,
   ico: icoStub,
   penging: false,
 };
