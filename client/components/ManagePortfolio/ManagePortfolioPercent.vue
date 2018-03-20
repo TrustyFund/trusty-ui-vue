@@ -116,7 +116,7 @@ export default {
       const changed = {};
       Object.keys(this.percents).forEach(id => {
         if (this.percents[id].share !== this.initialPercents[id].share) {
-          changed[id] = this.percents[id].share;
+          changed[id] = this.percents[id].share / 100;
         }
       });
       return changed;
@@ -125,7 +125,7 @@ export default {
       const distribution = this.calcDistributions(this.percents);
       const changed = this.calcChangedPercents();
       console.log('changed: ', changed);
-      this.setPendingDistribution({ distribution });
+      this.setPendingDistribution({ distribution: changed });
       this.$router.push({ name: 'confirm-transactions' });
     }
   },
