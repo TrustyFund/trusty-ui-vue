@@ -56,6 +56,10 @@ $desk_font_button: 1.2vw;
 	&._one_button {
 		padding-top: 5vw;
 		button { width: 100%; }
+
+		@media screen and (min-width: 769px) {
+			padding-top: px_from_vw(5);
+		}
 	}
 
 	&._disabled {
