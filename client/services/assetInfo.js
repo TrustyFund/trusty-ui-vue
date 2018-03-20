@@ -1,4 +1,8 @@
-/* eslint class-methods-use-this: ["error", { "exceptMethods": ["getStats"] }] */
+/* eslint class-methods-use-this: [
+  "error", {
+   "exceptMethods": ["getStats", "filterEmptyFields"]
+  }
+ ] */
 import axios from 'axios';
 import dateFns from 'date-fns';
 
@@ -76,6 +80,7 @@ class AssetInfo {
     const coinId = this.coins[assetSymbol].Id;
     const snapshotQuery = 'https://proxy.trusty.fund/' +
       `coinsnapshotfullbyid/?id=${coinId}`;
+    console.log(snapshotQuery);
     try {
       const snapshotStats = await axios.get(snapshotQuery);
       if (snapshotStats.data.Response === 'Success') {
@@ -88,10 +93,7 @@ class AssetInfo {
           proofType: snapshotStats.data.Data.General.ProofType,
           startDate: snapshotStats.data.Data.General.StartDate,
           name: snapshotStats.data.Data.General.Name,
-          ico: {
-            status: snapshotStats.data.Data.ICO.Status,
-            whitePaper: snapshotStats.data.Data.ICO.WhitePaper
-          }
+          ico: this.filterEmptyFields(snapshotStats.data.Data.ICO)
         };
         return {
           success: true,
@@ -109,6 +111,15 @@ class AssetInfo {
       };
       return result;
     }
+  }
+
+  filterEmptyFields(source) {
+    Object.keys(source).forEach((key) => {
+      if (source[key] === 'N/A' || source[key] === '-') {
+        delete source[key];
+      }
+    });
+    return source;
   }
 
   async getStats(fromSymbol) {
