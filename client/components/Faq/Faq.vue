@@ -4,8 +4,8 @@
 	#coin_analysis._belongings
 
 		template(v-for="item, index in info")
-			.content_area(:class="{_opened_article: opened===index}")
-				._items(@click="open(index)")
+			.content_area(:class="{_opened_article: opened===index}", @click="open(index)")
+				._items
 					._list_item._many_lines(:class="{_none_top_border: index === 0}")
 						span.text_button {{ item.title }}
 						icon(name="trusty_arrow_down")
@@ -50,9 +50,9 @@ export default {
     };
   },
   methods: {
-  	open(index) {
-  		this.opened = this.opened === index ? null : index;
-  	},
+    open(index) {
+      this.opened = this.opened === index ? null : index;
+    },
     getListClass(type) {
       return {
         _dashed: type === 'dashed'

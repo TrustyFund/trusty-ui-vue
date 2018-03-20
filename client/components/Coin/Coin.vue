@@ -270,28 +270,28 @@ $color_green_value: #659d1a;
 
     .wrap_content {
       overflow: hidden;
-      -webkit-transition: max-height .3s;
-		  -moz-transition: max-height .3s;
-		  -ms-transition: max-height .3s;
-		  -o-transition: max-height .3s;
-		  transition: max-height .3s;
+		  transition: max-height .3s ease-in-out;
 		  overflow: hidden;
 		  max-height: 0;
+    }
+
+    .trusty_arrow_down {
+    	transition: all .3s ease-in-out;
     }
 
     .content_area._opened_article {
 
       ._list_item {
-      	transition: all .3s linear;
+      	transition: all .3s;
         border-bottom: none;
       }
 
       .trusty_arrow_down {
-      	transition: all .3s linear;
         transform: rotate(180deg);
       }
 
       .wrap_content {
+      	transition: max-height .3s ease-in-out;
         max-height: 2000px;
       }
 
