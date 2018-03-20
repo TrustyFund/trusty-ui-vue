@@ -136,6 +136,15 @@ export default {
     },
     updatePortfolio() {
       const changed = this.calcChangedValues();
+      if (!Object.keys(changed).length) {
+        this.$notify({
+          group: 'auth',
+          type: 'warning',
+          title: 'No change',
+          text: 'Nothing changed'
+        });
+        return;
+      }
       console.log('changed : ', changed);
       const distribution = this.calcDistributions(changed, this.initialTotalValue);
       console.log('distribution : ', distribution);

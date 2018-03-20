@@ -39,8 +39,8 @@ const actions = {
       days: 7
     }, { root: true });
 
-    store.dispatch('market/subscribeToMarket', { balances }, { root: true });
     store.dispatch('operations/fetchAndSubscribe', { userId, limit: 100 }, { root: true });
+    store.dispatch('market/subscribeToMarket', { balances }, { root: true });
   },
 
   // reset user-related data & unsub from market

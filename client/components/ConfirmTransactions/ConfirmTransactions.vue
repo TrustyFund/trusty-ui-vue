@@ -3,11 +3,12 @@
 
   .transaction_info
     p._value(v-for="item in items") 
-      PlaceOrderInfo(:item="item")
+      PlaceOrderInfo(:item="item", :min="true")
 
   TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
     template(slot="input")
-      input(v-model="pin" type="pin")
+      input(v-model="pin" type="tel")
+
 
   .trusty_inline_buttons._one_button
     button(v-show="!pending" @click="confirm") CONFIRM
@@ -101,7 +102,6 @@ export default {
           text: 'Orders placed'
         });
         this.$router.push({ name: 'entry' });
-        this.removePendingDistribution();
       } else {
         this.$notify({
           group: 'auth',

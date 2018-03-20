@@ -105,13 +105,6 @@ export default {
       });
       return sortedArray;
     },
-    // calcDistributions(percents) {
-    //   const distributions = {};
-    //   Object.keys(percents).forEach(id => {
-    //     distributions[id] = percents[id].share / 100;
-    //   });
-    //   return distributions;
-    // },
     calcChangedPercents() {
       const changed = {};
       Object.keys(this.percents).forEach(id => {
@@ -122,8 +115,16 @@ export default {
       return changed;
     },
     updatePortfolio() {
-      // const distribution = this.calcDistributions(this.percents);
       const changed = this.calcChangedPercents();
+      if (!Object.keys(changed).length) {
+        this.$notify({
+          group: 'auth',
+          type: 'warning',
+          title: 'No change',
+          text: 'Nothing changed'
+        });
+        return;
+      }
       console.log('changed: ', changed);
       this.setPendingDistribution({ distribution: changed });
       this.$router.push({ name: 'confirm-transactions' });
