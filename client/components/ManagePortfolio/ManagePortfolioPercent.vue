@@ -114,7 +114,7 @@ export default {
       });
       return changed;
     },
-    async updatePortfolio() {
+    updatePortfolio() {
       const distribution = this.calcDistributions(this.percents);
       const changed = this.calcChangedPercents();
       console.log('changed: ', changed);

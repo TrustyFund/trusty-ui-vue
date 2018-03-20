@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      createOrdersFromUpdate: 'transactions/createOrdersFromUpdate'
+      setPendingDistribution: 'transactions/setPendingDistribution'
     }),
     computeInitialValues() {
       let total = 0;
@@ -126,12 +126,9 @@ export default {
       return distributions;
     },
     updatePortfolio() {
-      const distributions = this.calcDistributions(this.values, this.initialTotalValue);
-      console.log(distributions);
-      // const update = calcPortfolioDistributionChange(this.baseValues, distributions);
-      // console.log(update);
-      // await this.createOrdersFromUpdate({ update });
-      // this.$router.push({ name: 'confirm-transactions' });
+      const distribution = this.calcDistributions(this.values, this.initialTotalValue);
+      this.setPendingDistribution({ distribution });
+      this.$router.push({ name: 'confirm-transactions' });
     }
   },
   mounted() {

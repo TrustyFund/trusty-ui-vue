@@ -59,11 +59,15 @@ export default {
   },
   methods: {
     ...mapActions({
-      processPendingOrders: 'transactions/processPendingOrders'
+      processPendingOrders: 'transactions/processPendingOrders',
+      removePendingDistribution: 'transactions/removePendingDistribution'
     }),
     confirm() {
       this.processPendingOrders();
     }
+  },
+  beforeDestroy() {
+    this.removePendingDistribution();
   }
 };
 </script>
