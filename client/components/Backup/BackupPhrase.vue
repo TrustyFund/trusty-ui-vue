@@ -23,7 +23,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style>
 .trusty_big_font span {
   white-space: nowrap;
 }

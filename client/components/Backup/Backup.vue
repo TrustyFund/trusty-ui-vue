@@ -138,8 +138,9 @@ $light_grey: #6d6e70;
 	}
 
 	#phrase {
+		padding-top: 42vw;
 		> p:first-child {
-			margin: 42vw 0 7.5vw 0;
+			margin: 0 0 7.5vw 0;
 		}
 		.trusty_big_font span {
 			display: inline-block;
@@ -285,8 +286,9 @@ $light_grey: #6d6e70;
 		}
 
 		#phrase {
+			padding-top: px_from_vw(42);
 			> p:first-child {
-				margin: px_from_vw(42) 0 px_from_vw(7.5) 0;
+				margin: 0 0 px_from_vw(7.5) 0;
 			}
 		}
 
