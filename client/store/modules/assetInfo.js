@@ -14,6 +14,8 @@ const FETCH_ASSET_SNAPSHOT_REQUEST = 'FETCH_ASSET_SNAPSHOT_REQUEST';
 const FETCH_ASSET_SNAPSHOT_COMPLETE = 'FETCH_ASSET_SNAPSHOT_COMPLETE';
 const FETCH_ASSET_SNAPSHOT_ERROR = 'FETCH_ASSET_SNAPSHOT_ERROR';
 
+const RESET_ASSET_INFO = 'RESET_ASSET_INFO';
+
 const statsStub = {};
 
 const snapShotStub = {};
@@ -54,6 +56,12 @@ const mutations = {
     state.snapShot = snapShot;
     state.penging = false;
   },
+  [RESET_ASSET_INFO](state) {
+    state.stats = {};
+    state.social = {};
+    state.snapShot = {};
+    state.penging = false;
+  }
 };
 
 const actions = {
@@ -88,6 +96,10 @@ const actions = {
       commit(FETCH_ASSET_SNAPSHOT_ERROR);
     }
     return result;
+  },
+
+  resetData({ commit }) {
+    commit(RESET_ASSET_INFO);
   }
 };
 

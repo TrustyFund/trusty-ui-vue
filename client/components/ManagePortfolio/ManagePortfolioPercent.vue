@@ -15,7 +15,7 @@
           .portfolio_item._index
             .fake_line_height
             span {{ item.name }}
-            Icon(name="trusty_portfolio_arrow_right")
+            Icon(name="trusty_portfolio_arrow_right", @click.native="navigateToCoin(item)")
         td
           .portfolio_item._index
             .fake_line_height
@@ -90,10 +90,10 @@ export default {
       const rawDistributions = distributionFromBalances(this.baseValues);
       const initialPercents = distributionSampling(rawDistributions, 2);
       Object.keys(initialPercents).forEach(id => {
-        console.log(initialPercents[id]);
         initialPercents[id] = {
           share: Math.round(initialPercents[id] * 100, 2),
-          name: this.assets[id].symbol
+          name: this.assets[id].symbol,
+          id
         };
       });
       return initialPercents;
@@ -105,13 +105,13 @@ export default {
       });
       return sortedArray;
     },
-    calcDistributions(percents) {
-      const distributions = {};
-      Object.keys(percents).forEach(id => {
-        distributions[id] = percents[id].share / 100;
-      });
-      return distributions;
-    },
+    // calcDistributions(percents) {
+    //   const distributions = {};
+    //   Object.keys(percents).forEach(id => {
+    //     distributions[id] = percents[id].share / 100;
+    //   });
+    //   return distributions;
+    // },
     calcChangedPercents() {
       const changed = {};
       Object.keys(this.percents).forEach(id => {
@@ -122,11 +122,20 @@ export default {
       return changed;
     },
     updatePortfolio() {
-      const distribution = this.calcDistributions(this.percents);
+      // const distribution = this.calcDistributions(this.percents);
       const changed = this.calcChangedPercents();
       console.log('changed: ', changed);
       this.setPendingDistribution({ distribution: changed });
       this.$router.push({ name: 'confirm-transactions' });
+    },
+    navigateToCoin(asset) {
+      this.$router.push({
+        name: 'coin',
+        params: {
+          symbol: asset.name,
+          assetId: asset.id
+        }
+      });
     }
   },
   mounted() {

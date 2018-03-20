@@ -15,7 +15,7 @@
           .portfolio_item._index
             .fake_line_height
             span {{ item.name }}
-            Icon(name="trusty_portfolio_arrow_right")
+            Icon(name="trusty_portfolio_arrow_right" @click="navigateToCoin(item)")
         td
           .portfolio_item._index
             .fake_line_height
@@ -110,7 +110,8 @@ export default {
       Object.keys(this.fiatValues).forEach((id) => {
         this.initialValues[id] = {
           name: this.assets[id].symbol,
-          value: this.fiatValues[id]
+          value: this.fiatValues[id],
+          id
         };
         total += this.initialValues[id].value;
       });
@@ -137,6 +138,15 @@ export default {
       const distribution = this.calcDistributions(this.values, this.initialTotalValue);
       this.setPendingDistribution({ distribution });
       this.$router.push({ name: 'confirm-transactions' });
+    },
+    navigateToCoin(asset) {
+      this.$router.push({
+        name: 'coin',
+        params: {
+          symbol: asset.name,
+          assetId: asset.id
+        }
+      });
     }
   },
   mounted() {

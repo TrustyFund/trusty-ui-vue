@@ -114,6 +114,9 @@ export default {
   mounted() {
     this.preloadData();
   },
+  beforeDestroy() {
+    this.resetData();
+  },
   props: {
     symbol: {
       type: String,
@@ -204,6 +207,7 @@ export default {
       fetchStats: 'assetInfo/fetchStats',
       fetchSocial: 'assetInfo/fetchSocial',
       fetchSnapshot: 'assetInfo/fetchSnapshot',
+      resetData: 'assetInfo/resetData'
     }),
     parseUnderscore(string) {
       if (typeof string === 'string') {

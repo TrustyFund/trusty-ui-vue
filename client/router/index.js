@@ -163,7 +163,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.meta.requiredAuth === undefined) {
     const userId = Cookies.get('BITSHARES_USER_ID');
-    if (userId === undefined) {
+    if (!userId) {
       next({
         path: '/'
       });
