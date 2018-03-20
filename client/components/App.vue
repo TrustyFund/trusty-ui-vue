@@ -1,7 +1,7 @@
 <template>
 	<div id="app" :class="activeClass">
 		<Header/>
-		<router-view></router-view>
+		<div class="router_content"><router-view></router-view></div>
 		<div class="connecting-block-screen"
 				 v-if="!ready">
 			 <Spinner/>
@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     activeClass() {
-      return this.$route.name === 'landing' ? '_landing_page' : '_header_space';
+      return this.$route.name === 'landing' ? '_landing_page' : '';
     },
     ...mapGetters({
       ready: 'connection/isReady'
@@ -55,10 +55,18 @@ export default {
 	position: relative;
 	display: flex;
 	flex-direction: column;
+	overflow: hidden;
 	@media screen and (max-width: 768px) {
 		&._header_space {
 			padding-top: 12vw !important;
 		}
+	}
+
+	.router_content {
+		height: 100%;
+		position: relative;
+		overflow-y: scroll;
+		overflow-x: hidden;
 	}
 }
 
