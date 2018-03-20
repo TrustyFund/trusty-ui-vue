@@ -24,6 +24,14 @@
             span.normal.portfolio_asset {{ calcFormattedValue(item.value) }}$
             a._plus.normal.portfolio_asset(:class="{'_disable': valueTotal === initialTotalValue}" @click="item.value+=step")
               Icon(name="trusty_plus")
+        tr
+          td
+            .portfolio_item._index
+              span TOTAL
+          td
+            .portfolio_item._index
+              span {{ calcFormattedValue(valueTotal) }}$ / {{ calcFormattedValue(initialTotalValue) }}$     
+
 
   .wrap.main_padding
     .trusty_inline_buttons._one_button
