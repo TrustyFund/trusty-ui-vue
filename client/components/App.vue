@@ -1,7 +1,9 @@
 <template>
 	<div id="app" :class="activeClass">
 		<Header/>
-		<div class="router_content"><router-view></router-view></div>
+		<div class="router_content" ref="routerContent">
+      <router-view></router-view>
+    </div>
 		<div class="connecting-block-screen"
 				 v-if="!ready && !isLanding">
 			 <Spinner/>
@@ -44,6 +46,11 @@ export default {
   beforeMount() {
     // retrieve cached user data & connect to bitsharesjs-ws
     this.initApp();
+  },
+  watch: {
+    $route() {
+      this.$refs.routerContent.scrollTop = 0;
+    }
   }
 };
 </script>
