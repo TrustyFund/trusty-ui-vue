@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Cookies from 'js-cookie';
 import Router from 'vue-router';
-import Deposit from '@/components/Transfer';
-import Profile from '@/components/Profile/Profile.vue';
+import Deposit from '@/components/DepositWithdraw/Deposit.vue';
+import Profile from '@/components/DepositWithdraw/Withdraw.vue';
 import User from '@/components/User/User.vue';
 import Signup from '@/components/Signup/Signup.vue';
 import Login from '@/components/Login/Login.vue';
@@ -33,7 +33,7 @@ const router = new Router({
     },
     {
       name: 'profile',
-      path: '/',
+      path: '/profile',
       component: Profile
     },
     {
@@ -60,7 +60,7 @@ const router = new Router({
     },
     {
       name: 'deposit',
-      path: '/deposit',
+      path: '/',
       component: Deposit
     },
     {
