@@ -82,7 +82,6 @@ export default {
     }),
     handleLogout() {
       this.logout();
-      this.$router.push({ name: 'login' });
     },
     handleBack() {
       this.$router.push({ name: 'entry' });

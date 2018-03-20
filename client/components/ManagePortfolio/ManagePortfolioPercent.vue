@@ -24,13 +24,20 @@
             span.normal.portfolio_asset {{ item.share }}%
             a._plus.normal.portfolio_asset(:class="{'_disable': sharesTotal === 100}" @click="item.share++")
               Icon(name="trusty_plus")
+      tr.total-row
+        td
+          .portfolio_item._index
+            span TOTAL
+        td
+          .portfolio_item._index
+            span {{ sharesTotal }}%         
 
   .wrap.main_padding
     .trusty_inline_buttons._one_button
       button._disable Suggest Portfolio
 
     .trusty_inline_buttons._one_button
-      button(:class="{'_disable': sharesTotal < 1}" @click="updatePortfolio") Update Portfolio
+      button(:class="{'_disable': sharesTotal < 100}" @click="updatePortfolio") Update Portfolio
 
 </template>
 
@@ -137,5 +144,8 @@ export default {
   .trusty_inline_buttons._one_button button._disable {
     pointer-events: none;
     opacity: 0.5;
+  }
+  .total-row {
+    margin-top: 4vw;
   }
 </style>

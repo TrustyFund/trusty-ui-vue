@@ -14,7 +14,7 @@
       trusty-input(label="confirm pin")
         template(slot="input")
           input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="tel")
-      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PINS do not match
+      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PIN codes do not match
 
       trusty-input(label="brainkey" type="textarea")
         template(slot="input")
