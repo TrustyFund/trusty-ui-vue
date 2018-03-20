@@ -295,7 +295,7 @@ $color_green_value: #659d1a;
       margin-top: .4vw;
     }
     .text_button {
-      padding-left: 4vw;
+      padding-left: 3.6vw;
     }
   }
 
