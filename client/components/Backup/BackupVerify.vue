@@ -13,7 +13,7 @@
 	._bottom_fixed.main_padding(v-if="!phrase.length")
 		p.trusty_help_text._second Is this correct?
 		.trusty_inline_buttons._one_button
-			button confirm
+			button(@click="confirm") confirm
 		.trusty_inline_buttons._one_button
 			button(@click="clear") clear
 
@@ -21,26 +21,30 @@
 
 <script>
 
-const getPhrase = () => {
-  return [
-    'talk', 'divide', 'trophy', 'next',
-    'square', 'boillear', 'lift',
-    'avacado', 'stable', 'moscuto',
-    'cishion',
-  ];
-};
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
     return {
-      phrase: getPhrase(),
-      comprehendPhrase: []
+      comprehendPhrase: [],
+      phrase: '',
     };
+  },
+  computed: {
+    ...mapGetters({
+      sourcePhrase: ('account/getBrainkey')
+    }),
+    splitedPhrase() {
+      return this.sourcePhrase.split(' ');
+    }
+  },
+  mounted() {
+    this.clear();
   },
   methods: {
     clear() {
       this.comprehendPhrase = [];
-      this.phrase = getPhrase();
+      this.phrase = this.shuffleBrainkey(this.splitedPhrase).slice();
     },
     pushWord(word, index) {
       this.comprehendPhrase.push(word);
@@ -49,7 +53,40 @@ export default {
     dropWord(index) {
       const word = this.comprehendPhrase.splice(index, 1);
       this.phrase.push(word[0]);
-    }
+    },
+    shuffleBrainkey(array) {
+      for (let i = array.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    },
+    confirm() {
+      if (this.compareArrays(this.comprehendPhrase, this.sourcePhrase.split(' '))) {
+        this.$router.push({ name: 'backup-done' });
+      } else {
+        this.$notify({
+          group: 'auth',
+          type: 'error',
+          title: 'Backup key error',
+          text: 'Please enter the correct sequence of words'
+        });
+      }
+    },
+    compareArrays(array1, array2) {
+      if (!array1 || !array2) {
+        return false;
+      }
+      if (array1.length !== array2.length) {
+        return false;
+      }
+      for (let i = 0; i < array1.length; i += 1) {
+        if (array1[i] !== array2[i]) {
+          return false;
+        }
+      }
+      return true;
+    },
   }
 };
 </script>

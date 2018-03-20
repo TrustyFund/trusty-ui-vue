@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 import Spinner from '@/components/UI/Spinner';
 import TransactionsItem from './TransactionsItem';
 
@@ -44,7 +44,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      ready: 'connection/isReady',
       userId: 'account/getAccountUserId',
       operations: 'operations/getOperations',
       pending: 'operations/isFetching',
@@ -63,26 +62,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      initializeOperations: 'operations/fetchAndSubscribe',
-      unsubscribeFromUserOperations: 'operations/unsubscribeFromUserOperations'
-    }),
     goToFullMode() {
       if (this.minMode) this.$router.push({ name: 'transactions' });
     }
-  },
-  watch: {
-    ready: {
-      handler(connected) {
-        if (connected) {
-          this.initializeOperations({ userId: this.userId, limit: this.limit });
-        }
-      },
-      immediate: true
-    }
-  },
-  beforeDestroy() {
-    this.unsubscribeFromUserOperations();
   }
 };
 </script>

@@ -1,46 +1,109 @@
 <template lang="pug">
-
+  div
+    .trusty_inline_buttons._mob._one_button(@click="goToManagePortfolio" v-show="!minMode"): button MANAGE FUND
     table.portfolio-container.trusty_table
       thead
         tr
           th._text_left: span ASSET
-          th._text_right: span SHARE 
+          th._text_right: span SHARE
           th._text_right: span $VALUE
           th._text_right: span 7DAYS
       tbody
-        PortfolioBalance( 
-          v-for="(item, id) in items"
-         :key="id"
-         :item="item"
-         :total-base-value="totalBaseValue")
+        PortfolioBalance(
+        v-for="item in itemsAsArray"
+        :key="item.name"
+        :item="item"
+        :totalBaseValue="totalBaseValue"
+        :fiatPrecision="fiatPrecision")
 
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
+// eslint-disable-next-line
+import { calcPortfolioItem } from 'lib/src/utils';
 import PortfolioBalance from './PortfolioBalance.vue';
 
 export default {
   props: {
-    balances: {
-      required: true,
-      type: Object,
-      default: {}
-    },
     baseId: {
-      required: true,
       type: String,
+      required: false,
       default: '1.3.0'
     },
     fiatId: {
-      required: true,
       type: String,
+      required: false,
       default: '1.3.121'
     },
-    days: {
+    balances: {
+      type: Object,
       required: true,
-      type: Number,
-      default: 7
+      default: () => { return {}; }
+    },
+    minMode: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
+  computed: {
+    ...mapGetters({
+      history: 'market/getMarketHistory',
+      marketFetching: 'market/isFetching',
+      marketError: 'market/isError',
+      getAssetMultiplier: 'market/getAssetMultiplier',
+      assets: 'assets/getAssets',
+      defaultAssetsIds: 'assets/getDefaultAssetsIds'
+    }),
+    combinedBalances() {
+      const combinedBalances = { ...this.balances };
+      this.defaultAssetsIds.forEach(id => {
+        if (combinedBalances[id]) return;
+        combinedBalances[id] = { balance: 0 };
+      });
+      return combinedBalances;
+    },
+    items() {
+      const items = {};
+      const assetsIds = Object.keys(this.combinedBalances);
+      if (!assetsIds.length) return items;
+      assetsIds.forEach(id => {
+        const { balance } = this.combinedBalances[id];
+        const asset = this.assets[id];
+        let prices = this.history[id];
+        if (!prices) return;
+        const multiplier = this.fiatMultiplier;
+        if (id === this.baseId) prices = { first: 1, last: 1 };
+
+        items[id] = calcPortfolioItem({
+          balance,
+          asset,
+          prices,
+          baseAsset: this.assets[this.baseId],
+          fiatMultiplier: multiplier,
+          isFiat: id === this.fiatId
+        });
+      });
+      return items;
+    },
+    itemsAsArray() {
+      const array = Object.keys(this.items).map(assetId => this.items[assetId]);
+      const sortedArray = array.sort((a, b) => {
+        return a.baseValue === b.baseValue ? 0 : +(b.baseValue > a.baseValue) || -1;
+      });
+      return sortedArray;
+    },
+    fiatMultiplier() {
+      return this.getAssetMultiplier(this.fiatId);
+    },
+    fiatPrecision() {
+      return (this.assets[this.fiatId] && this.assets[this.fiatId].precision) || 0;
+    },
+    totalBaseValue() {
+      return Object.keys(this.items).reduce((result, id) => {
+        return result + this.items[id].baseValue;
+      }, 0);
     }
   },
   components: {
@@ -50,36 +113,10 @@ export default {
     return {
     };
   },
-  computed: {
-    ...mapGetters({
-      items: 'portfolio/getPortfolioList'
-    }),
-    totalBaseValue() {
-      return Object.keys(this.items).reduce((result, id) => {
-        return result + this.items[id].balanceBase;
-      }, 0);
-    }
-  },
   methods: {
-    ...mapActions({
-      fetchAssets: 'assets/fetchAssets',
-      fetchPortfolioData: 'portfolio/fetchPortfolioData',
-      resetPortfolioState: 'portfolio/resetPortfolioState'
-    })
-  },
-  beforeMount() {
-    const assetsIds = Object.keys(this.balances);
-    this.fetchAssets({ assets: assetsIds }).then(() => {
-      this.fetchPortfolioData({
-        balances: this.balances,
-        baseId: this.baseId,
-        fiatId: this.fiatId,
-        days: this.days
-      });
-    });
-  },
-  beforeDestroy() {
-    this.resetPortfolioState();
+    goToManagePortfolio() {
+      this.$router.push({ name: 'manage' });
+    }
   }
 };
 </script>
@@ -99,6 +136,22 @@ export default {
       @media screen and (max-width: 768px){
         font-size: 4.4vw;
       }
+    }
+    tbody {
+     td:first-child span {
+       display: inline-block;
+       position: relative;
+       overflow: hidden;
+       text-overflow: ellipsis;
+       max-width: 30vw;
+     }
+    }
+
+    td span {
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsys;
+      max-width: 15vw;
     }
   }
 </style>
