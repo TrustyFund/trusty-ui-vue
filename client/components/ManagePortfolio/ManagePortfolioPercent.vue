@@ -24,12 +24,12 @@
             span.normal.portfolio_asset {{ item.share }}%
             a._plus.normal.portfolio_asset(:class="{'_disable': sharesTotal === 100}" @click="item.share++")
               Icon(name="trusty_plus")
-      tr
+      tr.total-row
         td
           .portfolio_item._index
             span TOTAL
         td
-          .portfolio_item._index
+          .portfolio_item._index.total
             span {{ sharesTotal }}%         
 
   .wrap.main_padding
@@ -144,5 +144,8 @@ export default {
   .trusty_inline_buttons._one_button button._disable {
     pointer-events: none;
     opacity: 0.5;
+  }
+  .total-row .total {
+    margin-left: 19vw;
   }
 </style>

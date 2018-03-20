@@ -74,6 +74,8 @@
       tr .portfolio_item {
           font-size: 5.0vw;
           margin-top: 4.7vw;
+          display: flex;
+          align-items: center;
         }
 
         tr:first-child .portfolio_item {
