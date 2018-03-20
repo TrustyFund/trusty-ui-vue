@@ -118,6 +118,9 @@ class AssetInfo {
 
   filterFields(source) {
     Object.keys(source).forEach((key) => {
+      if (key.includes('Date') && !(source[key] === 'N/A' || source[key] === '-')) {
+        source[key] = dateFns.format(new Date(source[key] * 1000), 'MMMM DD YYYY HH:mm');
+      }
       if (source[key] === 'N/A' || source[key] === '-' || key.includes('Link')) {
         delete source[key];
       }
