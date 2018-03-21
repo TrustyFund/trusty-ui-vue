@@ -43,20 +43,18 @@
 
 				span(v-if="checkState('order-finished')") It seemd to be ready 2
 
-			.trusty_inline_buttons
-					button(@click="test") TEST
 
-  div.debug
-    div(v-if="hasorder")
-      | Id -> {{ currentorder.ID }}
-      br
-      | Status -> {{ currentorder.Status }}
-    .trusty_inline_buttons
-      button(@click="newOrder", v-if="!hasorder") CREATE ORDER
-    .trusty_inline_buttons
-      button(@click="cancelOrder", v-if="hasorder") CANCEL ORDER
-    .trusty_inline_buttons
-      button(@click="connect", v-if="!connected") CONNECT
+	div.debug
+		div(v-if="hasorder")
+			| Id -> {{ currentorder.ID }}
+			br
+			| Status -> {{ currentorder.Status }}
+		.trusty_inline_buttons
+			button(@click="newOrder", v-if="!hasorder") CREATE ORDER
+		.trusty_inline_buttons
+			button(@click="cancelOrder", v-if="hasorder") CANCEL ORDER
+		.trusty_inline_buttons
+			button(@click="connect", v-if="!connected") CONNECT
 
 </template>
 
@@ -76,7 +74,6 @@ export default {
   },
   data() {
     return {
-      connected: true,
       order: true
     };
   },
