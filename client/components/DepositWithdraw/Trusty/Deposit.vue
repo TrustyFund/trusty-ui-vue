@@ -13,9 +13,9 @@
 
 			template(v-else)
 
-				timer(v-if="checkState('order-new')")
+				timer(v-if="checkState('timer')")
 
-				payment(v-if="checkState('order-new2')", :order="order")
+				payment(v-if="checkState('order-new')", :order="order")
 
 				div(v-if="checkState('order-droped')")
 					| order dropped by operator
@@ -114,7 +114,24 @@ export default {
       });
     },
     next() {
-      this.$router.push({ name: 'deposit', query: { state: 'order-new' } });
+      const path = [
+        'timer',
+        'order-new',
+        'order-droped',
+        'order-rejected',
+        'order-canceled',
+        'order-timeout',
+        'order-confirmation',
+        'order-transfer',
+        'order-finished'
+      ];
+      const { query: state } = this.$route;
+
+      let index = 0;
+      if (state.state) {
+        index = path.indexOf(state.state) + 1;
+      }
+      this.$router.push({ name: 'deposit', query: { state: path[index] } });
     }
   }
 };
