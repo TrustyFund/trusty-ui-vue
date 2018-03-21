@@ -73,6 +73,7 @@ export default {
 @media screen and (max-width: 768px) {
 
 	.trusty_deposit_timer {
+		color: white;
 		text-align: center;
 		._title {
 			font-size: 4.4vw !important;
