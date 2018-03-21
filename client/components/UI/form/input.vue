@@ -299,6 +299,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 	&.select_input {
 
 		select {
+			opacity: 1 !important;
 			padding-bottom: 0 !important;
 			@include input_tag_style;
 			-moz-appearance: none;
