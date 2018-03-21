@@ -82,7 +82,8 @@ export default {
     ...mapActions({
       processPendingOrders: 'transactions/processPendingOrders',
       removePendingDistribution: 'transactions/removePendingDistribution',
-      unlockWallet: 'account/unlockWallet'
+      unlockWallet: 'account/unlockWallet',
+      transferAsset: 'transactions/transferAsset'
     }),
     async confirm() {
       if (this.isLocked) {
@@ -138,7 +139,29 @@ export default {
     },
     async processTransfer() {
       console.log('TRANSFER!');
-      console.log(this.pendingTransfer);
+      console.log(this.pendingTransfer.to);
+      const params = {
+        to: this.processTransfer.to,
+        assetId: this.processTransfer.assetId,
+        amount: this.processTransfer.amount
+      };
+      const result = await this.transferAsset(params);
+      if (result.success) {
+        this.$notify({
+          group: 'auth',
+          type: 'success',
+          title: 'Success',
+          text: 'Transfer sended'
+        });
+        this.$router.push({ name: 'entry' });
+      } else {
+        this.$notify({
+          group: 'auth',
+          type: 'error',
+          title: 'Transfer error',
+          text: result.error
+        });
+      }
     }
   },
   beforeDestroy() {
