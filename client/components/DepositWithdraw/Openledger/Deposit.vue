@@ -4,9 +4,9 @@
 		| Send {{ payload }} to the address below
 	.trusty_cutted_address(v-html="depositAddress")
 	.trusty_inline_buttons._one_button: button Copy address
-	.trusty_help_text._yellow
-		| IMPORTANT: Send not less than {{ fee }} {{ payload }} to this deposit address.
-		| Sending less than {{ fee }} {{ payload }} or any other currency will result
+	.trusty_help_text._yellow.deposit_text
+		| IMPORTANT: Send not less than {{ getCoinData }} {{ payload }} to this deposit address.
+		| Sending less than {{ getCoinData }} {{ payload }} or any other currency will result
 		| in the loss of your deposit.
 	.trusty_help_text._yellow
 		| Push CONFIRM button as soon as you have completed the payment
@@ -30,6 +30,7 @@ export default {
     return {};
   },
   beforeMount() {
+    this.fetchCoins();
     this.fetchAddress({ asset: this.payload });
   },
   computed: {
@@ -42,13 +43,23 @@ export default {
       }
       return `<span>${this.address}</span>`;
     },
+    getCoinData() {
+      const coin = this.payload.toLowerCase();
+      const coins = this.coinsData;
+      if (coins[coin] !== undefined) {
+        return coins[coin].gateFee;
+      }
+      return 0;
+    },
     ...mapGetters({
-      address: 'openledger/getDepositAddress'
+      address: 'openledger/getDepositAddress',
+      coinsData: 'openledger/getCoinsData'
     })
   },
   methods: {
     ...mapActions({
-      fetchAddress: 'openledger/fetchDepositAddress'
+      fetchAddress: 'openledger/fetchDepositAddress',
+      fetchCoins: 'openledger/fetchCoins'
     })
   },
   watch: {
@@ -64,7 +75,12 @@ export default {
 </script>
 
 <style>
-#trusty_transfer ._input_space input{
+#trusty_transfer ._input_space input {
 	width: 75%!important;
+}
+
+#trusty_transfer .deposit_text {
+  font-size: 3vw;
+  padding-bottom: 3vw;
 }
 </style>

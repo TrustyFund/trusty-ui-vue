@@ -17,7 +17,7 @@
           option(v-for="method in methods", :value="method") {{ method }}
 
   ._turnover_service
-    component(:is="gateway", :payload="selectedcoin", :fee="getFee")
+    component(:is="gateway", :payload="selectedcoin")
 
 </template>
 
@@ -36,14 +36,6 @@ const methodsByGate = {
 export default {
   components: { trustyInput, iconComponent, openledger, trusty },
   computed: {
-  	getFee() {
-  		return {
-  			BTC: 0.0018,
-  			ETH: 0.01,
-  			NEO: 0,
-  			LTC: 0.02,
-  		}[this.selectedcoin];
-  	},
     gateway() {
       if (this.selectedcoin === 'RUB') {
         return 'trusty';
