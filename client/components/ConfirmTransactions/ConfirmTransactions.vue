@@ -141,11 +141,12 @@ export default {
       console.log('TRANSFER!');
       console.log(this.pendingTransfer.to);
       const params = {
-        to: this.processTransfer.to,
-        assetId: this.processTransfer.assetId,
-        amount: this.processTransfer.amount
+        to: this.pendingTransfer.to,
+        assetId: this.pendingTransfer.assetId,
+        amount: this.pendingTransfer.amount
       };
       const result = await this.transferAsset(params);
+
       if (result.success) {
         this.$notify({
           group: 'auth',
