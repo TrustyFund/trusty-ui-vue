@@ -8,6 +8,7 @@ class CryptobotClient {
     this.sock = null;
     this.onopen = null;
     this.onclose = null;
+    this.onmsg = null;
   }
 
   connect() {
@@ -32,16 +33,23 @@ class CryptobotClient {
       response_map: data
     } = resp;
 
+    console.log('INSIDE', resp);
 
-    if (parseInt(code, 10) === 200) {
+    const intCode = parseInt(code, 10);
+
+    if (intCode === 200 || intCode === 201) {
       result = { success: true, data };
     } else {
       result = { success: false, error: message };
     }
 
     if (resp.trans_map && resp.trans_map.trans_id) {
+      console.log('DIRECT RESPONSE');
       this.callbacks[resp.trans_map.trans_id](result);
       delete this.callbacks[resp.trans_map.trans_id];
+    } else {
+      console.log('NOTIFICATION', data);
+      this.onmsg(data.order);
     }
   }
 

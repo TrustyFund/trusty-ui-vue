@@ -2,6 +2,7 @@
 
 .trusty_deposit_fiat_fullscreen Trusty deposit
 
+
 	.trusty_deposit_fiat
 
 		span(v-if="!connected").loading Loading...
@@ -45,6 +46,18 @@
 			.trusty_inline_buttons
 					button(@click="test") TEST
 
+  div.debug
+    div(v-if="hasorder")
+      | Id -> {{ currentorder.ID }}
+      br
+      | Status -> {{ currentorder.Status }}
+    .trusty_inline_buttons
+      button(@click="newOrder", v-if="!hasorder") CREATE ORDER
+    .trusty_inline_buttons
+      button(@click="cancelOrder", v-if="hasorder") CANCEL ORDER
+    .trusty_inline_buttons
+      button(@click="connect", v-if="!connected") CONNECT
+
 </template>
 
 <script>
@@ -75,8 +88,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      address: 'openledger/getDepositAddress',
-      coinsData: 'openledger/getCoinsData'
+      hasorder: 'cryptobot/hasCurrentOrder',
+      currentorder: 'cryptobot/getCurrentOrder',
+      connected: 'cryptobot/isConnected'
     })
   },
   methods: {
@@ -88,14 +102,30 @@ export default {
     ...mapActions({
       connect: 'cryptobot/connect',
       disconnect: 'cryptobot/disconnect',
-      getorder: 'cryptobot/fetchCurrentOrder'
+      getorder: 'cryptobot/fetchOrder',
+      createOrder: 'cryptobot/createOrder',
+      cancelOrder: 'cryptobot/cancelOrder'
     }),
-    test() {
-      this.getorder();
+    newOrder() {
+      this.createOrder({
+        currency: 'RUB',
+        amount: '10000',
+        method: 'SBERBANK',
+        name: 'Anton Lopan'
+      });
     }
   }
 };
 </script>
 
 <style>
+
+.debug {
+  background-color: grey;
+  width: 100%;
+  height: 100%;
+  color: white;
+  padding: 5vw;
+}
 </style>
+

@@ -48,8 +48,8 @@ export default {
   },
   data() {
     return {
-      selectedcoin: 'BTC',
-      paymentmethod: 'openledger',
+      selectedcoin: 'RUB',
+      paymentmethod: 'SBERBANK',
       amount: '',
       coins: ['BTC', 'ETH', 'LTC', 'NEO', 'RUB']
     };
