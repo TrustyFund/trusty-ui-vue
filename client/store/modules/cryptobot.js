@@ -1,31 +1,31 @@
 import CryptobotClient from '@/services/cryptobot.js';
 import PersistentStorage from 'lib/src/services/persistent-storage';
 
-const orderStatuses = {
+const orderStatus = {
   // Just created order
-  ORDER_NEW: 1,
+  NEW: 1,
   // There is no enough funds on bitshares buffer(taking in account locked some)
-  ORDER_UNRELIZABLE: 2,
+  UNRELIZABLE: 2,
   // There was no operators who can/want to take order
-  ORDER_REJECTED: 3,
+  REJECTED: 3,
   // Operator took order
-  ORDER_ACCEPTED: 4,
+  ACCEPTED: 4,
   // Operator dropped order after accepting it but before requisites was sent to client.
-  ORDER_DROPPED: 5,
+  DROPPED: 5,
   // Related lb contact found
-  ORDER_LINKED: 6,
+  LINKED: 6,
   // Waiting for payment from client
-  ORDER_PAYMENT: 7,
+  PAYMENT: 7,
   // Canceled by client
-  ORDER_CANCELED: 8,
+  CANCELED: 8,
   // Client did not fund lb contract in time
-  ORDER_TIMEOUT: 9,
+  TIMEOUT: 9,
   // Waiting for confirmation from operator or lb
-  ORDER_CONFIRMATION: 10,
+  OONFIRMATION: 10,
   // Transferring bitshares
-  ORDER_TRANSFER: 11,
+  TRANSFER: 11,
   // Finished
-  ORDER_FINISHED: 12
+  FINISHED: 12
 };
 
 const CRYPTOBOT_CONNECT_REQUEST = 'CRYPTOBOT_CONNECT_REQUEST';
