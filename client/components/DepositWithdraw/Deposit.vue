@@ -1,7 +1,5 @@
 <template lang="pug">
-
 #trusty_transfer
-
   ._turnover_inputs
     trusty-input(label="send any sum")
       template(slot="input")
