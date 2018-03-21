@@ -1,69 +1,56 @@
 <template lang="pug">
 #trusty_transfer
-  ._turnover_inputs(:class='{"_margin_bottom": !isTrustyTransfer}')
-
+  ._turnover_inputs
     trusty-input(label="send any sum")
       template(slot="input")
         input(v-model.number="amount")
       template(slot="right")
         icon-component(name="trusty_arrow_down")
         span.fake_option_width
-        select(v-model="coin")
-          option(v-for="i in ['BTC','DASH','ETH','USD','RUB']") {{ i }}
+        select(v-model="selectedcoin")
+          option(v-for="coin in coins") {{ coin }}
 
     trusty-input(:isOpen="true", label="payment method" className="select_input")
       template(slot="input")
         input(:style="{display:'none'}")
-        select(v-model="service")
-          option(v-for="option in transferServices", :value="option") {{ option }}
+        select(v-model="paymentmethod" )
+          option(v-for="method in methods", :value="method") {{ method }}
 
     trusty-input(label="enter receiving address")
       template(slot="input")
         input
 
-  ._turnover_service(v-if="isTrustyTransfer")
-
-    span trusty withdraw
-
-
-  template(v-if="!isTrustyTransfer")
-    div
-      ._turnover_info
-        .trusty_help_text._yellow
-          | Please enter a valid {{ coin }} address
-        .trusty_inline_buttons._one_button: button Paste Address
-        .trusty_inline_buttons
-          button Confirm
-          button Cancel
-        p.trusty_ps_text
-          | Payment gateway service is provided by #[br]
-          | Openledger.io at 0% fee
+  ._turnover_service
+    component(:is="gateway" :payload="selectedcoin")
 </template>
 
 <script>
 import trustyInput from '@/components/UI/form/input';
 import iconComponent from '@/components/UI/icon';
+import openledger from './Openledger/Withdraw';
 import './style.scss';
+
+const methodsByGate = {
+  openledger: ['openledger']
+};
 
 export default {
   data() {
     return {
-      coin: 'BTC',
-      service: 'blocktrades',
+      selectedcoin: 'BTC',
+      coins: ['BTC', 'ETH', 'LTC', 'NEO'],
+      paymentmethod: 'openledger',
       amount: '',
     };
   },
-  components: { trustyInput, iconComponent },
+  components: { trustyInput, iconComponent, openledger },
   computed: {
-    transferServices() {
-      return this.isTrustyTransfer ?
-        ['SBERBANK', 'ALIPAY', 'TINKOFF']
-        :
-        ['blocktrades', 'openledger'];
+    gateway() {
+      return 'openledger';
     },
-    isTrustyTransfer() {
-      return (this.coin === 'USD' || this.coin === 'RUB');
-    },
+    methods() {
+      return methodsByGate[this.gateway];
+    }
 
   }
 };
