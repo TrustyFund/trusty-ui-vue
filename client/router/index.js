@@ -22,6 +22,7 @@ import ConfirmTransactions from '@/components/ConfirmTransactions/ConfirmTransac
 import TermsOfUse from '@/components/TermsOfUse/TermsOfUse';
 import EntryPoint from '@/components/EntryPoint/EntryPoint';
 
+
 Vue.use(Router);
 
 const router = new Router({

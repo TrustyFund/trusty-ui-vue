@@ -1,27 +1,71 @@
 <template lang="pug">
+
 .trusty_deposit_fiat_fullscreen Trusty deposit
-  br
-  br
-  br
-  br
-  br
-  br
-  .trusty_inline_buttons
-      button(@click="test") TEST
+
+	.trusty_deposit_fiat
+
+		span(v-if="!connected").loading Loading...
+
+		template(v-else)
+
+			order-fields(v-if="!order")
+
+			template(v-else)
+
+				timer(v-if="checkState('order-new')")
+
+				payment(v-if="checkState('order-new')", :order="order")
+
+				div(v-if="checkState('order-droped')")
+					| order dropped by operator
+					.trusty_inline_buttons._one_button
+						button try again
+
+				div(v-if="checkState('order-rejected')")
+					| no operators available
+					.trusty_inline_buttons._one_button
+						button try again
+
+				div.trusty_deposit_fiat_fullscreen(v-if="checkState('order-new')")
+					.trusty_inline_buttons._one_button
+						button try again
+
+				span(v-if="checkState('order-accepted')") operator just tooked order
+
+				span(v-if="checkState('order-canceled')") you canceled the order
+
+				span(v-if="checkState('order-timeout')") you faild to pay in time
+
+				span(v-if="checkState('order-confirmation')") We are w8ing for bitcoins to come on lb
+
+				span(v-if="checkState('order-transfer')") It seemd to be ready 1
+
+				span(v-if="checkState('order-finished')") It seemd to be ready 2
+
+			.trusty_inline_buttons
+					button(@click="test") TEST
+
 </template>
 
 <script>
-import Header from '@/components/Header/Header';
 import { mapGetters, mapActions } from 'vuex';
+import payment from './Payment';
+import orderFields from './OrderFields';
+import timer from './Timer';
 
-import './style.css';
+import './style.scss';
 
 export default {
   components: {
-    Header
+    timer,
+    payment,
+    orderFields,
   },
   data() {
-    return {};
+    return {
+      connected: true,
+      order: true
+    };
   },
   beforeMount() {
     this.connect();
@@ -36,6 +80,11 @@ export default {
     })
   },
   methods: {
+    checkState(showState) {
+    	const query = this.$route.query;
+    	const { type, state } = query || { type: 'type', state: 'loading' };
+      return state === showState;
+    },
     ...mapActions({
       connect: 'cryptobot/connect',
       disconnect: 'cryptobot/disconnect',
