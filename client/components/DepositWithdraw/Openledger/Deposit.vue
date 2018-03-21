@@ -4,7 +4,7 @@
 		| Send {{ payload }} to the address below
 	.trusty_cutted_address(v-html="depositAddress")
 	.trusty_inline_buttons._one_button: button Copy address
-	.trusty_help_text._yellow.deposit_text
+	.trusty_help_text._yellow.deposit_text(v-show="getCoinData")
 		| IMPORTANT: Send not less than {{ getCoinData }} {{ payload }} to this deposit address.
 		| Sending less than {{ getCoinData }} {{ payload }} or any other currency will result
 		| in the loss of your deposit.
@@ -47,9 +47,13 @@ export default {
       const coin = this.payload.toLowerCase();
       const coins = this.coinsData;
       if (coins[coin] !== undefined) {
-        return coins[coin].gateFee;
+        const { gateFee } = coins[coin];
+        if (gateFee > 0) {
+          return gateFee;
+        }
+        return false;
       }
-      return 0;
+      return false;
     },
     ...mapGetters({
       address: 'openledger/getDepositAddress',
