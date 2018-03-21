@@ -6,7 +6,7 @@
     .trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter account name
     .trusty_font_error(v-if="!$v.name.isUnique && !this.$v.$pending && this.$v.name.$dirty") No such user
 
-    TrustyInput(label="enter amount")
+    #TrustyInput(label="enter amount")
       template(slot="input")
         input(v-model="amount" @input="$v.amount.$touch()")
     .trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
@@ -24,7 +24,7 @@ import { required, numeric } from 'vuelidate/lib/validators';
 export default {
   props: {
     payload: {
-      type: String,
+      type: Object,
       required: true
     }
   },
@@ -55,12 +55,15 @@ export default {
   },
   methods: {
     ...mapActions({
-      checkUsername: 'account/checkIfUsernameFree'
+      checkUsername: 'account/checkIfUsernameFree',
+      transferAsset: 'transactions/transferAsset'
+
     }),
     sendFunds() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        // handle transfer here
+        console.log(this.payload.selectedCoin.id, this.payload.amount, this.name);
+        this.transferAsset(this.name, this.payload.selectedCoin.id, this.amount);
       }
     }
   }

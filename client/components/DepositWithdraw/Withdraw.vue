@@ -4,11 +4,12 @@
     TrustyInput(label="send any sum")
       template(slot="input")
         input(v-model.number="amount")
+
       template(slot="right")
         icon-component(name="trusty_arrow_down")
         span.fake_option_width
-        select(v-model="selectedCoin")
-          option(v-for="coin in coins") {{ coin }}
+        select(v-model="selectedCoin.symbol" v-if="isNonZeroLength")
+          option(v-for="coin in nonZeroBalanceAssetsIds") {{ coin.symbol }}
 
     TrustyInput(:isOpen="true", label="payment method" className="select_input")
       template(slot="input")
@@ -16,45 +17,67 @@
         select(v-model="paymentMethod" )
           option(v-for="method in transferMethods", :value="method") {{ method }}
 
-    TrustyInput(label="enter receiving address")
+    #TrustyInput(label="enter receiving address")
       template(slot="input")
         input
 
   ._turnover_service
-    component(:is="gateway" :payload="selectedCoin")
+    component(:is="gateway" :payload="payload")
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+// import { validationMixin } from 'vuelidate';
+// import { required, numeric, decimal } from 'vuelidate/lib/validators';
 import TrustyInput from '@/components/UI/form/input';
 import iconComponent from '@/components/UI/icon';
 import openledger from './Openledger/Withdraw';
 import Transfer from './Transfer/WithdrawTransfer';
 import './style.scss';
 
+
 const methodsByGate = {
   openledger: ['openledger', 'transfer']
 };
-
+// BTS amount 0.07
 export default {
   data() {
     return {
-      selectedCoin: 'BTC',
-      coins: ['BTC', 'ETH', 'LTC', 'NEO'],
-      paymentMethod: 'openledger',
+      selectedCoin: { symbol: 'BTS', id: '1.3.0' },
+      paymentMethod: 'transfer',
       amount: '',
     };
   },
+  // mixins: [validationMixin],
+  // validations: {
+  //   amount: {
+  //     required,
+  //     numeric,
+  //     inLimit(value) {
+  //       if (value > 0 &&
+  // this.currentAssetAmount <= this.balances[this.selectedCoin.id].balance) {
+  //         return true;
+  //       }
+  //       return false;
+  //     }
+  //   }
+  // },
   components: { TrustyInput, iconComponent, openledger, Transfer },
   computed: {
     ...mapGetters({
       balances: 'account/getCurrentUserBalances',
       getAssetById: 'assets/getAssetById'
     }),
+    isNonZeroLength() {
+      return this.nonZeroBalanceAssetsIds.length;
+    },
     nonZeroBalanceAssetsIds() {
       return Object.keys(this.balances)
         .filter(id => this.balances[id].balance)
-        .map(id => this.getAssetById(id).symbol);
+        .map(id => {
+          const { symbol } = this.getAssetById(id);
+          return { symbol, id };
+        });
     },
     transferConfig() {
       return {
@@ -66,9 +89,7 @@ export default {
       const availableMethods = [];
       Object.keys(this.transferConfig).forEach((method) => {
         const methodAssets = this.transferConfig[method];
-        console.log(method);
-        console.log(methodAssets.indexOf(this.selectedCoin));
-        if (methodAssets.indexOf(this.selectedCoin) > -1) {
+        if (methodAssets.some(asset => asset.id === this.selectedCoin.id)) {
           availableMethods.push(method);
         }
       });
@@ -79,6 +100,15 @@ export default {
     },
     methods() {
       return methodsByGate[this.gateway];
+    },
+    currentAssetAmount() {
+      return this.amount * (10 ** this.getAssetById(this.selectedCoin.id).precision);
+    },
+    payload() {
+      return {
+        selectedCoin: this.selectedCoin,
+        amount: this.currentAssetAmount
+      };
     }
 
   }
