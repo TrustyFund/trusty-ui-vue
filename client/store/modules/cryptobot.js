@@ -6,7 +6,7 @@ const CRYPTOBOT_GET_ORDER_ERROR = 'CRYPTOBOT_GET_ORDER_ERROR';
 
 const CRYPTOBOT_CONNECT_REQUEST = 'CRYPTOBOT_CONNECT_REQUEST';
 const CRYPTOBOT_CONNECT_COMPLETE = 'CRYPTOBOT_CONNECT_COMPLETE';
-const CRYPTOBOT_CONNECT_ERROR = 'CRYPTOBOT_CONNECT_ERROR';
+const CRYPTOBOT_CONNECT_CLOSE = 'CRYPTOBOT_CONNECT_CLOSE';
 
 const initialState = {
   pending: false,
@@ -23,7 +23,7 @@ const mutations = {
     state.pending = false;
     state.connected = true;
   },
-  [CRYPTOBOT_CONNECT_ERROR]: (state) => {
+  [CRYPTOBOT_CONNECT_CLOSE]: (state) => {
     state.pending = false;
     state.connected = false;
   },
@@ -42,7 +42,7 @@ const mutations = {
 };
 
 const actions = {
-  connectToCryptobot({ commit }) {
+  connect({ commit }) {
     commit(CRYPTOBOT_CONNECT_REQUEST);
 
     CryptobotClient.onopen = (msg) => {
@@ -52,10 +52,13 @@ const actions = {
 
     CryptobotClient.onclose = (msg) => {
       console.log('CLOSE', msg);
-      commit(CRYPTOBOT_CONNECT_ERROR);
+      commit(CRYPTOBOT_CONNECT_CLOSE);
     };
 
     CryptobotClient.connect();
+  },
+  disconnect() {
+    CryptobotClient.close();
   },
   async fetchCurrentOrder(store) {
     const { commit, rootGetters } = store;

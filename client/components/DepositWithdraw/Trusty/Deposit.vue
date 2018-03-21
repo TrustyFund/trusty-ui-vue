@@ -26,6 +26,9 @@ export default {
   beforeMount() {
     this.connect();
   },
+  beforeDestroy() {
+    this.disconnect();
+  },
   computed: {
     ...mapGetters({
       address: 'openledger/getDepositAddress',
@@ -34,7 +37,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      connect: 'cryptobot/connectToCryptobot',
+      connect: 'cryptobot/connect',
+      disconnect: 'cryptobot/disconnect',
       getorder: 'cryptobot/fetchCurrentOrder'
     }),
     test() {

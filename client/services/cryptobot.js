@@ -17,6 +17,10 @@ class CryptobotClient {
     this.sock.onclose = this.onclose;
   }
 
+  close() {
+    this.sock.close();
+  }
+
   _onmsg(msg) {
     const resp = JSON.parse(msg.data);
     let result = {};
