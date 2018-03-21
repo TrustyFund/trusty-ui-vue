@@ -145,24 +145,8 @@ export default {
         assetId: this.pendingTransfer.assetId,
         amount: this.pendingTransfer.amount
       };
-      const result = await this.transferAsset(params);
-
-      if (result.success) {
-        this.$notify({
-          group: 'auth',
-          type: 'success',
-          title: 'Success',
-          text: 'Transfer sended'
-        });
-        this.$router.push({ name: 'entry' });
-      } else {
-        this.$notify({
-          group: 'auth',
-          type: 'error',
-          title: 'Transfer error',
-          text: result.error
-        });
-      }
+      this.transferAsset(params);
+      this.$router.push({ name: 'entry' });
     }
   },
   beforeDestroy() {
