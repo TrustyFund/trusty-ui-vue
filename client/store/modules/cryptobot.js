@@ -24,6 +24,8 @@ const CRYPTOBOT_SET_PAYMENT_REQUEST = 'CRYPTOBOT_SET_PAYMENT_REQUEST';
 const CRYPTOBOT_SET_PAYMENT_COMPLETE = 'CRYPTOBOT_SET_PAYMENT_COMPLETE';
 const CRYPTOBOT_SET_PAYMENT_ERROR = 'CRYPTOBOT_SET_PAYMENT_ERROR';
 
+const UPDATE_CURRENT_ORDER_STATUS = 'UPDATE_CURRENT_ORDER_STATUS';
+
 const initialState = {
   pending: false,
   connected: false,
@@ -80,6 +82,12 @@ const mutations = {
   },
 };
 
+const getters = {
+  hasCurrentOrder: state => state.order !== false,
+  getCurrentOrder: state => state.order,
+  isConnected: state => state.connected
+};
+
 const actions = {
   connect({ commit, dispatch }) {
     commit(CRYPTOBOT_CONNECT_REQUEST);
@@ -87,9 +95,13 @@ const actions = {
     CryptobotClient.onopen = () => {
       commit(CRYPTOBOT_CONNECT_COMPLETE);
 
-      const orderId = PersistentStorage.get(CRYPTOBOT_CURRENT_ORDER);
-      if (orderId) {
-        dispatch('fetchOrder', orderId);
+      // PersistentStorage.remove(CRYPTOBOT_CURRENT_ORDER);
+      const textOrderId = PersistentStorage.get(CRYPTOBOT_CURRENT_ORDER);
+      if (textOrderId) {
+        console.log('TRY LOAD ORDER', textOrderId);
+        const orderId = parseInt(textOrderId, 10);
+
+        dispatch('fetchOrder', { orderId });
       }
     };
 
@@ -114,7 +126,10 @@ const actions = {
     if (!result.success) {
       const { error } = result;
       commit(CRYPTOBOT_GET_ORDER_ERROR, error);
+      return;
     }
+
+    console.log('PRE COMMIT', result, request);
 
     commit(CRYPTOBOT_GET_ORDER_COMPLETE, { order: result.data });
   },
@@ -131,14 +146,18 @@ const actions = {
       currency
     };
 
-    const result = await CryptobotClient.request('create', 'oreder', request);
+    const result = await CryptobotClient.request('create', 'order', request);
 
     if (!result.success) {
       const { error } = result;
       commit(CRYPTOBOT_CREATE_ORDER_ERROR, error);
+      return;
     }
 
+    console.log('CREATE ORDER RESULT', result);
+
     const order = result.data;
+
 
     PersistentStorage.set(CRYPTOBOT_CURRENT_ORDER, order.ID);
     commit(CRYPTOBOT_CREATE_ORDER_COMPLETE, { order });
@@ -154,14 +173,15 @@ const actions = {
       address: user
     };
 
-    const result = await CryptobotClient.request('cancel', 'oreder', request);
+    const result = await CryptobotClient.request('cancel', 'order', request);
 
     if (!result.success) {
       const { error } = result;
       commit(CRYPTOBOT_CANCEL_ORDER_ERROR, error);
+      return;
     }
 
-    PersistentStorage.set(CRYPTOBOT_CURRENT_ORDER, false);
+    PersistentStorage.remove(CRYPTOBOT_CURRENT_ORDER);
     commit(CRYPTOBOT_CANCEL_ORDER_COMPLETE);
   },
   async setPayedStatus(store) {
@@ -174,11 +194,12 @@ const actions = {
       address: user
     };
 
-    const result = await CryptobotClient.request('mark_payed', 'oreder', request);
+    const result = await CryptobotClient.request('mark_payed', 'order', request);
 
     if (!result.success) {
       const { error } = result;
       commit(CRYPTOBOT_SET_PAYMENT_ERROR, error);
+      return;
     }
 
     commit(CRYPTOBOT_SET_PAYMENT_COMPLETE);
@@ -187,6 +208,7 @@ const actions = {
 
 export default {
   state: initialState,
+  getters,
   actions,
   mutations,
   namespaced: true

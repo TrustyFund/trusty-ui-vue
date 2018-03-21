@@ -6,8 +6,14 @@
   br
   br
   br
-  .trusty_inline_buttons
-      button(@click="test") TEST
+  div.debug
+    div(v-if="hasorder") {{ currentorder.ID }}
+    .trusty_inline_buttons
+      button(@click="newOrder", v-if="!hasorder") CREATE ORDER
+    .trusty_inline_buttons
+      button(@click="cancelOrder", v-if="hasorder") CANCEL ORDER
+    .trusty_inline_buttons
+      button(@click="connect", v-if="!connected") CONNECT
 </template>
 
 <script>
@@ -31,22 +37,37 @@ export default {
   },
   computed: {
     ...mapGetters({
-      address: 'openledger/getDepositAddress',
-      coinsData: 'openledger/getCoinsData'
+      hasorder: 'cryptobot/hasCurrentOrder',
+      currentorder: 'cryptobot/getCurrentOrder',
+      connected: 'cryptobot/isConnected'
     })
   },
   methods: {
     ...mapActions({
       connect: 'cryptobot/connect',
       disconnect: 'cryptobot/disconnect',
-      getorder: 'cryptobot/fetchOrder'
+      getorder: 'cryptobot/fetchOrder',
+      createOrder: 'cryptobot/createOrder',
+      cancelOrder: 'cryptobot/cancelOrder'
     }),
-    test() {
-      this.getorder({ orderId: 1 });
+    newOrder() {
+      this.createOrder({
+        currency: 'RUB',
+        amount: '10000',
+        method: 'SBERBANK',
+        name: 'Anton Lopan'
+      });
     }
   }
 };
 </script>
 
 <style>
+.debug {
+  background-color: grey;
+  width: 100%;
+  height: 100%;
+  color: white;
+  padding: 5vw;
+}
 </style>
