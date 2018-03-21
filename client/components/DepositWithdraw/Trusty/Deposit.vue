@@ -76,7 +76,22 @@ export default {
   },
   data() {
     return {
-      order: true
+      order: {
+        BotFee: '0',
+        ClientName: 'stas',
+        Currency: 'RUB',
+        Destination: 'trustytest2',
+        FiatAmount: '500',
+        ID: 86,
+        LBAmount: '0.0005328511187012',
+        LBContractID: 0,
+        LBFee: '0',
+        OperatorFee: '0',
+        OperatorID: 0,
+        PaymentMethod: 'SBERBANK',
+        PaymentRequisites: '',
+        Status: 1
+      }
     };
   },
   beforeMount() {

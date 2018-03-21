@@ -17,10 +17,10 @@
 			button copy address
 
 		trusty-input(isOpen="true" label="exchanged rate confirmed")
-			template(slot="input"): div._simple_text_left {{ exchange_rate }}
+			template(slot="input"): div._simple_text_left 1.55
 			template(slot="right"): div._right_slash RUB / BTC
 
-		p._deposit_help_text you will receive {{ final_amount }} BTC
+		p._deposit_help_text you will receive 100 BTC
 
 		p.trusty_help_text._bottom._yellow Push CONFIRM button as soon as#[br] you have completed the payment
 
@@ -41,23 +41,12 @@
 </template>
 
 <script>
-export default {
+import trustyInput from '@/components/UI/form/input';
 
+export default {
+  components: { trustyInput },
   name: 'Payment',
   props: ['order'],
-  computed: {
-    fiat_amount: () => parseInt(this.order.FiatAmount),
-    lb_amount: () => parseFloat(this.order.LBAmount),
-    lb_fee: () => parseFloat(this.order.LBFee),
-    op_fee: () => parseFloat(this.order.OperatorFee),
-    bot_fee: () => parseFloat(this.order.BotFee),
-    final_amount: () => (this.lb_amount - this.lb_fee - this.op_fee - this.bot_fee).toFixed(8),
-    exchange_rate: () => Math.floor(this.fiat_amount / this.final_amount)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ' '),
-
-  },
-
   data() {
     return {
 
