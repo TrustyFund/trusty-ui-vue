@@ -39,10 +39,10 @@ export default {
     ...mapActions({
       connect: 'cryptobot/connect',
       disconnect: 'cryptobot/disconnect',
-      getorder: 'cryptobot/fetchCurrentOrder'
+      getorder: 'cryptobot/fetchOrder'
     }),
     test() {
-      this.getorder();
+      this.getorder({ orderId: 1 });
     }
   }
 };
