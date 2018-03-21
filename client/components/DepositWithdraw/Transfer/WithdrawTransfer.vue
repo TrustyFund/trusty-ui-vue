@@ -55,7 +55,7 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const transaction = {
-          assetId: this.payload.selectedCoin.id,
+          assetId: this.payload.selectedcoin,
           amount: this.payload.amount,
           to: this.name
         };

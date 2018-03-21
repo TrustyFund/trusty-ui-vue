@@ -5,6 +5,9 @@
     p._value(v-for="order in orders") 
       PlaceOrderInfo(:item="order", :min="true")
 
+    p._value(v-if="hasPendingTransfer") Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}
+
+
   TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
     template(slot="input")
       input(v-model="pin" type="tel")
@@ -42,6 +45,7 @@ export default {
       isLocked: 'account/isLocked',
       pending: 'transactions/areTransactionsProcessing',
       isValidPassword: 'account/isValidPassword',
+      getAssetById: 'assets/getAssetById',
       hasOrders: 'transactions/hasPendingOrders'
     }),
     sellOrders() {
@@ -49,6 +53,12 @@ export default {
     },
     buyOrders() {
       return this.pendingOrders.buyOrders;
+    },
+    transfer() {
+      const { assetId, amount, to } = this.pendingTransfer;
+      const asset = this.getAssetById(assetId);
+      const realamount = (amount * (10 ** -asset.precision)).toFixed(asset.precision);
+      return { asset, realamount, to };
     },
     orders() {
       const orders = [];

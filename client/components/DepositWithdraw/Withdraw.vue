@@ -8,8 +8,8 @@
       template(slot="right")
         icon-component(name="trusty_arrow_down")
         span.fake_option_width
-        select(v-model="selectedCoin.symbol" v-if="isNonZeroLength")
-          option(v-for="coin in nonZeroBalanceAssetsIds") {{ coin.symbol }}
+        select(v-model="selectedCoin" v-if="isNonZeroLength")
+          option(v-for="coin in nonZeroBalanceAssetsIds", v-bind:value="coin.id") {{ coin.symbol }}
 
     TrustyInput(:isOpen="true", label="payment method" className="select_input")
       template(slot="input")
@@ -37,7 +37,7 @@ const methodsByGate = {
 export default {
   data() {
     return {
-      selectedCoin: { symbol: 'BTS', id: '1.3.0' },
+      selectedCoin: '1.3.0',
       paymentMethod: 'transfer',
       amount: '',
     };
@@ -69,7 +69,7 @@ export default {
       const availableMethods = [];
       Object.keys(this.transferConfig).forEach((method) => {
         const methodAssets = this.transferConfig[method];
-        if (methodAssets.some(asset => asset.id === this.selectedCoin.id)) {
+        if (methodAssets.some(asset => asset.id === this.selectedCoin)) {
           availableMethods.push(method);
         }
       });
@@ -82,11 +82,11 @@ export default {
       return methodsByGate[this.gateway];
     },
     currentAssetAmount() {
-      return this.amount * (10 ** this.getAssetById(this.selectedCoin.id).precision);
+      return this.amount * (10 ** this.getAssetById(this.selectedCoin).precision);
     },
     payload() {
       return {
-        selectedCoin: this.selectedCoin,
+        selectedcoin: this.selectedCoin,
         amount: this.currentAssetAmount
       };
     }
