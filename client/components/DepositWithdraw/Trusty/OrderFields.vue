@@ -4,7 +4,7 @@
 
 	._margin_bottom
 
-		trusty-input(type="select", isOpened="true", label="payment method")
+		trusty-input(type="select", :isOpened="true", label="payment method")
 			template(slot="input")
 				select
 					option SBERBANK

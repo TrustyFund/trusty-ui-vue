@@ -1,9 +1,8 @@
 <template lang="pug">
 
-.trusty_deposit_fiat_fullscreen Trusty deposit
+.trusty_deposit_fiat_fullscreen
 
-
-	.trusty_deposit_fiat
+	.trusty_deposit_fiat.main_padding
 
 		span(v-if="!connected").loading Loading...
 
@@ -44,7 +43,7 @@
 				span(v-if="checkState('order-finished')") It seemd to be ready 2
 
 
-	.trusty_inline_buttons.debug_but
+	.trusty_inline_buttons.debug_but._one_button
 		button(@click="next") NEXT
 
 </template>
@@ -104,8 +103,11 @@ export default {
     ...mapGetters({
       hasorder: 'cryptobot/hasCurrentOrder',
       currentorder: 'cryptobot/getCurrentOrder',
-      connected: 'cryptobot/isConnected'
-    })
+      // connected: 'cryptobot/isConnected'
+    }),
+    connected() {
+    	return true;
+    }
   },
   methods: {
     ...mapActions({
@@ -152,11 +154,22 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+
+.loading {
+	//position: absolute;
+	//top: 50%;
+	//left: 50%;
+
+}
 
 .debug_but {
 	position: absolute;
 	bottom: 0;
+	right: 3.6vw;
+	left: 0;
+	width: 100%;
+
 }
 .debug {
   background-color: grey;
