@@ -15,7 +15,7 @@
 
 				timer(v-if="checkState('order-new')")
 
-				payment(v-if="checkState('order-new')", :order="order")
+				payment(v-if="checkState('order-new2')", :order="order")
 
 				div(v-if="checkState('order-droped')")
 					| order dropped by operator
@@ -44,7 +44,11 @@
 				span(v-if="checkState('order-finished')") It seemd to be ready 2
 
 
-	div.debug
+	.trusty_inline_buttons.debug_but
+		button(@click="next") NEXT
+
+</template>
+<!-- div.debug
 		div(v-if="hasorder")
 			| Id -> {{ currentorder.ID }}
 			br
@@ -54,9 +58,7 @@
 		.trusty_inline_buttons
 			button(@click="cancelOrder", v-if="hasorder") CANCEL ORDER
 		.trusty_inline_buttons
-			button(@click="connect", v-if="!connected") CONNECT
-
-</template>
+			button(@click="connect", v-if="!connected") CONNECT -->
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
@@ -91,11 +93,6 @@ export default {
     })
   },
   methods: {
-    checkState(showState) {
-    	const query = this.$route.query;
-    	const { type, state } = query || { type: 'type', state: 'loading' };
-      return state === showState;
-    },
     ...mapActions({
       connect: 'cryptobot/connect',
       disconnect: 'cryptobot/disconnect',
@@ -103,6 +100,11 @@ export default {
       createOrder: 'cryptobot/createOrder',
       cancelOrder: 'cryptobot/cancelOrder'
     }),
+    checkState(showState) {
+      const { query } = this.$route;
+      const { state } = query || { state: 'loading' };
+      return state === showState;
+    },
     newOrder() {
       this.createOrder({
         currency: 'RUB',
@@ -110,6 +112,9 @@ export default {
         method: 'SBERBANK',
         name: 'Anton Lopan'
       });
+    },
+    next() {
+      this.$router.push({ name: 'deposit', query: { state: 'order-new' } });
     }
   }
 };
@@ -117,6 +122,10 @@ export default {
 
 <style>
 
+.debug_but {
+	position: absolute;
+	bottom: 0;
+}
 .debug {
   background-color: grey;
   width: 100%;

@@ -12,19 +12,12 @@
 
 <script>
 export default {
-  props: {
-    secondsRemaining: {
-      type: Number,
-      default: 59
-    },
-    minutesRemaining: {
-      type: Number,
-      default: 2
-    },
-    text: {
-      type: String,
-      default: 'YOU WILL GET SMTH'
-    }
+  data() {
+    return {
+      secondsRemaining: 59,
+      minutesRemaining: 2,
+      text: 'TEXT'
+    };
   },
 
   methods: {
