@@ -11,8 +11,8 @@
 	.trusty_help_text._yellow
 		| Push CONFIRM button as soon as you have completed the payment
 	.trusty_inline_buttons
-		button Confirm
-		button Cancel
+		button(@click="$router.replace('/')") Confirm
+		button(@click="$router.replace('/')") Cancel
 	p.trusty_ps_text
 		| Payment gateway service is provided by #[br]
 		| Openledger.io at 0% fee

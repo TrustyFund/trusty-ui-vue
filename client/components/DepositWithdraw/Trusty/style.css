@@ -1,0 +1,58 @@
+@media screen and (max-width: 768px)  {
+
+  .trusty_deposit_fiat_fullscreen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: #1e2225 !important;
+
+    .modal-overlay.is-active {
+      position: fixed;
+      #trusty_modal_deposit {
+        background: transparent;
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 0;
+        ._inner {
+          position: relative;
+          top: 50%;
+          transform: translateY(-50%);
+          background: black;
+          margin-left: 1.8vw;
+          margin-right: 1.8vw;
+          padding-left: 2.5vw;
+          padding-right: 2.5vw;
+          padding-bottom: 4vw;
+          p {
+            text-align: center;
+            font-family: Gotham_Pro;
+            padding: 9vw 0 6vw 0;
+            font-size: 7vw;
+            margin-bottom: 0;
+            line-height: 9vw;
+          }
+        }
+      }
+    }
+  }
+
+  .trusty_deposit_timer {
+      padding-top: 50%;
+  }
+
+  ._deposit_help_text {
+    text-align: center;
+    text-transform: uppercase;
+    font-family: "Gotham_Pro_Regular";
+    font-size: 4vw;
+  }
+
+  .deposit_paddings{
+    padding-left: 3.6vw;
+    padding-right: 3.6vw;
+  }
+  
+}
+
