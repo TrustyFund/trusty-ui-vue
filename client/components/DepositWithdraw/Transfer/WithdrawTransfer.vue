@@ -5,13 +5,6 @@
         input(v-model="name" @input="$v.name.$touch()")
     .trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter account name
     .trusty_font_error(v-if="!$v.name.isUnique && !this.$v.$pending && this.$v.name.$dirty") No such user
-
-    #TrustyInput(label="enter amount")
-      template(slot="input")
-        input(v-model="amount" @input="$v.amount.$touch()")
-    .trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
-    .trusty_font_error(v-if="!$v.amount.numeric && this.$v.amount.$dirty") Enter a number
-
     .trusty_inline_buttons._mob._one_button(@click="sendFunds"): button SEND FUNDS
 </template>
 
@@ -56,14 +49,18 @@ export default {
   methods: {
     ...mapActions({
       checkUsername: 'account/checkIfUsernameFree',
-      transferAsset: 'transactions/transferAsset'
-
+      setTransaction: 'transactions/setPendingTransfer'
     }),
     sendFunds() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        console.log(this.payload.selectedCoin.id, this.payload.amount, this.name);
-        this.transferAsset(this.name, this.payload.selectedCoin.id, this.amount);
+        const transaction = {
+          assetId: this.payload.selectedCoin.id,
+          amount: this.payload.amount,
+          to: this.name
+        };
+        this.setTransaction({ transaction });
+        this.$router.push({ name: 'confirm-transactions' });
       }
     }
   }

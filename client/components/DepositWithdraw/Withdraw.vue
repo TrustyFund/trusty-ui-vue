@@ -17,18 +17,12 @@
         select(v-model="paymentMethod" )
           option(v-for="method in transferMethods", :value="method") {{ method }}
 
-    #TrustyInput(label="enter receiving address")
-      template(slot="input")
-        input
-
   ._turnover_service
     component(:is="gateway" :payload="payload")
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-// import { validationMixin } from 'vuelidate';
-// import { required, numeric, decimal } from 'vuelidate/lib/validators';
 import TrustyInput from '@/components/UI/form/input';
 import iconComponent from '@/components/UI/icon';
 import openledger from './Openledger/Withdraw';
@@ -48,20 +42,6 @@ export default {
       amount: '',
     };
   },
-  // mixins: [validationMixin],
-  // validations: {
-  //   amount: {
-  //     required,
-  //     numeric,
-  //     inLimit(value) {
-  //       if (value > 0 &&
-  // this.currentAssetAmount <= this.balances[this.selectedCoin.id].balance) {
-  //         return true;
-  //       }
-  //       return false;
-  //     }
-  //   }
-  // },
   components: { TrustyInput, iconComponent, openledger, Transfer },
   computed: {
     ...mapGetters({

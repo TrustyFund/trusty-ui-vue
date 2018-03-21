@@ -2,8 +2,8 @@
 #approve_update_portfolio.main_padding
 
   .transaction_info
-    p._value(v-for="item in items") 
-      PlaceOrderInfo(:item="item", :min="true")
+    p._value(v-for="order in orders") 
+      PlaceOrderInfo(:item="order", :min="true")
 
   TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
     template(slot="input")
@@ -26,6 +26,9 @@ export default {
     PlaceOrderInfo,
     TrustyInput
   },
+  mounted() {
+    console.log(this.pendingTransfer);
+  },
   data() {
     return {
       pin: ''
@@ -34,9 +37,12 @@ export default {
   computed: {
     ...mapGetters({
       pendingOrders: 'transactions/getPendingOrders',
+      pendingTransfer: 'transactions/getPendingTransfer',
+      hasPendingTransfer: 'transactions/hasPendingTransfer',
       isLocked: 'account/isLocked',
       pending: 'transactions/areTransactionsProcessing',
-      isValidPassword: 'account/isValidPassword'
+      isValidPassword: 'account/isValidPassword',
+      hasOrders: 'transactions/hasPendingOrders'
     }),
     sellOrders() {
       return this.pendingOrders.sellOrders;
@@ -44,22 +50,22 @@ export default {
     buyOrders() {
       return this.pendingOrders.buyOrders;
     },
-    items() {
-      const items = [];
-      if (!this.sellOrders || !this.buyOrders) return [];
+    orders() {
+      const orders = [];
+      if (!this.hasOrders) return [];
       this.sellOrders.forEach(order => {
-        items.push({
+        orders.push({
           payload: order,
           buyer: false
         });
       });
       this.buyOrders.forEach(order => {
-        items.push({
+        orders.push({
           payload: order,
           buyer: true
         });
       });
-      return items;
+      return orders;
     }
   },
   methods: {
@@ -93,6 +99,15 @@ export default {
         }
       }
 
+      if (this.hasOrders) {
+        console.log(this.pendingOrders);
+        this.processOrders();
+      }
+      if (this.hasPendingTransfer) {
+        this.processTransfer();
+      }
+    },
+    async processOrders() {
       const result = await this.processPendingOrders();
       if (result.success) {
         this.$notify({
@@ -110,6 +125,10 @@ export default {
           text: result.error
         });
       }
+    },
+    async processTransfer() {
+      console.log('TRANSFER!');
+      console.log(this.pendingTransfer);
     }
   },
   beforeDestroy() {
