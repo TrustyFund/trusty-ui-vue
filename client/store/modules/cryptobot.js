@@ -24,7 +24,7 @@ const CRYPTOBOT_SET_PAYMENT_REQUEST = 'CRYPTOBOT_SET_PAYMENT_REQUEST';
 const CRYPTOBOT_SET_PAYMENT_COMPLETE = 'CRYPTOBOT_SET_PAYMENT_COMPLETE';
 const CRYPTOBOT_SET_PAYMENT_ERROR = 'CRYPTOBOT_SET_PAYMENT_ERROR';
 
-const UPDATE_CURRENT_ORDER_STATUS = 'UPDATE_CURRENT_ORDER_STATUS';
+const CRYPTOBOT_ORDER_UPDATE_RECEIVED = 'CRYPTOBOT_ORDER_UPDATE_RECEIVED';
 
 const initialState = {
   pending: false,
@@ -80,6 +80,9 @@ const mutations = {
     state.pending = false;
     state.error = error;
   },
+  [CRYPTOBOT_ORDER_UPDATE_RECEIVED]: (state, { order }) => {
+    state.order = order;
+  }
 };
 
 const getters = {
@@ -91,6 +94,10 @@ const getters = {
 const actions = {
   connect({ commit, dispatch }) {
     commit(CRYPTOBOT_CONNECT_REQUEST);
+
+    CryptobotClient.onmsg = (order) => {
+      commit(CRYPTOBOT_ORDER_UPDATE_RECEIVED, { order });
+    };
 
     CryptobotClient.onopen = () => {
       commit(CRYPTOBOT_CONNECT_COMPLETE);

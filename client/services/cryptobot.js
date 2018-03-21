@@ -48,7 +48,8 @@ class CryptobotClient {
       this.callbacks[resp.trans_map.trans_id](result);
       delete this.callbacks[resp.trans_map.trans_id];
     } else {
-      console.log('NOTIFICATION', resp);
+      console.log('NOTIFICATION', data);
+      this.onmsg(data.order);
     }
   }
 

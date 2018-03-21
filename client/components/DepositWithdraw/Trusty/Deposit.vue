@@ -7,7 +7,10 @@
   br
   br
   div.debug
-    div(v-if="hasorder") {{ currentorder.ID }}
+    div(v-if="hasorder") 
+      | Id -> {{ currentorder.ID }}
+      br
+      | Status -> {{ currentorder.Status }}
     .trusty_inline_buttons
       button(@click="newOrder", v-if="!hasorder") CREATE ORDER
     .trusty_inline_buttons
