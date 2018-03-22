@@ -8,7 +8,7 @@
 				 v-if="!ready && !isLanding">
 			 <Spinner/>
 		</div>
-		<notifications group="auth" width="100%" position="bottom center"/>
+		<notifications width="100%" position="bottom center"/>
 	</div>
 </template>
 

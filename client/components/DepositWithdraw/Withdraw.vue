@@ -59,7 +59,7 @@ export default {
       doesntExceedBalance(value) {
         const id = this.selectedCoin;
         const balance = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
-        return value < balance;
+        return (value * 1.03) < balance;
       }
     }
   },
@@ -109,6 +109,7 @@ export default {
       return methodsByGate[this.gateway];
     },
     currentAssetAmount() {
+      if (this.$v.$invalid) return 0;
       return this.amount * (10 ** this.getAssetById(this.selectedCoin).precision);
     },
     payload() {

@@ -88,7 +88,6 @@ export default {
       if (this.isLocked) {
         if (!this.pin) {
           this.$notify({
-            group: 'auth',
             type: 'success',
             title: 'error',
             text: 'Enter PIN'
@@ -100,7 +99,6 @@ export default {
           if (this.isLocked) return false;
         } else {
           this.$notify({
-            group: 'auth',
             type: 'error',
             title: 'error',
             text: 'Invalid PIN'
@@ -111,7 +109,7 @@ export default {
       return true;
     },
     async confirm() {
-      if (!this.checkLocked) return;
+      if (!this.checkLocked()) return;
       if (this.hasOrders) this.processOrders();
       if (this.hasPendingTransfer) this.processTransfer();
     },
@@ -119,15 +117,13 @@ export default {
       const result = await this.processPendingOrders();
       if (result.success) {
         this.$notify({
-          group: 'auth',
           type: 'success',
           title: 'Success',
-          text: 'Orders placed'
+          text: 'Orders filled'
         });
         this.$router.push({ name: 'entry' });
       } else {
         this.$notify({
-          group: 'auth',
           type: 'error',
           title: 'Transactions error',
           text: result.error
@@ -142,8 +138,21 @@ export default {
         assetId: this.pendingTransfer.assetId,
         amount: this.pendingTransfer.amount
       };
-      this.transferAsset(params);
-      this.$router.push({ name: 'entry' });
+      const result = await this.transferAsset(params);
+      if (result.success) {
+        this.$notify({
+          type: 'success',
+          title: 'Success',
+          text: 'Transaction completed'
+        });
+        this.$router.push({ name: 'entry' });
+      } else {
+        this.$notify({
+          type: 'error',
+          title: 'Transaction error',
+          text: result.error
+        });
+      }
     }
   },
   beforeDestroy() {

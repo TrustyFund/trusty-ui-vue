@@ -6,14 +6,14 @@
     .trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter account name
     .trusty_font_error(v-if="!$v.name.isUnique && !this.$v.$pending && this.$v.name.$dirty") No such user
     .trusty_font_error(v-if="!$v.name.notSelf && this.$v.name.$dirty") Can't send to yourself
-    .trusty_inline_buttons._mob._one_button(@click="sendFunds"): button SEND FUNDS
+    .trusty_inline_buttons._mob._one_button(:class="{'_disabled': !payload.amount }", @click="sendFunds"): button SEND FUNDS
 </template>
 
 <script>
 import TrustyInput from '@/components/UI/form/input';
 import { mapGetters, mapActions } from 'vuex';
 import { validationMixin } from 'vuelidate';
-import { required, numeric } from 'vuelidate/lib/validators';
+import { required } from 'vuelidate/lib/validators';
 
 export default {
   props: {
@@ -57,7 +57,7 @@ export default {
     }),
     sendFunds() {
       this.$v.$touch();
-      if (!this.$v.$invalid) {
+      if (!this.$v.$invalid && this.payload.amount) {
         const transaction = {
           assetId: this.payload.selectedcoin,
           amount: this.payload.amount,
