@@ -3,7 +3,7 @@
 
   .transaction_info
     p._value(v-for="item in items") 
-      PlaceOrderInfo(:item="item", :min="true")
+      PlaceOrderInfo(:item="item", :min="true", :fiat-multiplier="fiatMultiplier.last")
 
   TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
     template(slot="input")
@@ -36,8 +36,12 @@ export default {
       pendingOrders: 'transactions/getPendingOrders',
       isLocked: 'account/isLocked',
       pending: 'transactions/areTransactionsProcessing',
-      isValidPassword: 'account/isValidPassword'
+      isValidPassword: 'account/isValidPassword',
+      getAssetMultiplier: 'market/getAssetMultiplier'
     }),
+    fiatMultiplier() {
+      return this.getAssetMultiplier('1.3.121');
+    },
     sellOrders() {
       return this.pendingOrders.sellOrders;
     },
