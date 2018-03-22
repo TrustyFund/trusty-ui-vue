@@ -9,10 +9,11 @@
         icon-component(name="trusty_arrow_down")
         span.fake_option_width
         select(v-model="selectedCoin" v-if="isNonZeroLength")
-          option(v-for="coin in nonZeroBalanceAssetsIds", v-bind:value="coin.id") {{ coin.symbol }}
+          option(v-for="(coin, id) in nonZeroAssets", v-bind:value="id") {{ coin.symbol }}
 
     .trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
-    .trusty_font_error(v-if="!$v.amount.numeric && this.$v.amount.$dirty") Enter a number
+    .trusty_font_error(v-if="$v.amount.required && !$v.amount.isNumeric && this.$v.amount.$dirty") Enter a number
+    .trusty_font_error(v-if="$v.amount.isNumeric && !$v.amount.doesntExceedBalance && this.$v.amount.$dirty") Innuficient funds
     TrustyInput(:isOpen="true", label="payment method" className="select_input")
       template(slot="input")
         input(:style="{display:'none'}")
@@ -26,7 +27,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { validationMixin } from 'vuelidate';
-import { required, numeric } from 'vuelidate/lib/validators';
+import { required } from 'vuelidate/lib/validators';
 import TrustyInput from '@/components/UI/form/input';
 import iconComponent from '@/components/UI/icon';
 import openledger from './Openledger/Withdraw';
@@ -51,7 +52,15 @@ export default {
   validations: {
     amount: {
       required,
-      numeric
+      isNumeric(value) {
+        const parsed = +value;
+        return parsed && !Number.isNaN(parsed);
+      },
+      doesntExceedBalance(value) {
+        const id = this.selectedCoin;
+        const balance = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
+        return value < balance;
+      }
     }
   },
   computed: {
@@ -60,7 +69,14 @@ export default {
       getAssetById: 'assets/getAssetById'
     }),
     isNonZeroLength() {
-      return this.nonZeroBalanceAssetsIds.length;
+      return Object.keys(this.nonZeroAssets).length;
+    },
+    nonZeroAssets() {
+      const result = {};
+      Object.keys(this.balances).forEach(id => {
+        if (this.balances[id].balance) result[id] = this.getAssetById(id);
+      });
+      return result;
     },
     nonZeroBalanceAssetsIds() {
       return Object.keys(this.balances)
