@@ -179,7 +179,6 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requiredBackup) {
     const backupDate = Cookies.get('BACKUP_DATE');
     let backupExist = true;
-    console.log(backupDate);
     if (!backupDate) {
       backupExist = false;
     } else {
