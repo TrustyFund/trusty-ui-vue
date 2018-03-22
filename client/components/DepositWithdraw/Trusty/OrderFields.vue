@@ -4,16 +4,16 @@
 
 	._margin_bottom
 
-		trusty-input(type="select", isOpened="true", label="payment method")
+		trusty-input(type="select", :isOpen="true", label="payment method")
 			template(slot="input")
 				select
 					option SBERBANK
 					option ALIPLAY
 					option TINKOFF
 
-		trusty-input(label="NAME AND SURNAME OF PAYER")
+		trusty-input(:isOpen="true", label="NAME AND SURNAME OF PAYER")
 			template(slot="input"): input(type="text")
-			tempalte(slot="right")
+			template(slot="right")
 				.only_right_arrow: icon(name="trusty_arrow_down")
 
 	.trusty_inline_buttons._one_button

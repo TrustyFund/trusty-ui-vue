@@ -84,6 +84,17 @@
 			padding-left: 0;
 			font-size: px_from_vw(5.4);
 		}
+
+
+		._simple_text_left {
+	    height: px_from_vw(6.4);
+	    font-size: px_from_vw(5.4) !important;
+	  }
+
+	  ._right_slash {
+	    font-size: px_from_vw(5.7);
+	    margin-bottom: px_from_vw(1.1)w;
+	  }
 	}
 }
 

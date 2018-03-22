@@ -1,6 +1,7 @@
 <template lang="pug">
 #trusty_transfer
   ._turnover_inputs
+
     trusty-input(label="send any sum")
       template(slot="input")
         input(v-model.number="amount")
@@ -56,4 +57,7 @@ export default {
   }
 };
 </script>
+<style lang="scss">
 
+
+</style>

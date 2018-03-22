@@ -7,6 +7,8 @@
 		span
 			| :
 			span {{ secondsString }}
+	.trusty_inline_buttons._one_button
+		button cancel order
 
 </template>
 
@@ -63,4 +65,29 @@ export default {
 };
 
 </script>
+
+<style lang="scss">
+
+
+
+@media screen and (max-width: 768px) {
+
+	.trusty_deposit_timer {
+		color: white;
+		text-align: center;
+		._title {
+			font-size: 4.4vw !important;
+		    font-family: "Gotham_Pro_Regular";
+		    line-height: 5.5vw;
+		}
+
+		._timer {
+			margin: 4vw;
+			font-family: "Gotham_Pro";
+			font-size: 17vw;		}
+	}
+
+}
+
+</style>
 

@@ -1,29 +1,28 @@
 <template lang="pug">
 
-.trusty_deposit_fiat_fullscreen Trusty deposit
+.trusty_deposit_fiat_fullscreen
 
-
-	.trusty_deposit_fiat
+	.trusty_deposit_fiat.main_padding
 
 		span(v-if="!connected").loading Loading...
 
 		template(v-else)
 
-			order-fields(v-if="!order")
+			order-fields(v-if="order")
 
 			template(v-else)
 
 				timer(v-if="checkState('timer')")
 
-				payment(v-if="checkState('order-new')", :order="order")
+				payment(v-if="checkState('order-payment')", :order="order")
 
 				div(v-if="checkState('order-droped')")
-					| order dropped by operator
+					span._tooltip order dropped by operator
 					.trusty_inline_buttons._one_button
 						button try again
 
 				div(v-if="checkState('order-rejected')")
-					| no operators available
+					span._tooltip no operators available
 					.trusty_inline_buttons._one_button
 						button try again
 
@@ -31,20 +30,20 @@
 					.trusty_inline_buttons._one_button
 						button try again
 
-				span(v-if="checkState('order-accepted')") operator just tooked order
+				span._tooltip(v-if="checkState('order-accepted')") operator just tooked order
 
-				span(v-if="checkState('order-canceled')") you canceled the order
+				span._tooltip(v-if="checkState('order-canceled')") you canceled the order
 
-				span(v-if="checkState('order-timeout')") you faild to pay in time
+				span._tooltip(v-if="checkState('order-timeout')") you faild to pay in time
 
-				span(v-if="checkState('order-confirmation')") We are w8ing for bitcoins to come on lb
+				span._tooltip(v-if="checkState('order-confirmation')") We are w8ing for bitcoins to come on lb
 
-				span(v-if="checkState('order-transfer')") It seemd to be ready 1
+				span._tooltip(v-if="checkState('order-transfer')") It seemd to be ready 1
 
-				span(v-if="checkState('order-finished')") It seemd to be ready 2
+				span._tooltip(v-if="checkState('order-finished')") It seemd to be ready 2
 
 
-	.trusty_inline_buttons.debug_but
+	.trusty_inline_buttons.debug_but._one_button
 		button(@click="next") NEXT
 
 </template>
@@ -104,8 +103,11 @@ export default {
     ...mapGetters({
       hasorder: 'cryptobot/hasCurrentOrder',
       currentorder: 'cryptobot/getCurrentOrder',
-      connected: 'cryptobot/isConnected'
-    })
+      // connected: 'cryptobot/isConnected'
+    }),
+    connected() {
+    	return true;
+    }
   },
   methods: {
     ...mapActions({
@@ -131,6 +133,7 @@ export default {
     next() {
       const path = [
         'timer',
+        'order-payment',
         'order-new',
         'order-droped',
         'order-rejected',
@@ -152,11 +155,32 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+
+.trusty_deposit_fiat {
+
+	._tooltip, .loading {
+		display: block;
+		position:relaive;
+		font-family: Gotham_Pro;
+		font-size: 4vw;
+	}
+}
+
+.loading {
+	//position: absolute;
+	//top: 50%;
+	//left: 50%;
+
+}
 
 .debug_but {
 	position: absolute;
 	bottom: 0;
+	right: 3.6vw;
+	left: 0;
+	width: 100%;
+
 }
 .debug {
   background-color: grey;
