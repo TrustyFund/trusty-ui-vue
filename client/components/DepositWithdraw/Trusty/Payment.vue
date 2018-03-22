@@ -31,7 +31,7 @@
 		p.trusty_help_text Payment gateway service is provided by users of Localbitcoins.com
 
 
-	.modal_wrap
+	.modal_wrap(v-if="false")
 		.modal_content.main_padding
 			p.trusty_help_text Before you continue,#[br] make sure the#[br] payment is done
 			.trusty_inline_buttons

@@ -2,13 +2,13 @@
 
 	.trusty_deposit_fiat_fullscreen {
 
-		//position: absolute;
+		position: absolute;
 		width: 100%;
 		height: 100%;
 		top: 0;
 		left: 0;
 		background-color: #1e2225 !important;
-		z-index: 170;
+		z-index: 1170;
 		.modal-overlay.is-active {
 			position: fixed;
 			#trusty_modal_deposit {

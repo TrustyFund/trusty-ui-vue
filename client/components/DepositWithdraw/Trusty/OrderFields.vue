@@ -1,6 +1,6 @@
 <template lang="pug">
 
-.trusty_deposit_fiat
+.trusty_deposit_fiat.main_padding
 
 	._margin_bottom
 
