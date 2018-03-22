@@ -28,15 +28,15 @@
 			button Confirm
 			button Cancel
 
-		p.trusty_help_text Payment gateway service is provided by users of #[br] Localbitcoins.com
+		p.trusty_help_text Payment gateway service is provided by users of Localbitcoins.com
 
 
-	.trusty_modal(id="trusty_modal_deposit")
-		._inner
-			p.trusty_help_text Before you continue,#[br] make sure the#[br] payment is done</p>
+	.modal_wrap
+		.modal_content.main_padding
+			p.trusty_help_text Before you continue,#[br] make sure the#[br] payment is done
 			.trusty_inline_buttons
-				a.b_left: button Done
-				a.b_right: button Back
+				button Done
+				button Back
 
 </template>
 
@@ -54,3 +54,17 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.trusty_deposit_fiat_fullscreen {
+	.modal_content {
+		padding-top: 10vw;
+		padding-bottom: 10vw;
+		background: black;
+
+
+	}
+}
+
+
+</style>

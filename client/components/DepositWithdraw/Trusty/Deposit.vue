@@ -8,7 +8,7 @@
 
 		template(v-else)
 
-			order-fields(v-if="!order")
+			order-fields(v-if="order")
 
 			template(v-else)
 

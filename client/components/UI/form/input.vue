@@ -331,6 +331,22 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 	}
 
 
+  ._simple_text_left {
+    text-align: left;
+    color: white;
+    height: 6.4vw;
+    font-size: 5.4vw !important;
+    font-family: "Gotham_Pro_Regular";
+  }
+
+  ._right_slash {
+    font-size: 5.7vw;
+    font-family: Gotham_Pro_Regular;
+    margin-bottom: 1.14vw;
+		color: white;
+  }
+
+
 }
 
 @import "./desk.scss";
