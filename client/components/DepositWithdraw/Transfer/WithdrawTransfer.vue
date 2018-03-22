@@ -28,8 +28,7 @@ export default {
   },
   data() {
     return {
-      name: '',
-      amount: 0
+      name: ''
     };
   },
   validations: {
@@ -44,10 +43,6 @@ export default {
       notSelf(value) {
         return value !== this.userName;
       }
-    },
-    amount: {
-      required,
-      numeric
     }
   },
   computed: {

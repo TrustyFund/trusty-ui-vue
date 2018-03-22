@@ -3,7 +3,7 @@
   ._turnover_inputs
     TrustyInput(label="send any sum")
       template(slot="input")
-        input(v-model.number="amount")
+        input(v-model="amount" @input="$v.amount.$touch()")
 
       template(slot="right")
         icon-component(name="trusty_arrow_down")
@@ -11,6 +11,8 @@
         select(v-model="selectedCoin" v-if="isNonZeroLength")
           option(v-for="coin in nonZeroBalanceAssetsIds", v-bind:value="coin.id") {{ coin.symbol }}
 
+    .trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
+    .trusty_font_error(v-if="!$v.amount.numeric && this.$v.amount.$dirty") Enter a number
     TrustyInput(:isOpen="true", label="payment method" className="select_input")
       template(slot="input")
         input(:style="{display:'none'}")
@@ -23,6 +25,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { validationMixin } from 'vuelidate';
+import { required, numeric } from 'vuelidate/lib/validators';
 import TrustyInput from '@/components/UI/form/input';
 import iconComponent from '@/components/UI/icon';
 import openledger from './Openledger/Withdraw';
@@ -43,6 +47,13 @@ export default {
     };
   },
   components: { TrustyInput, iconComponent, openledger, Transfer },
+  mixins: [validationMixin],
+  validations: {
+    amount: {
+      required,
+      numeric
+    }
+  },
   computed: {
     ...mapGetters({
       balances: 'account/getCurrentUserBalances',
