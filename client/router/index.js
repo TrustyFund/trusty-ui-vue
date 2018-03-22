@@ -85,12 +85,15 @@ const router = new Router({
             {
               path: 'percent',
               name: 'manage-percent',
-              component: ManagePortfolioPercent
+              component: ManagePortfolioPercent,
+              meta: { requiredBackup: true }
+
             },
             {
               path: 'value',
               name: 'manage-value',
-              component: ManagePortfolioValue
+              component: ManagePortfolioValue,
+              meta: { requiredBackup: true }
             }
           ]
         },
@@ -108,12 +111,14 @@ const router = new Router({
         {
           name: 'deposit',
           path: '/deposit',
-          component: Deposit
+          component: Deposit,
+          meta: { requiredBackup: true }
         },
         {
           name: 'withdraw',
           path: '/withdraw',
-          component: Deposit
+          component: Deposit,
+          meta: { requiredBackup: true }
         },
         {
           name: 'coin',
