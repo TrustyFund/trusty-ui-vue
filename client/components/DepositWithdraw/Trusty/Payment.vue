@@ -25,23 +25,24 @@
 		p.trusty_help_text._bottom._yellow Push CONFIRM button as soon as#[br] you have completed the payment
 
 		.trusty_inline_buttons
-			button Confirm
+			button(@click="$store.dispatch('app/setModal', 'payment')") Confirm
 			button Cancel
 
 		p.trusty_help_text Payment gateway service is provided by users of Localbitcoins.com
 
 
-	.modal_wrap(v-if="false")
+	.modal_wrap(v-if="getModalName==='payment'")
 		.modal_content.main_padding
 			p.trusty_help_text Before you continue,#[br] make sure the#[br] payment is done
 			.trusty_inline_buttons
-				button Done
-				button Back
+				button(@click="$store.dispatch('app/setModal', null)") Done
+				button(@click="$store.dispatch('app/setModal', null)") Back
 
 </template>
 
 <script>
 import trustyInput from '@/components/UI/form/input';
+import { mapGetters } from 'vuex';
 
 export default {
   components: { trustyInput },
@@ -51,6 +52,11 @@ export default {
     return {
 
     };
+  },
+  computed: {
+  	...mapGetters({
+  		getModalName: 'app/getModalName'
+  	})
   }
 };
 </script>
