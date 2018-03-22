@@ -28,7 +28,8 @@ export default {
   },
   data() {
     return {
-      pin: ''
+      pin: '',
+      fiatId: '1.3.121'
     };
   },
   computed: {
@@ -40,7 +41,7 @@ export default {
       getAssetMultiplier: 'market/getAssetMultiplier'
     }),
     fiatMultiplier() {
-      return this.getAssetMultiplier('1.3.121');
+      return this.getAssetMultiplier(this.fiatId);
     },
     sellOrders() {
       return this.pendingOrders.sellOrders;

@@ -31,11 +31,14 @@ export default {
       type: Number,
       required: false,
       default: 0
+    },
+    fiatId: {
+      type: String,
+      required: false
     }
   },
   data() {
     return {
-      fiatId: '1.3.121'
     };
   },
   computed: {
