@@ -2,7 +2,7 @@
 
 .trusty_deposit_fiat_fullscreen
 
-	.trusty_deposit_fiat
+	.trusty_deposit_fiat.main_padding
 
 		span(v-if="!connected").loading Loading...
 
