@@ -85,12 +85,15 @@ const router = new Router({
             {
               path: 'percent',
               name: 'manage-percent',
-              component: ManagePortfolioPercent
+              component: ManagePortfolioPercent,
+              meta: { requiredBackup: true }
+
             },
             {
               path: 'value',
               name: 'manage-value',
-              component: ManagePortfolioValue
+              component: ManagePortfolioValue,
+              meta: { requiredBackup: true }
             }
           ]
         },
@@ -108,12 +111,14 @@ const router = new Router({
         {
           name: 'deposit',
           path: '/deposit',
-          component: Deposit
+          component: Deposit,
+          meta: { requiredBackup: true }
         },
         {
           name: 'withdraw',
           path: '/withdraw',
-          component: Deposit
+          component: Deposit,
+          meta: { requiredBackup: true }
         },
         {
           name: 'coin',
@@ -162,8 +167,9 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  let userId;
   if (to.meta.requiredAuth === undefined) {
-    const userId = Cookies.get('BITSHARES_USER_ID');
+    userId = Cookies.get('BITSHARES_USER_ID');
     if (!userId) {
       next({
         path: '/'
@@ -172,7 +178,20 @@ router.beforeEach((to, from, next) => {
   }
   if (to.meta.requiredBackup) {
     const backupDate = Cookies.get('BACKUP_DATE');
+    let backupExist = true;
     if (!backupDate) {
+      backupExist = false;
+    } else {
+      try {
+        const backupDateArray = JSON.parse(backupDate);
+        if (!backupDateArray.some(x => x.userId === userId)) {
+          backupExist = false;
+        }
+      } catch (ex) {
+        backupExist = false;
+      }
+    }
+    if (!backupExist) {
       next({
         path: '/backup',
         query: { redirect: to.name }
