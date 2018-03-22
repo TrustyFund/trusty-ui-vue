@@ -5,12 +5,13 @@
         input(v-model="name" @input="$v.name.$touch()")
     .trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter account name
     .trusty_font_error(v-if="!$v.name.isUnique && !this.$v.$pending && this.$v.name.$dirty") No such user
+    .trusty_font_error(v-if="!$v.name.notSelf && this.$v.name.$dirty") Can't send to yourself
     .trusty_inline_buttons._mob._one_button(@click="sendFunds"): button SEND FUNDS
 </template>
 
 <script>
 import TrustyInput from '@/components/UI/form/input';
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import { validationMixin } from 'vuelidate';
 import { required, numeric } from 'vuelidate/lib/validators';
 
@@ -39,12 +40,20 @@ export default {
         return new Promise((resolve) => {
           this.checkUsername({ username: value }).then(result => resolve(!result));
         });
+      },
+      notSelf(value) {
+        return value !== this.userName;
       }
     },
     amount: {
       required,
       numeric
     }
+  },
+  computed: {
+    ...mapGetters({
+      userName: 'account/getCurrentUserName'
+    })
   },
   methods: {
     ...mapActions({
