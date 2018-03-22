@@ -346,6 +346,13 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 		color: white;
   }
 
+  .only_right_arrow {
+    span {
+      display: inline-block;
+      transform: translateY(-6.4vw);
+    }
+  }
+
 
 }
 
