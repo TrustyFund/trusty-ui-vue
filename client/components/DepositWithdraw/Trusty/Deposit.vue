@@ -1,6 +1,6 @@
 <template lang="pug">
 
-.trusty_deposit_fiat_fullscreen(:class="{ no_order: order }")
+.trusty_deposit_fiat_fullscreen(:class="{ no_order: !order }")
 
 	.trusty_deposit_fiat
 
@@ -8,7 +8,7 @@
 
 		template(v-else)
 
-			order-fields(v-if="order")
+			order-fields(v-if="!order")
 
 			template(v-else)
 
