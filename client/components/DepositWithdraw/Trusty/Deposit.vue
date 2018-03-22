@@ -1,8 +1,8 @@
 <template lang="pug">
 
-.trusty_deposit_fiat_fullscreen
+.trusty_deposit_fiat_fullscreen(:class="{ no_order: order }")
 
-	.trusty_deposit_fiat.main_padding
+	.trusty_deposit_fiat
 
 		span(v-if="!connected").loading Loading...
 
