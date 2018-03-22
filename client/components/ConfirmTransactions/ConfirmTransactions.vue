@@ -7,7 +7,6 @@
 
     p._value(v-if="hasPendingTransfer") Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}
 
-
   TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
     template(slot="input")
       input(v-model="pin" type="tel")
@@ -85,7 +84,7 @@ export default {
       unlockWallet: 'account/unlockWallet',
       transferAsset: 'transactions/transferAsset'
     }),
-    async confirm() {
+    checkLocked() {
       if (this.isLocked) {
         if (!this.pin) {
           this.$notify({
@@ -94,11 +93,11 @@ export default {
             title: 'error',
             text: 'Enter PIN'
           });
-          return;
+          return false;
         }
         if (this.isValidPassword(this.pin)) {
           this.unlockWallet(this.pin);
-          if (this.isLocked) return;
+          if (this.isLocked) return false;
         } else {
           this.$notify({
             group: 'auth',
@@ -106,17 +105,15 @@ export default {
             title: 'error',
             text: 'Invalid PIN'
           });
-          return;
+          return false;
         }
       }
-
-      if (this.hasOrders) {
-        console.log(this.pendingOrders);
-        this.processOrders();
-      }
-      if (this.hasPendingTransfer) {
-        this.processTransfer();
-      }
+      return true;
+    },
+    async confirm() {
+      if (!this.checkLocked) return;
+      if (this.hasOrders) this.processOrders();
+      if (this.hasPendingTransfer) this.processTransfer();
     },
     async processOrders() {
       const result = await this.processPendingOrders();
