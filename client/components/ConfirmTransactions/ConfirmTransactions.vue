@@ -88,8 +88,7 @@ export default {
       if (this.isLocked) {
         if (!this.pin) {
           this.$notify({
-            type: 'success',
-            title: 'error',
+            type: 'warn',
             text: 'Enter PIN'
           });
           return false;
@@ -100,7 +99,6 @@ export default {
         } else {
           this.$notify({
             type: 'error',
-            title: 'error',
             text: 'Invalid PIN'
           });
           return false;
@@ -118,7 +116,6 @@ export default {
       if (result.success) {
         this.$notify({
           type: 'success',
-          title: 'Success',
           text: 'Orders filled'
         });
         this.$router.push({ name: 'entry' });
@@ -142,7 +139,6 @@ export default {
       if (result.success) {
         this.$notify({
           type: 'success',
-          title: 'Success',
           text: 'Transaction completed'
         });
         this.$router.push({ name: 'entry' });
