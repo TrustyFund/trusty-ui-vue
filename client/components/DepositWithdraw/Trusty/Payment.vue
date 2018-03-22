@@ -5,13 +5,13 @@
 	.deposit_paddings
 
 		trusty-input(:isOpen="true" label="please use your online bank to send")
-			template(slot="input"): div {{ order.FiatAmount  + ' ' + order.Currency }}
+			template(slot="input"): div._simple_text_left {{ order.FiatAmount  + ' ' + order.Currency }}
 
 		trusty-input(:isOpen="true" label="to")
-			template(slot="input"): div {{ order.PaymentMethod }}
+			template(slot="input"): div._simple_text_left {{ order.PaymentMethod }}
 
 		trusty-input(:isOpen="true" label="number")
-			template(slot="input"): div {{ order.PaymentRequisites }}
+			template(slot="input"): div._simple_text_left {{ order.PaymentRequisites }}
 
 		.trusty_inline_buttons._one_button
 			button copy address
@@ -28,12 +28,12 @@
 			button Confirm
 			button Cancel
 
-		p Payment gateway service is provided by users of #[br] Localbitcoins.com
+		p.trusty_help_text Payment gateway service is provided by users of #[br] Localbitcoins.com
 
 
 	.trusty_modal(id="trusty_modal_deposit")
 		._inner
-			p Before you continue,#[br] make sure the#[br] payment is done</p>
+			p.trusty_help_text Before you continue,#[br] make sure the#[br] payment is done</p>
 			.trusty_inline_buttons
 				a.b_left: button Done
 				a.b_right: button Back
@@ -54,6 +54,3 @@ export default {
   }
 };
 </script>
-
-<style lang="css" scoped>
-</style>

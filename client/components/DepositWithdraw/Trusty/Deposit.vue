@@ -14,7 +14,7 @@
 
 				timer(v-if="checkState('timer')")
 
-				payment(v-if="checkState('order-new')", :order="order")
+				payment(v-if="checkState('order-payment')", :order="order")
 
 				div(v-if="checkState('order-droped')")
 					span._tooltip order dropped by operator
@@ -133,6 +133,7 @@ export default {
     next() {
       const path = [
         'timer',
+        'order-payment',
         'order-new',
         'order-droped',
         'order-rejected',
