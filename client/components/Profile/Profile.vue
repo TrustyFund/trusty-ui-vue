@@ -11,7 +11,7 @@
 
     TotalFunds(
       v-if="userData" 
-     :name="userName" 
+     :name="replacedUserName" 
      :balances="userBalances"
      base-id="1.3.0"
      fiat-id="1.3.121")
@@ -59,7 +59,10 @@ export default {
       userBalances: 'account/getCurrentUserBalances',
       userName: 'account/getCurrentUserName',
       userData: 'account/getCurrentUserData'
-    })
+    }),
+    replacedUserName() {
+      return this.userName.replace(/-/g, '@');
+    }
   },
   components: {
     Portfolio, Transactions, TotalFunds

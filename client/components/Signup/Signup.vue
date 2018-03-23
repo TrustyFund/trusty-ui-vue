@@ -20,7 +20,7 @@
       //- .trusty_font_error(v-if="!$v.email.required && this.$v.email.$dirty") Enter e-mail
       //- .trusty_font_error(v-if="!$v.email.email && this.$v.email.$dirty") Invalid e-mail
 
-      trusty-input(label="enter pin code")
+      trusty-input(label="create pin code")
         template(slot="input")
           input(v-model="password" @input="$v.password.$touch()" type="tel")
       .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter PIN
@@ -72,7 +72,8 @@ export default {
       email,
       isUnique(value) {
         if (value === '') return true;
-        return this.checkUsername({ username: value });
+
+        return this.checkUsername({ username: value.replace(/@/g, '-') });
       },
       minLength: minLength(4)
     },
@@ -101,10 +102,13 @@ export default {
     async handleSignUp() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        console.log(this.name, this.email, this.password);
+        console.log(this.name, this.password);
+
+        const replacedName = this.name.replace(/@/g, '-');
+        console.log(replacedName);
+
         const result = await this.signup({
-          name: this.name,
-          // email: this.email,
+          name: replacedName,
           password: this.password,
           dictionary: dictionary.en
         });
