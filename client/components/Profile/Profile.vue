@@ -11,7 +11,7 @@
 
     TotalFunds(
       v-if="userData" 
-     :name="replacedUserName" 
+     :name="userName" 
      :balances="userBalances"
      base-id="1.3.0"
      fiat-id="1.3.121")
@@ -20,7 +20,6 @@
       .trusty_inline_buttons
         button DEPOSIT
         button WITHDRAW
-      //- .trusty_inline_buttons._one_button(@click="goToManagePortfolio"): button MANAGE FUND
 
     div.transactions-wrap
       Transactions(v-if="userId"
@@ -59,10 +58,7 @@ export default {
       userBalances: 'account/getCurrentUserBalances',
       userName: 'account/getCurrentUserName',
       userData: 'account/getCurrentUserData'
-    }),
-    replacedUserName() {
-      return this.userName.replace(/-/g, '@');
-    }
+    })
   },
   components: {
     Portfolio, Transactions, TotalFunds
