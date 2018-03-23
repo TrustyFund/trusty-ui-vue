@@ -27,11 +27,6 @@ export default {
       required: false,
       default: false
     },
-    fiatMultiplier: {
-      type: Number,
-      required: false,
-      default: 0
-    },
     fiatId: {
       type: String,
       required: false
@@ -43,13 +38,20 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getAssetById: 'assets/getAssetById'
+      getAssetById: 'assets/getAssetById',
+      getAssetMultiplier: 'market/getAssetMultiplier'
     }),
     assetSell() {
       return this.getAssetById(this.item.payload.amount_to_sell.asset_id);
     },
+    fiatAsset() {
+      return this.getAssetById(this.fiatId);
+    },
     fiatPrecision() {
-      return this.getAssetById(this.fiatId).precision;
+      return this.fiatAsset.precision;
+    },
+    fiatMultiplier() {
+      return this.getAssetMultiplier(this.fiatId).last;
     },
     assetReceive() {
       return this.getAssetById(this.item.payload.min_to_receive.asset_id);

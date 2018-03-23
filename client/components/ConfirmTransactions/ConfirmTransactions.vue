@@ -3,7 +3,7 @@
 
   .transaction_info
     p._value(v-for="item in items") 
-      PlaceOrderInfo(:item="item", :min="true", :fiat-multiplier="fiatMultiplier.last")
+      PlaceOrderInfo(:item="item", :min="true", :fiat-id="fiatId")
 
   TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
     template(slot="input")
