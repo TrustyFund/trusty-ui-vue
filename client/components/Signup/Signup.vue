@@ -88,11 +88,8 @@ export default {
     async handleSignUp() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        console.log(this.name, this.password);
-
         const replacedName = this.name.replace(/@/g, '-');
-        console.log(replacedName);
-
+        console.log(this.name, this.replacedName, this.password);
         const result = await this.signup({
           name: replacedName,
           password: this.password,
