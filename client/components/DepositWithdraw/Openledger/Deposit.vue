@@ -49,7 +49,7 @@ export default {
       if (coins[coin] !== undefined) {
         const { gateFee } = coins[coin];
         if (gateFee > 0) {
-          return gateFee;
+          return gateFee * 2;
         }
         return false;
       }

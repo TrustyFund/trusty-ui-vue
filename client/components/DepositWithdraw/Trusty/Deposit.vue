@@ -83,6 +83,10 @@ export default {
       cancelOrder: 'cryptobot/cancelOrder',
       clearOrder: 'cryptobot/clearOrder'
     }),
+    finishDeposit() {
+      this.clearOrder();
+      this.$router.push({ name: 'entry' });
+    },
     checkState(showState) {
       const { query } = this.$route;
       const { state } = query || { state: 'loading' };
@@ -95,28 +99,6 @@ export default {
         method: this.payload.method,
         name: this.clientName
       });
-      console.log('NEW ORDER', this.payload, this.clientName);
-    },
-    next() {
-      const path = [
-        'timer',
-        'order-payment',
-        'order-new',
-        'order-droped',
-        'order-rejected',
-        'order-canceled',
-        'order-timeout',
-        'order-confirmation',
-        'order-transfer',
-        'order-finished'
-      ];
-      const { query: state } = this.$route;
-
-      let index = 0;
-      if (state.state) {
-        index = path.indexOf(state.state) + 1;
-      }
-      this.$router.push({ name: 'deposit', query: { state: path[index] } });
     }
   }
 };

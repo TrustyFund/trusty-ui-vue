@@ -21,7 +21,7 @@ const orderStatus = {
   // Client did not fund lb contract in time
   TIMEOUT: 9,
   // Waiting for confirmation from operator or lb
-  OONFIRMATION: 10,
+  COONFIRMATION: 10,
   // Transferring bitshares
   TRANSFER: 11,
   // Finished
