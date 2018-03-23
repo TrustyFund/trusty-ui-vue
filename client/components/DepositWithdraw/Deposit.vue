@@ -60,7 +60,7 @@ export default {
     return {
       selectedcoin: 'RUB',
       paymentmethod: 'SBERBANK',
-      amount: 0,
+      amount: '',
       coins: ['BTC', 'ETH', 'LTC', 'NEO', 'RUB']
     };
   }

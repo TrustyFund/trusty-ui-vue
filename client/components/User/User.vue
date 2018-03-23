@@ -58,7 +58,7 @@ export default {
         if (connected) {
           this.fetchUser(this.name).then(result => {
             if (!result.success) {
-              this.$notify({    
+              this.$notify({
                 type: 'error',
                 title: '',
                 text: this.name + ' : ' + result.error
