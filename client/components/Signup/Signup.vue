@@ -89,7 +89,7 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const replacedName = this.name.replace(/@/g, '-');
-        console.log(this.name, this.replacedName, this.password);
+        console.log(this.name, replacedName, this.password);
         const result = await this.signup({
           name: replacedName,
           password: this.password,
