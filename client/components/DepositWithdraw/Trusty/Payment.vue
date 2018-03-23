@@ -17,46 +17,68 @@
 			button copy address
 
 		trusty-input(:isOpen="true" label="exchanged rate confirmed")
-			template(slot="input"): div._simple_text_left 1.55
+			template(slot="input"): div._simple_text_left {{ amount.rate }}
 			template(slot="right"): div._right_slash RUB / BTC
 
-		p._deposit_help_text you will receive 100 BTC
+		p._deposit_help_text you will receive {{ amount.final }} BTC
 
 		p.trusty_help_text._bottom._yellow Push CONFIRM button as soon as#[br] you have completed the payment
 
 		.trusty_inline_buttons
 			button(@click="$store.dispatch('app/setModal', 'payment')") Confirm
-			button Cancel
+			button(@click="cancelOrder") Cancel
 
 		p.trusty_help_text Payment gateway service is provided by users of Localbitcoins.com
 
 
-	.modal_wrap(v-if="getModalName==='payment'")
+	.modal_wrap(v-if="getModalName === 'payment'")
 		.modal_content.main_padding
 			p.trusty_help_text Before you continue,#[br] make sure the#[br] payment is done
 			.trusty_inline_buttons
-				button(@click="$store.dispatch('app/setModal', null)") Done
+				button(@click="markPayed") Done
 				button(@click="$store.dispatch('app/setModal', null)") Back
 
 </template>
 
 <script>
 import trustyInput from '@/components/UI/form/input';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   components: { trustyInput },
   name: 'Payment',
-  props: ['order'],
   data() {
     return {
 
     };
   },
   computed: {
-  	...mapGetters({
-  		getModalName: 'app/getModalName'
-  	})
+    ...mapGetters({
+      order: 'cryptobot/getCurrentOrder',
+      getModalName: 'app/getModalName'
+    }),
+    amount() {
+      const {
+        FiatAmount,
+        LBAmount,
+        LBFee,
+        OperatorFee,
+        BotFee
+      } = this.order;
+      const final = (LBAmount - LBFee - OperatorFee - BotFee).toFixed(8);
+      const rate = Math.floor(FiatAmount / final).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+      return { final, rate };
+    }
+  },
+  methods: {
+    ...mapActions({
+      cancelOrder: 'cryptobot/cancelOrder',
+      payOrder: 'cryptobot/setPayedStatus'
+    }),
+    markPayed() {
+      this.$store.dispatch('app/setModal', null);
+      this.payOrder();
+    }
   }
 };
 </script>
@@ -67,8 +89,6 @@ export default {
 		padding-top: 10vw;
 		padding-bottom: 10vw;
 		background: black;
-
-
 	}
 }
 

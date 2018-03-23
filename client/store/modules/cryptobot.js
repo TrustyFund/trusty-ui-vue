@@ -43,14 +43,31 @@ class Order {
     );
   }
 
-  isNew() {
-    return (this.Status === orderStatus.NEW);
+  isWaitingOperatorAction() {
+    return (
+      this.Status === orderStatus.NEW ||
+      this.Status === orderStatus.ACCEPTED ||
+      this.Status === orderStatus.LINKED
+    );
+  }
+
+  hasRequisites() {
+    return this.Status === orderStatus.PAYMENT;
+  }
+
+  isComplete() {
+    return (
+      this.Status === orderStatus.COONFIRMATION ||
+      this.Status === orderStatus.TRANSFER ||
+      this.Status === orderStatus.FINISHED
+    );
   }
 }
 
 const CRYPTOBOT_CONNECT_REQUEST = 'CRYPTOBOT_CONNECT_REQUEST';
 const CRYPTOBOT_CONNECT_COMPLETE = 'CRYPTOBOT_CONNECT_COMPLETE';
 const CRYPTOBOT_CONNECT_CLOSE = 'CRYPTOBOT_CONNECT_CLOSE';
+const CRYPTOBOT_CONNECT_UNAVAILABLE = 'CRYPTOBOT_CONNECT_UNAVAILABLE';
 
 const CRYPTOBOT_GET_ORDER_REQUEST = 'CRYPTOBOT_GET_ORDER_REQUEST';
 const CRYPTOBOT_GET_ORDER_COMPLETE = 'CRYPTOBOT_GET_ORDER_COMPLETE';
@@ -92,6 +109,10 @@ const mutations = {
     state.pending = false;
     state.connected = false;
   },
+  [CRYPTOBOT_CONNECT_UNAVAILABLE]: (state) => {
+    state.pending = false;
+    state.error = 'Service unavailable';
+  },
   [CRYPTOBOT_GET_ORDER_REQUEST]: (state) => {
     state.pending = true;
   },
@@ -129,13 +150,25 @@ const mutations = {
   },
   [CRYPTOBOT_ORDER_UPDATE_RECEIVED]: (state, { order }) => {
     state.order = new Order(order);
+  },
+  [CRYPTOBOT_SET_PAYMENT_REQUEST]: (state) => {
+    state.pending = true;
+  },
+  [CRYPTOBOT_SET_PAYMENT_ERROR]: (state, { error }) => {
+    state.pending = false;
+    state.error = error;
+  },
+  [CRYPTOBOT_SET_PAYMENT_COMPLETE]: (state) => {
+    state.pending = false;
   }
 };
 
 const getters = {
   hasCurrentOrder: state => state.order !== false,
   getCurrentOrder: state => state.order,
-  isConnected: state => state.connected
+  isConnected: state => state.connected,
+  getPendingStatus: state => state.pending,
+  getError: state => state.error
 };
 
 const actions = {
@@ -149,10 +182,8 @@ const actions = {
     CryptobotClient.onopen = () => {
       commit(CRYPTOBOT_CONNECT_COMPLETE);
 
-      // PersistentStorage.remove(CRYPTOBOT_CURRENT_ORDER);
       const textOrderId = PersistentStorage.get(CRYPTOBOT_CURRENT_ORDER);
       if (textOrderId) {
-        console.log('TRY LOAD ORDER', textOrderId);
         const orderId = parseInt(textOrderId, 10);
 
         dispatch('fetchOrder', { orderId });
@@ -161,7 +192,11 @@ const actions = {
 
     CryptobotClient.onclose = (msg) => {
       console.log('CLOSE', msg);
-      commit(CRYPTOBOT_CONNECT_CLOSE);
+      if (msg.code === 1002) {
+        commit(CRYPTOBOT_CONNECT_UNAVAILABLE);
+      } else {
+        commit(CRYPTOBOT_CONNECT_CLOSE);
+      }
     };
 
     CryptobotClient.connect();

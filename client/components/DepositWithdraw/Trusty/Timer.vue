@@ -8,21 +8,26 @@
 			| :
 			span {{ secondsString }}
 	.trusty_inline_buttons._one_button
-		button cancel order
+		button(@click="cancelOrder") cancel order
 
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   data() {
     return {
       secondsRemaining: 59,
       minutesRemaining: 2,
-      text: 'TEXT'
+      text: 'YOU WILL GET DEPOSIT DETAILS IN <br /> UNDER 3 MINUTES'
     };
   },
 
   methods: {
+    ...mapActions({
+      cancelOrder: 'cryptobot/cancelOrder'
+    }),
 
     tick() {
       let newMinutes = this.minutesRemaining;

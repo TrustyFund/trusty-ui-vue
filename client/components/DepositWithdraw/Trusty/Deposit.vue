@@ -1,6 +1,8 @@
 <template lang="pug">
 ._turnover_info
-	span(v-if="!connected").loading Loading...
+	.status(v-if="!connected")
+		span(v-if="pending").loading Loading...
+		span(v-if="error").loading Service unavailable
 	template(v-else)
 		.trusty_deposit_fiat(v-if="!hasorder")
 			._margin_bottom
@@ -15,35 +17,19 @@
 		.trusty_deposit_fiat_fullscreen(v-else)
 			.trusty_deposit_fiat
 
-				timer(v-if="order.isNew()")
+				timer(v-if="order.isWaitingOperatorAction()")
 
-				payment(v-if="checkState('order-payment')", :order="order")
+				payment(v-if="order.hasRequisites()")
 
 				div(v-if="order.isRejected()")
 					span._tooltip No operators availble
 					.trusty_inline_buttons._one_button
 						button(@click="clearOrder") try again
 
-				div.trusty_deposit_fiat_fullscreen(v-if="checkState('order-new')")
+				div(v-if="order.isComplete()")
+					span._tooltip Transaction complete, you will receive BTC soon
 					.trusty_inline_buttons._one_button
-						button try again
-
-				span._tooltip(v-if="checkState('order-accepted')") operator just tooked order
-
-				span._tooltip(v-if="checkState('order-canceled')") you canceled the order
-
-				span._tooltip(v-if="checkState('order-timeout')") you faild to pay in time
-
-				span._tooltip(v-if="checkState('order-confirmation')") We are w8ing for bitcoins to come on lb
-
-				span._tooltip(v-if="checkState('order-transfer')") It seemd to be ready 1
-
-				span._tooltip(v-if="checkState('order-finished')") It seemd to be ready 2
-
-
-	.trusty_inline_buttons.debug_but
-		button(@click="next") NEXT
-		button(@click="connect" v-if="!connected") CONNECT
+						button(@click="clearOrder") Got it
 </template>
 
 <script>
@@ -72,24 +58,6 @@ export default {
     return {
       clientName: ''
     };
-    /* return {
-      order: {
-        BotFee: '0',
-        ClientName: 'stas',
-        Currency: 'RUB',
-        Destination: 'trustytest2',
-        FiatAmount: '500',
-        ID: 86,
-        LBAmount: '0.0005328511187012',
-        LBContractID: 0,
-        LBFee: '0',
-        OperatorFee: '0',
-        OperatorID: 0,
-        PaymentMethod: 'SBERBANK',
-        PaymentRequisites: '',
-        Status: 1
-      }
-    }; */
   },
   beforeMount() {
     this.connect();
@@ -101,7 +69,9 @@ export default {
     ...mapGetters({
       hasorder: 'cryptobot/hasCurrentOrder',
       order: 'cryptobot/getCurrentOrder',
-      connected: 'cryptobot/isConnected'
+      connected: 'cryptobot/isConnected',
+      pending: 'cryptobot/getPendingStatus',
+      error: 'cryptobot/getError'
     })
   },
   methods: {
@@ -164,11 +134,12 @@ export default {
 	}
 }
 
-.loading {
-	//position: absolute;
-	//top: 50%;
-	//left: 50%;
-
+.status {
+	position: fixed; /* or absolute */
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
 }
 
 .debug_but {
