@@ -14,7 +14,7 @@
       trusty-input(label="confirm pin")
         template(slot="input")
           input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="tel")
-      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PINS do not match
+      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PIN codes do not match
 
       trusty-input(label="brainkey" type="textarea")
         template(slot="input")
@@ -70,12 +70,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      pending: 'account/getAccountPendingState'
+      pending: 'account/getAccountPendingState',
+      getUserId: 'account/getAccountUserId'
     })
   },
   methods: {
     ...mapActions({
-      login: 'account/login'
+      login: 'account/login',
+      storeBackupDate: 'account/storeBackupDate'
     }),
     async handleLogin() {
       // vuelidate (check all fields)
@@ -86,7 +88,9 @@ export default {
           brainkey: this.brainkey
         });
         if (result.success) {
-          this.$router.push({ name: 'profile' });
+          const date = new Date();
+          this.storeBackupDate({ date, userId: this.getUserId });
+          this.$router.push({ name: 'entry' });
         } else {
           this.$notify({
             group: 'auth',

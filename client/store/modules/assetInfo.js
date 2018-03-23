@@ -14,46 +14,65 @@ const FETCH_ASSET_SNAPSHOT_REQUEST = 'FETCH_ASSET_SNAPSHOT_REQUEST';
 const FETCH_ASSET_SNAPSHOT_COMPLETE = 'FETCH_ASSET_SNAPSHOT_COMPLETE';
 const FETCH_ASSET_SNAPSHOT_ERROR = 'FETCH_ASSET_SNAPSHOT_ERROR';
 
+const RESET_ASSET_INFO = 'RESET_ASSET_INFO';
+
 const statsStub = {};
 
 const snapShotStub = {};
 
 const socialStub = {};
 
+const icoStub = {};
 
 const mutations = {
   [FETCH_ASSET_STATS_REQUEST](state) {
-    state.penging = true;
+    state.pending = true;
+    state.pendingStats = true;
   },
   [FETCH_ASSET_STATS_ERROR](state) {
-    state.penging = false;
+    state.pending = false;
+    state.pendingStats = false;
   },
   [FETCH_ASSET_STATS_COMPLETE](state, { stats }) {
     state.stats = stats;
-    state.penging = false;
+    state.pending = false;
+    state.pendingStats = false;
   },
 
   [FETCH_ASSET_SOCIAL_REQUEST](state) {
-    state.penging = true;
+    state.pending = true;
+    state.pendingSocial = true;
   },
   [FETCH_ASSET_SOCIAL_ERROR](state) {
-    state.penging = false;
+    state.pending = false;
+    state.pendingSocial = false;
   },
   [FETCH_ASSET_SOCIAL_COMPLETE](state, { social }) {
     state.social = social;
-    state.penging = false;
+    state.pending = false;
+    state.pendingSocial = false;
   },
 
   [FETCH_ASSET_SNAPSHOT_REQUEST](state) {
-    state.penging = true;
+    state.pending = true;
+    state.pendingSnapShot = true;
   },
   [FETCH_ASSET_SNAPSHOT_ERROR](state) {
-    state.penging = false;
+    state.pending = false;
+    state.pendingSnapShot = false;
   },
-  [FETCH_ASSET_SNAPSHOT_COMPLETE](state, { snapShot }) {
+  [FETCH_ASSET_SNAPSHOT_COMPLETE](state, { snapShot, ico }) {
     state.snapShot = snapShot;
-    state.penging = false;
+    state.ico = ico;
+    state.pending = false;
+    state.pendingSnapShot = false;
   },
+  [RESET_ASSET_INFO](state) {
+    state.stats = {};
+    state.social = {};
+    state.snapShot = {};
+    state.penging = false;
+  }
 };
 
 const actions = {
@@ -83,11 +102,17 @@ const actions = {
     commit(FETCH_ASSET_SNAPSHOT_REQUEST);
     const result = await AssetInfo.getCoinSnapshot(assetSymbol);
     if (result.success) {
-      commit(FETCH_ASSET_SNAPSHOT_COMPLETE, { snapShot: result.data });
+      commit(FETCH_ASSET_SNAPSHOT_COMPLETE, {
+        snapShot: result.data.snapShot, ico: result.data.ico
+      });
     } else {
       commit(FETCH_ASSET_SNAPSHOT_ERROR);
     }
     return result;
+  },
+
+  resetData({ commit }) {
+    commit(RESET_ASSET_INFO);
   }
 };
 
@@ -95,13 +120,21 @@ const getters = {
   getStats: state => state.stats,
   getSocial: state => state.social,
   getSnapShot: state => state.snapShot,
+  getICO: state => state.ico,
+  getPendingStats: state => state.pendingStats,
+  getPendingSocial: state => state.pendingSocial,
+  getPendingSnapShot: state => state.pendingSnapShot
 };
 
 
 const initialState = {
   stats: statsStub,
+  pendingStats: false,
   social: socialStub,
+  pendingSocial: false,
   snapShot: snapShotStub,
+  pendingSnapShot: false,
+  ico: icoStub,
   penging: false,
 };
 

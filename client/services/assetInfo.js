@@ -1,4 +1,8 @@
-/* eslint class-methods-use-this: ["error", { "exceptMethods": ["getStats"] }] */
+/* eslint class-methods-use-this: [
+  "error", {
+   "exceptMethods": ["getStats", "filterFields"]
+  }
+ ] */
 import axios from 'axios';
 import dateFns from 'date-fns';
 
@@ -28,7 +32,13 @@ class AssetInfo {
         return coinsResult;
       }
     }
-    const coinId = this.coins[assetSymbol].Id;
+    const coinId = (this.coins[assetSymbol] && this.coins[assetSymbol].Id) || '';
+    if (!coinId) {
+      return {
+        success: false,
+        error: 'Coin not found'
+      };
+    }
     const socialQuery = 'https://proxy.trusty.fund/' +
       `socialstats/?id=${coinId}`;
     try {
@@ -73,13 +83,20 @@ class AssetInfo {
         return coinsResult;
       }
     }
-    const coinId = this.coins[assetSymbol].Id;
+    const coinId = (this.coins[assetSymbol] && this.coins[assetSymbol].Id) || '';
+    if (!coinId) {
+      return {
+        success: false,
+        error: 'Coin not found'
+      };
+    }
     const snapshotQuery = 'https://proxy.trusty.fund/' +
       `coinsnapshotfullbyid/?id=${coinId}`;
+    console.log(snapshotQuery);
     try {
       const snapshotStats = await axios.get(snapshotQuery);
       if (snapshotStats.data.Response === 'Success') {
-        const data = {
+        const snapShot = {
           description: snapshotStats.data.Data.General.Description,
           features: snapshotStats.data.Data.General.Features,
           technology: snapshotStats.data.Data.General.Technology,
@@ -88,14 +105,14 @@ class AssetInfo {
           proofType: snapshotStats.data.Data.General.ProofType,
           startDate: snapshotStats.data.Data.General.StartDate,
           name: snapshotStats.data.Data.General.Name,
-          ico: {
-            status: snapshotStats.data.Data.ICO.Status,
-            whitePaper: snapshotStats.data.Data.ICO.WhitePaper
-          }
         };
+        const ico = this.filterFields(snapshotStats.data.Data.ICO);
         return {
           success: true,
-          data
+          data: {
+            snapShot,
+            ico
+          }
         };
       }
       return {
@@ -109,6 +126,18 @@ class AssetInfo {
       };
       return result;
     }
+  }
+
+  filterFields(source) {
+    Object.keys(source).forEach((key) => {
+      if (key.includes('Date') && !(source[key] === 'N/A' || source[key] === '-')) {
+        source[key] = dateFns.format(new Date(source[key] * 1000), 'MMMM DD YYYY HH:mm');
+      }
+      if (source[key] === 'N/A' || source[key] === '-' || key.includes('Link')) {
+        delete source[key];
+      }
+    });
+    return source;
   }
 
   async getStats(fromSymbol) {

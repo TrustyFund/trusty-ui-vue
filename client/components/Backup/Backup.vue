@@ -31,16 +31,12 @@ export default {
     ...mapActions({
       lockWallet: 'account/lockWallet'
     }),
-    // this.$router.go(-1);
     handleExit() {
       this.$router.push({ name: this.prevAddress });
     }
   },
   mounted() {
     this.lockWallet();
-    // this.setModal('backup_try_again');
-    // this.setModal('backup_copied_password');
-    // this.setModal('backup-screenshots');
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -138,8 +134,10 @@ $light_grey: #6d6e70;
 	}
 
 	#phrase {
+
+		height: inherit;
 		> p:first-child {
-			margin: 42vw 0 7.5vw 0;
+			margin: 0 0 7.5vw 0;
 		}
 		.trusty_big_font span {
 			display: inline-block;
@@ -147,6 +145,15 @@ $light_grey: #6d6e70;
 	}
 
 	#verify {
+
+		.trusty_inline_buttons {
+			margin-bottom: 3.6vw;
+		}
+
+		.trusty_inline_buttons:last-child {
+			padding-top: 0;
+		}
+
 
 		> p:first-child {
 			margin: .95vw 0 6vw 0;
@@ -226,8 +233,6 @@ $light_grey: #6d6e70;
 		min-height: 28.6vh;
 		max-height: 52.6vh;
 		margin-bottom: 5.3vw;
-		border-top: 1px dashed white;
-		border-bottom: 1px dashed white;
 		overflow: scroll;
 		span {
 			cursor: pointer;
@@ -245,10 +250,6 @@ $light_grey: #6d6e70;
 
 		.trusty_help_text {
 			margin: auto;
-			span:hover {
-				color: black;
-				background: white;
-			}
 		}
 
 		span {
@@ -282,12 +283,17 @@ $light_grey: #6d6e70;
 		}
 
 		#phrase {
+			//padding-top: px_from_vw(42);
 			> p:first-child {
-				margin: px_from_vw(42) 0 px_from_vw(7.5) 0;
+				margin: 0 0 px_from_vw(7.5) 0;
 			}
 		}
 
 		#verify {
+
+			.trusty_inline_buttons {
+				margin-bottom: px_from_vw(3.6);
+			}
 
 			> p:first-child {
 				margin: px_from_vw(.95) 0 px_from_vw(6) 0;
@@ -350,6 +356,11 @@ $light_grey: #6d6e70;
 		}
 
 		.random_area {
+
+			span:hover {
+				color: black;
+				background: white;
+			}
 
 			span {
 				margin: px_from_vw(1.4);

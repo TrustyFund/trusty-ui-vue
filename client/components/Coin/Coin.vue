@@ -5,7 +5,10 @@
 
   ._head_title
 
-    div._indicators
+    div.spinner-container(v-show="getPendingStats")
+      Spinner
+
+    div._indicators(v-show="!getPendingStats && change24")
       span._price {{ format(getStats.price) }}
       span._24change
         span {{ change24 }}%&nbsp
@@ -13,7 +16,7 @@
 
 
   .coin_info.main_padding
-    .top_values
+    .top_values(v-show="!getPendingStats && change24")
 
       section._db_left._db_bottom
         h4 Mkt. Cap.
@@ -31,36 +34,32 @@
 
   #coin_analysis._belongings
 
-    .content_area(:class="{_opened_article: opened==='about asset issuer'}")
-      ._items(@click="opened = opened==='about asset issuer' ? '':'about asset issuer'")
-        ._list_item
-          span.text_button about asset issuer
-          icon(name="trusty_arrow_down")
-        .wrap_content.main_padding
-          ._grey_key_list
-            p description
-            p {{getBitsharesDescription}}
+    
 
-    .content_area(:class="{_opened_article: opened==='about'}")
-      ._items(@click="opened = opened==='about' ? '':'about'")
+    .content_area(:class="{_opened_article: opened==='description'}")
+      ._items(@click="opened = opened==='description' ? '':'description'")
         ._list_item
-          span.text_button ABOUT
+          span.text_button DESCRITION
           icon(name="trusty_arrow_down")
 
       .wrap_content.main_padding
 
         ._grey_key_list(v-for="(val, key) in getSnapShot" v-if="val")
-          template(v-if="key !== 'image'&&key!=='ico'")
+          template(v-if="key")
             p {{ parseCamel(key) }}
             p(v-html="val") {{ val }}
-          template(v-if="key==='ico'")
-            h3._list_title {{ key }}
-            ._grey_key_list
-              p STATUS
-              p {{ val.status}}
-            ._grey_key_list
-              p white paper
-              p(v-html="val.whitePaper")
+
+    .content_area(:class="{_opened_article: opened==='ico'}" v-show="ICOExist")
+      ._items(@click="opened = opened==='ico' ? '':'ico'")
+        ._list_item
+          span.text_button ICO
+          icon(name="trusty_arrow_down")
+
+      .wrap_content.main_padding
+        ._grey_key_list(v-for="(val, key) in getICO" v-if="val")
+          template(v-if="key")
+            p {{ parseCamel(key) }}
+            p(v-html="val") {{ val }}
 
 
     .content_area(:class="{_opened_article: opened==='social'}")
@@ -83,7 +82,16 @@
             ._grey_key_list(v-for="(one, k) in val", @click="showLink(one.url)")
               p {{ one.url }}
               p updated {{ one.lastUpdate}}
-
+    
+    .content_area(:class="{_opened_article: opened==='about asset issuer'}")
+          ._items(@click="opened = opened==='about asset issuer' ? '':'about asset issuer'")
+            ._list_item
+              span.text_button about asset issuer
+              icon(name="trusty_arrow_down")
+            .wrap_content.main_padding
+              ._grey_key_list
+                p description
+                p {{getBitsharesDescription}}
 
   p.trusty_ps_text Overview provided by cryptocompare.com
 
@@ -92,11 +100,15 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import Spinner from '@/components/UI/Spinner';
 import icon from '@/components/UI/icon';
 
 export default {
   mounted() {
     this.preloadData();
+  },
+  beforeDestroy() {
+    this.resetData();
   },
   props: {
     symbol: {
@@ -127,13 +139,15 @@ export default {
       getStats: 'assetInfo/getStats',
       getSocial: 'assetInfo/getSocial',
       getSnapShot: 'assetInfo/getSnapShot',
-      getAssetById: 'assets/getAssetById'
+      getAssetById: 'assets/getAssetById',
+      getICO: 'assetInfo/getICO',
+      getPendingStats: 'assetInfo/getPendingStats'
     }),
     getSymbol() {
       return this.symbol.toUpperCase();
     },
     getBitsharesDescription() {
-      const assetObj = this.getAssetById([this.assetId]);
+      const assetObj = this.getAssetById(this.assetId);
       if (!assetObj.options) {
         return '';
       }
@@ -145,6 +159,9 @@ export default {
       } catch (ex) {
         return '';
       }
+    },
+    ICOExist() {
+      return Object.keys(this.getICO).length > 0;
     }
   },
 
@@ -186,6 +203,7 @@ export default {
       fetchStats: 'assetInfo/fetchStats',
       fetchSocial: 'assetInfo/fetchSocial',
       fetchSnapshot: 'assetInfo/fetchSnapshot',
+      resetData: 'assetInfo/resetData'
     }),
     parseUnderscore(string) {
       if (typeof string === 'string') {
@@ -200,7 +218,8 @@ export default {
     }
   },
   components: {
-    icon
+    icon,
+    Spinner
   }
 };
 
@@ -221,7 +240,11 @@ $color_green_value: #659d1a;
 
 #trusty_coin_overview {
 
+
+
   height: inherit;
+
+
 
   ._belongings {
 
@@ -411,6 +434,12 @@ $color_green_value: #659d1a;
       text-transform: uppercase;
     }
 
+    .spinner-container {
+      position: relative;
+      height: 5rem;
+    }
+    
+
     ._indicators {
       margin-bottom: 6vw;
 
@@ -435,6 +464,8 @@ $color_green_value: #659d1a;
           font-family: Gotham_Pro;
         }
       }
+
+      
     }
 
   }

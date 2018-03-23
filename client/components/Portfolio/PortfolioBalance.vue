@@ -1,10 +1,10 @@
 <template lang="pug">
 
   tr.portfolio-container__balance 
-        td._text_left  {{ item.name }}
-        td._text_right {{ formattedShare }}%
-        td._text_right {{ formattedBalanceFiat }}$
-        td._text_right {{ formattedChange }}%
+    td._text_left: span  {{ item.name }}
+    td._text_right: span {{ formattedShare }}%
+    td._text_right: span {{ formattedBalanceFiat }}
+    td._text_right: span {{ formattedChange }}%
 
 </template>
 
@@ -20,6 +20,11 @@ export default {
       type: Number,
       required: true,
       default: 1
+    },
+    fiatPrecision: {
+      type: Number,
+      required: true,
+      default: 0
     }
   },
   data() {
@@ -27,16 +32,21 @@ export default {
   },
   computed: {
     share() {
-      return (this.item.balanceBase / this.totalBaseValue) * 100;
+      return (this.item.baseValue / this.totalBaseValue) * 100;
     },
     formattedShare() {
-      return (this.share && this.share.toFixed(0)) || 0;
+      return (this.share && Math.round(this.share, 0)) || 0;
     },
     formattedBalanceFiat() {
-      return this.item.balanceFiat.toFixed(0);
+      if (!this.item.fiatValue) return '0.00';
+      const precisedFiatValue = (this.item.fiatValue / (10 ** this.fiatPrecision)).toFixed(2);
+      return precisedFiatValue;
     },
     formattedChange() {
-      return this.item.change.toFixed(0);
+      if (!this.item.change) return 0;
+      let change = this.item.change.toFixed(0).toString();
+      if (change.length > 3) change = change.substring(0, 3);
+      return change;
     }
   }
 };

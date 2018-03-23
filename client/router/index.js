@@ -4,46 +4,28 @@ import Router from 'vue-router';
 
 import Coin from '@/components/Coin/Coin';
 import Deposit from '@/components/Transfer';
-import Profile from '@/components/Profile/Profile.vue';
 import User from '@/components/User/User.vue';
 import Signup from '@/components/Signup/Signup.vue';
 import Login from '@/components/Login/Login.vue';
-import ManagePortfolio from '@/components/Portfolio/ManagePortfolio.vue';
+import ManagePortfolio from '@/components/ManagePortfolio/ManagePortfolio';
+import ManagePortfolioPercent from '@/components/ManagePortfolio/ManagePortfolioPercent';
+import ManagePortfolioValue from '@/components/ManagePortfolio/ManagePortfolioValue';
 import Transactions from '@/components/Transactions/Transactions';
 import Backup from '@/components/Backup/Backup';
 import BackupDone from '@/components/Backup/BackupDone';
 import BackupFirst from '@/components/Backup/BackupFirst';
+import BackupPassword from '@/components/Backup/BackupPasswordCheck';
 import BackupPhrase from '@/components/Backup/BackupPhrase';
 import BackupVerify from '@/components/Backup/BackupVerify';
-import BackupPassword from '@/components/Backup/BackupPasswordCheck';
-import PortfolioApprove from '@/components/Portfolio/PortfolioApprove';
-import Landing from '@/components/Landing/Landing';
 import Faq from '@/components/Faq/Faq';
+import ConfirmTransactions from '@/components/ConfirmTransactions/ConfirmTransactions';
+import EntryPoint from '@/components/EntryPoint/EntryPoint';
 
 Vue.use(Router);
 
 const router = new Router({
   mode: 'history',
   routes: [
-    {
-      name: 'landing',
-      path: '/home',
-      component: Landing,
-      meta: {
-        requiredAuth: false
-      }
-    },
-    {
-      name: 'profile',
-      path: '/',
-      component: Profile
-    },
-    {
-      name: 'user',
-      path: '/user/:name',
-      component: User,
-      props: true
-    },
     {
       name: 'login',
       path: '/login',
@@ -61,74 +43,112 @@ const router = new Router({
       }
     },
     {
-      name: 'deposit',
-      path: '/deposit',
-      component: Deposit,
+      name: 'entry',
+      path: '/',
+      component: EntryPoint,
       meta: {
-        requiredBackup: true
-      }
-    },
-    {
-      name: 'withdraw',
-      path: '/withdraw',
-      component: Deposit,
-      meta: {
-        requiredBackup: true
-      }
-    },
-    {
-      name: 'manage',
-      path: '/manage',
-      component: ManagePortfolio,
-      meta: {
-        requiredBackup: true
-      }
-    },
-    {
-      name: 'coin',
-      path: '/coin/:symbol',
-      component: Coin,
-      props: true
-    },
-    {
-      name: 'manage-approve',
-      path: '/manage/approve',
-      component: PortfolioApprove
-    },
-    {
-      name: 'transactions',
-      path: '/transactions',
-      component: Transactions
-    },
-    {
-      path: '/backup',
-      component: Backup,
+        requiredAuth: false
+      },
       children: [
         {
-          path: '',
-          name: 'backup',
-          component: BackupFirst
+          name: 'transactions',
+          path: '/transactions',
+          component: Transactions
         },
         {
-          path: 'password',
-          name: 'backup-password',
-          component: BackupPassword
+          name: 'user',
+          path: '/user/:name',
+          component: User,
+          props: true
         },
         {
-          path: 'phrase',
-          name: 'backup-phrase',
-          component: BackupPhrase
+          path: '/manage',
+          name: 'manage',
+          redirect: '/manage/percent',
+          component: ManagePortfolio,
+          meta: { requiredBackup: true },
+          beforeEnter: (to, from, next) => {
+            console.log('from : ', from.name);
+            console.log('to : ', to.name);
+            if (from.name !== 'entry') next({ name: 'entry' });
+            next();
+          },
+          children: [
+            {
+              path: 'percent',
+              name: 'manage-percent',
+              component: ManagePortfolioPercent,
+              meta: { requiredBackup: true }
+
+            },
+            {
+              path: 'value',
+              name: 'manage-value',
+              component: ManagePortfolioValue,
+              meta: { requiredBackup: true }
+            }
+          ]
         },
         {
-          path: 'done',
-          name: 'backup-done',
-          component: BackupDone
+          name: 'confirm-transactions',
+          path: '/confirm',
+          component: ConfirmTransactions,
+          beforeEnter: (to, from, next) => {
+            if (from.name !== 'manage-percent' && from.name !== 'manage-value') {
+              next({ name: 'entry' });
+            }
+            next();
+          }
         },
         {
-          name: 'backup-verify',
-          path: 'verify',
-          component: BackupVerify
+          name: 'deposit',
+          path: '/deposit',
+          component: Deposit,
+          meta: { requiredBackup: true }
         },
+        {
+          name: 'withdraw',
+          path: '/withdraw',
+          component: Deposit,
+          meta: { requiredBackup: true }
+        },
+        {
+          name: 'coin',
+          path: '/coin/:symbol',
+          component: Coin,
+          props: true
+        },
+        {
+          path: '/backup',
+          component: Backup,
+          children: [
+            {
+              path: '',
+              name: 'backup',
+              component: BackupFirst
+            },
+            {
+              path: 'password',
+              name: 'backup-password',
+              component: BackupPassword
+            },
+            {
+              path: 'phrase',
+              name: 'backup-phrase',
+              component: BackupPhrase
+            },
+            {
+              path: 'done',
+              name: 'backup-done',
+              component: BackupDone
+            },
+            {
+              name: 'backup-verify',
+              path: 'verify',
+              component: BackupVerify
+            },
+          ]
+        }
       ]
     },
     {
@@ -147,17 +167,31 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  let userId;
   if (to.meta.requiredAuth === undefined) {
-    const userId = Cookies.get('BITSHARES_USER_ID');
-    if (userId === undefined) {
+    userId = Cookies.get('BITSHARES_USER_ID');
+    if (!userId) {
       next({
-        path: '/home'
+        path: '/'
       });
     }
   }
   if (to.meta.requiredBackup) {
     const backupDate = Cookies.get('BACKUP_DATE');
+    let backupExist = true;
     if (!backupDate) {
+      backupExist = false;
+    } else {
+      try {
+        const backupDateArray = JSON.parse(backupDate);
+        if (!backupDateArray.some(x => x.userId === userId)) {
+          backupExist = false;
+        }
+      } catch (ex) {
+        backupExist = false;
+      }
+    }
+    if (!backupExist) {
       next({
         path: '/backup',
         query: { redirect: to.name }
