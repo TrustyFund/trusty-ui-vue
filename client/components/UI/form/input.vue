@@ -15,7 +15,19 @@
 			template(v-if="inputType!=='text'")
 				slot(name="input")
 
-			input(ref="input", :value="code", :type="inputType" @input="updateCode($event.target.value)")
+
+			input(
+				v-if="!textarea",
+				ref="inputArea",
+				:value="code",
+				:type="inputType",
+				@input="updateCode($event.target.value)")
+
+			textarea(
+				v-else,
+				ref="inputArea",
+				:value="code",
+				@input="updateCode($event.target.value)")
 
 		._right_space(ref="right_space")
 
@@ -33,18 +45,22 @@ export default {
   components: { trustyIcon },
 
   props: {
-  	validate: {
-  		type: Function,
-  		default: () => {}
-  	},
-  	code: {
-  		type: String,
-  		default: '',
-  	},
-  	inputType: {
-  		type: String,
-  		default: 'text',
-  	},
+    textarea: {
+      type: Boolean,
+      default: false
+    },
+    validate: {
+      type: Function,
+      default: () => {}
+    },
+    code: {
+      type: String,
+      default: '',
+    },
+    inputType: {
+      type: String,
+      default: 'text',
+    },
     className: {
       type: String,
       default: 'default'
@@ -70,13 +86,14 @@ export default {
     updateCode(code) {
       this.$emit('input', code);
       this.validate();
-      if (!code) this.$refs.input.value = '';
+      if (!code) this.$refs.inputArea.value = '';
     },
 
     focusBlur() {
-      const current = this.type === 'textarea' ? 'textarea' : 'input';
-      const target = this.$refs.input_space.querySelector(current);
-
+      // const current = this.type === 'textarea' ? 'textarea' : 'input';
+      // const target = this.$refs.input_space.querySelector(current);
+      const target = this.$refs.inputArea;
+      console.log(target);
       if (target) {
         this.focus = listen(target, 'focus', () => {
           this.opened = true;
@@ -102,6 +119,7 @@ export default {
         this.resize = listen(select, 'change', resize.bind(this));
       }
     }
+
   },
 
   mounted() {

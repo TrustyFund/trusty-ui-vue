@@ -3,6 +3,7 @@
 #trusty_auth
 
 	.input_area
+
 		.left
 
 			trusty-input(
@@ -16,24 +17,22 @@
 			.trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty")
 				| PIN must be 6 characters or more
 
+			trusty-input(
+				label="confirm in",
+				inputType="tel",
+				v-model="confirmPassword",
+				:validate="$v.confirmPassword.$touch")
 
-			trusty-input(label="enter pin code")
-				template(slot="input")
-					input(v-model="password" @input="$v.password.$touch()" type="tel")
-
-			.trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty")
-				| Enter PIN
-			.trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty")
-				| PIN must be 6 characters or more
-
-			trusty-input(label="confirm pin")
-				template(slot="input")
-					input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="tel")
 			.trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PIN codes do not match
 
-			trusty-input(label="brainkey" type="textarea")
-				template(slot="input")
-					textarea(v-model="brainkey" @input="$v.brainkey.$touch()")
+			trusty-input(
+				label="brainkey",
+				:textarea="true",
+				type="textarea",
+				v-model="brainkey",
+				:validate="$v.brainkey.$touch"
+			)
+
 			.trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter brainkey
 
 	p._tooltip_p
