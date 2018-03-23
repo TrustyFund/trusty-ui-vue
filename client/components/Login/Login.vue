@@ -70,12 +70,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      pending: 'account/getAccountPendingState'
+      pending: 'account/getAccountPendingState',
+      getUserId: 'account/getAccountUserId'
     })
   },
   methods: {
     ...mapActions({
-      login: 'account/login'
+      login: 'account/login',
+      storeBackupDate: 'account/storeBackupDate'
     }),
     async handleLogin() {
       this.$v.$touch();
@@ -85,6 +87,8 @@ export default {
           brainkey: this.brainkey
         });
         if (result.success) {
+          const date = new Date();
+          this.storeBackupDate({ date, userId: this.getUserId });
           this.$router.push({ name: 'entry' });
         } else {
           this.$notify({

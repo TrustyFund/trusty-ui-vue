@@ -34,36 +34,32 @@
 
   #coin_analysis._belongings
 
-    .content_area(:class="{_opened_article: opened==='about asset issuer'}")
-      ._items(@click="opened = opened==='about asset issuer' ? '':'about asset issuer'")
-        ._list_item
-          span.text_button about asset issuer
-          icon(name="trusty_arrow_down")
-        .wrap_content.main_padding
-          ._grey_key_list
-            p description
-            p {{getBitsharesDescription}}
+    
 
-    .content_area(:class="{_opened_article: opened==='about'}")
-      ._items(@click="opened = opened==='about' ? '':'about'")
+    .content_area(:class="{_opened_article: opened==='description'}")
+      ._items(@click="opened = opened==='description' ? '':'description'")
         ._list_item
-          span.text_button ABOUT
+          span.text_button DESCRITION
           icon(name="trusty_arrow_down")
 
       .wrap_content.main_padding
 
         ._grey_key_list(v-for="(val, key) in getSnapShot" v-if="val")
-          template(v-if="key !== 'image'&&key!=='ico'")
+          template(v-if="key")
             p {{ parseCamel(key) }}
             p(v-html="val") {{ val }}
-          template(v-if="key==='ico'")
-            h3._list_title {{ key }}
-            ._grey_key_list
-              p STATUS
-              p {{ val.status}}
-            ._grey_key_list
-              p white paper
-              p(v-html="val.whitePaper")
+
+    .content_area(:class="{_opened_article: opened==='ico'}" v-show="ICOExist")
+      ._items(@click="opened = opened==='ico' ? '':'ico'")
+        ._list_item
+          span.text_button ICO
+          icon(name="trusty_arrow_down")
+
+      .wrap_content.main_padding
+        ._grey_key_list(v-for="(val, key) in getICO" v-if="val")
+          template(v-if="key")
+            p {{ parseCamel(key) }}
+            p(v-html="val") {{ val }}
 
 
     .content_area(:class="{_opened_article: opened==='social'}")
@@ -86,7 +82,16 @@
             ._grey_key_list(v-for="(one, k) in val", @click="showLink(one.url)")
               p {{ one.url }}
               p updated {{ one.lastUpdate}}
-
+    
+    .content_area(:class="{_opened_article: opened==='about asset issuer'}")
+          ._items(@click="opened = opened==='about asset issuer' ? '':'about asset issuer'")
+            ._list_item
+              span.text_button about asset issuer
+              icon(name="trusty_arrow_down")
+            .wrap_content.main_padding
+              ._grey_key_list
+                p description
+                p {{getBitsharesDescription}}
 
   p.trusty_ps_text Overview provided by cryptocompare.com
 
@@ -153,6 +158,7 @@ export default {
       getSocial: 'assetInfo/getSocial',
       getSnapShot: 'assetInfo/getSnapShot',
       getAssetById: 'assets/getAssetById',
+      getICO: 'assetInfo/getICO',
       getPendingStats: 'assetInfo/getPendingStats'
     }),
     getSymbol() {
@@ -171,6 +177,9 @@ export default {
       } catch (ex) {
         return '';
       }
+    },
+    ICOExist() {
+      return Object.keys(this.getICO).length > 0;
     }
   },
 

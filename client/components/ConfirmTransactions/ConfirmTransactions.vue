@@ -3,7 +3,7 @@
 
   .transaction_info
     p._value(v-for="order in orders") 
-      PlaceOrderInfo(:item="order", :min="true")
+      PlaceOrderInfo(:item="order", :min="true" :fiat-id="fiatId")
 
     p._value(v-if="hasPendingTransfer") Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}
 
@@ -33,7 +33,8 @@ export default {
   },
   data() {
     return {
-      pin: ''
+      pin: '',
+      fiatId: '1.3.121'
     };
   },
   computed: {
@@ -45,8 +46,12 @@ export default {
       pending: 'transactions/areTransactionsProcessing',
       isValidPassword: 'account/isValidPassword',
       getAssetById: 'assets/getAssetById',
-      hasOrders: 'transactions/hasPendingOrders'
+      hasOrders: 'transactions/hasPendingOrders',
+      getAssetMultiplier: 'market/getAssetMultiplier'
     }),
+    fiatMultiplier() {
+      return this.getAssetMultiplier(this.fiatId);
+    },
     sellOrders() {
       return this.pendingOrders.sellOrders;
     },
