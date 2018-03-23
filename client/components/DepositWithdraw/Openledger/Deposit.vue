@@ -1,12 +1,12 @@
 <template lang="pug">
 ._turnover_info
 	.trusty_help_text._yellow
-		| Send {{ payload }} to the address below
+		| Send {{ payload.coin }} to the address below
 	.trusty_cutted_address(v-html="depositAddress")
 	.trusty_inline_buttons._one_button: button Copy address
 	.trusty_help_text._yellow.deposit_text(v-show="getCoinData")
-		| IMPORTANT: Send not less than {{ getCoinData }} {{ payload }} to this deposit address.
-		| Sending less than {{ getCoinData }} {{ payload }} or any other currency will result
+		| IMPORTANT: Send not less than {{ getCoinData }} {{ payload.coin }} to this deposit address.
+		| Sending less than {{ getCoinData }} {{ payload.coin }} or any other currency will result
 		| in the loss of your deposit.
 	.trusty_help_text._yellow
 		| Push CONFIRM button as soon as you have completed the payment
@@ -31,7 +31,7 @@ export default {
   },
   beforeMount() {
     this.fetchCoins();
-    this.fetchAddress({ asset: this.payload });
+    this.fetchAddress({ asset: this.payload.coin });
   },
   computed: {
     depositAddress() {
@@ -44,7 +44,7 @@ export default {
       return `<span>${this.address}</span>`;
     },
     getCoinData() {
-      const coin = this.payload.toLowerCase();
+      const coin = this.payload.coin.toLowerCase();
       const coins = this.coinsData;
       if (coins[coin] !== undefined) {
         const { gateFee } = coins[coin];
@@ -67,8 +67,8 @@ export default {
     })
   },
   watch: {
-    payload(asset) {
-      this.fetchAddress({ asset });
+    payload(payload) {
+      this.fetchAddress({ asset: payload.coin });
     }
   },
   components: {

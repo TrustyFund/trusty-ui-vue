@@ -1,30 +1,28 @@
 <template lang="pug">
+._turnover_info
+	span(v-if="!connected").loading Loading...
+	template(v-else)
+		.trusty_deposit_fiat(v-if="!hasorder")
+			._margin_bottom
+				trusty-input(:isOpen="false", label="NAME AND SURNAME OF PAYER")
+					template(slot="input"): input(type="text" v-model="clientName")
+					
+			.trusty_inline_buttons._one_button
+				button(@click="newOrder") CONFIRM
+			p.trusty_ps_text
+				| Payment gateway service is provided by users of #[br] Localbitcoins.com
 
-.trusty_deposit_fiat_fullscreen(:class="{ no_order: !order }")
+		.trusty_deposit_fiat_fullscreen(v-else)
+			.trusty_deposit_fiat
 
-	.trusty_deposit_fiat
-
-		span(v-if="!connected").loading Loading...
-
-		template(v-else)
-
-			order-fields(v-if="!order")
-
-			template(v-else)
-
-				timer(v-if="checkState('timer')")
+				timer(v-if="order.isNew()")
 
 				payment(v-if="checkState('order-payment')", :order="order")
 
-				div(v-if="checkState('order-droped')")
-					span._tooltip order dropped by operator
+				div(v-if="order.isRejected()")
+					span._tooltip No operators availble
 					.trusty_inline_buttons._one_button
-						button try again
-
-				div(v-if="checkState('order-rejected')")
-					span._tooltip no operators available
-					.trusty_inline_buttons._one_button
-						button try again
+						button(@click="clearOrder") try again
 
 				div.trusty_deposit_fiat_fullscreen(v-if="checkState('order-new')")
 					.trusty_inline_buttons._one_button
@@ -43,26 +41,16 @@
 				span._tooltip(v-if="checkState('order-finished')") It seemd to be ready 2
 
 
-	.trusty_inline_buttons.debug_but._one_button
+	.trusty_inline_buttons.debug_but
 		button(@click="next") NEXT
-
+		button(@click="connect" v-if="!connected") CONNECT
 </template>
-<!-- div.debug
-		div(v-if="hasorder")
-			| Id -> {{ currentorder.ID }}
-			br
-			| Status -> {{ currentorder.Status }}
-		.trusty_inline_buttons
-			button(@click="newOrder", v-if="!hasorder") CREATE ORDER
-		.trusty_inline_buttons
-			button(@click="cancelOrder", v-if="hasorder") CANCEL ORDER
-		.trusty_inline_buttons
-			button(@click="connect", v-if="!connected") CONNECT -->
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import trustyInput from '@/components/UI/form/input';
+import icon from '@/components/UI/icon';
 import payment from './Payment';
-import orderFields from './OrderFields';
 import timer from './Timer';
 
 import './style.scss';
@@ -71,10 +59,20 @@ export default {
   components: {
     timer,
     payment,
-    orderFields,
+    trustyInput,
+    icon
+  },
+  props: {
+    payload: {
+      type: Object,
+      required: true
+    }
   },
   data() {
     return {
+      clientName: ''
+    };
+    /* return {
       order: {
         BotFee: '0',
         ClientName: 'stas',
@@ -91,7 +89,7 @@ export default {
         PaymentRequisites: '',
         Status: 1
       }
-    };
+    }; */
   },
   beforeMount() {
     this.connect();
@@ -102,12 +100,9 @@ export default {
   computed: {
     ...mapGetters({
       hasorder: 'cryptobot/hasCurrentOrder',
-      currentorder: 'cryptobot/getCurrentOrder',
-      // connected: 'cryptobot/isConnected'
-    }),
-    connected() {
-    	return true;
-    }
+      order: 'cryptobot/getCurrentOrder',
+      connected: 'cryptobot/isConnected'
+    })
   },
   methods: {
     ...mapActions({
@@ -115,7 +110,8 @@ export default {
       disconnect: 'cryptobot/disconnect',
       getorder: 'cryptobot/fetchOrder',
       createOrder: 'cryptobot/createOrder',
-      cancelOrder: 'cryptobot/cancelOrder'
+      cancelOrder: 'cryptobot/cancelOrder',
+      clearOrder: 'cryptobot/clearOrder'
     }),
     checkState(showState) {
       const { query } = this.$route;
@@ -124,11 +120,12 @@ export default {
     },
     newOrder() {
       this.createOrder({
-        currency: 'RUB',
-        amount: '10000',
-        method: 'SBERBANK',
-        name: 'Anton Lopan'
+        currency: this.payload.coin,
+        amount: this.payload.amount,
+        method: this.payload.method,
+        name: this.clientName
       });
+      console.log('NEW ORDER', this.payload, this.clientName);
     },
     next() {
       const path = [

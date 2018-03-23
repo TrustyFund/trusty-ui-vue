@@ -18,7 +18,7 @@
           option(v-for="method in methods", :value="method") {{ method }}
 
   ._turnover_service
-    component(:is="gateway", :payload="selectedcoin")
+    component(:is="gateway", :payload="payload")
 
 
 
@@ -47,13 +47,20 @@ export default {
     },
     methods() {
       return methodsByGate[this.gateway];
+    },
+    payload() {
+      return {
+        coin: this.selectedcoin,
+        method: this.paymentmethod,
+        amount: this.amount
+      };
     }
   },
   data() {
     return {
       selectedcoin: 'RUB',
       paymentmethod: 'SBERBANK',
-      amount: '',
+      amount: 0,
       coins: ['BTC', 'ETH', 'LTC', 'NEO', 'RUB']
     };
   }

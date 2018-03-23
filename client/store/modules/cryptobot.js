@@ -28,6 +28,26 @@ const orderStatus = {
   FINISHED: 12
 };
 
+class Order {
+  constructor(object) {
+    Object.keys(object).forEach((key) => {
+      this[key] = object[key];
+    });
+  }
+
+  isRejected() {
+    console.log('CHECK', this.Status);
+    return (
+      this.Status === orderStatus.REJECTED ||
+      this.Status === orderStatus.DROPPED
+    );
+  }
+
+  isNew() {
+    return (this.Status === orderStatus.NEW);
+  }
+}
+
 const CRYPTOBOT_CONNECT_REQUEST = 'CRYPTOBOT_CONNECT_REQUEST';
 const CRYPTOBOT_CONNECT_COMPLETE = 'CRYPTOBOT_CONNECT_COMPLETE';
 const CRYPTOBOT_CONNECT_CLOSE = 'CRYPTOBOT_CONNECT_CLOSE';
@@ -59,6 +79,7 @@ const initialState = {
   order: false
 };
 
+
 const mutations = {
   [CRYPTOBOT_CONNECT_REQUEST]: (state) => {
     state.pending = true;
@@ -77,7 +98,7 @@ const mutations = {
   [CRYPTOBOT_GET_ORDER_COMPLETE]: (state, { order }) => {
     console.log('FETCH ORDDERS COMPLETE', order);
     state.pending = false;
-    state.order = order;
+    state.order = new Order(order);
   },
   [CRYPTOBOT_GET_ORDER_ERROR]: (state, { error }) => {
     state.pending = false;
@@ -89,7 +110,7 @@ const mutations = {
   [CRYPTOBOT_CREATE_ORDER_COMPLETE]: (state, { order }) => {
     console.log('FETCH ORDDERS COMPLETE', order);
     state.pending = false;
-    state.order = order;
+    state.order = new Order(order);
   },
   [CRYPTOBOT_CREATE_ORDER_ERROR]: (state, { error }) => {
     state.pending = false;
@@ -107,7 +128,7 @@ const mutations = {
     state.error = error;
   },
   [CRYPTOBOT_ORDER_UPDATE_RECEIVED]: (state, { order }) => {
-    state.order = order;
+    state.order = new Order(order);
   }
 };
 
@@ -194,6 +215,10 @@ const actions = {
 
     PersistentStorage.set(CRYPTOBOT_CURRENT_ORDER, order.ID);
     commit(CRYPTOBOT_CREATE_ORDER_COMPLETE, { order });
+  },
+  async clearOrder({ commit }) {
+    PersistentStorage.remove(CRYPTOBOT_CURRENT_ORDER);
+    commit(CRYPTOBOT_CANCEL_ORDER_COMPLETE);
   },
   async cancelOrder(store) {
     const { commit, state, rootGetters } = store;
