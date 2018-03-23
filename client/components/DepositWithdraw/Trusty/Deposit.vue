@@ -190,4 +190,3 @@ export default {
   padding: 5vw;
 }
 </style>
-

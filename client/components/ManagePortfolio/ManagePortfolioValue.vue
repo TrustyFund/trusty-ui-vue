@@ -138,7 +138,6 @@ export default {
       const changed = this.calcChangedValues();
       if (!Object.keys(changed).length) {
         this.$notify({
-          group: 'auth',
           type: 'warning',
           title: 'No change',
           text: 'Nothing changed'

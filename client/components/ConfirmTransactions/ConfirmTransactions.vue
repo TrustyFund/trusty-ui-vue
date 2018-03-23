@@ -2,8 +2,10 @@
 #approve_update_portfolio.main_padding
 
   .transaction_info
-    p._value(v-for="item in items") 
-      PlaceOrderInfo(:item="item", :min="true")
+    p._value(v-for="order in orders") 
+      PlaceOrderInfo(:item="order", :min="true")
+
+    p._value(v-if="hasPendingTransfer") Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}
 
   TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
     template(slot="input")
@@ -26,6 +28,9 @@ export default {
     PlaceOrderInfo,
     TrustyInput
   },
+  mounted() {
+    console.log(this.pendingTransfer);
+  },
   data() {
     return {
       pin: ''
@@ -34,9 +39,13 @@ export default {
   computed: {
     ...mapGetters({
       pendingOrders: 'transactions/getPendingOrders',
+      pendingTransfer: 'transactions/getPendingTransfer',
+      hasPendingTransfer: 'transactions/hasPendingTransfer',
       isLocked: 'account/isLocked',
       pending: 'transactions/areTransactionsProcessing',
-      isValidPassword: 'account/isValidPassword'
+      isValidPassword: 'account/isValidPassword',
+      getAssetById: 'assets/getAssetById',
+      hasOrders: 'transactions/hasPendingOrders'
     }),
     sellOrders() {
       return this.pendingOrders.sellOrders;
@@ -44,69 +53,99 @@ export default {
     buyOrders() {
       return this.pendingOrders.buyOrders;
     },
-    items() {
-      const items = [];
-      if (!this.sellOrders || !this.buyOrders) return [];
+    transfer() {
+      const { assetId, amount, to } = this.pendingTransfer;
+      const asset = this.getAssetById(assetId);
+      const realamount = (amount * (10 ** -asset.precision)).toFixed(asset.precision);
+      return { asset, realamount, to };
+    },
+    orders() {
+      const orders = [];
+      if (!this.hasOrders) return [];
       this.sellOrders.forEach(order => {
-        items.push({
+        orders.push({
           payload: order,
           buyer: false
         });
       });
       this.buyOrders.forEach(order => {
-        items.push({
+        orders.push({
           payload: order,
           buyer: true
         });
       });
-      return items;
+      return orders;
     }
   },
   methods: {
     ...mapActions({
       processPendingOrders: 'transactions/processPendingOrders',
       removePendingDistribution: 'transactions/removePendingDistribution',
-      unlockWallet: 'account/unlockWallet'
+      unlockWallet: 'account/unlockWallet',
+      transferAsset: 'transactions/transferAsset'
     }),
-    async confirm() {
+    checkLocked() {
       if (this.isLocked) {
         if (!this.pin) {
           this.$notify({
-            group: 'auth',
-            type: 'success',
-            title: 'error',
+            type: 'warn',
             text: 'Enter PIN'
           });
-          return;
+          return false;
         }
         if (this.isValidPassword(this.pin)) {
           this.unlockWallet(this.pin);
-          if (this.isLocked) return;
+          if (this.isLocked) return false;
         } else {
           this.$notify({
-            group: 'auth',
             type: 'error',
-            title: 'error',
             text: 'Invalid PIN'
           });
-          return;
+          return false;
         }
       }
-
+      return true;
+    },
+    async confirm() {
+      if (!this.checkLocked()) return;
+      if (this.hasOrders) this.processOrders();
+      if (this.hasPendingTransfer) this.processTransfer();
+    },
+    async processOrders() {
       const result = await this.processPendingOrders();
       if (result.success) {
         this.$notify({
-          group: 'auth',
           type: 'success',
-          title: 'Success',
-          text: 'Orders placed'
+          text: 'Orders filled'
         });
         this.$router.push({ name: 'entry' });
       } else {
         this.$notify({
-          group: 'auth',
           type: 'error',
           title: 'Transactions error',
+          text: result.error
+        });
+      }
+    },
+    async processTransfer() {
+      console.log('TRANSFER!');
+      console.log(this.pendingTransfer.to);
+      const params = {
+        to: this.pendingTransfer.to,
+        assetId: this.pendingTransfer.assetId,
+        amount: this.pendingTransfer.amount
+      };
+      const result = await this.transferAsset(params);
+      if (result.success) {
+        this.$notify({
+          type: 'success',
+          text: 'Transaction completed'
+        });
+        this.$router.push({ name: 'entry' });
+      } else {
+        this.$notify({
+          type: 'error',
+          title: 'Transaction error',
           text: result.error
         });
       }
