@@ -2,40 +2,55 @@
 
 #trusty_auth
 
-  .input_area
-    .left
+	.input_area
+		.left
 
-      trusty-input(label="enter pin code")
-        template(slot="input")
-          input(v-model="password" @input="$v.password.$touch()" type="tel")
-      .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter PIN
-      .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") PIN must be 6 characters or more
+			trusty-input(
+				label="enter pin code",
+				inputType="tel",
+				v-model="password",
+				:validate="$v.password.$touch")
 
-      trusty-input(label="confirm pin")
-        template(slot="input")
-          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="tel")
-      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PIN codes do not match
+			.trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty")
+				| Enter PIN
+			.trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty")
+				| PIN must be 6 characters or more
 
-      trusty-input(label="brainkey" type="textarea")
-        template(slot="input")
-          textarea(v-model="brainkey" @input="$v.brainkey.$touch()")
-      .trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter brainkey
 
-  p._tooltip_p
-    | Please enter account brainkey once for new devices, #[br]
-    | 12 words, you backed up, when account was created
+			trusty-input(label="enter pin code")
+				template(slot="input")
+					input(v-model="password" @input="$v.password.$touch()" type="tel")
 
-  .trusty_buttons
-    button(@click="handleLogin" v-show="!pending") Log in
-    button(v-show="pending") Loading....
+			.trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty")
+				| Enter PIN
+			.trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty")
+				| PIN must be 6 characters or more
 
-  p._tooltip_p._text_center
-    | Before continuing, make sure your device is secure #[br]
+			trusty-input(label="confirm pin")
+				template(slot="input")
+					input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="tel")
+			.trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PIN codes do not match
 
-  ._bottom_link(@click="$router.push({ name: 'signup' })"): span Sign up with new account
+			trusty-input(label="brainkey" type="textarea")
+				template(slot="input")
+					textarea(v-model="brainkey" @input="$v.brainkey.$touch()")
+			.trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter brainkey
 
-  ._logo_owl
-    Icon(name="trusty_owl_small_logo")
+	p._tooltip_p
+		| Please enter account brainkey once for new devices, #[br]
+		| 12 words, you backed up, when account was created
+
+	.trusty_buttons
+		button(@click="handleLogin" v-show="!pending") Log in
+		button(v-show="pending") Loading....
+
+	p._tooltip_p._text_center
+		| Before continuing, make sure your device is secure #[br]
+
+	._bottom_link(@click="$router.push({ name: 'signup' })"): span Sign up with new account
+
+	._logo_owl
+		Icon(name="trusty_owl_small_logo")
 
 </template>
 
@@ -126,39 +141,39 @@ export default {
 
 ._logo_owl {
 
-  text-align: center;
+	text-align: center;
 
-  span.trusty_owl_small_logo {
-     display: inline-block;
-  }
+	span.trusty_owl_small_logo {
+		 display: inline-block;
+	}
 
-  span {
-    display: inline-block;
-  }
-  svg {
-    fill: white;
-  }
+	span {
+		display: inline-block;
+	}
+	svg {
+		fill: white;
+	}
 
 }
 
 ._bottom_link {
-  font-family: "Gotham_Pro";
-  text-align: center;
-  color: white;
-  span  {
-    border-bottom: 1px solid white;
-  }
+	font-family: "Gotham_Pro";
+	text-align: center;
+	color: white;
+	span  {
+		border-bottom: 1px solid white;
+	}
 }
 
 
 ._tooltip_p {
-  font-family: "Gotham_Pro";
-  color: white;
+	font-family: "Gotham_Pro";
+	color: white;
 }
 
 ._bottom_link {
 	cursor: pointer;
-  text-align: center;
+	text-align: center;
 }
 
 
@@ -176,58 +191,58 @@ export default {
 	}
 
 
-  ._tooltip_p {
-    line-height: px_from_vw(4);
-    margin-top: px_from_vw(2);
-    font-size: px_from_vw(3.3);
-    margin-bottom: px_from_vw(4.6);
-  }
+	._tooltip_p {
+		line-height: px_from_vw(4);
+		margin-top: px_from_vw(2);
+		font-size: px_from_vw(3.3);
+		margin-bottom: px_from_vw(4.6);
+	}
 
-  ._bottom_link {
-    span {
-      font-size: px_from_vw(3.3);
-    }
-    &._margins {
-      margin-top: px_from_vw(5.8);
-      margin-bottom: px_from_vw(4);
-    }
-  }
+	._bottom_link {
+		span {
+			font-size: px_from_vw(3.3);
+		}
+		&._margins {
+			margin-top: px_from_vw(5.8);
+			margin-bottom: px_from_vw(4);
+		}
+	}
 
-  ._logo_owl {
-    text-align: center;
-    padding-top: px_from_vw(6);
-    span.trusty_owl_small_logo {
-       width: px_from_vw(34);
-    }
-  }
+	._logo_owl {
+		text-align: center;
+		padding-top: px_from_vw(6);
+		span.trusty_owl_small_logo {
+			 width: px_from_vw(34);
+		}
+	}
 }
 
 @media screen and (max-width: 768px) {
 
-  ._tooltip_p {
-    line-height: 4vw;
-    margin-top: 2vw;
-    font-size: 3.3vw;
-    margin-bottom: 4.6vw;
-  }
+	._tooltip_p {
+		line-height: 4vw;
+		margin-top: 2vw;
+		font-size: 3.3vw;
+		margin-bottom: 4.6vw;
+	}
 
-  ._bottom_link {
-    span {
-      font-size: 3.3vw;
-    }
-    &._margins {
-      margin-top: 5.8vw;
-      margin-bottom: 4vw;
-    }
-  }
+	._bottom_link {
+		span {
+			font-size: 3.3vw;
+		}
+		&._margins {
+			margin-top: 5.8vw;
+			margin-bottom: 4vw;
+		}
+	}
 
-  ._logo_owl {
-    text-align: center;
-    padding-top: 6vw;
-    span.trusty_owl_small_logo {
-       width: 34vw;
-    }
-  }
+	._logo_owl {
+		text-align: center;
+		padding-top: 6vw;
+		span.trusty_owl_small_logo {
+			 width: 34vw;
+		}
+	}
 
 }
 

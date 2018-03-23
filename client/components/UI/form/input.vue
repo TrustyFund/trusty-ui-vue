@@ -10,7 +10,12 @@
 				:class="{no_opened: !opened}"
 			).trusty_place_holder {{ label }}
 
-			slot(name="input")
+			div(@click.stop="updateCode('')"): trusty-icon(name="trusty_input_close")
+
+			template(v-if="inputType!=='text'")
+				slot(name="input")
+
+			input(ref="input", :value="code", :type="inputType" @input="updateCode($event.target.value)")
 
 		._right_space(ref="right_space")
 
@@ -22,10 +27,24 @@
 <script>
 
 import listen from 'event-listener';
+import trustyIcon from '@/components/UI/icon';
 
 export default {
+  components: { trustyIcon },
 
   props: {
+  	validate: {
+  		type: Function,
+  		default: () => {}
+  	},
+  	code: {
+  		type: String,
+  		default: '',
+  	},
+  	inputType: {
+  		type: String,
+  		default: 'text',
+  	},
     className: {
       type: String,
       default: 'default'
@@ -48,6 +67,12 @@ export default {
     }
   },
   methods: {
+    updateCode(code) {
+      this.$emit('input', code);
+      this.validate();
+      if (!code) this.$refs.input.value = '';
+    },
+
     focusBlur() {
       const current = this.type === 'textarea' ? 'textarea' : 'input';
       const target = this.$refs.input_space.querySelector(current);
@@ -117,7 +142,7 @@ export default {
 @import '~@/style/mixins';
 
 input[type=tel] {
-    -webkit-text-security: disc;
+		-webkit-text-security: disc;
 }
 
 .trusty_input_container:not(.text_area) {
@@ -163,6 +188,8 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 
 
 .trusty_input_container {
+
+	position: relative;
 
 	input, textarea {
 		cursor: pointer;
@@ -327,6 +354,16 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 		right: 0;
 		width: 2vw;
 		top:25%;
+	}
+
+	span.trusty_input_close {
+		display: inline-block;
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		width: 3vw;
+		padding: 2vw;
+		z-index: 3000;
 	}
 
 
