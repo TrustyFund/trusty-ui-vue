@@ -14,12 +14,6 @@
       .trusty_font_error(v-if="$v.name.email && !$v.name.isUnique && $v.$pending") Checking...
       .trusty_font_error(v-if="$v.name.email && !$v.name.isUnique && !$v.$pending && $v.name.$dirty") Account name already taken
 
-      //- trusty-input(label="enter email")
-      //-   template(slot="input"  )
-      //-     input(v-model="email" @input="$v.email.$touch()")
-      //- .trusty_font_error(v-if="!$v.email.required && this.$v.email.$dirty") Enter e-mail
-      //- .trusty_font_error(v-if="!$v.email.email && this.$v.email.$dirty") Invalid e-mail
-
       trusty-input(label="create pin code")
         template(slot="input")
           input(v-model="password" @input="$v.password.$touch()" type="tel")
@@ -42,9 +36,6 @@
 
   ._bottom_link._margins: span(@click="$router.push({name:'terms-of-use'})") I accept Terms of use
 
-  //- ._logo_owl
-  //-   Icon(name="trusty_owl_small_logo")
-
 </template>
 
 <script>
@@ -61,7 +52,6 @@ export default {
   data() {
     return {
       name: '',
-      // email: '',
       password: '',
       confirmPassword: '',
     };
@@ -77,10 +67,6 @@ export default {
       },
       minLength: minLength(4)
     },
-    // email: {
-    //   required,
-    //   email
-    // },
     password: {
       required,
       minLength: minLength(6)
