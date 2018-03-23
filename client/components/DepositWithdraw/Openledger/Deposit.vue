@@ -3,7 +3,7 @@
 	.trusty_help_text._yellow
 		| Send {{ payload.coin }} to the address below
 	.trusty_cutted_address(v-html="depositAddress")
-	.trusty_inline_buttons._one_button: button Copy address
+	//.trusty_inline_buttons._one_button: button Copy address
 	.trusty_help_text._yellow.deposit_text(v-show="getCoinData")
 		| IMPORTANT: Send not less than {{ getCoinData }} {{ payload.coin }} to this deposit address.
 		| Sending less than {{ getCoinData }} {{ payload.coin }} or any other currency will result

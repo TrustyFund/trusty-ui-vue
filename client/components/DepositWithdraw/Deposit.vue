@@ -2,7 +2,7 @@
 #trusty_transfer
   ._turnover_inputs
 
-    trusty-input(label="send any sum")
+    trusty-input(label="send any sum" composed=true)
       template(slot="input")
         input(v-model.number="amount")
       template(slot="right")
@@ -61,12 +61,14 @@ export default {
       selectedcoin: 'BTC',
       paymentmethod: 'openledger',
       amount: '',
-      coins: ['BTC', 'ETH', 'LTC', 'NEO', 'RUB']
+      coins: ['BTC', 'ETH', 'LTC', 'NEO']
     };
   }
 };
 </script>
 <style lang="scss">
-
+.deposit_amount {
+  width: 80vw!important;
+}
 
 </style>

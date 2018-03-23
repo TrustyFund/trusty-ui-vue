@@ -3,7 +3,7 @@
 .trusty_input_container(:style="styleSheet", :class="classes")
 
 	.w_input
-		._input_space(ref="input_space", :class="{ active_input: opened }")
+		._input_space(ref="input_space", :class="{ active_input: opened, composed: composed }")
 
 			label(
 				@click="opened = true",
@@ -43,6 +43,10 @@ export default {
       type: String
     },
     isOpen: {
+      default: false,
+      type: Boolean
+    },
+    composed: {
       default: false,
       type: Boolean
     }
@@ -116,6 +120,10 @@ export default {
 
 @import '~@/style/mixins';
 
+.composed {
+  width: 70vw!important;
+}
+
 input[type=tel] {
     -webkit-text-security: disc;
 }
@@ -187,7 +195,6 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 	}
 
 	.trusty_place_holder.no_opened {
-		width: 100%;
 		font-family: Gotham_Pro_Regular;
 		text-transform: uppercase;
 		position: absolute;
