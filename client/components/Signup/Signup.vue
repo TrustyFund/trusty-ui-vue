@@ -5,17 +5,20 @@
   .input_area
     .left
 
-      trusty-input(label="new account name")
+      trusty-input(label="new account e-mail")
         template(slot="input")
           input(v-model="name" @input="$v.name.$touch()")
-      .trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter account name
-      .trusty_font_error(v-if="!$v.name.isUnique && !this.$v.$pending && this.$v.name.$dirty") Account name already taken
+      .trusty_font_error(v-if="!$v.name.required && $v.name.$dirty") Enter e-mail
+      .trusty_font_error(v-if="$v.name.required && !$v.name.minLength && $v.name.$dirty") Must be 4 characters or more
+      .trusty_font_error(v-if="$v.name.minLength && !$v.name.email && $v.name.$dirty") Not a valid e-mail  
+      .trusty_font_error(v-if="$v.name.email && !$v.name.isUnique && $v.$pending") Checking...
+      .trusty_font_error(v-if="$v.name.email && !$v.name.isUnique && !$v.$pending && $v.name.$dirty") Account name already taken
 
-      trusty-input(label="enter email")
-        template(slot="input"  )
-          input(v-model="email" @input="$v.email.$touch()")
-      .trusty_font_error(v-if="!$v.email.required && this.$v.email.$dirty") Enter e-mail
-      .trusty_font_error(v-if="!$v.email.email && this.$v.email.$dirty") Invalid e-mail
+      //- trusty-input(label="enter email")
+      //-   template(slot="input"  )
+      //-     input(v-model="email" @input="$v.email.$touch()")
+      //- .trusty_font_error(v-if="!$v.email.required && this.$v.email.$dirty") Enter e-mail
+      //- .trusty_font_error(v-if="!$v.email.email && this.$v.email.$dirty") Invalid e-mail
 
       trusty-input(label="enter pin code")
         template(slot="input")
@@ -39,8 +42,8 @@
 
   ._bottom_link._margins: span(@click="$router.push({name:'terms-of-use'})") I accept Terms of use
 
-  ._logo_owl
-    Icon(name="trusty_owl_small_logo")
+  //- ._logo_owl
+  //-   Icon(name="trusty_owl_small_logo")
 
 </template>
 
@@ -58,7 +61,7 @@ export default {
   data() {
     return {
       name: '',
-      email: '',
+      // email: '',
       password: '',
       confirmPassword: '',
     };
@@ -66,15 +69,17 @@ export default {
   validations: {
     name: {
       required,
+      email,
       isUnique(value) {
         if (value === '') return true;
         return this.checkUsername({ username: value });
-      }
+      },
+      minLength: minLength(4)
     },
-    email: {
-      required,
-      email
-    },
+    // email: {
+    //   required,
+    //   email
+    // },
     password: {
       required,
       minLength: minLength(6)
@@ -99,7 +104,7 @@ export default {
         console.log(this.name, this.email, this.password);
         const result = await this.signup({
           name: this.name,
-          email: this.email,
+          // email: this.email,
           password: this.password,
           dictionary: dictionary.en
         });

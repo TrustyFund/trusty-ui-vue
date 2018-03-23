@@ -34,8 +34,8 @@
 
   ._bottom_link(@click="$router.push({ name: 'signup' })"): span Sign up with new account
 
-  ._logo_owl
-    Icon(name="trusty_owl_small_logo")
+  //- ._logo_owl
+  //-   Icon(name="trusty_owl_small_logo")
 
 </template>
 
