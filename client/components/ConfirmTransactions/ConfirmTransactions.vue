@@ -3,7 +3,7 @@
 
   .transaction_info
     p._value(v-for="item in items") 
-      PlaceOrderInfo(:item="item", :min="true")
+      PlaceOrderInfo(:item="item", :min="true", :fiat-id="fiatId")
 
   TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
     template(slot="input")
@@ -28,7 +28,8 @@ export default {
   },
   data() {
     return {
-      pin: ''
+      pin: '',
+      fiatId: '1.3.121'
     };
   },
   computed: {
@@ -36,8 +37,12 @@ export default {
       pendingOrders: 'transactions/getPendingOrders',
       isLocked: 'account/isLocked',
       pending: 'transactions/areTransactionsProcessing',
-      isValidPassword: 'account/isValidPassword'
+      isValidPassword: 'account/isValidPassword',
+      getAssetMultiplier: 'market/getAssetMultiplier'
     }),
+    fiatMultiplier() {
+      return this.getAssetMultiplier(this.fiatId);
+    },
     sellOrders() {
       return this.pendingOrders.sellOrders;
     },
