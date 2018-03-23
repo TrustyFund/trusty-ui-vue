@@ -78,8 +78,6 @@ const router = new Router({
           component: ManagePortfolio,
           meta: { requiredBackup: true },
           beforeEnter: (to, from, next) => {
-            console.log('from : ', from.name);
-            console.log('to : ', to.name);
             if (from.name !== 'entry') next({ name: 'entry' });
             next();
           },
@@ -87,12 +85,14 @@ const router = new Router({
             {
               path: 'percent',
               name: 'manage-percent',
-              component: ManagePortfolioPercent
+              component: ManagePortfolioPercent,
+              meta: { requiresConfirmScreen: true },
             },
             {
               path: 'value',
               name: 'manage-value',
-              component: ManagePortfolioValue
+              component: ManagePortfolioValue,
+              meta: { requiresConfirmScreen: true },
             }
           ]
         },
@@ -101,7 +101,7 @@ const router = new Router({
           path: '/confirm',
           component: ConfirmTransactions,
           beforeEnter: (to, from, next) => {
-            if (from.name !== 'manage-percent' && from.name !== 'manage-value') {
+            if (!from.meta.requiresConfirmScreen) {
               next({ name: 'entry' });
             }
             next();
@@ -115,7 +115,8 @@ const router = new Router({
         {
           name: 'withdraw',
           path: '/withdraw',
-          component: Withdraw
+          component: Withdraw,
+          meta: { requiresConfirmScreen: true }
         },
         {
           name: 'coin',
