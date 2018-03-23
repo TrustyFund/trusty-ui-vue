@@ -2,6 +2,19 @@
 
 	.trusty_deposit_fiat_fullscreen {
 
+
+		&.no_order {
+			position: static;
+			.trusty_deposit_fiat {
+				padding: 0;
+			}
+		}
+
+
+		.trusty_deposit_fiat {
+			padding: 0 3.6vw;
+		}
+
 		position: absolute;
 		width: 100%;
 		height: 100%;

@@ -20,6 +20,8 @@
   ._turnover_service
     component(:is="gateway", :payload="selectedcoin")
 
+
+
 </template>
 
 <script>

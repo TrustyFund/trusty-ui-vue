@@ -4,7 +4,7 @@
 
 	._margin_bottom
 
-		trusty-input(type="select", :isOpen="true", label="payment method")
+		//-trusty-input(type="select", :isOpen="true", label="payment method")
 			template(slot="input")
 				select
 					option SBERBANK
@@ -41,5 +41,3 @@ export default {
 };
 </script>
 
-<style lang="scss">
-</style>
