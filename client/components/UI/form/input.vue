@@ -44,129 +44,129 @@ import listen from 'event-listener';
 import trustyIcon from '@/components/UI/icon';
 
 export default {
-  components: { trustyIcon },
+	components: { trustyIcon },
 
-  props: {
-  	foreignInput: {
-  		type: Boolean,
-  		default: false,
-  	},
-    close: {
-      type: Boolean,
-      default: true,
-    },
-    textarea: {
-      type: Boolean,
-      default: false
-    },
-    validate: {
-      type: Function,
-      default: () => {}
-    },
-    inputType: {
-      type: String,
-      default: 'text',
-    },
-    className: {
-      type: String,
-      default: 'default'
-    },
-    styleSheet: {
-      default: () => { return {}; },
-      type: Object
-    },
-    label: {
-      default: 'label',
-      type: String
-    },
-    type: {
-      default: 'text',
-      type: String
-    },
-    isOpen: {
-      default: false,
-      type: Boolean
-    },
-    composed: {
-      default: false,
-      type: Boolean
-    }
-  },
-  watch: {
-    code(val) {
-      this.empty = !(val);
-    }
-  },
-  methods: {
-    updateCode(code) {
-      this.$emit('input', code);
-      this.validate();
-      this.code = code;
-      if (!code) {
-        this.$refs.inputArea.value = '';
-        this.$refs.inputArea.focus();
-      }
-    },
-    focusBlur() {
-      const target = this.$refs.inputArea;
-      if (target) {
-        this.focus = listen(target, 'focus', () => {
-          this.opened = true;
-        });
-        this.blur = listen(target, 'blur', () => {
-          if (!target.value.length) this.opened = false;
-        });
-      }
-    },
+	props: {
+		foreignInput: {
+			type: Boolean,
+			default: false,
+		},
+		close: {
+			type: Boolean,
+			default: true,
+		},
+		textarea: {
+			type: Boolean,
+			default: false
+		},
+		validate: {
+			type: Function,
+			default: () => {}
+		},
+		inputType: {
+			type: String,
+			default: 'text',
+		},
+		className: {
+			type: String,
+			default: 'default'
+		},
+		styleSheet: {
+			default: () => { return {}; },
+			type: Object
+		},
+		label: {
+			default: 'label',
+			type: String
+		},
+		type: {
+			default: 'text',
+			type: String
+		},
+		isOpen: {
+			default: false,
+			type: Boolean
+		},
+		composed: {
+			default: false,
+			type: Boolean
+		}
+	},
+	watch: {
+		code(val) {
+			this.empty = !(val);
+		}
+	},
+	methods: {
+		updateCode(code) {
+			this.$emit('input', code);
+			this.validate();
+			this.code = code;
+			if (!code) {
+				this.$refs.inputArea.value = '';
+				this.$refs.inputArea.focus();
+			}
+		},
+		focusBlur() {
+			const target = this.$refs.inputArea;
+			if (target) {
+				this.focus = listen(target, 'focus', () => {
+					this.opened = true;
+				});
+				this.blur = listen(target, 'blur', () => {
+					if (!target.value.length) this.opened = false;
+				});
+			}
+		},
 
-    selectResize() {
-      const select = this.$refs.right_space.querySelector('select');
+		selectResize() {
+			const select = this.$refs.right_space.querySelector('select');
 
-      function resize() {
-        const fake = this.$refs.right_space.querySelector('.fake_option_width');
-        const selected = select.options[select.selectedIndex];
-        fake.textContent = selected.text;
-        select.style.width = fake.offsetWidth + 25 + 'px';
-      }
+			function resize() {
+				const fake = this.$refs.right_space.querySelector('.fake_option_width');
+				const selected = select.options[select.selectedIndex];
+				fake.textContent = selected.text;
+				select.style.width = fake.offsetWidth + 25 + 'px';
+			}
 
-      if (select) {
-        resize.call(this);
-        this.resize = listen(select, 'change', resize.bind(this));
-      }
-    }
+			if (select) {
+				resize.call(this);
+				this.resize = listen(select, 'change', resize.bind(this));
+			}
+		}
 
-  },
+	},
 
-  mounted() {
-    if (this.isOpen) this.opened = true;
-    this.focusBlur();
-    this.selectResize();
-  },
+	mounted() {
+		if (this.isOpen) this.opened = true;
+		this.focusBlur();
+		this.selectResize();
+	},
 
-  beforeDestroy() {
-    if (this.blur) this.blur.remove();
-    if (this.resize) this.resize.remove();
-    if (this.focus) this.focus.remove();
-  },
+	beforeDestroy() {
+		if (this.blur) this.blur.remove();
+		if (this.resize) this.resize.remove();
+		if (this.focus) this.focus.remove();
+	},
 
-  data() {
-    return {
-      opened: false,
-      empty: true,
-      code: '',
-    };
-  },
+	data() {
+		return {
+			opened: false,
+			empty: true,
+			code: '',
+		};
+	},
 
-  computed: {
-    classes() {
-      return {
-        text_area: this.type === 'textarea',
-        opened_text_area: this.opened && this.type === 'textarea',
-        select_input: this.type === 'select',
-        [this.className]: true
-      };
-    }
-  }
+	computed: {
+		classes() {
+			return {
+				text_area: this.type === 'textarea',
+				opened_text_area: this.opened && this.type === 'textarea',
+				select_input: this.type === 'select',
+				[this.className]: true
+			};
+		}
+	}
 };
 
 </script>
@@ -177,7 +177,7 @@ export default {
 @import '~@/style/mixins';
 
 .composed {
-  width: 70vw!important;
+	width: 70vw!important;
 }
 
 input[type=tel] {
@@ -407,27 +407,27 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 	}
 
 
-  ._simple_text_left {
-    text-align: left;
-    color: white;
-    height: 6.4vw;
-    font-size: 5.4vw !important;
-    font-family: "Gotham_Pro_Regular";
-  }
-
-  ._right_slash {
-    font-size: 5.7vw;
-    font-family: Gotham_Pro_Regular;
-    margin-bottom: 1.14vw;
+	._simple_text_left {
+		text-align: left;
 		color: white;
-  }
+		height: 6.4vw;
+		font-size: 5.4vw !important;
+		font-family: "Gotham_Pro_Regular";
+	}
 
-  .only_right_arrow {
-    span {
-      display: inline-block;
-      transform: translateY(-6.4vw);
-    }
-  }
+	._right_slash {
+		font-size: 5.7vw;
+		font-family: Gotham_Pro_Regular;
+		margin-bottom: 1.14vw;
+		color: white;
+	}
+
+	.only_right_arrow {
+		span {
+			display: inline-block;
+			transform: translateY(-6.4vw);
+		}
+	}
 
 
 }

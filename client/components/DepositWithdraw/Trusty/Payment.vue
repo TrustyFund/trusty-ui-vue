@@ -4,19 +4,22 @@
 
 	.deposit_paddings
 
-		trusty-input(:isOpen="true" label="please use your online bank to send")
+		trusty-input(
+			:isOpen="true",
+			label="please use your online bank to send",
+			:foreignInput="true")
 			template(slot="input"): div._simple_text_left {{ order.FiatAmount  + ' ' + order.Currency }}
 
-		trusty-input(:isOpen="true" label="to")
+		trusty-input(:isOpen="true", label="to", :foreignInput="true")
 			template(slot="input"): div._simple_text_left {{ order.PaymentMethod }}
 
-		trusty-input(:isOpen="true" label="number")
+		trusty-input(:isOpen="true", label="number", :foreignInput="true")
 			template(slot="input"): div._simple_text_left {{ order.PaymentRequisites }}
 
 		.trusty_inline_buttons._one_button
 			button copy address
 
-		trusty-input(:isOpen="true" label="exchanged rate confirmed")
+		trusty-input(:isOpen="true", label="exchanged rate confirmed", :foreignInput="true")
 			template(slot="input"): div._simple_text_left {{ amount.rate }}
 			template(slot="right"): div._right_slash RUB / BTC
 

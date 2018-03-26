@@ -6,9 +6,11 @@
 	template(v-else)
 		.trusty_deposit_fiat(v-if="!hasorder")
 			._margin_bottom
-				trusty-input(:isOpen="false", label="NAME AND SURNAME OF PAYER")
-					template(slot="input"): input(type="text" v-model="clientName")
-					
+				trusty-input(
+					:isOpen="false",
+					label="NAME AND SURNAME OF PAYER",
+					v-model="clientName")
+
 			.trusty_inline_buttons._one_button
 				button(@click="newOrder") CONFIRM
 			p.trusty_ps_text
