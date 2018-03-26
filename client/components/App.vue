@@ -28,6 +28,9 @@ export default {
   },
   computed: {
     activeClass() {
+    	if (this.$route.name === 'faq') {
+    		return '_inital_value';
+    	}
       return this.isLanding ? '_landing_page' : '';
     },
     isLanding() {

@@ -42,6 +42,10 @@ html, body, #app {
 		transform: translateY(-50%);
 		margin: 0 auto;
 	}
+
+	&._inital_value {
+		height: initial;
+	}
 }
 
 body, html {

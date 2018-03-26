@@ -51,10 +51,9 @@ export default {
   methods: {
     open(index) {
       this.opened = this.opened === index ? null : index;
-      this.$nextTick(() => {
-      	console.log(this.$refs['area_' + index][0]);
-      	this.smoothScroll.animateScroll('item' + index);
-      });
+      setTimeout(() => {
+      	this.smoothScroll.animateScroll(this.$refs['area_' + index][0]);
+      }, 300);
     },
   }
 };
