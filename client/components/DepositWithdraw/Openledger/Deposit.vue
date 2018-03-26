@@ -3,8 +3,11 @@
 	.trusty_help_text._yellow
 		| Send {{ payload.coin }} to the address below
 	.trusty_cutted_address(v-html="depositAddress")
-	.trusty_inline_buttons._one_button: button Copy address
-	.trusty_help_text._yellow.deposit_text(v-show="getCoinData")
+	.trusty_inline_buttons._one_button(
+    v-clipboard:copy="this.address"
+    v-clipboard:success="onCopy"
+  ): button Copy address
+	._yellow.trusty_ps_text(v-show="getCoinData")
 		| IMPORTANT: Send not less than {{ getCoinData }} {{ payload.coin }} to this deposit address.
 		| Sending less than {{ getCoinData }} {{ payload.coin }} or any other currency will result
 		| in the loss of your deposit.
@@ -41,7 +44,7 @@ export default {
         const end = this.address.slice(firstCount);
         return `<span>${start}</span><br/><span>${end}</span>`;
       }
-      return `<span>${this.address}</span>`;
+      return '<span>No address</span>';
     },
     getCoinData() {
       const coin = this.payload.coin.toLowerCase();
@@ -64,7 +67,10 @@ export default {
     ...mapActions({
       fetchAddress: 'openledger/fetchDepositAddress',
       fetchCoins: 'openledger/fetchCoins'
-    })
+    }),
+    onCopy() {
+      alert('Address copied');
+    }
   },
   watch: {
     payload(payload) {
@@ -78,13 +84,22 @@ export default {
 };
 </script>
 
-<style>
-#trusty_transfer ._input_space input {
+<style scoped>
+.trusty_help_text {
+  padding-top: 4vh;
+}
+._input_space input {
 	width: 75%!important;
 }
 
-#trusty_transfer .deposit_text {
+.deposit_text {
   font-size: 3vw;
   padding-bottom: 3vw;
+}
+
+.trusty_inline_buttons {
+  padding-top: 1vh!important;
+  overflow: none!important;
+  line-height: 13.2vw!important;
 }
 </style>

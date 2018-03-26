@@ -11,7 +11,7 @@
         select(v-model="selectedcoin")
           option(v-for="coin in coins") {{ coin }}
 
-    trusty-input(:isOpen="true", label="payment method" className="select_input" )
+    trusty-input(:isOpen="true", label="payment method" className="select_input payment-method" )
       template(slot="input")
         input(:style="{display:'none'}")
         select(v-model="paymentmethod" )
@@ -33,7 +33,7 @@ import './style.scss';
 
 const methodsByGate = {
   trusty: ['SBERBANK', 'TINKOFF'],
-  openledger: ['openledger']
+  openledger: ['OpenLedger']
 };
 
 export default {
@@ -59,14 +59,18 @@ export default {
   data() {
     return {
       selectedcoin: 'BTC',
-      paymentmethod: 'openledger',
+      paymentmethod: 'OpenLedger',
       amount: '',
       coins: ['BTC', 'ETH', 'LTC', 'NEO', 'RUB']
     };
   }
 };
 </script>
+
 <style lang="scss">
+.payment-method ._input_space {
+  padding-bottom: 0.5vh;
+}
 .deposit_amount {
   width: 80vw!important;
 }
