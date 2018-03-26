@@ -3,18 +3,16 @@
 .trusty_input_container(:style="styleSheet", :class="classes")
 
 	.w_input
-		._input_space(ref="input_space", :class="{ active_input: opened }")
+
+		._input_space(:class="{ active_input: opened }")
+
+			div(v-if="close && !empty", @click="updateCode('')")
+				trusty-icon(name="trusty_input_close")
 
 			label(
 				@click="opened = true",
 				:class="{no_opened: !opened}"
 			).trusty_place_holder {{ label }}
-
-			div(@click.stop="updateCode('')"): trusty-icon(name="trusty_input_close")
-
-			template(v-if="inputType!=='text'")
-				slot(name="input")
-
 
 			input(
 				v-if="!textarea",
@@ -45,6 +43,10 @@ export default {
   components: { trustyIcon },
 
   props: {
+  	close: {
+  		type: Boolean,
+  		default: true,
+  	},
     textarea: {
       type: Boolean,
       default: false
@@ -52,10 +54,6 @@ export default {
     validate: {
       type: Function,
       default: () => {}
-    },
-    code: {
-      type: String,
-      default: '',
     },
     inputType: {
       type: String,
@@ -82,23 +80,29 @@ export default {
       type: Boolean
     }
   },
+  watch: {
+  	code(val) {
+  		this.empty = !(val);
+  	}
+  },
   methods: {
     updateCode(code) {
-      this.$emit('input', code);
-      this.validate();
-      if (!code) this.$refs.inputArea.value = '';
+	    this.$emit('input', code);
+	    this.validate();
+	    this.code = code;
+      if (!code) {
+      	this.$refs.inputArea.value = '';
+      	this.$refs.inputArea.focus();
+      }
     },
-
     focusBlur() {
-      // const current = this.type === 'textarea' ? 'textarea' : 'input';
-      // const target = this.$refs.input_space.querySelector(current);
       const target = this.$refs.inputArea;
-      console.log(target);
       if (target) {
         this.focus = listen(target, 'focus', () => {
           this.opened = true;
         });
         this.blur = listen(target, 'blur', () => {
+        	console.log('blue');
           if (!target.value.length) this.opened = false;
         });
       }
@@ -137,6 +141,8 @@ export default {
   data() {
     return {
       opened: false,
+      empty: true,
+      code: '',
     };
   },
 
@@ -377,10 +383,11 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 	span.trusty_input_close {
 		display: inline-block;
 		position: absolute;
-		right: 0;
-		bottom: 0;
-		width: 3vw;
-		padding: 2vw;
+		right: 1vw;
+		top: 0;
+		margin: 0;
+		padding: 0;
+		width: 4.6vw;
 		z-index: 3000;
 	}
 
