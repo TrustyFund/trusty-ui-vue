@@ -23,14 +23,7 @@
 
 							._team_area
 
-								template(v-if="item.list.type === 'numbers'")
-									h3._list_title {{ item.list.title }}
-									ol
-										template(v-for="one in item.list.items")
-											li(v-html="one")
-											br
-
-								template(v-else)
+								template
 									h3._list_title {{ item.list.title }}
 									ul
 										template(v-for="one in item.list.items")
@@ -57,7 +50,7 @@ export default {
   },
   methods: {
     open(index) {
-      // this.opened = this.opened === index ? null : index;
+      this.opened = this.opened === index ? null : index;
       this.$nextTick(() => {
       	console.log(this.$refs['area_' + index][0]);
       	this.smoothScroll.animateScroll('item' + index);
@@ -106,28 +99,9 @@ export default {
 		text-align: left;
 	}
 
-	ul, ol {
+	ul {
 		padding-left: 4.5vw;
 		margin-bottom: 0;
-	}
-
-	ol {
-
-		counter-reset: item;
-		margin-left: 0;
-		padding-left: 0;
-
-		li {
-			display: block;
-			margin-left: 0;
-		}
-
-		li::before {
-			display: inline-block;
-			content: counter(item) ") ";
-			counter-increment: item;
-		}
-
 	}
 
 }
