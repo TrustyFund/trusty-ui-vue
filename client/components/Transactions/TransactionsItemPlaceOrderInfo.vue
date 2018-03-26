@@ -89,8 +89,4 @@ export default {
 </script>
 
 <style lang="scss">
-.ratio-assets {
-  color: inherit;
-  border-bottom: 1px dashed white;
-}
 </style>

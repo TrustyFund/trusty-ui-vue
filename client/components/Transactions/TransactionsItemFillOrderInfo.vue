@@ -55,8 +55,4 @@ export default {
 </script>
 
 <style lang="scss">
-  .ratio-assets {
-    color: inherit;
-    border-bottom: 1px dotted white;
-  }
 </style>
