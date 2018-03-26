@@ -17,7 +17,7 @@
       TransactionsItemCancelOrderInfo(
         v-if="type === 'limit_order_cancel'" 
        :item="item")
-    div.transaction_info__date {{ relativeTime }}
+    div.transaction_info__date(v-show="!hideDate") {{ relativeTime }}
 
 </template>
 
@@ -43,6 +43,10 @@ export default {
     },
     userId: {
       type: String,
+      required: true
+    },
+    hideDate: {
+      type: Boolean,
       required: true
     }
   },
