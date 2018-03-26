@@ -3,7 +3,7 @@
 .trusty_input_container(:style="styleSheet", :class="classes")
 
 	.w_input
-		._input_space(ref="input_space", :class="{ active_input: opened }")
+		._input_space(ref="input_space", :class="{ active_input: opened, composed: composed }")
 
 			label(
 				@click="opened = true",
@@ -43,6 +43,10 @@ export default {
       type: String
     },
     isOpen: {
+      default: false,
+      type: Boolean
+    },
+    composed: {
       default: false,
       type: Boolean
     }
@@ -116,6 +120,10 @@ export default {
 
 @import '~@/style/mixins';
 
+.composed {
+  width: 70vw!important;
+}
+
 input[type=tel] {
     -webkit-text-security: disc;
 }
@@ -187,7 +195,6 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 	}
 
 	.trusty_place_holder.no_opened {
-		width: 100%;
 		font-family: Gotham_Pro_Regular;
 		text-transform: uppercase;
 		position: absolute;
@@ -299,6 +306,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 	&.select_input {
 
 		select {
+			opacity: 1 !important;
 			padding-bottom: 0 !important;
 			@include input_tag_style;
 			-moz-appearance: none;
@@ -328,6 +336,29 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 		width: 2vw;
 		top:25%;
 	}
+
+
+  ._simple_text_left {
+    text-align: left;
+    color: white;
+    height: 6.4vw;
+    font-size: 5.4vw !important;
+    font-family: "Gotham_Pro_Regular";
+  }
+
+  ._right_slash {
+    font-size: 5.7vw;
+    font-family: Gotham_Pro_Regular;
+    margin-bottom: 1.14vw;
+		color: white;
+  }
+
+  .only_right_arrow {
+    span {
+      display: inline-block;
+      transform: translateY(-6.4vw);
+    }
+  }
 
 
 }

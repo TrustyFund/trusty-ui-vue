@@ -85,7 +85,6 @@ export default {
       storeBackupDate: 'account/storeBackupDate'
     }),
     async handleLogin() {
-      // vuelidate (check all fields)
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const result = await this.login({
@@ -98,9 +97,7 @@ export default {
           this.$router.push({ name: 'entry' });
         } else {
           this.$notify({
-            group: 'auth',
             type: 'error',
-            title: 'Login error',
             text: result.error
           });
         }

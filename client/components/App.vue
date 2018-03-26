@@ -8,7 +8,7 @@
 				 v-if="!ready && !isLanding">
 			 <Spinner/>
 		</div>
-		<notifications group="auth" width="100%" position="bottom center"/>
+		<notifications width="100%" position="bottom center"/>
 	</div>
 </template>
 
@@ -85,4 +85,38 @@ export default {
   z-index: 100;
 }
 
+.vue-notification {
+  padding: 10px;
+  margin: 0 5px 5px;
+
+  font-size: 12px;
+
+  color: #ffffff;
+  background: #44A4FC;
+  border-left: 5px solid #187FE7;
+ 
+  .notification-title {
+    font-family: "Gotham_Pro_Medium";
+    margin-bottom: 3px;
+  }
+ 
+  .notification-content {
+    font-family: "Gotham_Pro_Regular";
+  }
+
+  &.warn {
+    background: #ffb648;
+    border-left-color: #f48a06;
+  }
+
+  &.error {
+    background: #E54D42;
+    border-left-color: #B82E24;
+  }
+
+  &.success {
+    background: #68CD86;
+    border-left-color: #42A85F;
+  }
+}
 </style>

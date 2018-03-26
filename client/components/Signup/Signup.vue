@@ -99,7 +99,6 @@ export default {
           this.$router.push({ name: 'entry' });
         } else {
           this.$notify({
-            group: 'auth',
             type: 'error',
             title: 'Account creation error',
             text: result.error

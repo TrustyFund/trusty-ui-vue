@@ -3,7 +3,8 @@ import Cookies from 'js-cookie';
 import Router from 'vue-router';
 
 import Coin from '@/components/Coin/Coin';
-import Deposit from '@/components/Transfer';
+import Deposit from '@/components/DepositWithdraw/Deposit';
+import Withdraw from '@/components/DepositWithdraw/Withdraw';
 import User from '@/components/User/User.vue';
 import Signup from '@/components/Signup/Signup.vue';
 import Login from '@/components/Login/Login.vue';
@@ -20,6 +21,7 @@ import BackupVerify from '@/components/Backup/BackupVerify';
 import Faq from '@/components/Faq/Faq';
 import ConfirmTransactions from '@/components/ConfirmTransactions/ConfirmTransactions';
 import EntryPoint from '@/components/EntryPoint/EntryPoint';
+
 
 Vue.use(Router);
 
@@ -68,8 +70,6 @@ const router = new Router({
           component: ManagePortfolio,
           meta: { requiredBackup: true },
           beforeEnter: (to, from, next) => {
-            console.log('from : ', from.name);
-            console.log('to : ', to.name);
             if (from.name !== 'entry') next({ name: 'entry' });
             next();
           },
@@ -78,14 +78,19 @@ const router = new Router({
               path: 'percent',
               name: 'manage-percent',
               component: ManagePortfolioPercent,
-              meta: { requiredBackup: true }
-
+              meta: {
+                requiresConfirmScreen: true,
+                requiredBackup: true
+              }
             },
             {
               path: 'value',
               name: 'manage-value',
               component: ManagePortfolioValue,
-              meta: { requiredBackup: true }
+              meta: {
+                requiresConfirmScreen: true,
+                requiredBackup: true
+              }
             }
           ]
         },
@@ -94,7 +99,7 @@ const router = new Router({
           path: '/confirm',
           component: ConfirmTransactions,
           beforeEnter: (to, from, next) => {
-            if (from.name !== 'manage-percent' && from.name !== 'manage-value') {
+            if (!from.meta.requiresConfirmScreen) {
               next({ name: 'entry' });
             }
             next();
@@ -109,8 +114,11 @@ const router = new Router({
         {
           name: 'withdraw',
           path: '/withdraw',
-          component: Deposit,
-          meta: { requiredBackup: true }
+          component: Withdraw,
+          meta: {
+            requiresConfirmScreen: true,
+            requiredBackup: true
+          }
         },
         {
           name: 'coin',

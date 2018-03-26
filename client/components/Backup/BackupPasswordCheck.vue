@@ -57,7 +57,6 @@ export default {
           this.next();
         } else {
           this.$notify({
-            group: 'auth',
             type: 'error',
             title: 'Password error',
             text: 'Please input correct password'
