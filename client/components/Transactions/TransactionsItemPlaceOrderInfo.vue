@@ -1,13 +1,11 @@
 <template lang="pug">
   p._value(v-if="isBuying")
-    span(v-show="!min") Placed an order to buy 
-    span(v-show="min") Buy 
+    span Buy 
     span {{ receive.amount }} {{ receive.assetName }} at {{ ratio }} 
     span.ratio-assets {{ sell.assetName }}/{{ receive.assetName }} 
     span(v-show="fiatMultiplier")  ({{ sell.amountFiat }}$)
   p._value(v-else) 
-    span(v-show="!min") Placed an order to sell 
-    span(v-show="min") Sell 
+    span Sell 
     span {{ sell.amount }} {{ sell.assetName }} at {{ ratio }} 
     span.ratio-assets {{ receive.assetName }}/{{ sell.assetName }}
     span(v-show="fiatMultiplier")  ({{ receive.amountFiat }}$)
