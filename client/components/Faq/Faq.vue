@@ -28,7 +28,7 @@
 
 								template(v-else)
 									h3._list_title {{ item.list.title }}
-									ul(:class="getListClass(item.list.type)"  )
+									ul
 										template(v-for="one in item.list.items")
 											li(v-html="one")
 											br
@@ -53,11 +53,6 @@ export default {
     open(index) {
       this.opened = this.opened === index ? null : index;
     },
-    getListClass(type) {
-      return {
-        _dashed: type === 'dashed'
-      };
-    }
   }
 };
 </script>
@@ -65,6 +60,12 @@ export default {
 <style lang="scss">
 
 #trusty_coin_overview.trusty_faq  {
+
+	._grey_key_list {
+		 > ._text:last-child {
+		 	margin-bottom: 5vw;
+		 }
+	}
 
 	._list_item._many_lines {
 		position: relative;
@@ -91,6 +92,16 @@ export default {
 
 	li {
 		color: white;
+		font-size: 4.3vw;
+	}
+
+	._list_title {
+		text-align: left;
+	}
+
+	ul, ol {
+		padding-left: 4.5vw;
+		margin-bottom: 0;
 	}
 
 	ol {
@@ -101,37 +112,16 @@ export default {
 
 		li {
 			display: block;
-			margin-left: 4vw;
+			margin-left: 0;
 		}
 
 		li::before {
 			display: inline-block;
 			content: counter(item) ") ";
 			counter-increment: item;
-			//width: 2em;
-			//margin-left: -2em;
 		}
 
 	}
-
-
-	ul._dashed {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-
-		li {
-				padding-left: 16px;
-		}
-
-		li:before {
-			content: "—";
-			padding-right: 8px;
-			color: white;
-		}
-
-	}
-
 
 }
 

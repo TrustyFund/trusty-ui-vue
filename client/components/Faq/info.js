@@ -255,7 +255,7 @@ value added services offered within Trusty wallet.
 <br/>
 Any US citizen, before buying TRUSTY token, should accept the
 condition to use it ONLY for paying
-for services within Trusty wallet and nor for speculation.
+for services within Trusty wallet and not for speculation.
 `
   },
   {
