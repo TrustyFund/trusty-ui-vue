@@ -43,10 +43,10 @@ export default {
   components: { trustyIcon },
 
   props: {
-  	close: {
-  		type: Boolean,
-  		default: true,
-  	},
+    close: {
+      type: Boolean,
+      default: true,
+    },
     textarea: {
       type: Boolean,
       default: false
@@ -81,18 +81,18 @@ export default {
     }
   },
   watch: {
-  	code(val) {
-  		this.empty = !(val);
-  	}
+    code(val) {
+      this.empty = !(val);
+    }
   },
   methods: {
     updateCode(code) {
-	    this.$emit('input', code);
-	    this.validate();
-	    this.code = code;
+      this.$emit('input', code);
+      this.validate();
+      this.code = code;
       if (!code) {
-      	this.$refs.inputArea.value = '';
-      	this.$refs.inputArea.focus();
+        this.$refs.inputArea.value = '';
+        this.$refs.inputArea.focus();
       }
     },
     focusBlur() {
@@ -102,7 +102,7 @@ export default {
           this.opened = true;
         });
         this.blur = listen(target, 'blur', () => {
-        	console.log('blue');
+          console.log('blue');
           if (!target.value.length) this.opened = false;
         });
       }

@@ -2,45 +2,55 @@
 
 #trusty_auth.signup
 
-  .input_area
-    .left
+	.input_area
+		.left
 
-      trusty-input(label="new account name")
-        template(slot="input")
-          input(v-model="name" @input="$v.name.$touch()")
-      .trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter account name
-      .trusty_font_error(v-if="!$v.name.isUnique && !this.$v.$pending && this.$v.name.$dirty") Account name already taken
+			trusty-input(
+				label="new account name",
+				v-model="name",
+				:validate="$v.name.$touch")
 
-      trusty-input(label="enter email")
-        template(slot="input"  )
-          input(v-model="email" @input="$v.email.$touch()")
-      .trusty_font_error(v-if="!$v.email.required && this.$v.email.$dirty") Enter e-mail
-      .trusty_font_error(v-if="!$v.email.email && this.$v.email.$dirty") Invalid e-mail
+			.trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter account name
+			.trusty_font_error(v-if="!$v.name.isUnique && !this.$v.$pending && this.$v.name.$dirty") Account name already taken
 
-      trusty-input(label="enter pin code")
-        template(slot="input")
-          input(v-model="password" @input="$v.password.$touch()" type="tel")
-      .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter PIN
-      .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") PIN must be 6 characters or more
+			trusty-input(
+				label="enter email",
+				v-model="email",
+				:validate="$v.email.$touch")
 
-      trusty-input(label="confirm pin")
-        template(slot="input")
-          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="tel")
-      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PINS do not match
+			.trusty_font_error(v-if="!$v.email.required && this.$v.email.$dirty") Enter e-mail
+			.trusty_font_error(v-if="!$v.email.email && this.$v.email.$dirty") Invalid e-mail
 
-  .trusty_buttons
-    button(@click="handleSignUp" v-show="!pending") Sign up
-    button(v-show="pending") loading....
+			trusty-input(
+				label="enter pin code",
+				inputType="tel",
+				v-model="password",
+				:validate="$v.password.$touch")
 
-  p._tooltip_p._text_center
-    | Before continuing, make sure your device is secure
+			.trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter PIN
+			.trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") PIN must be 6 characters or more
 
-  ._bottom_link(@click="$router.push({ name: 'login' })"): span Log in with existing account
+			trusty-input(
+				label="confirm pin",
+				v-model="confirmPassword",
+				inputType="tel",
+				:validate="$v.confirmPassword.$touch")
 
-  ._bottom_link._margins: span(@click="$router.push({name:'terms-of-use'})") I accept Terms of use
+			.trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PINS do not match
 
-  ._logo_owl
-    Icon(name="trusty_owl_small_logo")
+	.trusty_buttons
+		button(@click="handleSignUp" v-show="!pending") Sign up
+		button(v-show="pending") loading....
+
+	p._tooltip_p._text_center
+		| Before continuing, make sure your device is secure
+
+	._bottom_link(@click="$router.push({ name: 'login' })"): span Log in with existing account
+
+	._bottom_link._margins: span(@click="$router.push({name:'terms-of-use'})") I accept Terms of use
+
+	._logo_owl
+		Icon(name="trusty_owl_small_logo")
 
 </template>
 

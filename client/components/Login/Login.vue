@@ -18,7 +18,7 @@
 				| PIN must be 6 characters or more
 
 			trusty-input(
-				label="confirm in",
+				label="confirm pin",
 				inputType="tel",
 				v-model="confirmPassword",
 				:validate="$v.confirmPassword.$touch")
