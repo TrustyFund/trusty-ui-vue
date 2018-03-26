@@ -66,7 +66,6 @@ export default {
         this.$router.push({ name: 'backup-done' });
       } else {
         this.$notify({
-          group: 'auth',
           type: 'error',
           title: 'Backup key error',
           text: 'Please enter the correct sequence of words'

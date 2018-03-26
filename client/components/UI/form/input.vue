@@ -14,18 +14,22 @@
 				:class="{no_opened: !opened}"
 			).trusty_place_holder {{ label }}
 
-			input(
-				v-if="!textarea",
-				ref="inputArea",
-				:value="code",
-				:type="inputType",
-				@input="updateCode($event.target.value)")
 
-			textarea(
-				v-else,
-				ref="inputArea",
-				:value="code",
-				@input="updateCode($event.target.value)")
+			slot(name="input" v-if="foreignInput")
+
+			template(v-else)
+				input(
+					v-if="!textarea",
+					ref="inputArea",
+					:value="code",
+					:type="inputType",
+					@input="updateCode($event.target.value)")
+
+				textarea(
+					v-else,
+					ref="inputArea",
+					:value="code",
+					@input="updateCode($event.target.value)")
 
 		._right_space(ref="right_space")
 
@@ -43,6 +47,10 @@ export default {
   components: { trustyIcon },
 
   props: {
+  	foreignInput: {
+  		type: Boolean,
+  		default: false,
+  	},
     close: {
       type: Boolean,
       default: true,
@@ -78,6 +86,10 @@ export default {
     isOpen: {
       default: false,
       type: Boolean
+    },
+    composed: {
+      default: false,
+      type: Boolean
     }
   },
   watch: {
@@ -102,7 +114,6 @@ export default {
           this.opened = true;
         });
         this.blur = listen(target, 'blur', () => {
-          console.log('blue');
           if (!target.value.length) this.opened = false;
         });
       }
@@ -164,6 +175,10 @@ export default {
 <style lang="scss">
 
 @import '~@/style/mixins';
+
+.composed {
+  width: 70vw!important;
+}
 
 input[type=tel] {
 		-webkit-text-security: disc;
@@ -238,7 +253,6 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 	}
 
 	.trusty_place_holder.no_opened {
-		width: 100%;
 		font-family: Gotham_Pro_Regular;
 		text-transform: uppercase;
 		position: absolute;
@@ -350,6 +364,7 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 	&.select_input {
 
 		select {
+			opacity: 1 !important;
 			padding-bottom: 0 !important;
 			@include input_tag_style;
 			-moz-appearance: none;
@@ -390,6 +405,29 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 		width: 4.6vw;
 		z-index: 3000;
 	}
+
+
+  ._simple_text_left {
+    text-align: left;
+    color: white;
+    height: 6.4vw;
+    font-size: 5.4vw !important;
+    font-family: "Gotham_Pro_Regular";
+  }
+
+  ._right_slash {
+    font-size: 5.7vw;
+    font-family: Gotham_Pro_Regular;
+    margin-bottom: 1.14vw;
+		color: white;
+  }
+
+  .only_right_arrow {
+    span {
+      display: inline-block;
+      transform: translateY(-6.4vw);
+    }
+  }
 
 
 }

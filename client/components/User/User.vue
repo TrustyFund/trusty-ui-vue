@@ -59,7 +59,6 @@ export default {
           this.fetchUser(this.name).then(result => {
             if (!result.success) {
               this.$notify({
-                group: 'auth',
                 type: 'error',
                 title: '',
                 text: this.name + ' : ' + result.error
