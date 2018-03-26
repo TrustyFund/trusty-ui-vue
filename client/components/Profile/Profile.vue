@@ -20,7 +20,6 @@
       .trusty_inline_buttons
         button(@click='deposit') DEPOSIT
         button(@click='withdraw') WITHDRAW
-      //- .trusty_inline_buttons._one_button(@click="goToManagePortfolio"): button MANAGE FUND
 
     div.transactions-wrap
       Transactions(v-if="userId"

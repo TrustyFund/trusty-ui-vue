@@ -18,8 +18,8 @@ import BackupFirst from '@/components/Backup/BackupFirst';
 import BackupPassword from '@/components/Backup/BackupPasswordCheck';
 import BackupPhrase from '@/components/Backup/BackupPhrase';
 import BackupVerify from '@/components/Backup/BackupVerify';
+import Faq from '@/components/Faq/Faq';
 import ConfirmTransactions from '@/components/ConfirmTransactions/ConfirmTransactions';
-import TermsOfUse from '@/components/TermsOfUse/TermsOfUse';
 import EntryPoint from '@/components/EntryPoint/EntryPoint';
 
 
@@ -40,14 +40,6 @@ const router = new Router({
       name: 'signup',
       path: '/signup',
       component: Signup,
-      meta: {
-        requiredAuth: false
-      }
-    },
-    {
-      path: '/terms',
-      name: 'terms-of-use',
-      component: TermsOfUse,
       meta: {
         requiredAuth: false
       }
@@ -166,6 +158,14 @@ const router = new Router({
           ]
         }
       ]
+    },
+    {
+      path: '/faq',
+      name: 'faq',
+      component: Faq,
+      meta: {
+        requiredAuth: false
+      }
     },
     {
       path: '*',

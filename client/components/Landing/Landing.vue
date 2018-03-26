@@ -11,8 +11,8 @@ div
 			div.top_buttons
 				a(@click="clickLink('signup')")
 					span SignUp
-				a(@click="clickLink('terms-of-use')")
-					span Info
+				a(@click="clickLink('faq')")
+					span FAQ
 				a(@click="clickLink('login')")
 					span LogIn
 
@@ -83,7 +83,7 @@ div
 				br._mob
 				|  used internet
 			a.wrap_button
-				button.land FAQ
+				button.land(@click="clickLink('faq')") FAQ
 
 	div._land_bottom_info
 		section

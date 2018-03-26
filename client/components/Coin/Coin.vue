@@ -95,18 +95,6 @@
 
   p.trusty_ps_text Overview provided by cryptocompare.com
 
-  //-template
-    .coin_vista.main_padding
-      .trusty_inline_buttons
-        button(@click="tab='analysis'") analysis
-        button(@click="tab='investment'") investment
-
-      .trusty_inline_buttons._one_button
-        button predictions
-
-    investment(v-if="tab=='investment'")
-    analysis(v-if="tab=='analysis'")
-
 
 </template>
 
@@ -114,10 +102,6 @@
 import { mapActions, mapGetters } from 'vuex';
 import Spinner from '@/components/UI/Spinner';
 import icon from '@/components/UI/icon';
-import investment from './CoinInvestment';
-import predictions from './CoinPredictions';
-import analysis from './CoinAnalysis';
-
 
 export default {
   mounted() {
@@ -138,10 +122,8 @@ export default {
   },
   data() {
     return {
-      tab: '',
       coin: '',
       opened: '',
-
     };
   },
   computed: {
@@ -237,9 +219,6 @@ export default {
   },
   components: {
     icon,
-    investment,
-    predictions,
-    analysis,
     Spinner
   }
 };
@@ -247,7 +226,7 @@ export default {
 </script>
 
 <style lang="scss">
-
+@import "./style";
 $color_red_value: #f42c2e;
 $color_green_value: #659d1a;
 
@@ -292,13 +271,20 @@ $color_green_value: #659d1a;
 
 
     .wrap_content {
-      height: 0;
       overflow: hidden;
+		  transition: max-height .3s ease-in-out;
+		  overflow: hidden;
+		  max-height: 0;
+    }
+
+    .trusty_arrow_down {
+    	transition: all .3s ease-in-out;
     }
 
     .content_area._opened_article {
 
       ._list_item {
+      	transition: all .3s;
         border-bottom: none;
       }
 
@@ -307,7 +293,8 @@ $color_green_value: #659d1a;
       }
 
       .wrap_content {
-        height: auto;
+      	transition: max-height .3s ease-in-out;
+        max-height: 2000px;
       }
 
 
@@ -331,7 +318,7 @@ $color_green_value: #659d1a;
       margin-top: .4vw;
     }
     .text_button {
-      padding-left: 4vw;
+      padding-left: 3.6vw;
     }
   }
 

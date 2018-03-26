@@ -5,7 +5,16 @@
   .input_area
     .left
 
-      trusty-input(label="enter pin code")
+      trusty-input(label="brainkey" type="textarea")
+        template(slot="input")
+          textarea(v-model="brainkey" @input="$v.brainkey.$touch()")
+      .trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter brainkey
+
+      p._tooltip_p
+        | Please enter account brainkey once for new devices, #[br]
+        | 12 words, you backed up, when account was created
+
+      trusty-input(label="create pin code")
         template(slot="input")
           input(v-model="password" @input="$v.password.$touch()" type="tel")
       .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter PIN
@@ -16,14 +25,10 @@
           input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="tel")
       .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PIN codes do not match
 
-      trusty-input(label="brainkey" type="textarea")
-        template(slot="input")
-          textarea(v-model="brainkey" @input="$v.brainkey.$touch()")
-      .trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter brainkey
+      p._tooltip_p
+        | For security reasons, you can create new PIN code every time you login
 
-  p._tooltip_p
-    | Please enter account brainkey once for new devices, #[br]
-    | 12 words, you backed up, when account was created
+
 
   .trusty_buttons
     button(@click="handleLogin" v-show="!pending") Log in
@@ -34,8 +39,8 @@
 
   ._bottom_link(@click="$router.push({ name: 'signup' })"): span Sign up with new account
 
-  ._logo_owl
-    Icon(name="trusty_owl_small_logo")
+  //- ._logo_owl
+  //-   Icon(name="trusty_owl_small_logo")
 
 </template>
 
