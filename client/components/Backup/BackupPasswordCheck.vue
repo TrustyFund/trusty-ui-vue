@@ -2,9 +2,12 @@
 
 #password_check
 
-  trusty-input(label="enter pin code")
-    template(slot="input")
-      input(v-model="password" @input="$v.password.$touch()" type="password")
+  trusty-input(
+  	label="enter pin code",
+  	type="tel",
+  	v-model="password"
+  	:validate="$v.password.$touch()")
+
   .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") enter PIN
   .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") PIN must be 6 characters or more
 
