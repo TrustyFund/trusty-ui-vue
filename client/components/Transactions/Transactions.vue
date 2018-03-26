@@ -9,7 +9,8 @@
     Spinner
   div.trusty_recent_transactions__error(v-show="error") Error when fetching user's transactions
   TransactionsItem(v-for="item in filteredOperations",
-                  :item="item",
+                  :item="item"
+                  :hide-date="minMode",
                   :key="item.id",
                   :userId="userId")
 
