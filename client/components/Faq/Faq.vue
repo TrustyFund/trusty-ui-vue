@@ -4,7 +4,11 @@
 	#coin_analysis._belongings
 
 		template(v-for="item, index in info")
-			.content_area(:class="{_opened_article: opened===index}", @click="open(index)")
+			.content_area(
+				:class="{_opened_article: opened===index }",
+				:id="['item'+index]",
+				@click="open(index)",
+				:ref="'area_'+index")
 				._items
 					._list_item._many_lines(:class="{_none_top_border: index === 0}")
 						span.text_button {{ item.title }}
@@ -36,6 +40,7 @@
 </template>
 
 <script>
+import SmoothScroll from 'smooth-scroll';
 import icon from '@/components/UI/icon';
 import info from './info.js';
 
@@ -47,11 +52,16 @@ export default {
     return {
       info,
       opened: null,
+      smoothScroll: new SmoothScroll(),
     };
   },
   methods: {
     open(index) {
-      this.opened = this.opened === index ? null : index;
+      // this.opened = this.opened === index ? null : index;
+      this.$nextTick(() => {
+      	console.log(this.$refs['area_' + index][0]);
+      	this.smoothScroll.animateScroll('item' + index);
+      });
     },
   }
 };
@@ -86,9 +96,6 @@ export default {
 		border-top: none;
 	}
 
-	span._bordered_item {
-		border-bottom: 1px solid white;
-	}
 
 	li {
 		color: white;
