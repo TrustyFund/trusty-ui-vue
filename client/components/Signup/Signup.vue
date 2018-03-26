@@ -68,7 +68,6 @@ export default {
   data() {
     return {
       name: '',
-      email: '',
       password: '',
       confirmPassword: '',
     };
@@ -76,14 +75,13 @@ export default {
   validations: {
     name: {
       required,
+      email,
       isUnique(value) {
         if (value === '') return true;
-        return this.checkUsername({ username: value });
-      }
-    },
-    email: {
-      required,
-      email
+
+        return this.checkUsername({ username: value.replace(/@/g, '-') });
+      },
+      minLength: minLength(4)
     },
     password: {
       required,
@@ -106,10 +104,10 @@ export default {
     async handleSignUp() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        console.log(this.name, this.email, this.password);
+        const replacedName = this.name.replace(/@/g, '-');
+        console.log(this.name, replacedName, this.password);
         const result = await this.signup({
-          name: this.name,
-          email: this.email,
+          name: replacedName,
           password: this.password,
           dictionary: dictionary.en
         });
