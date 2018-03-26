@@ -4,7 +4,7 @@
 
   trusty-input(
   	label="enter pin code",
-  	type="tel",
+  	inputType="tel",
   	v-model="password"
   	:validate="$v.password.$touch()")
 

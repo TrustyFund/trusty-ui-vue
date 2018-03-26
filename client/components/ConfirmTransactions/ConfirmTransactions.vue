@@ -2,13 +2,14 @@
 #approve_update_portfolio.main_padding
 
   .transaction_info
-    p._value(v-for="item in items") 
+    p._value(v-for="item in items")
       PlaceOrderInfo(:item="item", :min="true", :fiat-id="fiatId")
 
-  TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
-    template(slot="input")
-      input(v-model="pin" type="tel")
-
+  TrustyInput(
+  	label="ENTER PIN TO CONFIRM",
+  	v-show="isLocked",
+  	v-model="pin",
+  	inputType="tel")
 
   .trusty_inline_buttons._one_button
     button(v-show="!pending" @click="confirm") CONFIRM
