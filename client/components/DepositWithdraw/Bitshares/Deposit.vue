@@ -8,11 +8,16 @@
     v-clipboard:copy="userName"
     v-clipboard:success="onCopy"
   ): button Copy address
+  ._yellow.trusty_ps_text
+    | IMPORTANT: Please send BTC only from and to BitShares account using this payment method
   .trusty_help_text._yellow
     | Push CONFIRM button as soon as you have completed the payment
   .trusty_inline_buttons
     button(@click="$router.replace('/')") Confirm
     button(@click="$router.replace('/')") Cancel
+
+
+    
 
 </template>
 
