@@ -1,12 +1,11 @@
 <template lang="pug">
 #trusty_transfer
   ._turnover_inputs
-
     trusty-input(label="send any sum" composed=true)
       template(slot="input")
         input(v-model.number="amount")
       template(slot="right")
-        select(v-model="selectedcoin")
+        select(v-model="selectedcoin"  dir="rtl")
           option(v-for="coin in coins") {{ coin }}
         icon-component(name="trusty_arrow_down")
 
@@ -67,11 +66,4 @@ export default {
 </script>
 
 <style lang="scss">
-.payment-method ._input_space {
-  padding-bottom: 0.5vh;
-}
-.deposit_amount {
-  width: 80vw!important;
-}
-
 </style>

@@ -1,12 +1,11 @@
 <template lang="pug">
 #trusty_transfer
   ._turnover_inputs
-    TrustyInput(label="send any sum" composed=true)
+    TrustyInput(label="enter sum" composed=true)
       template(slot="input")
         input(v-model="amount" @input="$v.amount.$touch()")
-
       template(slot="right")
-        select(v-model="selectedCoin" v-if="isNonZeroLength")
+        select(v-model="selectedCoin" v-if="isNonZeroLength" dir="rtl")
           option(v-for="(coin, id) in nonZeroAssets", v-bind:value="id") {{ coin.symbol }}
         icon-component(name="trusty_arrow_down")
 
