@@ -1,9 +1,13 @@
 <template lang="pug">
 #trusty_transfer
   ._turnover_inputs
-    trusty-input(label="send any sum" composed=true)
-      template(slot="input")
+    trusty-input(label="Enter sum" composed=true v-bind:class='{ "hideborder": !canEnterAmount}')
+      template(slot="input" v-if="canEnterAmount")
         input(v-model.number="amount")
+      template(slot="input" v-else)
+        span(
+          class="no_opened"
+        ).trusty_place_holder Send any sum
       template(slot="right")
         select(v-model="selectedcoin"  dir="rtl")
           option(v-for="coin in coins") {{ coin }}
@@ -14,6 +18,7 @@
         input(:style="{display:'none'}")
         select(v-model="paymentmethod" )
           option(v-for="method in methods", :value="method") {{ method }}
+        icon-component(name="trusty_arrow_down" style="position: absolute")
 
   ._turnover_service
     component(:is="gateway", :payload="payload")
@@ -49,6 +54,9 @@ const methodsByCoin = {
 export default {
   components: { trustyInput, iconComponent, openledger, trusty, bitshares },
   computed: {
+    canEnterAmount() {
+      return (fiatCoins.includes(this.selectedcoin));
+    },
     gateway() {
       let selectedGateway = false;
       Object.keys(methodsByGate).forEach((gateway) => {

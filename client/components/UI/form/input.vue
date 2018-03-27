@@ -6,10 +6,9 @@
     ._right_space(ref="right_space", :class="{ composed: composed }")
       slot(name="right")
 
-    ._input_space(ref="input_space", :class="{ active_input: opened, composed: composed }")
+    ._input_space(ref="input_space", :class="{ active_input: opened, composed: composed }" @click="opened = true")
 
       label(
-        @click="opened = true",
         :class="{no_opened: !opened}"
       ).trusty_place_holder {{ label }}
 
@@ -101,6 +100,14 @@ export default {
 <style lang="scss">
 
 @import '~@/style/mixins';
+
+.hideborder ._input_space {
+  border-bottom: none!important;
+}
+
+.hideborder label {
+  display: none;
+}
 
 .payment-method ._input_space{
   padding-bottom: 1vw!important;
