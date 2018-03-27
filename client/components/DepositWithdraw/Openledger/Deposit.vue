@@ -100,7 +100,7 @@ export default {
 }
 
 .trusty_inline_buttons {
-  padding-top: 1vh!important;
+  margin-bottom: 4.1vw;
   overflow: none!important;
   line-height: 13.2vw!important;
 }
