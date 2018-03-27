@@ -224,7 +224,7 @@ quote by Dan Larimer, creator of Graphene ecosystem and co-creator of BitShares,
   {
     title: 'What is the commission to use Trusty wallet?',
     text: `
-Trusty is free to use, but you are required to keep 1.9%
+Trusty is free to use, but you are required to keep 1.4%
 of the portfolio value in TRUSTY tokens.
 Deposit and withdrawal commissions are subject to chosen
 payment method and currency, charged by the payment gateway service provider.

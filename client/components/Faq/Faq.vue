@@ -5,7 +5,7 @@
 
 		template(v-for="item, index in info")
 			.content_area(
-				:class="{_opened_article: opened===index }",
+				:class="{_opened_article: true}",
 				:id="['item'+index]",
 				@click="open(index)",
 				:ref="'area_'+index")
@@ -17,13 +17,25 @@
 				.wrap_content.main_padding
 
 					._grey_key_list
-						p._text(v-html="item.text")
 
-						template(v-if="item.list")
+						template(v-if="item.list && item.firstList")
 
 							._team_area
 
-								template
+								template(v-if="")
+									h3._list_title {{ item.list.title }}
+									ul
+										template(v-for="one in item.list.items")
+											li(v-html="one")
+											br
+
+						p._text(v-html="item.text")
+
+						template(v-if="item.list && !item.firstList")
+
+							._team_area
+
+								template(v-if="")
 									h3._list_title {{ item.list.title }}
 									ul
 										template(v-for="one in item.list.items")
