@@ -4,9 +4,7 @@
 
   trusty-input(label="enter pin code")
     template(slot="input")
-      input(v-model="password" @input="$v.password.$touch()" type="password")
-  .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") enter PIN
-  .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") PIN must be 6 characters or more
+      input(v-model="password" type="password")
 
   .trusty_inline_buttons._one_button
     button(@click="checkPassword()") Check
@@ -16,7 +14,6 @@
 <script>
 import trustyInput from '@/components/UI/form/input';
 import { validationMixin } from 'vuelidate';
-import { required, minLength } from 'vuelidate/lib/validators';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -26,12 +23,6 @@ export default {
     return {
       password: ''
     };
-  },
-  validations: {
-    password: {
-      required,
-      minLength: minLength(6)
-    }
   },
   computed: {
     ...mapGetters({
@@ -50,18 +41,15 @@ export default {
       isLocked: 'account/isLocked',
     }),
     async checkPassword() {
-      this.$v.password.$touch();
-      if (!this.$v.$invalid) {
-        if (this.isValidPassword(this.password)) {
-          this.unlockWallet(this.password);
-          this.next();
-        } else {
-          this.$notify({
-            type: 'error',
-            title: 'Password error',
-            text: 'Please input correct password'
-          });
-        }
+      if (this.isValidPassword(this.password)) {
+        this.unlockWallet(this.password);
+        this.next();
+      } else {
+        this.$notify({
+          type: 'error',
+          title: 'Password error',
+          text: 'Please input correct password'
+        });
       }
     }
   },
