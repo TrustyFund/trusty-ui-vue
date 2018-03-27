@@ -5,7 +5,7 @@
 
 		template(v-for="item, index in info")
 			.content_area(
-				:class="{_opened_article: true}",
+				:class="{_opened_article: index===opened}",
 				:id="['item'+index]",
 				@click="open(index)",
 				:ref="'area_'+index")
@@ -73,6 +73,8 @@ export default {
 
 <style lang="scss">
 
+@import "~@/style/mixins";
+
 #trusty_coin_overview.trusty_faq  {
 
 	._grey_key_list {
@@ -113,6 +115,40 @@ export default {
 	ul {
 		padding-left: 4.5vw;
 		margin-bottom: 0;
+	}
+
+}
+
+@media screen and (min-width: 769px) {
+
+
+	#trusty_coin_overview.trusty_faq  {
+
+		._grey_key_list {
+			 > ._text:last-child {
+			 	margin-bottom: px_from_vw(5);
+			 }
+		}
+
+		._list_item._many_lines {
+			padding-right: px_from_vw(15);
+		}
+
+		.trusty_arrow_down {
+			top: px_from_vw(3);
+		}
+
+		li {
+			font-size: px_from_vw(4.3);
+		}
+
+		._list_title {
+		}
+
+		ul {
+			padding-left: px_from_vw(4.5);
+		}
+
 	}
 
 }

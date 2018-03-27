@@ -34,7 +34,7 @@
 
   #coin_analysis._belongings
 
-    
+
 
     .content_area(:class="{_opened_article: opened==='description'}")
       ._items(@click="opened = opened==='description' ? '':'description'")
@@ -82,7 +82,7 @@
             ._grey_key_list(v-for="(one, k) in val", @click="showLink(one.url)")
               p {{ one.url }}
               p updated {{ one.lastUpdate}}
-    
+
     .content_area(:class="{_opened_article: opened==='about asset issuer'}")
           ._items(@click="opened = opened==='about asset issuer' ? '':'about asset issuer'")
             ._list_item
@@ -226,7 +226,10 @@ export default {
 </script>
 
 <style lang="scss">
+
+@import "~@/style/mixins";
 @import "./style";
+
 $color_red_value: #f42c2e;
 $color_green_value: #659d1a;
 
@@ -236,15 +239,16 @@ $color_green_value: #659d1a;
   font-family: Gotham_Pro_Regular;
   font-size: 4.8vw;
   text-transform: uppercase;
+
+  @media screen and (min-width: 769px) {
+		font-size: px_from_vw(4.8);
+  }
+
 }
 
 #trusty_coin_overview {
 
-
-
   height: inherit;
-
-
 
   ._belongings {
 
@@ -438,7 +442,7 @@ $color_green_value: #659d1a;
       position: relative;
       height: 5rem;
     }
-    
+
 
     ._indicators {
       margin-bottom: 6vw;
@@ -465,7 +469,7 @@ $color_green_value: #659d1a;
         }
       }
 
-      
+
     }
 
   }
@@ -480,5 +484,7 @@ $color_green_value: #659d1a;
   }
 
 }
+
+@import "./desk";
 
 </style>
