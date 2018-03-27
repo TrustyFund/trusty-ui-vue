@@ -17,9 +17,9 @@
       icon-component(name="trusty_options")
 
     .header_title(v-if="!isProfilePage") {{ headerTitle }}
-    div.settings-menu-overlay(@click="hideSettings", :class="{ 'settings-menu-overlay--visible': showSettings }")
+    div.settings-menu-overlay(@click="hideSettings", :class="{ 'settings-menu-overlay--visible': settingsVisible }")
     div.settings-menu-container(@click="hideSettings")
-      div.settings-menu(:class="{ 'settings-menu--expanded': showSettings }")
+      div.settings-menu(:class="{ 'settings-menu--expanded': settingsVisible }")
         div.settings-menu__item(@click="$router.push({ name: 'backup' })") Backup wallet
         div.settings-menu__item.disabled Notifications
         div.settings-menu__item(@click="logout") Log out
@@ -62,7 +62,7 @@ export default {
         coin: 'coin overview',
         'manage-approve': 'update portfolio',
       },
-      showSettings: false
+      settingsVisible: false
     };
   },
   computed: {
@@ -88,10 +88,10 @@ export default {
       logout: 'account/logout'
     }),
     toggleSettingsMenu() {
-      this.showSettings = !this.showSettings;
+      this.settingsVisible = !this.settingsVisible;
     },
     hideSettings() {
-      this.showSettings = false;
+      this.settingsVisible = false;
     },
     handleBack() {
       // TODO : refactor back button logic
@@ -219,7 +219,6 @@ $background_color: #1b1f22;
   .trusty_header {
 
     height: px_from_vw($header_desk_size);
-    position: relative;
 
     .trusty_header_logo {
       line-height: px_from_vw(14);
