@@ -90,9 +90,6 @@ export default {
 .trusty_help_text {
   padding-top: 4vh;
 }
-._input_space input {
-	width: 75%!important;
-}
 
 .deposit_text {
   font-size: 3vw;

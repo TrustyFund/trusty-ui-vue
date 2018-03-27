@@ -48,3 +48,14 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.trusty_help_text {
+  padding-top: 4vh;
+}
+
+.deposit_text {
+  font-size: 3vw;
+  padding-bottom: 3vw;
+}
+</style>
