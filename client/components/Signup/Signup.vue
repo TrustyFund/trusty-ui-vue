@@ -11,7 +11,7 @@
       .trusty_font_error(v-if="!$v.name.required && $v.name.$dirty") Enter e-mail or account name
       .trusty_font_error(v-if="$v.name.required && !$v.name.minLength && $v.name.$dirty") Must be 4 characters or more
       .trusty_font_error(v-if="$v.name.required &&$v.name.minLength && !$v.name.hasSpecialSymbol && $v.name.$dirty") Should container '@', '-' or number
-      .trusty_font_error(v-if="$v.name.hasSpecialSymbol && !$v.name.noBadSymbolAtEnd && $v.name.$dirty") Should not end with '@' or '-'
+      .trusty_font_error(v-if="$v.name.hasSpecialSymbol && !$v.name.noBadSymbolAtEnd && $v.name.$dirty") Should not end with '@', '-' or '.'
       .trusty_font_error(v-if="$v.name.hasSpecialSymbol && $v.name.noBadSymbolAtEnd && !$v.name.isUnique && $v.$pending") Checking...
       .trusty_font_error(v-if="$v.name.hasSpecialSymbol && $v.name.noBadSymbolAtEnd && !$v.name.isUnique && !$v.$pending && $v.name.$dirty") Account name already taken
 
@@ -20,14 +20,14 @@
 
       trusty-input(label="create pin code")
         template(slot="input")
-          input(v-model.laze="password" @input="$v.password.$touch()" type="tel")
+          input(@input="debouncedPinInput" type="tel")
       .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter PIN
       .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") PIN must be 6 characters or more
 
       trusty-input(label="confirm pin")
         template(slot="input")
-          input(v-model.lazy="confirmPassword" @input="$v.confirmPassword.$touch()" type="tel")
-      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PINS do not match
+          input(@input="debouncedRepeatPinInput" type="tel")
+      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword && this.$v.confirmPassword.$dirty") PIN codes do not match
 
   .trusty_buttons
     button(@click="handleSignUp" v-show="!pending") Sign up
@@ -45,6 +45,7 @@
 <script>
 import trustyInput from '@/components/UI/form/input';
 import Icon from '@/components/UI/icon';
+import debounce from 'lodash/debounce';
 import { validationMixin } from 'vuelidate';
 import { required, minLength, sameAs } from 'vuelidate/lib/validators';
 import { mapActions, mapGetters } from 'vuex';
@@ -72,6 +73,7 @@ export default {
       noBadSymbolAtEnd(value) {
         if (value.indexOf('@') === value.length - 1) return false;
         if (value.indexOf('-') === value.length - 1) return false;
+        if (value.indexOf('.') === value.length - 1) return false;
         return true;
       },
       isUnique(value) {
@@ -100,6 +102,8 @@ export default {
       checkUsername: 'account/checkIfUsernameFree',
       signup: 'account/signup',
     }),
+    debouncedPinInput: () => {},
+    debouncedRepeatPinInput: () => {},
     async handleSignUp() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
@@ -122,6 +126,16 @@ export default {
         }
       }
     }
+  },
+  created() {
+    this.debouncedPinInput = debounce((e) => {
+      this.password = e.target.value;
+      this.$v.password.$touch();
+    }, 500);
+    this.debouncedRepeatPinInput = debounce((e) => {
+      this.confirmPassword = e.target.value;
+      this.$v.confirmPassword.$touch();
+    }, 500);
   }
 };
 
