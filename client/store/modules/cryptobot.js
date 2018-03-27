@@ -1,4 +1,5 @@
 import CryptobotClient from '@/services/cryptobot.js';
+// eslint-disable-next-line
 import PersistentStorage from 'lib/src/services/persistent-storage';
 
 const orderStatus = {
