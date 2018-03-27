@@ -7,7 +7,7 @@
 
       trusty-input(label="enter e-mail or account name")
         template(slot="input")
-          input(v-model="name" @input="$v.name.$touch()")
+          input(@input="debouncedNameInput")
       .trusty_font_error(v-if="!$v.name.required && $v.name.$dirty") Enter e-mail or account name
       .trusty_font_error(v-if="$v.name.required && !$v.name.minLength && $v.name.$dirty") Must be 4 characters or more
       .trusty_font_error(v-if="$v.name.required &&$v.name.minLength && !$v.name.hasSpecialSymbol && $v.name.$dirty") Should contain '@', '-' or number
@@ -104,6 +104,7 @@ export default {
     }),
     debouncedPinInput: () => {},
     debouncedRepeatPinInput: () => {},
+    debouncedNameInput: () => {},
     async handleSignUp() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
@@ -131,11 +132,15 @@ export default {
     this.debouncedPinInput = debounce((e) => {
       this.pin = e.target.value;
       this.$v.pin.$touch();
-    }, 500);
+    }, 800);
     this.debouncedRepeatPinInput = debounce((e) => {
       this.confirmPin = e.target.value;
       this.$v.confirmPin.$touch();
-    }, 500);
+    }, 800);
+    this.debouncedNameInput = debounce((e) => {
+      this.name = e.target.value;
+      this.$v.name.$touch();
+    }, 800);
   }
 };
 
