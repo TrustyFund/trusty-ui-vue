@@ -130,6 +130,9 @@ export default {
       border: none;
       background-color: transparent;
     }
+    th {
+      padding-bottom: 1.9vw;
+    }
     th span {
       color: #cccccc;
       font-family: 'Gotham_Pro_Regular';
