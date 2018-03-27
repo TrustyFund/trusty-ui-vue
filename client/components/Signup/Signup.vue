@@ -5,14 +5,14 @@
   .input_area
     .left
 
-      trusty-input(label="new account e-mail")
+      trusty-input(label="enter e-mail or account name")
         template(slot="input")
           input(v-model="name" @input="$v.name.$touch()")
       .trusty_font_error(v-if="!$v.name.required && $v.name.$dirty") Enter e-mail
       .trusty_font_error(v-if="$v.name.required && !$v.name.minLength && $v.name.$dirty") Must be 4 characters or more
-      .trusty_font_error(v-if="$v.name.minLength && !$v.name.email && $v.name.$dirty") Not a valid e-mail  
-      .trusty_font_error(v-if="$v.name.email && !$v.name.isUnique && $v.$pending") Checking...
-      .trusty_font_error(v-if="$v.name.email && !$v.name.isUnique && !$v.$pending && $v.name.$dirty") Account name already taken
+      .trusty_font_error(v-if="$v.name.required &&$v.name.minLength && !$v.name.hasSpecialSymbol && $v.name.$dirty") Should container '@', '-' or number
+      .trusty_font_error(v-if="$v.name.hasSpecialSymbol && !$v.name.isUnique && $v.$pending") Checking...
+      .trusty_font_error(v-if="$v.name.hasSpecialSymbol && !$v.name.isUnique && !$v.$pending && $v.name.$dirty") Account name already taken
 
       trusty-input(label="create pin code")
         template(slot="input")
@@ -42,7 +42,7 @@
 import trustyInput from '@/components/UI/form/input';
 import Icon from '@/components/UI/icon';
 import { validationMixin } from 'vuelidate';
-import { required, minLength, sameAs, email } from 'vuelidate/lib/validators';
+import { required, minLength, sameAs } from 'vuelidate/lib/validators';
 import { mapActions, mapGetters } from 'vuex';
 import dictionary from '../../../vuex-bitshares/test/brainkey_dictionary.js';
 
@@ -59,10 +59,14 @@ export default {
   validations: {
     name: {
       required,
-      email,
+      hasSpecialSymbol(value) {
+        const hasDog = value.indexOf('@') > -1;
+        const hasLine = value.indexOf('-') > -1;
+        const hasNumber = /\d/.test(value);
+        return hasDog || hasLine || hasNumber;
+      },
       isUnique(value) {
-        if (value === '') return true;
-
+        if (!this.$v.name.required || !this.$v.name.hasSpecialSymbol) return true;
         return this.checkUsername({ username: value.replace(/@/g, '-') });
       },
       minLength: minLength(4)
