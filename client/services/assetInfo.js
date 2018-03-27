@@ -92,7 +92,6 @@ class AssetInfo {
     }
     const snapshotQuery = 'https://proxy.trusty.fund/' +
       `coinsnapshotfullbyid/?id=${coinId}`;
-    console.log(snapshotQuery);
     try {
       const snapshotStats = await axios.get(snapshotQuery);
       if (snapshotStats.data.Response === 'Success') {
@@ -106,7 +105,6 @@ class AssetInfo {
         };
         const description = snapshotStats.data.Data.General.Description;
         const features = snapshotStats.data.Data.General.Features;
-        console.log('description', description);
         const ico = this.filterFields(snapshotStats.data.Data.ICO);
         return {
           success: true,
@@ -185,7 +183,6 @@ class AssetInfo {
           vol24Hour,
           open24Hour
         };
-        console.log(stats);
         return {
           success: true,
           data: stats
