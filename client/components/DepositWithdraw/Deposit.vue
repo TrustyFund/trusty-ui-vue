@@ -6,10 +6,9 @@
       template(slot="input")
         input(v-model.number="amount")
       template(slot="right")
-        icon-component(name="trusty_arrow_down")
-        span.fake_option_width
         select(v-model="selectedcoin")
           option(v-for="coin in coins") {{ coin }}
+        icon-component(name="trusty_arrow_down")
 
     trusty-input(:isOpen="true", label="payment method" className="select_input payment-method" )
       template(slot="input")

@@ -12,7 +12,7 @@
 
 			slot(name="input")
 
-		._right_space(ref="right_space")
+		._right_space(ref="right_space", :class="{ composed: composed }")
 
 			slot(name="right")
 
@@ -64,34 +64,16 @@ export default {
           if (!target.value.length) this.opened = false;
         });
       }
-    },
-
-    selectResize() {
-      const select = this.$refs.right_space.querySelector('select');
-
-      function resize() {
-        const fake = this.$refs.right_space.querySelector('.fake_option_width');
-        const selected = select.options[select.selectedIndex];
-        fake.textContent = selected.text;
-        select.style.width = fake.offsetWidth + 25 + 'px';
-      }
-
-      if (select) {
-        resize.call(this);
-        this.resize = listen(select, 'change', resize.bind(this));
-      }
     }
   },
 
   mounted() {
     if (this.isOpen) this.opened = true;
     this.focusBlur();
-    this.selectResize();
   },
 
   beforeDestroy() {
     if (this.blur) this.blur.remove();
-    if (this.resize) this.resize.remove();
     if (this.focus) this.focus.remove();
   },
 
@@ -120,8 +102,12 @@ export default {
 
 @import '~@/style/mixins';
 
-.composed {
+._input_space.composed {
   width: 70vw!important;
+}
+
+._right_space.composed select {
+  width: 16vw!important;
 }
 
 input[type=tel] {
@@ -331,7 +317,6 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 	}
 
 	.trusty_arrow_down {
-		position: absolute;
 		right: 0;
 		width: 2vw;
 		top:25%;
