@@ -21,13 +21,13 @@
       trusty-input(label="create pin code")
         template(slot="input")
           input(@input="debouncedPinInput" type="tel")
-      .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter PIN
-      .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") PIN must be 6 characters or more
+      .trusty_font_error(v-if="!$v.pin.required && this.$v.pin.$dirty") Enter PIN
+      .trusty_font_error(v-if="!$v.pin.minLength && this.$v.pin.$dirty") PIN must be 6 characters or more
 
       trusty-input(label="confirm pin")
         template(slot="input")
           input(@input="debouncedRepeatPinInput" type="tel")
-      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword && this.$v.confirmPassword.$dirty") PIN codes do not match
+      .trusty_font_error(v-if="!$v.confirmPin.sameAsPin && this.$v.confirmPin.$dirty") PIN codes do not match
 
   .trusty_buttons
     button(@click="handleSignUp" v-show="!pending") Sign up
@@ -57,8 +57,8 @@ export default {
   data() {
     return {
       name: '',
-      password: '',
-      confirmPassword: '',
+      pin: '',
+      confirmPin: '',
     };
   },
   validations: {
@@ -84,12 +84,12 @@ export default {
       },
       minLength: minLength(4)
     },
-    password: {
+    pin: {
       required,
       minLength: minLength(6)
     },
-    confirmPassword: {
-      sameAsPassword: sameAs('password')
+    confirmPin: {
+      sameAsPin: sameAs('pin')
     }
   },
   computed: {
@@ -108,10 +108,10 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const replacedName = this.name.replace(/@/g, '-');
-        console.log(this.name, replacedName, this.password);
+        console.log(this.name, replacedName, this.pin);
         const result = await this.signup({
           name: replacedName,
-          password: this.password,
+          password: this.pin,
           dictionary: dictionary.en
         });
         if (result.success) {
@@ -129,12 +129,12 @@ export default {
   },
   created() {
     this.debouncedPinInput = debounce((e) => {
-      this.password = e.target.value;
-      this.$v.password.$touch();
+      this.pin = e.target.value;
+      this.$v.pin.$touch();
     }, 500);
     this.debouncedRepeatPinInput = debounce((e) => {
-      this.confirmPassword = e.target.value;
-      this.$v.confirmPassword.$touch();
+      this.confirmPin = e.target.value;
+      this.$v.confirmPin.$touch();
     }, 500);
   }
 };
