@@ -13,12 +13,16 @@
 
     span._options._mob(
       v-if="isProfilePage"
-      @click='handleLogout')
+      @click='toggleSettingsMenu')
       icon-component(name="trusty_options")
 
     .header_title(v-if="!isProfilePage") {{ headerTitle }}
-
-
+    div.settings-menu-overlay(@click="hideSettings", :class="{ 'settings-menu-overlay--visible': showSettings }")
+    div.settings-menu-container(@click="hideSettings")
+      div.settings-menu(:class="{ 'settings-menu--expanded': showSettings }")
+        div.settings-menu__item(@click="$router.push({ name: 'backup' })") Backup wallet
+        div.settings-menu__item.disabled Notifications
+        div.settings-menu__item(@click="logout") Log out
 </div>
 
 
@@ -57,7 +61,8 @@ export default {
         entry: 'profile',
         coin: 'coin overview',
         'manage-approve': 'update portfolio',
-      }
+      },
+      showSettings: false
     };
   },
   computed: {
@@ -82,8 +87,11 @@ export default {
     ...mapActions({
       logout: 'account/logout'
     }),
-    handleLogout() {
-      this.logout();
+    toggleSettingsMenu() {
+      this.showSettings = !this.showSettings;
+    },
+    hideSettings() {
+      this.showSettings = false;
     },
     handleBack() {
       // TODO : refactor back button logic
@@ -110,7 +118,7 @@ $background_color: #1b1f22;
   color: white;
   width: 100%;
   flex-shrink: 0;
-  position: relative;
+  z-index: 2;
 
   span._options {
     box-sizing: border-box;
@@ -151,6 +159,59 @@ $background_color: #1b1f22;
 
 }
 
+.settings-menu-overlay {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s;
+  position: absolute;
+  top: 12vw;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0,0,0, 0.4);
+  &--visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+.trusty-header .seetings-menu-container {
+  position: relative;
+}
+
+.trusty_header .settings-menu {
+  position: absolute;
+  left: 0;
+  top: $header_size;
+  right: 0;
+  background: #1e2225;
+  height: 0vw;
+  transition: height 0.2s;
+  overflow: hidden;
+  &--expanded {
+    height: 40vw;
+  }
+  &__item {
+    height: 13vw;
+    line-height: 12.2vw;
+    font-size: 4.8vw;
+    text-transform: uppercase;
+    text-align: center;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: Gotham_Pro_Medium;
+    cursor: pointer;
+    &:last-child {
+      border-bottom: none;
+    }
+    &.disabled {
+      cursor: default;
+      color: rgba(255, 255, 255, 0.3);
+    }
+  }
+}
+
+
 @import "./mobile.scss";
 
 @media screen and (min-width: 769px) {
@@ -158,6 +219,7 @@ $background_color: #1b1f22;
   .trusty_header {
 
     height: px_from_vw($header_desk_size);
+    position: relative;
 
     .trusty_header_logo {
       line-height: px_from_vw(14);
