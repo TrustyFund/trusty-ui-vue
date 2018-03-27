@@ -18,11 +18,13 @@ const RESET_ASSET_INFO = 'RESET_ASSET_INFO';
 
 const statsStub = {};
 
-const snapShotStub = {};
+const descriptionStub = {};
+const technologyStub = {};
+const featuresStub = {};
+const icoStub = {};
 
 const socialStub = {};
 
-const icoStub = {};
 
 const mutations = {
   [FETCH_ASSET_STATS_REQUEST](state) {
@@ -61,8 +63,10 @@ const mutations = {
     state.pending = false;
     state.pendingSnapShot = false;
   },
-  [FETCH_ASSET_SNAPSHOT_COMPLETE](state, { snapShot, ico }) {
-    state.snapShot = snapShot;
+  [FETCH_ASSET_SNAPSHOT_COMPLETE](state, { description, features, technology, ico }) {
+    state.description = description;
+    state.features = features;
+    state.technology = technology;
     state.ico = ico;
     state.pending = false;
     state.pendingSnapShot = false;
@@ -103,7 +107,10 @@ const actions = {
     const result = await AssetInfo.getCoinSnapshot(assetSymbol);
     if (result.success) {
       commit(FETCH_ASSET_SNAPSHOT_COMPLETE, {
-        snapShot: result.data.snapShot, ico: result.data.ico
+        description: result.data.description,
+        features: result.data.features,
+        technology: result.data.technology,
+        ico: result.data.ico
       });
     } else {
       commit(FETCH_ASSET_SNAPSHOT_ERROR);
@@ -119,7 +126,9 @@ const actions = {
 const getters = {
   getStats: state => state.stats,
   getSocial: state => state.social,
-  getSnapShot: state => state.snapShot,
+  getDescription: state => state.description,
+  getFeatures: state => state.features,
+  getTechnology: state => state.technology,
   getICO: state => state.ico,
   getPendingStats: state => state.pendingStats,
   getPendingSocial: state => state.pendingSocial,
@@ -132,7 +141,9 @@ const initialState = {
   pendingStats: false,
   social: socialStub,
   pendingSocial: false,
-  snapShot: snapShotStub,
+  description: descriptionStub,
+  features: featuresStub,
+  technology: technologyStub,
   pendingSnapShot: false,
   ico: icoStub,
   penging: false,

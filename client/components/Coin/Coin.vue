@@ -43,11 +43,28 @@
           icon(name="trusty_arrow_down")
 
       .wrap_content.main_padding
+        p(v-html="getDescription") {{getDescription}}
 
-        ._grey_key_list(v-for="(val, key) in getSnapShot" v-if="val")
-          template(v-if="key")
-            p {{ parseCamel(key) }}
-            p(v-html="val") {{ val }}
+    .content_area(:class="{_opened_article: opened==='features'}" v-show="featuresExist")
+      ._items(@click="opened = opened==='features' ? '':'features'")
+        ._list_item
+          span.text_button FEATURES
+          icon(name="trusty_arrow_down")
+
+      .wrap_content.main_padding
+        p(v-html="getFeatures") {{getFeatures}} 
+
+    .content_area(:class="{_opened_article: opened==='technology'}")
+      ._items(@click="opened = opened==='technology' ? '':'technology'")
+        ._list_item
+          span.text_button TECHNOLOGY
+          icon(name="trusty_arrow_down")
+
+        .wrap_content.main_padding
+          ._grey_key_list(v-for="(val, key) in getTechnology" v-if="val")
+            template(v-if="key")
+              p {{ parseCamel(key) }}
+              p(v-html="val") {{ val }}
 
     .content_area(:class="{_opened_article: opened==='ico'}" v-show="ICOExist")
       ._items(@click="opened = opened==='ico' ? '':'ico'")
@@ -138,7 +155,9 @@ export default {
     ...mapGetters({
       getStats: 'assetInfo/getStats',
       getSocial: 'assetInfo/getSocial',
-      getSnapShot: 'assetInfo/getSnapShot',
+      getDescription: 'assetInfo/getDescription',
+      getFeatures: 'assetInfo/getFeatures',
+      getTechnology: 'assetInfo/getTechnology',
       getAssetById: 'assets/getAssetById',
       getICO: 'assetInfo/getICO',
       getPendingStats: 'assetInfo/getPendingStats'
@@ -159,6 +178,9 @@ export default {
       } catch (ex) {
         return '';
       }
+    },
+    featuresExist() {
+      return this.getFeatures.length > 0;
     },
     ICOExist() {
       return Object.keys(this.getICO).length > 0;
@@ -192,7 +214,7 @@ export default {
         nums.forEach((item, index) => {
           const maybeNumber = item.replace(/,/g, '');
           if (this.isNumeric(maybeNumber)) {
-            nums[index] = this.commaFormat(parseFloat(maybeNumber).toFixed(1));
+            nums[index] = this.commaFormat(parseFloat(maybeNumber));
           }
         });
         return nums.join(' ');
@@ -272,19 +294,19 @@ $color_green_value: #659d1a;
 
     .wrap_content {
       overflow: hidden;
-		  transition: max-height .3s ease-in-out;
-		  overflow: hidden;
-		  max-height: 0;
+      transition: max-height .3s ease-in-out;
+      overflow: hidden;
+      max-height: 0;
     }
 
     .trusty_arrow_down {
-    	transition: all .3s ease-in-out;
+      transition: all .3s ease-in-out;
     }
 
     .content_area._opened_article {
 
       ._list_item {
-      	transition: all .3s;
+        transition: all .3s;
         border-bottom: none;
       }
 
@@ -293,7 +315,7 @@ $color_green_value: #659d1a;
       }
 
       .wrap_content {
-      	transition: max-height .3s ease-in-out;
+        transition: max-height .3s ease-in-out;
         max-height: 2000px;
       }
 

@@ -96,9 +96,7 @@ class AssetInfo {
     try {
       const snapshotStats = await axios.get(snapshotQuery);
       if (snapshotStats.data.Response === 'Success') {
-        const snapShot = {
-          description: snapshotStats.data.Data.General.Description,
-          features: snapshotStats.data.Data.General.Features,
+        const technology = {
           technology: snapshotStats.data.Data.General.Technology,
           totalSupply: snapshotStats.data.Data.General.TotalCoinSupply,
           algorithm: snapshotStats.data.Data.General.Algorithm,
@@ -106,11 +104,16 @@ class AssetInfo {
           startDate: snapshotStats.data.Data.General.StartDate,
           name: snapshotStats.data.Data.General.Name,
         };
+        const description = snapshotStats.data.Data.General.Description;
+        const features = snapshotStats.data.Data.General.Features;
+        console.log('description', description);
         const ico = this.filterFields(snapshotStats.data.Data.ICO);
         return {
           success: true,
           data: {
-            snapShot,
+            description,
+            features,
+            technology,
             ico
           }
         };
@@ -182,6 +185,7 @@ class AssetInfo {
           vol24Hour,
           open24Hour
         };
+        console.log(stats);
         return {
           success: true,
           data: stats
