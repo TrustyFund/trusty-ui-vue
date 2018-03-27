@@ -102,7 +102,9 @@ export default {
 
 @import '~@/style/mixins';
 
-
+.payment-method ._input_space{
+  padding-bottom: 1vw!important;
+}
 
 input[type=tel] {
     -webkit-text-security: disc;

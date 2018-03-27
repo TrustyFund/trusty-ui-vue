@@ -12,7 +12,7 @@
     .trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
     .trusty_font_error(v-if="$v.amount.required && !$v.amount.isNumeric && this.$v.amount.$dirty") Enter a number
     .trusty_font_error(v-if="$v.amount.isNumeric && !$v.amount.doesntExceedBalance && this.$v.amount.$dirty") Innuficient funds
-    TrustyInput(:isOpen="true", label="payment method" className="select_input")
+    TrustyInput(:isOpen="true", label="payment method" className="select_input payment-method")
       template(slot="input")
         input(:style="{display:'none'}")
         select(v-model="paymentMethod" )
