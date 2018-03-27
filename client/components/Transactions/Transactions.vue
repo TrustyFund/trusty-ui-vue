@@ -86,6 +86,9 @@ export default {
     font-family: 'Gotham_Pro_Regular';
     text-transform: uppercase;
   }
+  &__title {
+    margin-bottom: 1.3vw;
+  }
   &__empty {
     opacity: 0.8;
   }
