@@ -29,7 +29,7 @@ import { required } from 'vuelidate/lib/validators';
 import TrustyInput from '@/components/UI/form/input';
 import iconComponent from '@/components/UI/icon';
 import openledger from './Openledger/Withdraw';
-import Transfer from './Transfer/WithdrawTransfer';
+import Transfer from './Bitshares/Withdraw';
 import './style.scss';
 
 
