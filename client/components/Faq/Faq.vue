@@ -62,46 +62,48 @@ export default {
     open(index) {
       this.opened = this.opened === index ? null : index;
       setTimeout(() => {
-      	this.scrollTo(index);
+        this.scrollTo(index);
       }, 500);
     },
 
     scrollTo(index) {
-    	const elem = this.$refs['area_' + index][0];
-
+      const elem = this.$refs['area_' + index][0];
       const topPos = elem.offsetTop;
-
-      scrollTo(document.body.querySelector('.router_content'), topPos + 1, 300);
-
-      function scrollTo(element, to, duration) {
-			    let start = element.scrollTop,
-			        change = to - start,
-			        currentTime = 0,
-			        increment = 20;
-
-			    const animateScroll = function () {
-			        currentTime += increment;
-			        const val = easeInOutQuad(currentTime, start, change, duration);
-			        element.scrollTop = val;
-			        if (currentTime < duration) {
-			            setTimeout(animateScroll, increment);
-			        }
-			    };
-			    animateScroll();
-      }
 
       // t = current time
       // b = start value
       // c = change in value
       // d = duration
-      function easeInOutQuad(t, b, c, d) {
-        t /= d / 2;
-        if (t < 1) return c / 2 * t * t + b;
-        t--;
-        return -c / 2 * (t * (t - 2) - 1) + b;
-      }
-    }
-  }
+      /* eslint-disable */
+			function easeInOutQuad(t, b, c, d) {
+				t /= d / 2;
+				if (t < 1) return c / 2 * t * t + b;
+				t--;
+				return -c / 2 * (t * (t - 2) - 1) + b;
+			}
+			/* eslint-disable */
+
+			function scrollTo(element, to, duration) {
+				const start = element.scrollTop;
+				const change = to - start;
+				let currentTime = 0;
+				const increment = 20;
+
+				const animateScroll = function () {
+					currentTime += increment;
+					const val = easeInOutQuad(currentTime, start, change, duration);
+					element.scrollTop = val;
+					if (currentTime < duration) {
+						setTimeout(animateScroll, increment);
+					}
+				};
+
+				animateScroll();
+			}
+
+			scrollTo(document.body.querySelector('.router_content'), topPos + 1, 300);
+		}
+	}
 };
 </script>
 
@@ -113,7 +115,7 @@ export default {
 
 	._grey_key_list {
 		 > ._text:last-child {
-		 	margin-bottom: 5vw;
+			margin-bottom: 5vw;
 		 }
 	}
 
@@ -160,7 +162,7 @@ export default {
 
 		._grey_key_list {
 			 > ._text:last-child {
-			 	margin-bottom: px_from_vw(5);
+				margin-bottom: px_from_vw(5);
 			 }
 		}
 
