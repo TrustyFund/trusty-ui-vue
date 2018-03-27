@@ -22,7 +22,7 @@
             a._minus.normal.portfolio_asset(:class="{'_disable': item.value - step < 0 }" @click="item.value-= step")
               Icon(name="trusty_minus")
             span.normal.portfolio_asset {{ calcFormattedValue(item.value) }}$
-            a._plus.normal.portfolio_asset(:class="{'_disable': valueTotal === initialTotalValue}" @click="item.value+=step")
+            a._plus.normal.portfolio_asset(:class="{'_disable': valueTotal >= initialTotalValue}" @click="item.value+=step")
               Icon(name="trusty_plus")
         tr
           td
@@ -35,10 +35,10 @@
 
   .wrap.main_padding
     .trusty_inline_buttons._one_button
-      button._disable Suggest Portfolio
+      button(@click="suggestPortfolio") Suggest Portfolio
 
     .trusty_inline_buttons._one_button
-      button(:class="{'_disable': valueTotal < initialTotalValue}" @click="updatePortfolio") Update Portfolio
+      button(:class="{'_disable': valueTotal.toFixed(2) < initialTotalValue.toFixed(2)}" @click="updatePortfolio") Update Portfolio
 
 </template>
 
@@ -47,6 +47,17 @@ import Icon from '@/components/UI/icon';
 import { mapGetters, mapActions } from 'vuex';
 // eslint-disable-next-line
 import { calcPortfolioDistributionChange } from 'lib/src/utils';
+
+const suggestedShares = {
+  '1.3.861': 60,
+  '1.3.850': 10,
+  '1.3.858': 5,
+  '1.3.859': 10,
+  '1.3.1999': 4,
+  '1.3.973': 4,
+  '1.3.0': 4,
+  '1.3.2418': 3
+};
 
 export default {
   props: {
@@ -168,6 +179,18 @@ export default {
       });
       return changed;
     },
+    suggestPortfolio() {
+      const percent = this.initialTotalValue / 100;
+      const newValues = {};
+      Object.keys(this.initialValues).forEach(id => {
+        newValues[id] = { ...this.initialValues[id] };
+        const share = suggestedShares[id];
+        newValues[id].value = (share && share * percent) || 0;
+      });
+      console.log(newValues);
+      this.values = newValues;
+      this.valuesAsArray = this.convertValuesToArray(this.values);
+    }
   },
   mounted() {
     this.computeInitialValues();
