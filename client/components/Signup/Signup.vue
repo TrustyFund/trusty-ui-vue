@@ -11,21 +11,22 @@
       .trusty_font_error(v-if="!$v.name.required && $v.name.$dirty") Enter e-mail or account name
       .trusty_font_error(v-if="$v.name.required && !$v.name.minLength && $v.name.$dirty") Must be 4 characters or more
       .trusty_font_error(v-if="$v.name.required &&$v.name.minLength && !$v.name.hasSpecialSymbol && $v.name.$dirty") Should container '@', '-' or number
-      .trusty_font_error(v-if="$v.name.hasSpecialSymbol && !$v.name.isUnique && $v.$pending") Checking...
-      .trusty_font_error(v-if="$v.name.hasSpecialSymbol && !$v.name.isUnique && !$v.$pending && $v.name.$dirty") Account name already taken
+      .trusty_font_error(v-if="$v.name.hasSpecialSymbol && !$v.name.noBadSymbolAtEnd && $v.name.$dirty") Should not end with '@' or '-'
+      .trusty_font_error(v-if="$v.name.hasSpecialSymbol && $v.name.noBadSymbolAtEnd && !$v.name.isUnique && $v.$pending") Checking...
+      .trusty_font_error(v-if="$v.name.hasSpecialSymbol && $v.name.noBadSymbolAtEnd && !$v.name.isUnique && !$v.$pending && $v.name.$dirty") Account name already taken
 
       p._tooltip_p
         | Please enter your email address to receive important notifications
 
       trusty-input(label="create pin code")
         template(slot="input")
-          input(v-model="password" @input="$v.password.$touch()" type="tel")
+          input(v-model.laze="password" @input="$v.password.$touch()" type="tel")
       .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter PIN
       .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") PIN must be 6 characters or more
 
       trusty-input(label="confirm pin")
         template(slot="input")
-          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="tel")
+          input(v-model.lazy="confirmPassword" @input="$v.confirmPassword.$touch()" type="tel")
       .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PINS do not match
 
   .trusty_buttons
@@ -68,8 +69,15 @@ export default {
         const hasNumber = /\d/.test(value);
         return hasDog || hasLine || hasNumber;
       },
+      noBadSymbolAtEnd(value) {
+        if (value.indexOf('@') === value.length - 1) return false;
+        if (value.indexOf('-') === value.length - 1) return false;
+        return true;
+      },
       isUnique(value) {
-        if (!this.$v.name.required || !this.$v.name.hasSpecialSymbol) return true;
+        if (!this.$v.name.required
+          || !this.$v.name.minLength
+          || !this.$v.name.hasSpecialSymbol) return true;
         return this.checkUsername({ username: value.replace(/@/g, '-') });
       },
       minLength: minLength(4)
