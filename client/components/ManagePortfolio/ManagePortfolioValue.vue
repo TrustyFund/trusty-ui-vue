@@ -47,17 +47,7 @@ import Icon from '@/components/UI/icon';
 import { mapGetters, mapActions } from 'vuex';
 // eslint-disable-next-line
 import { calcPortfolioDistributionChange } from 'lib/src/utils';
-
-const suggestedShares = {
-  '1.3.861': 60,
-  '1.3.850': 10,
-  '1.3.858': 5,
-  '1.3.859': 10,
-  '1.3.1999': 4,
-  '1.3.973': 4,
-  '1.3.0': 4,
-  '1.3.2418': 3
-};
+import config from '@/../config';
 
 export default {
   props: {
@@ -184,7 +174,7 @@ export default {
       const newValues = {};
       Object.keys(this.initialValues).forEach(id => {
         newValues[id] = { ...this.initialValues[id] };
-        const share = suggestedShares[id];
+        const share = config.suggestedPortfolioShares[id];
         newValues[id].value = (share && share * percent) || 0;
       });
       console.log(newValues);
