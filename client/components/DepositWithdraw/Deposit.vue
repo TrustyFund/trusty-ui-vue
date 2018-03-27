@@ -37,11 +37,12 @@ const methodsByGate = {
 };
 
 const nonFiatCoins = ['BTC', 'ETH', 'LTC', 'NEO'];
+const internalCoins = ['BTS'];
 const fiatCoins = ['RUB'];
 
 const methodsByCoin = {
   openledger: nonFiatCoins,
-  bitshares: nonFiatCoins,
+  bitshares: [...nonFiatCoins, ...internalCoins],
   trusty: fiatCoins
 };
 
@@ -87,7 +88,7 @@ export default {
       selectedcoin: 'BTC',
       paymentmethod: 'Openledger',
       amount: '',
-      coins: [...nonFiatCoins, ...fiatCoins]
+      coins: [...nonFiatCoins, ...internalCoins, ...fiatCoins]
     };
   }
 };
