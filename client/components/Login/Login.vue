@@ -16,14 +16,14 @@
 
       trusty-input(label="create pin code")
         template(slot="input")
-          input(v-model="password" @input="$v.password.$touch()" type="tel")
-      .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter PIN
-      .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") PIN must be 6 characters or more
+          input(@input="debouncedPinInput" type="tel")
+      .trusty_font_error(v-if="!$v.pin.required && this.$v.pin.$dirty") Enter PIN
+      .trusty_font_error(v-if="!$v.pin.minLength && this.$v.pin.$dirty") PIN must be 6 characters or more
 
       trusty-input(label="confirm pin")
         template(slot="input")
-          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="tel")
-      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PIN codes do not match
+          input(@input="debouncedRepeatPinInput" type="tel")
+      .trusty_font_error(v-if="!$v.confirmPin.sameAsPin && this.$v.confirmPin.$dirty") PIN codes do not match
 
       p._tooltip_p
         | For security reasons, you can create new PIN code every time you login
@@ -50,24 +50,25 @@ import Icon from '@/components/UI/icon';
 import { validationMixin } from 'vuelidate';
 import { required, minLength, sameAs } from 'vuelidate/lib/validators';
 import { mapGetters, mapActions } from 'vuex';
+import debounce from 'lodash/debounce';
 
 export default {
   mixins: [validationMixin],
   components: { trustyInput, Icon },
   data() {
     return {
-      password: '',
-      confirmPassword: '',
+      pin: '',
+      confirmPin: '',
       brainkey: ''
     };
   },
   validations: {
-    password: {
+    pin: {
       required,
       minLength: minLength(6)
     },
-    confirmPassword: {
-      sameAsPassword: sameAs('password')
+    confirmPin: {
+      sameAsPin: sameAs('pin')
     },
     brainkey: {
       required
@@ -88,7 +89,7 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const result = await this.login({
-          password: this.password,
+          password: this.pin,
           brainkey: this.brainkey
         });
         if (result.success) {
@@ -102,7 +103,19 @@ export default {
           });
         }
       }
-    }
+    },
+    debouncedPinInput: () => {},
+    debouncedRepeatPinInput: () => {}
+  },
+  created() {
+    this.debouncedPinInput = debounce((e) => {
+      this.pin = e.target.value;
+      this.$v.pin.$touch();
+    }, 800);
+    this.debouncedRepeatPinInput = debounce((e) => {
+      this.confirmPin = e.target.value;
+      this.$v.confirmPin.$touch();
+    }, 800);
   }
 };
 
