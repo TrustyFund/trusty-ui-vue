@@ -63,7 +63,10 @@ const mutations = {
     state.pending = false;
     state.pendingSnapShot = false;
   },
-  [FETCH_ASSET_SNAPSHOT_COMPLETE](state, { description, features, technology, ico }) {
+  [FETCH_ASSET_SNAPSHOT_COMPLETE](
+    state,
+    { description, features, technology, ico }
+  ) {
     state.description = description;
     state.features = features;
     state.technology = technology;
