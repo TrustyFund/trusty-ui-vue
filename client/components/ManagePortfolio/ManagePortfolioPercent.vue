@@ -89,9 +89,9 @@ export default {
     }),
     computeInitialPercents() {
       const rawDistributions = distributionFromBalances(this.baseValues);
-      console.log('initial raw : ', rawDistributions);
+      // console.log('initial raw : ', rawDistributions);
       const initialPercents = distributionSampling(rawDistributions, 2);
-      console.log('initial sampled : ', initialPercents);
+      // console.log('initial sampled : ', initialPercents);
       Object.keys(initialPercents).forEach(id => {
         initialPercents[id] = {
           share: Math.round(initialPercents[id] * 100, 2),
