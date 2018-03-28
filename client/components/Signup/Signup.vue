@@ -5,10 +5,10 @@
   .input_area
     .left
 
-      trusty-input(label="enter e-mail or account name")
+      trusty-input(label="enter email or account name")
         template(slot="input")
           input(@input="debouncedNameInput")
-      .trusty_font_error(v-if="!$v.name.required && $v.name.$dirty") Enter e-mail or account name
+      .trusty_font_error(v-if="!$v.name.required && $v.name.$dirty") Enter email or account name
       .trusty_font_error(v-if="$v.name.required && !$v.name.minLength && $v.name.$dirty") Must be 4 characters or more
       .trusty_font_error(v-if="$v.name.required &&$v.name.minLength && !$v.name.hasSpecialSymbol && $v.name.$dirty") Should contain '@', '-' or number
       .trusty_font_error(v-if="$v.name.hasSpecialSymbol && !$v.name.noBadSymbolAtEnd && $v.name.$dirty") Should not end with '@', '-' or '.'
@@ -16,7 +16,7 @@
       .trusty_font_error(v-if="$v.name.hasSpecialSymbol && $v.name.noBadSymbolAtEnd && !$v.name.isUnique && !$v.$pending && $v.name.$dirty") Account name already taken
 
       p._tooltip_p
-        | Please enter your email address to receive important notifications
+        | Use email for signup to receive notifications
 
       trusty-input(label="create pin code")
         template(slot="input")

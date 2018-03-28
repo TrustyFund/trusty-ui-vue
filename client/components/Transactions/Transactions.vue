@@ -1,15 +1,18 @@
 <template lang="pug">
 
 .trusty_recent_transactions(:class="{'main_padding': !minMode, 'trusty_recent_transactions--min-mode': minMode }" 
-                           @click="goToFullMode"
-                           v-show="!minMode || filteredOperations.length || pending")
-  div.trusty_recent_transactions__title(v-show="minMode") Recent transactions
+                           v-show="!minMode || filteredOperations.length || pending" @click="goToFullMode")
+  div.trusty_recent_transactions__title(v-show="minMode") 
+    span Recent transactions 
+    span.trusty_recent_transactions__title__link SHOW ALL 
+
   div.trusty_recent_transactions__empty(v-show="!filteredOperations.length && !pending") No transactions yet
   div.trusty_recent_transactions__spinner-container(v-show="pending")
     Spinner
   div.trusty_recent_transactions__error(v-show="error") Error when fetching user's transactions
   TransactionsItem(v-for="item in filteredOperations",
                   :item="item"
+                  :short="true"
                   :hide-date="minMode",
                   :key="item.id",
                   :userId="userId")
@@ -88,6 +91,11 @@ export default {
   }
   &__title {
     margin-bottom: 1.3vw;
+    display: flex;
+    justify-content: space-between;
+    &__link {
+      opacity: 0.5;
+    }
   }
   &__empty {
     opacity: 0.8;

@@ -1,18 +1,17 @@
 <template lang="pug">
 
-#trusty_auth
+#trusty_auth.login
 
   .input_area
     .left
 
-      trusty-input(label="brainkey" type="textarea")
+      trusty-input(label="BACKUP PHRASE" type="textarea")
         template(slot="input")
           textarea(v-model="brainkey" @input="$v.brainkey.$touch()")
-      .trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter brainkey
+      .trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter backup phrase
 
       p._tooltip_p
-        | Please enter account brainkey once for new devices, #[br]
-        | 12 words, you backed up, when account was created
+        | Enter 16 words you backed up when account was created
 
       trusty-input(label="create pin code")
         template(slot="input")
@@ -20,13 +19,14 @@
       .trusty_font_error(v-if="!$v.pin.required && this.$v.pin.$dirty") Enter PIN
       .trusty_font_error(v-if="!$v.pin.minLength && this.$v.pin.$dirty") PIN must be 6 characters or more
 
+      p._tooltip_p
+        | PIN code secures access only on this device
+
       trusty-input(label="confirm pin")
         template(slot="input")
           input(@input="debouncedRepeatPinInput" type="tel")
       .trusty_font_error(v-if="!$v.confirmPin.sameAsPin && this.$v.confirmPin.$dirty") PIN codes do not match
 
-      p._tooltip_p
-        | For security reasons, you can create new PIN code every time you login
 
 
 
@@ -133,6 +133,13 @@ export default {
 			margin-top: 4.6vw;
 		}
 	}
+
+  &.login {
+    .trusty_buttons {
+      margin-top: 2vw;
+    }
+  }
+
 
 	.text_area {
 		margin-bottom: 2vw;
