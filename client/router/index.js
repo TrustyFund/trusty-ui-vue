@@ -70,7 +70,7 @@ const router = new Router({
           component: ManagePortfolio,
           meta: { requiredBackup: true },
           beforeEnter: (to, from, next) => {
-            if (from.name !== 'entry') next({ name: 'entry' });
+            if (from.name !== 'entry' && from.name !== 'coin') next({ name: 'entry' });
             next();
           },
           children: [

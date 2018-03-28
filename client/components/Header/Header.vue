@@ -97,6 +97,7 @@ export default {
       // TODO : refactor back button logic
       if (this.$route.name === 'coin' || this.$route.name === 'confirm-transactions') {
         this.$router.go(-1);
+        return;
       }
       this.$router.push({ name: 'entry' });
     }
