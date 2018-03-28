@@ -39,7 +39,7 @@
     .content_area(:class="{_opened_article: opened==='description'}")
       ._items(@click="opened = opened==='description' ? '':'description'")
         ._list_item
-          span.text_button DESCRITION
+          span.text_button DESCRIPTION
           icon(name="trusty_arrow_down")
 
       .wrap_content.main_padding
