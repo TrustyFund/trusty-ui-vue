@@ -117,7 +117,6 @@ export default {
         this.$router.push({ name: 'entry' });
       } else {
         this.$toast.error('Transactions error: ' + result.error);
-        console.log(result.error);
       }
     },
     async processTransfer() {
@@ -134,7 +133,6 @@ export default {
         this.$router.push({ name: 'entry' });
       } else {
         this.$toast.error('Transaction error: ' + result.error);
-        console.log(result.error);
       }
     }
   },
