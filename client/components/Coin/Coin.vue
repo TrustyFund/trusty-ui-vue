@@ -43,7 +43,9 @@
           icon(name="trusty_arrow_down")
 
       .wrap_content.main_padding
-        p(v-html="getDescription") {{getDescription}}
+        ._grey_key_list
+          p
+          p(v-html="getDescription") {{getDescription}}
 
     .content_area(:class="{_opened_article: opened==='features'}" v-show="featuresExist")
       ._items(@click="opened = opened==='features' ? '':'features'")
@@ -52,7 +54,9 @@
           icon(name="trusty_arrow_down")
 
       .wrap_content.main_padding
-        p(v-html="getFeatures") {{getFeatures}} 
+        ._grey_key_list
+          p
+          p(v-html="getFeatures") {{getFeatures}} 
 
     .content_area(:class="{_opened_article: opened==='technology'}")
       ._items(@click="opened = opened==='technology' ? '':'technology'")
@@ -100,14 +104,14 @@
               p {{ one.url }}
               p updated {{ one.lastUpdate}}
     
-    .content_area(:class="{_opened_article: opened==='about asset issuer'}")
+    .content_area(:class="{_opened_article: opened==='about asset issuer'}" v-show="bitsharesDescriptionExist")
           ._items(@click="opened = opened==='about asset issuer' ? '':'about asset issuer'")
             ._list_item
               span.text_button about asset issuer
               icon(name="trusty_arrow_down")
             .wrap_content.main_padding
               ._grey_key_list
-                p description
+                p
                 p {{getBitsharesDescription}}
 
   p.trusty_ps_text Overview provided by cryptocompare.com
@@ -133,7 +137,6 @@ export default {
       required: true
     },
     assetId: {
-      default: '1.3.1999',
       type: String
     }
   },
@@ -174,10 +177,14 @@ export default {
         const { description } = assetObj.options;
         const descriptionObj = JSON.parse(description);
         const bitsharesDescription = descriptionObj.main;
+        console.log('bitsharesDescription', bitsharesDescription);
         return bitsharesDescription;
       } catch (ex) {
         return '';
       }
+    },
+    bitsharesDescriptionExist() {
+      return this.getBitsharesDescription !== '';
     },
     featuresExist() {
       return this.getFeatures.length > 0;
