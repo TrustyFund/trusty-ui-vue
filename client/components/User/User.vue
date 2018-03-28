@@ -70,7 +70,7 @@ export default {
                 this.fetchMarketHistory({
                   baseId: '1.3.0',
                   assetsIds,
-                  days: 7
+                  days: 1
                 });
               });
             }
