@@ -1,6 +1,6 @@
 <template lang="pug">
 
-#trusty_auth
+#trusty_auth.login
 
   .input_area
     .left
@@ -21,7 +21,7 @@
 
       p._tooltip_p
         | PIN code secures access only on this device
-        
+
       trusty-input(label="confirm pin")
         template(slot="input")
           input(@input="debouncedRepeatPinInput" type="tel")
@@ -133,6 +133,13 @@ export default {
 			margin-top: 4.6vw;
 		}
 	}
+
+  &.login {
+    .trusty_buttons {
+      margin-top: 2vw;
+    }
+  }
+
 
 	.text_area {
 		margin-bottom: 2vw;
