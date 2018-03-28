@@ -32,6 +32,7 @@
 <script>
 import iconComponent from '@/components/UI/icon';
 import { mapGetters, mapActions } from 'vuex';
+import Cookies from 'js-cookie';
 
 export default {
   components: {
@@ -95,8 +96,8 @@ export default {
     },
     handleBack() {
       // TODO : refactor back button logic
-      if (this.$route.name === 'backup-done') {
-        this.$router.push({name:"backup"})
+      if (this.$route.name === 'faq' && Cookies.get('BITSHARES_USER_ID')) {
+        this.$router.push({name:"backup-done"})
         return
       }
       if (this.$route.name === 'coin' || this.$route.name === 'confirm-transactions') {
