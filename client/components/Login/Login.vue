@@ -7,8 +7,9 @@
 
       trusty-input(label="brainkey" type="textarea")
         template(slot="input")
-          textarea(v-model="brainkey" @input="$v.brainkey.$touch()")
+          textarea(v-model="brainkey" @input="$v.brainkey.$touch()" class="brainkey-input")
       .trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter brainkey
+      .trusty_font_error(v-if="showError") Please try again
 
       p._tooltip_p
         | Please enter account brainkey once for new devices, #[br]
@@ -59,7 +60,8 @@ export default {
     return {
       pin: '',
       confirmPin: '',
-      brainkey: ''
+      brainkey: '',
+      showError: false
     };
   },
   validations: {
@@ -86,21 +88,23 @@ export default {
       storeBackupDate: 'account/storeBackupDate'
     }),
     async handleLogin() {
+      this.showError = false;
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const result = await this.login({
           password: this.pin,
-          brainkey: this.brainkey
+          brainkey: this.brainkey.toLowerCase()
         });
         if (result.success) {
           const date = new Date();
           this.storeBackupDate({ date, userId: this.getUserId });
           this.$router.push({ name: 'entry' });
         } else {
-          this.$notify({
-            type: 'error',
-            text: result.error
-          });
+          this.showError = true;
+          // this.$notify({
+          //   type: 'error',
+          //   text: result.error
+          // });
         }
       }
     },
@@ -137,6 +141,10 @@ export default {
 	.text_area {
 		margin-bottom: 2vw;
 	}
+
+  .brainkey-input { 
+    text-transform: lowercase;
+  }
 }
 
 ._logo_owl {
