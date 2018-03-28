@@ -7,12 +7,6 @@ if (process.env.NODE_ENV === 'production') {
   require('./pwa'); // eslint-disable-line global-require
 }
 
-document.addEventListener('touchmove', (event) => {
-  event = event.originalEvent || event; // eslint-disable-line 
-  if (event.scale > 1) {
-    event.preventDefault();
-  }
-}, false);
 
 if (config.pixel && process.env.NODE_ENV === 'development') {
   require('./style/pixel-glass.js'); // eslint-disable-line global-require
