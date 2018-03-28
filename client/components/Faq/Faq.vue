@@ -70,16 +70,12 @@ export default {
       const elem = this.$refs['area_' + index][0];
       const topPos = elem.offsetTop;
 
-      // t = current time
-      // b = start value
-      // c = change in value
-      // d = duration
       /* eslint-disable */
-			function easeInOutQuad(t, b, c, d) {
-				t /= d / 2;
-				if (t < 1) return c / 2 * t * t + b;
-				t--;
-				return -c / 2 * (t * (t - 2) - 1) + b;
+			function easeInOutQuad(currentTime, startValue, changeInValue, duration) {
+				currentTime /= duration / 2;
+				if (currentTime < 1) return changeInValue / 2 * currentTime * currentTime + startValue;
+				currentTime--;
+				return -changeInValue / 2 * (currentTime * (currentTime - 2) - 1) + startValue;
 			}
 			/* eslint-disable */
 
