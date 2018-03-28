@@ -58,6 +58,7 @@ export default {
         'confirm-transactions': 'confirm transactions',
         'terms-of-use': 'terms of use',
         faq: 'FAQ',
+        faq2: 'FAQ',
         portfolio: 'portfolio',
         entry: 'profile',
         coin: 'coin overview',

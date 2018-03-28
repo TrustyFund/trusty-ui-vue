@@ -120,11 +120,7 @@ export default {
     updatePortfolio() {
       const changed = this.calcChangedPercents();
       if (!Object.keys(changed).length) {
-        this.$notify({
-          type: 'warning',
-          title: 'No change',
-          text: 'Nothing changed'
-        });
+        this.$toast.warning('No change');
         return;
       }
       console.log('changed: ', changed);
