@@ -1,7 +1,7 @@
 <template lang="pug">
 #trusty_transfer
   ._turnover_inputs
-    trusty-input(label="Enter sum" composed=true v-bind:class='{ "hideborder": !canEnterAmount}')
+    trusty-input(label="Enter sum", composed=true, v-bind:class='{ "hideborder": !canEnterAmount}')
       template(slot="input" v-if="canEnterAmount")
         input(v-model.number="amount")
       template(slot="input" v-else)
