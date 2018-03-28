@@ -45,6 +45,14 @@ const router = new Router({
       }
     },
     {
+      path: '/faq',
+      name: 'faq',
+      component: Faq,
+      meta: {
+        requiredAuth: false
+      }
+    },
+    {
       name: 'entry',
       path: '/',
       component: EntryPoint,
@@ -52,6 +60,11 @@ const router = new Router({
         requiredAuth: false
       },
       children: [
+        {
+          path: '/faq',
+          name: 'faq2',
+          component: Faq,
+        },
         {
           name: 'transactions',
           path: '/transactions',
@@ -158,14 +171,6 @@ const router = new Router({
           ]
         }
       ]
-    },
-    {
-      path: '/faq',
-      name: 'faq',
-      component: Faq,
-      meta: {
-        requiredAuth: false
-      }
     },
     {
       path: '*',
