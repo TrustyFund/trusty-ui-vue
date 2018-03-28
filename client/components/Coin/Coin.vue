@@ -41,7 +41,6 @@
         ._list_item
           span.text_button DESCRIPTION
           icon(name="trusty_arrow_down")
-
       .wrap_content.main_padding
         ._grey_key_list
           p
@@ -52,7 +51,6 @@
         ._list_item
           span.text_button FEATURES
           icon(name="trusty_arrow_down")
-
       .wrap_content.main_padding
         ._grey_key_list
           p
@@ -63,7 +61,6 @@
         ._list_item
           span.text_button TECHNOLOGY
           icon(name="trusty_arrow_down")
-
         .wrap_content.main_padding
           ._grey_key_list(v-for="(val, key) in getTechnology" v-if="val")
             template(v-if="key")
@@ -75,22 +72,18 @@
         ._list_item
           span.text_button ICO
           icon(name="trusty_arrow_down")
-
       .wrap_content.main_padding
         ._grey_key_list(v-for="(val, key) in getICO" v-if="val")
           template(v-if="key")
             p {{ parseCamel(key) }}
             p(v-html="val") {{ val }}
 
-
     .content_area(:class="{_opened_article: opened==='social'}")
       ._items(@click="opened = opened==='social' ? '':'social'")
         ._list_item
           span.text_button SOCIAL
           icon(name="trusty_arrow_down")
-
       .wrap_content.main_padding
-
         template(v-for="(val, key) in getSocial" v-if="val")
           template(v-if="key!=='code'")
             template(v-if="key!=='symbol'&&key!=='name'")
@@ -166,7 +159,11 @@ export default {
       getPendingStats: 'assetInfo/getPendingStats'
     }),
     getSymbol() {
-      return this.symbol.toUpperCase();
+      const upperCaseSymbol = this.symbol.toUpperCase();
+      if (upperCaseSymbol === 'USD' || upperCaseSymbol === 'CNY') {
+        return 'BIT' + upperCaseSymbol;
+      }
+      return upperCaseSymbol;
     },
     getBitsharesDescription() {
       const assetObj = this.getAssetById(this.assetId);
