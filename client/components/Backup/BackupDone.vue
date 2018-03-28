@@ -18,7 +18,7 @@
 					:class="{_disabled_tick: !termOfUse.checked }",
 					:initialSvgColors="true")
 			._info
-				p.trusty_help_text(@click="$router.push({name:'terms-of-use'})" v-html="termOfUse.text")
+				p.trusty_help_text(@click="$router.push({name:'faq'})" v-html="termOfUse.text")
 
 		.trusty_inline_buttons._one_button(:class="{_disabled: !allChecks }")
 			button(@click="done") finish backup
@@ -35,17 +35,17 @@ const infos = [
 	text: `
 I understand that my funds are<br/>
 help securely on this device, not<br/>
-by a compony, and nobody can<br/>
+by a company and nobody can<br/>
 recover my backup phrase and password
 	`,
 	checked: false
 },
 {
 	text:`
-I understand that if I open Trusty,<br/>
+I understand that if I open Trusty<br/>
 on a new device or clear browser<br/>
 cash, my funds can only be<br/>
-accessed with the backed pharse
+accessed with the backed phrase
 	`,
 	checked: false
 },
@@ -54,7 +54,7 @@ accessed with the backed pharse
 
 const termOfUse ={
   text:`
-I have read, understood, and<br/>gree&nbsp
+I have read, understood and<br/>gree&nbsp
 <span class="_yellow">The terms of use</span>
 `,
   checked: false
