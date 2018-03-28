@@ -22,6 +22,7 @@
       div.settings-menu(:class="{ 'settings-menu--expanded': settingsVisible }")
         div.settings-menu__item(@click="$router.push({ name: 'backup' })") Backup wallet
         div.settings-menu__item.disabled Notifications
+        div.settings-menu__item(@click="$router.push({ name: 'faq2' })") FAQ
         div.settings-menu__item(@click="logout") Log out
 </div>
 
@@ -190,7 +191,7 @@ $background_color: #1b1f22;
   transition: height 0.2s;
   overflow: hidden;
   &--expanded {
-    height: 40vw;
+    height: 53vw;
   }
   &__item {
     height: 13vw;
