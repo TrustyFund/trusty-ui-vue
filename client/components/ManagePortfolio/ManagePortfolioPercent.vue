@@ -34,7 +34,7 @@
 
   .wrap.main_padding
     .trusty_inline_buttons._one_button
-      button._disable Suggest Portfolio
+      button(@click="suggestPortfolio") Suggest Portfolio
 
     .trusty_inline_buttons._one_button
       button(:class="{'_disable': sharesTotal < 100}" @click="updatePortfolio") Update Portfolio
@@ -46,6 +46,7 @@ import Icon from '@/components/UI/icon';
 import { mapGetters, mapActions } from 'vuex';
 // eslint-disable-next-line
 import { distributionFromBalances, distributionSampling } from 'lib/src/utils';
+import config from '@/../config';
 
 export default {
   props: {
@@ -88,7 +89,9 @@ export default {
     }),
     computeInitialPercents() {
       const rawDistributions = distributionFromBalances(this.baseValues);
+      // console.log('initial raw : ', rawDistributions);
       const initialPercents = distributionSampling(rawDistributions, 2);
+      // console.log('initial sampled : ', initialPercents);
       Object.keys(initialPercents).forEach(id => {
         initialPercents[id] = {
           share: Math.round(initialPercents[id] * 100, 2),
@@ -136,6 +139,17 @@ export default {
           assetId: asset.id
         }
       });
+    },
+    suggestPortfolio() {
+      const newPercents = {};
+      console.log(config.suggestedPortfolioShares);
+      Object.keys(this.initialPercents).forEach(id => {
+        newPercents[id] = { ...this.initialPercents[id] };
+        newPercents[id].share = config.suggestedPortfolioShares[id] || 0;
+      });
+
+      this.percents = newPercents;
+      this.percentsAsArray = this.convertPercentsToArray(this.percents);
     }
   },
   mounted() {
