@@ -45,7 +45,7 @@
       .wrap_content.main_padding
         ._grey_key_list
           p
-          p(v-html="getDescription") {{getDescription}}
+          p(v-html="getDescription")
 
     .content_area(:class="{_opened_article: opened==='features'}" v-show="featuresExist")
       ._items(@click="opened = opened==='features' ? '':'features'")
@@ -56,7 +56,7 @@
       .wrap_content.main_padding
         ._grey_key_list
           p
-          p(v-html="getFeatures") {{getFeatures}} 
+          p(v-html="getFeatures")
 
     .content_area(:class="{_opened_article: opened==='technology'}")
       ._items(@click="opened = opened==='technology' ? '':'technology'")
