@@ -1,5 +1,5 @@
 <template lang="pug">
-  .transaction_info
+  .transaction_info(:class="{'transaction_info--short' : short}")
     div.transaction_info__main
       TransactionsItemTransferInfo(
         v-if="type === 'transfer'" 
@@ -17,7 +17,7 @@
       TransactionsItemCancelOrderInfo(
         v-if="type === 'limit_order_cancel'" 
        :item="item")
-    div.transaction_info__date(v-show="!hideDate") {{ relativeTime }}
+    //- div.transaction_info__date(v-show="!hideDate") {{ relativeTime }}
 
 </template>
 
@@ -48,6 +48,11 @@ export default {
     hideDate: {
       type: Boolean,
       required: true
+    },
+    short: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
@@ -84,6 +89,13 @@ export default {
     min-width: 6rem;
     margin-left: 0.5rem;
     text-align: right;
+  }
+  &--short {
+    p._value {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;      
+    }
   }
 
   p._value {
