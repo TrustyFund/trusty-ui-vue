@@ -2,8 +2,13 @@
 
   #asset_tab {
 
-    ._one_button {
+    .trusty_inline_buttons:first-child {
       margin-top: 3vw;
+    }
+
+    .trusty_inline_buttons:last-child {
+      margin-top: 3vw;
+      padding-top: 0;
     }
 
   }
@@ -214,6 +219,12 @@
     img {
       width: 25vw
     }
+  }
+
+  .managePortfolio {
+
+
+
   }
 
 }
