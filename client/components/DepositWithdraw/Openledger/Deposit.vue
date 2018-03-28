@@ -69,6 +69,8 @@ export default {
       fetchCoins: 'openledger/fetchCoins'
     }),
     onCopy() {
+      // todo: change to notification
+      // eslint-disable-next-line
       alert('Address copied');
     }
   },
