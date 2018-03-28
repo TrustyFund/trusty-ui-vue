@@ -1,8 +1,8 @@
 <template lang="pug">
 
 .trusty_recent_transactions(:class="{'main_padding': !minMode, 'trusty_recent_transactions--min-mode': minMode }" 
-                           v-show="!minMode || filteredOperations.length || pending")
-  div.trusty_recent_transactions__title(v-show="minMode" @click="goToFullMode") 
+                           v-show="!minMode || filteredOperations.length || pending" @click="goToFullMode")
+  div.trusty_recent_transactions__title(v-show="minMode") 
     span Recent transactions 
     span.trusty_recent_transactions__title__link SHOW ALL 
 
