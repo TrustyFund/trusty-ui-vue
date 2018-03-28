@@ -177,7 +177,6 @@ export default {
         const { description } = assetObj.options;
         const descriptionObj = JSON.parse(description);
         const bitsharesDescription = descriptionObj.main;
-        console.log('bitsharesDescription', bitsharesDescription);
         return bitsharesDescription;
       } catch (ex) {
         return '';

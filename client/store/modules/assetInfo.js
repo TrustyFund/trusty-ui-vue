@@ -74,7 +74,10 @@ const mutations = {
   [RESET_ASSET_INFO](state) {
     state.stats = {};
     state.social = {};
-    state.snapShot = {};
+    state.description = {};
+    state.technology = {};
+    state.features = {};
+    state.ico = {};
     state.penging = false;
   }
 };
