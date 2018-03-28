@@ -22,7 +22,7 @@
 
 							._team_area
 
-								template(v-if="")
+								template
 									h3._list_title {{ item.list.title }}
 									ul
 										template(v-for="one in item.list.items")
@@ -35,7 +35,7 @@
 
 							._team_area
 
-								template(v-if="")
+								template
 									h3._list_title {{ item.list.title }}
 									ul
 										template(v-for="one in item.list.items")
