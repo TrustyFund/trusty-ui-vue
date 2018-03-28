@@ -78,7 +78,7 @@
             p {{ parseCamel(key) }}
             p(v-html="val") {{ val }}
 
-    .content_area(:class="{_opened_article: opened==='social'}")
+    .content_area(:class="{_opened_article: opened==='social'}" v-show="socialExist")
       ._items(@click="opened = opened==='social' ? '':'social'")
         ._list_item
           span.text_button SOCIAL
@@ -187,6 +187,9 @@ export default {
     },
     ICOExist() {
       return Object.keys(this.getICO).length > 0;
+    },
+    socialExist() {
+      return Object.keys(this.getSocial).length > 2;
     }
   },
 

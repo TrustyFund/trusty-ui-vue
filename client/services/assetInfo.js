@@ -46,17 +46,25 @@ class AssetInfo {
       if (socialStats.data.Response === 'Success') {
         const data = {
           symbol: socialStats.data.Data.General.Name,
-          name: socialStats.data.Data.General.CoinName,
-          twitter: socialStats.data.Data.Twitter,
-          reddit: socialStats.data.Data.Reddit,
-          facebook: socialStats.data.Data.Facebook,
-          code: socialStats.data.Data.CodeRepository.List.map(item => {
+          name: socialStats.data.Data.General.CoinName
+        };
+        if (socialStats.data.Data.Twitter.Points !== 0) {
+          data.twitter = socialStats.data.Data.Twitter;
+        }
+        if (socialStats.data.Data.Reddit.Points !== 0) {
+          data.reddit = socialStats.data.Data.Reddit;
+        }
+        if (socialStats.data.Data.Facebook.Points !== 0) {
+          data.facebook = socialStats.data.Data.Facebook;
+        }
+        if (socialStats.data.Data.CodeRepository.List.length > 0) {
+          data.code = socialStats.data.Data.CodeRepository.List.map(item => {
             return {
               url: item.url,
               lastUpdate: dateFns.format(new Date(item.last_update * 1000), 'MMMM DD YYYY HH:mm')
             };
-          })
-        };
+          });
+        }
         return {
           success: true,
           data
@@ -67,6 +75,7 @@ class AssetInfo {
         error: socialStats.data.Message
       };
     } catch (error) {
+      console.log('error', error);
       return {
         success: false,
         error
