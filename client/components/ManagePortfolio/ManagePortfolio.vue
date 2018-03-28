@@ -3,16 +3,16 @@
 #trusty_manage_portfolio.main_centered_container
 
   .trusty_portfolio_tabs
-   
+
     .tabs-header-container
-      .tab-link(@click="$router.push({ name: 'manage-percent' })", :class="{'tab-link-active': isPercent }") Percent
-      .tab-link(@click="$router.push({ name: 'manage-value' })", :class="{'tab-link-active': isValue }") Value
+      .tab-link(@click="$router.push({ name: 'manage-percent' })", :class="{'tab-link-active': isPercent }") Shares
+      .tab-link(@click="$router.push({ name: 'manage-value' })", :class="{'tab-link-active': isValue }") Values
       .tab-link.disabled Mirror
 
     .tabs-content-container
       router-view(:items="items", fiat-id="1.3.121")
 
-      
+
 
 </template>
 
@@ -102,12 +102,12 @@ export default {
 
     ._one_button:first-child {
       margin-top: 4vw;
-    } 
+    }
     ._one_button {
       margin-top: .1vw;
       width: 30vw;
       margin: 0 auto;
-    } 
+    }
   }
 }
 
@@ -116,8 +116,8 @@ export default {
   height: 100%;
 
   ._plus, ._minus {
-    
-    &.greater._disable, 
+
+    &.greater._disable,
     &.less._disable {
       @include disable_svg;
     }
@@ -144,7 +144,7 @@ export default {
     .tab-content {
       font-family: Gotham_Pro;
     }
-    table { 
+    table {
       -webkit-user-select: none;
       thead tr th  {
         font-family: Gotham_Pro;

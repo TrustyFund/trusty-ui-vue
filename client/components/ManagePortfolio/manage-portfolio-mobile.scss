@@ -1,11 +1,11 @@
 @media screen and (max-width: 768px) {
-  
+
   #asset_tab {
 
     ._one_button {
       margin-top: 3vw;
-    } 
-    
+    }
+
   }
 
 
@@ -23,7 +23,7 @@
       right:0;
     }
   }
-  
+
   .trusty_portfolio_tabs {
 
     span.portfolio_asset {
@@ -44,16 +44,16 @@
     table thead tr th {
         font-size: 3.4vw;
         text-align: left;
-        padding-left: 11.5vw;
     }
 
     table thead tr th:first-child {
-        padding-left: 10.6vw;
+        padding-left: 6.3vw;
     }
 
     table thead tr th:last-child {
-        text-align: center;
-        padding-left: 0;
+        text-align: left;
+        padding-left: 16.3vw;
+
     }
 
     table tbody {
@@ -193,9 +193,9 @@
     position: absolute;
     top: 57.4%;
     transform: translateY(-50%);
-    p { 
+    p {
       margin-bottom: 0;
-      font-size: 7.3vw; 
+      font-size: 7.3vw;
       line-height: 9vw;
     }
 
@@ -211,7 +211,7 @@
   }
 
   .manage_third_tab {
-    img { 
+    img {
       width: 25vw
     }
   }
