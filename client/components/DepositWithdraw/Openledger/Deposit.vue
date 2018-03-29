@@ -4,9 +4,9 @@
 		| Send {{ payload.coin }} to the address below
 	.trusty_cutted_address(v-html="depositAddress")
 	.trusty_inline_buttons._one_button(
-    v-clipboard:copy="this.address"
-    v-clipboard:success="onCopy"
-  ): button Copy address
+		v-clipboard:copy="this.address"
+		v-clipboard:success="onCopy"
+	): button Copy address
 	._yellow.trusty_ps_text(v-show="getCoinData")
 		| IMPORTANT: Send not less than {{ getCoinData }} {{ payload.coin }} to this deposit address.
 		| Sending less than {{ getCoinData }} {{ payload.coin }} or any other currency will result
@@ -69,6 +69,7 @@ export default {
       fetchCoins: 'openledger/fetchCoins'
     }),
     onCopy() {
+      // eslint-disable-next-line
       alert('Address copied');
     }
   },
@@ -86,20 +87,20 @@ export default {
 
 <style scoped>
 .trusty_help_text {
-  padding-top: 4vh;
+	padding-top: 4vh;
 }
 ._input_space input {
 	width: 75%!important;
 }
 
 .deposit_text {
-  font-size: 3vw;
-  padding-bottom: 3vw;
+	font-size: 3vw;
+	padding-bottom: 3vw;
 }
 
 .trusty_inline_buttons {
-  padding-top: 1vh!important;
-  overflow: none!important;
-  line-height: 13.2vw!important;
+	padding-top: 1vh!important;
+	overflow: none!important;
+	line-height: 13.2vw!important;
 }
 </style>

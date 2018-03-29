@@ -40,39 +40,39 @@ import trusty from './Trusty/Deposit';
 import './style.scss';
 
 const methodsByGate = {
-	trusty: ['SBERBANK', 'TINKOFF'],
-	openledger: ['OpenLedger']
+  trusty: ['SBERBANK', 'TINKOFF'],
+  openledger: ['OpenLedger']
 };
 
 export default {
-	components: { trustyInput, iconComponent, openledger, trusty },
-	computed: {
-		gateway() {
-			if (this.selectedcoin === 'RUB') {
-				return 'trusty';
-			}
-			return 'openledger';
-		},
-		methods() {
-			return methodsByGate[this.gateway];
-		},
-		payload() {
-			return {
-				coin: this.selectedcoin,
-				method: this.paymentmethod,
-				amount: this.amount
-			};
-		}
-	},
+  components: { trustyInput, iconComponent, openledger, trusty },
+  computed: {
+    gateway() {
+      if (this.selectedcoin === 'RUB') {
+        return 'trusty';
+      }
+      return 'openledger';
+    },
+    methods() {
+      return methodsByGate[this.gateway];
+    },
+    payload() {
+      return {
+        coin: this.selectedcoin,
+        method: this.paymentmethod,
+        amount: this.amount
+      };
+    }
+  },
 
-	data() {
-		return {
-			selectedcoin: 'BTC',
-			paymentmethod: 'OpenLedger',
-			amount: '',
-			coins: ['BTC', 'ETH', 'LTC', 'NEO', 'RUB']
-		};
-	}
+  data() {
+    return {
+      selectedcoin: 'BTC',
+      paymentmethod: 'OpenLedger',
+      amount: '',
+      coins: ['BTC', 'ETH', 'LTC', 'NEO', 'RUB']
+    };
+  }
 };
 </script>
 
