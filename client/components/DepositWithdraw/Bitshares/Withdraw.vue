@@ -61,7 +61,7 @@ export default {
       getAssetById: 'assets/getAssetById'
     }),
     enableButton() {
-      return !this.$v.$invalid && this.payload.amount
+      return !this.$v.$invalid && this.payload.amount;
     }
   },
   methods: {
