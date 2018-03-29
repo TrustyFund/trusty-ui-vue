@@ -19,25 +19,29 @@
         td
           .portfolio_item._index
             .fake_line_height
-            a._minus.normal.portfolio_asset(:class="{'_disable': item.share === 0}" @click="item.share--")
+
+            a._minus.normal.portfolio_asset(:class="{'_disable': item.share.toFixed(2) == 0}", @click="item.share-=0.2")
               Icon(name="trusty_minus")
-            span.normal.portfolio_asset {{ item.share }}%
-            a._plus.normal.portfolio_asset(:class="{'_disable': sharesTotal === 100}" @click="item.share++")
+
+            span.normal.portfolio_asset {{ item.share.toFixed(1) }}%
+
+            a._plus.normal.portfolio_asset(:class="{'_disable': plusDisabled }", @click="item.share+=0.2")
               Icon(name="trusty_plus")
+
       tr.total-row
         td
           .portfolio_item._index
             span TOTAL
         td
           .portfolio_item._index.total
-            span {{ sharesTotal }}%         
+            span {{ sharesTotal.toFixed(1) }}%         
 
   .wrap.main_padding
     .trusty_inline_buttons._one_button
       button(@click="suggestPortfolio") Suggest Portfolio
 
     .trusty_inline_buttons._one_button
-      button(:class="{'_disable': sharesTotal < 100}" @click="updatePortfolio") Update Portfolio
+      button(:class="{'_disable': sharesTotal.toFixed(1) != 100}" @click="updatePortfolio") Update Portfolio
 
 </template>
 
@@ -81,6 +85,9 @@ export default {
         baseValues[id] = this.items[id].baseValue;
       });
       return baseValues;
+    },
+    plusDisabled() {
+      return parseInt(this.sharesTotal.toFixed(1), 10) === 100;
     }
   },
   methods: {
@@ -89,12 +96,12 @@ export default {
     }),
     computeInitialPercents() {
       const rawDistributions = distributionFromBalances(this.baseValues);
-      // console.log('initial raw : ', rawDistributions);
-      const initialPercents = distributionSampling(rawDistributions, 2);
-      // console.log('initial sampled : ', initialPercents);
+      console.log('initial raw : ', rawDistributions);
+      const initialPercents = distributionSampling(rawDistributions, 3);
+      console.log('initial sampled : ', initialPercents);
       Object.keys(initialPercents).forEach(id => {
         initialPercents[id] = {
-          share: Math.round(initialPercents[id] * 100, 2),
+          share: parseFloat((initialPercents[id] * 100).toFixed(1), 10),
           name: this.assets[id].symbol,
           id
         };
