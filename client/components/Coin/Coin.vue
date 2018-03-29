@@ -99,7 +99,7 @@
 
     .content_area(
     	:class="{_opened_article: opened==='about asset issuer'}",
-    	 v-show="bitsharesDescriptionExist")
+    	 v-if="bitsharesDescriptionExist")
           ._items(@click="opened = opened==='about asset issuer' ? '':'about asset issuer'")
             ._list_item
               span.text_button about asset issuer
@@ -280,7 +280,7 @@ $color_green_value: #659d1a;
       border-top: 1px solid white;
     }
 
-    .content_area.social {
+    .content_area:last-child {
 	    ._list_item {
 	      border-bottom: 1px solid white;
 	    }
