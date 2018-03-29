@@ -34,7 +34,7 @@
 
   #coin_analysis._belongings
 
-    
+
 
     .content_area(:class="{_opened_article: opened==='description'}")
       ._items(@click="opened = opened==='description' ? '':'description'")
@@ -78,7 +78,7 @@
             p {{ parseCamel(key) }}
             p(v-html="val") {{ val }}
 
-    .content_area(:class="{_opened_article: opened==='social'}" v-show="socialExist")
+    .content_area.social(:class="{_opened_article: opened==='social'}" v-show="socialExist")
       ._items(@click="opened = opened==='social' ? '':'social'")
         ._list_item
           span.text_button SOCIAL
@@ -96,8 +96,10 @@
             ._grey_key_list(v-for="(one, k) in val", @click="showLink(one.url)")
               p {{ one.url }}
               p updated {{ one.lastUpdate}}
-    
-    .content_area(:class="{_opened_article: opened==='about asset issuer'}" v-show="bitsharesDescriptionExist")
+
+    .content_area(
+    	:class="{_opened_article: opened==='about asset issuer'}",
+    	 v-show="bitsharesDescriptionExist")
           ._items(@click="opened = opened==='about asset issuer' ? '':'about asset issuer'")
             ._list_item
               span.text_button about asset issuer
@@ -272,29 +274,22 @@ $color_green_value: #659d1a;
 
   height: inherit;
 
-
-
   ._belongings {
 
     ._list_item:first-child {
       border-top: 1px solid white;
-
     }
 
-
-    .content_area:first-child,
-    .content_area:nth-child(2) {
-      ._list_item {
-        border-bottom: 0;
-      }
+    .content_area.social {
+	    ._list_item {
+	      border-bottom: 1px solid white;
+	    }
     }
 
     ._list_item {
       padding-top: 3vw;
       padding-bottom: 3vw;
-      border-bottom: 1px solid white;
-
-
+      border-bottom: 0;
     }
 
 
@@ -466,7 +461,7 @@ $color_green_value: #659d1a;
       position: relative;
       height: 5rem;
     }
-    
+
 
     ._indicators {
       margin-bottom: 6vw;
@@ -493,7 +488,7 @@ $color_green_value: #659d1a;
         }
       }
 
-      
+
     }
 
   }
