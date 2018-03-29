@@ -3,8 +3,8 @@
   TrustyInput(label="enter receiving address")
       template(slot="input")
         input(v-model="address")
-  .trusty_help_text._yellow
-    | Please enter a valid {{ payload }} address
+  .trusty_help_text._yellow(v-if="!$v.address.isValid")
+    | Please enter a valid {{ getAssetById(payload.selectedcoin).symbol }} address
   .trusty_inline_buttons
     button Confirm
     button Cancel
@@ -16,15 +16,39 @@
 
 <script>
 import TrustyInput from '@/components/UI/form/input';
+import { mapGetters, mapActions } from 'vuex';
+import { validationMixin } from 'vuelidate';
+import { required } from 'vuelidate/lib/validators';
+
 export default {
+  mixins: [validationMixin],
+  props: ['payload'],
   components: {
     TrustyInput
   },
-  props: ['payload'],
   data() {
     return {
       address: ''
     };
+  },
+  validations: {
+    address: {
+      required,
+      isValid(address) {
+        const asset = this.getAssetById(this.payload.selectedcoin).symbol.toLowerCase();
+        return this.checkAddress({ asset, address });
+      }
+    }
+  },
+  computed: {
+    ...mapGetters({
+      getAssetById: 'assets/getAssetById'
+    })
+  },
+  methods: {
+    ...mapActions({
+      checkAddress: 'openledger/checkIfAddressIsValid'
+    })
   }
 };
 </script>
