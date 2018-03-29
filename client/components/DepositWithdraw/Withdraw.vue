@@ -37,6 +37,7 @@ const methodsByGate = {
   openledger: ['Openledger'],
   bitshares: ['BitShares transfer']
 };
+
 // BTS amount 0.07
 export default {
   data() {
@@ -91,16 +92,6 @@ export default {
         transfer: this.nonZeroBalanceAssetsIds
       };
     },
-    transferMethods() {
-      const availableMethods = [];
-      Object.keys(this.transferConfig).forEach((method) => {
-        const methodAssets = this.transferConfig[method];
-        if (methodAssets.some(asset => asset.id === this.selectedCoin)) {
-          availableMethods.push(method);
-        }
-      });
-      return availableMethods;
-    },
     gateway() {
       let selectedGateway = false;
       Object.keys(methodsByGate).forEach((gateway) => {
@@ -111,10 +102,11 @@ export default {
       return selectedGateway;
     },
     methods() {
-      const availableMethods = [];
-      Object.keys(methodsByGate).forEach((gateway) => {
-        availableMethods.push(...methodsByGate[gateway]);
-      });
+      const availableMethods = ['BitShares transfer'];
+      const { issuer } = this.getAssetById(this.selectedCoin);
+      if (issuer === '1.2.96397') {
+        availableMethods.push('Openledger');
+      }
       return availableMethods;
     },
     currentAssetAmount() {
