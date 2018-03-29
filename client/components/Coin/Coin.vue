@@ -46,7 +46,7 @@
           p
           p(v-html="getDescription")
 
-    .content_area(:class="{_opened_article: opened==='features'}" v-show="featuresExist")
+    .content_area(:class="{_opened_article: opened==='features'}" v-if="featuresExist")
       ._items(@click="opened = opened==='features' ? '':'features'")
         ._list_item
           span.text_button FEATURES
@@ -67,7 +67,7 @@
               p {{ parseCamel(key) }}
               p(v-html="val") {{ val }}
 
-    .content_area(:class="{_opened_article: opened==='ico'}" v-show="ICOExist")
+    .content_area(:class="{_opened_article: opened==='ico'}" v-if="ICOExist")
       ._items(@click="opened = opened==='ico' ? '':'ico'")
         ._list_item
           span.text_button ICO
@@ -78,7 +78,7 @@
             p {{ parseCamel(key) }}
             p(v-html="val") {{ val }}
 
-    .content_area.social(:class="{_opened_article: opened==='social'}" v-show="socialExist")
+    .content_area.social(:class="{_opened_article: opened==='social'}" v-if="socialExist")
       ._items(@click="opened = opened==='social' ? '':'social'")
         ._list_item
           span.text_button SOCIAL
