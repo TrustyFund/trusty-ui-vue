@@ -89,4 +89,8 @@ export default {
   width: 5vw;
   margin-top: 4vw;
 }
+
+.trusty_help_text._yellow {
+  padding-top: 2vw;
+}
 </style>

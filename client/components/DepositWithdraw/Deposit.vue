@@ -103,4 +103,7 @@ export default {
 </script>
 
 <style lang="scss">
+._input_space.composed {
+  width: 68vw!important;
+}
 </style>

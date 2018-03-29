@@ -34,7 +34,7 @@ import './style.scss';
 
 
 const methodsByGate = {
-  openledger: ['Openledger'],
+  openledger: ['OpenLedger'],
   bitshares: ['BitShares transfer']
 };
 
@@ -105,8 +105,9 @@ export default {
       const availableMethods = ['BitShares transfer'];
       const { issuer } = this.getAssetById(this.selectedCoin);
       if (issuer === '1.2.96397') {
-        availableMethods.push('Openledger');
+        availableMethods.push('OpenLedger');
       }
+      [this.paymentMethod] = availableMethods;
       return availableMethods;
     },
     currentAssetAmount() {
@@ -124,3 +125,9 @@ export default {
 };
 
 </script>
+
+<style lang="scss">
+._input_space.composed {
+  width: 68vw!important;
+}
+</style>
