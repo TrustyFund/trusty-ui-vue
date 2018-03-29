@@ -1,6 +1,6 @@
 <template lang="pug">
   .trusty_total_funds
-    p {{ name }} TOTAL FUNDS
+    p {{ name }} FUNDS
     h3._text_center: span {{ totalFunds.toFixed(2) }}$
 
 </template>

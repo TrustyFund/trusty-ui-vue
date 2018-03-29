@@ -7,7 +7,7 @@
           th._text_left: span ASSET
           th._text_right: span SHARE
           th._text_right: span $VALUE
-          th._text_right: span 7DAYS
+          th._text_right: span 24H
       tbody
         PortfolioBalance(
         v-for="item in itemsAsArray"
