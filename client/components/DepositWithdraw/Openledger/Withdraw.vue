@@ -1,8 +1,10 @@
 <template lang="pug">
 ._turnover_info
+  TrustyInput(label="enter receiving address")
+      template(slot="input")
+        input(v-model="address")
   .trusty_help_text._yellow
     | Please enter a valid {{ payload }} address
-  .trusty_inline_buttons._one_button: button Paste Address
   .trusty_inline_buttons
     button Confirm
     button Cancel
@@ -13,11 +15,16 @@
 </template>
 
 <script>
-
+import TrustyInput from '@/components/UI/form/input';
 export default {
+  components: {
+    TrustyInput
+  },
   props: ['payload'],
   data() {
-    return {};
+    return {
+      address: ''
+    };
   }
 };
 </script>
