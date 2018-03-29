@@ -186,7 +186,6 @@ export default {
       this.$toast.warning('Suggested portfolio percents applied');
     },
     handleMinus(item) {
-      console.log('handling minus', item);
       if ((item.share - 0.2) < 0) {
         item.share = 0;
       } else {
