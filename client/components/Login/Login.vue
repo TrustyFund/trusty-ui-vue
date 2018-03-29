@@ -101,10 +101,6 @@ export default {
           this.$router.push({ name: 'entry' });
         } else {
           this.showError = true;
-          // this.$notify({
-          //   type: 'error',
-          //   text: result.error
-          // });
         }
       }
     },

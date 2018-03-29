@@ -118,11 +118,7 @@ export default {
         if (result.success) {
           this.$router.push({ name: 'entry' });
         } else {
-          this.$notify({
-            type: 'error',
-            title: 'Account creation error',
-            text: result.error
-          });
+          this.$toast.error('Error: ' + result.error);
           console.log(result.error);
         }
       }
