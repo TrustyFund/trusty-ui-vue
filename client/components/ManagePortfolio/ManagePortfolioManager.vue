@@ -20,13 +20,20 @@
           .portfolio_item._index
             .fake_line_height
 
-            a._minus.normal.portfolio_asset(:class="{'_disable': item.share == 0}", @click="handleMinus(item)")
+            a._minus.normal.portfolio_asset(
+             :class="{'_disable': item.share == 0}"
+             @touchstart="handleTouchMinus(item)"
+             @touchend="clearTimer")
               Icon(name="trusty_minus")
 
-            span.normal.portfolio_asset {{ item.share }}%
+            span.normal.portfolio_asset(v-show="type === 'percent'") {{ item.share.toFixed(1) }}%
+            span.normal.portfolio_asset(v-show="type === 'fiat'") {{ (item.share * percentFiatValue / 10 ** 4).toFixed(2) }}$
 
-            a._plus.normal.portfolio_asset(:class="{'_disable': plusDisabled }", @click="handlePlus(item)")
-              Icon(name="trusty_plus")
+            a._plus.normal.portfolio_asset(
+              :class="{'_disable': plusDisabled }" 
+              @touchstart="handleTouchPlus(item)"
+              @touchend="clearTimer")
+                Icon(name="trusty_plus")
 
       tr.total-row
         td
@@ -58,6 +65,11 @@ export default {
       type: Object,
       required: true,
       default: {}
+    },
+    type: {
+      type: String,
+      required: false,
+      default: 'percent'
     }
   },
   components: { Icon },
@@ -65,7 +77,9 @@ export default {
     return {
       initialPercents: {},
       percents: {},
-      percentsAsArray: []
+      percentsAsArray: [],
+      percentFiatValue: 0,
+      timer: null
     };
   },
   computed: {
@@ -85,6 +99,18 @@ export default {
         baseValues[id] = this.items[id].baseValue;
       });
       return baseValues;
+    },
+    fiatValues() {
+      const fiatValues = {};
+      Object.keys(this.items).forEach(id => {
+        fiatValues[id] = this.items[id].fiatValue;
+      });
+      return fiatValues;
+    },
+    totalFiatValue() {
+      return Object.keys(this.fiatValues).reduce((result, id) => {
+        return result + this.fiatValues[id];
+      }, 0);
     },
     remainingPercents() {
       return 100 - this.sharesTotal;
@@ -158,6 +184,7 @@ export default {
       this.percentsAsArray = this.convertPercentsToArray(this.percents);
     },
     handleMinus(item) {
+      console.log('handling minus', item);
       if ((item.share - 0.2) < 0) {
         item.share = 0;
       } else {
@@ -170,10 +197,22 @@ export default {
       } else {
         item.share = parseFloat((item.share + this.remainingPercents).toFixed(2));
       }
+    },
+    handleTouchMinus(item) {
+      this.handleMinus(item);
+      this.timer = setInterval(() => { this.handleMinus(item); }, 175);
+    },
+    handleTouchPlus(item) {
+      this.handlePlus(item);
+      this.timer = setInterval(() => { this.handlePlus(item); }, 175);
+    },
+    clearTimer() {
+      clearInterval(this.timer);
     }
   },
   mounted() {
     this.initialPercents = this.computeInitialPercents();
+    this.percentFiatValue = this.totalFiatValue / 100;
     this.percents = JSON.parse(JSON.stringify(this.initialPercents));
     this.percentsAsArray = this.convertPercentsToArray(this.percents);
   }

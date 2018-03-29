@@ -45,6 +45,11 @@ export default {
   beforeMount() {
     // retrieve cached user data & connect to bitsharesjs-ws
     this.initApp();
+    window.oncontextmenu = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    };
   },
   watch: {
     $route() {
