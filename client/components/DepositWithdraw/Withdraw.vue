@@ -37,10 +37,12 @@ import openledger from './Openledger/Withdraw';
 import bitshares from './Bitshares/Withdraw';
 import './style.scss';
 
+const OpenledgerName = 'OpenLedger';
+const BitsharesName = 'BitShares transfer';
 
 const methodsByGate = {
-  openledger: ['OpenLedger'],
-  bitshares: ['BitShares transfer']
+  openledger: [OpenledgerName],
+  bitshares: [BitsharesName]
 };
 
 // BTS amount 0.07
@@ -48,7 +50,7 @@ export default {
   data() {
     return {
       selectedCoin: '1.3.0',
-      paymentMethod: 'BitShares transfer',
+      paymentMethod: BitsharesName,
       amount: '',
     };
   },
@@ -67,7 +69,7 @@ export default {
         return (value * 1.03) < balance;
       },
       doesntExceedMinWithdraw(value) {
-        if (this.paymentMethod === 'OpenLedger') {
+        if (this.paymentMethod === OpenledgerName) {
           return value > this.minWithdraw;
         }
         return true;
@@ -89,11 +91,11 @@ export default {
       coinsData: 'openledger/getCoinsData'
     }),
     minWithdraw() {
-      if (this.paymentMethod === 'OpenLedger') {
+      if (this.paymentMethod === OpenledgerName) {
         const coin = this.getAssetById(this.selectedCoin);
         const coinName = coin.symbol.toLowerCase();
         const { gateFee } = this.coinsData[coinName];
-        return parseFloat(gateFee) * 2;
+        return parseFloat(gateFee);
       }
       return 0;
     },
@@ -131,16 +133,16 @@ export default {
       return selectedGateway;
     },
     methods() {
-      const availableMethods = ['BitShares transfer'];
+      const availableMethods = [BitsharesName];
       const { issuer } = this.getAssetById(this.selectedCoin);
       if (issuer === '1.2.96397') {
-        availableMethods.push('OpenLedger');
+        availableMethods.push(OpenledgerName);
       }
       [this.paymentMethod] = availableMethods;
       return availableMethods;
     },
     currentAssetAmount() {
-      if (this.$v.$invalid) return 0;
+      //if (this.$v.$invalid) return 0;
       return this.amount * (10 ** this.getAssetById(this.selectedCoin).precision);
     },
     payload() {

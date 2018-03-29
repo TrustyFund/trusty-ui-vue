@@ -5,7 +5,13 @@
     p._value(v-for="order in orders") 
       PlaceOrderInfo(:item="order", :min="true" :fiat-id="fiatId")
 
-    p._value(v-if="hasPendingTransfer") Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}
+    template(v-if="hasPendingTransfer")
+      template(v-if="isWithdraw")
+        p._value(v-if="isWithdraw") Withdraw {{ withdraw.amount}} {{ transfer.asset.symbol }} to {{ withdraw.address }}
+        p
+        p._value OpenLedger gateway fee {{ withdraw.fee }}
+        p._value Transaction fee 0.01 BTS
+      p._value(v-else) Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}
 
   TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
     template(slot="input")
@@ -27,9 +33,6 @@ export default {
   components: {
     PlaceOrderInfo,
     TrustyInput
-  },
-  mounted() {
-    console.log(this.pendingTransfer);
   },
   data() {
     return {
@@ -63,6 +66,20 @@ export default {
       const asset = this.getAssetById(assetId);
       const realamount = (amount * (10 ** -asset.precision)).toFixed(asset.precision);
       return { asset, realamount, to };
+    },
+    withdraw() {
+      const { fee, address } = this.pendingTransfer;
+      const { realamount, asset } = this.transfer;
+      const finalamount = realamount - fee;
+      const amount = finalamount.toFixed(asset.precision);
+      return { amount, address, fee };
+    },
+    isWithdraw() {
+      const { withdraw } = this.pendingTransfer;
+      if (withdraw) {
+        return true;
+      }
+      return false;
     },
     orders() {
       const orders = [];
@@ -127,6 +144,11 @@ export default {
         assetId: this.pendingTransfer.assetId,
         amount: this.pendingTransfer.amount
       };
+
+      if (this.pendingTransfer.memo) {
+        params.memo = this.pendingTransfer.memo;
+      }
+
       const result = await this.transferAsset(params);
       if (result.success) {
         this.$toast.success('Transaction completed');

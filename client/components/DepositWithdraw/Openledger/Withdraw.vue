@@ -2,7 +2,7 @@
 ._turnover_info
   TrustyInput(label="enter receiving address", v-show="!$v.address.isValid")
       template(slot="input")
-        input(v-model="address", ref="addressinput")
+        input(v-model="address", ref="addressinput", @input="$v.address.$touch()")
   .trusty_help_text._yellow(v-if="!$v.address.isValid")
     | Please enter a valid {{ getAssetById(payload.selectedcoin).symbol }} address
   div.withdraw-address(v-if="$v.address.isValid")
@@ -10,7 +10,7 @@
      icon(name="trusty_input_close", className="address-close", )
     .trusty_cutted_address(v-html="depositAddress")
   .trusty_inline_buttons
-    button(:class="{'_disable': !enableButton}") Confirm
+    button(:class="{'_disable': !enableButton}" @click="withdraw") Confirm
     button Cancel
   p.trusty_ps_text
     | Payment gateway service is provided by #[br]
@@ -63,13 +63,36 @@ export default {
   },
   methods: {
     ...mapActions({
-      checkAddress: 'openledger/checkIfAddressIsValid'
+      checkAddress: 'openledger/checkIfAddressIsValid',
+      setTransaction: 'transactions/setPendingTransfer'
     }),
     clearAddress() {
       this.address = '';
       this.$nextTick(() => {
         this.$refs.addressinput.focus();
       });
+    },
+    withdraw() {
+      this.$v.$touch();
+      if (!this.$v.$invalid && this.payload.amount) {
+        const coin = this.getAssetById(this.payload.selectedcoin);
+        const coinName = coin.symbol.toLowerCase();
+        console.log(this.coinsData[coinName]);
+        const { gateFee, intermediateAccount } = this.coinsData[coinName];
+        const memo = coinName + ':' + this.address;
+        const transaction = {
+          withdraw: true,
+          assetId: this.payload.selectedcoin,
+          amount: this.payload.amount,
+          to: intermediateAccount,
+          address: this.address,
+          fee: parseFloat(gateFee),
+          memo
+        };
+        console.log('goto transactions', transaction);
+        this.setTransaction({ transaction });
+        this.$router.push({ name: 'confirm-transactions' });
+      }
     }
   }
 };
