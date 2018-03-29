@@ -12,6 +12,11 @@
     .trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
     .trusty_font_error(v-if="$v.amount.required && !$v.amount.isNumeric && this.$v.amount.$dirty") Enter a number
     .trusty_font_error(v-if="$v.amount.isNumeric && !$v.amount.doesntExceedBalance && this.$v.amount.$dirty") Innuficient funds
+    .trusty_font_error(
+      v-if=`$v.amount.isNumeric && 
+      $v.amount.doesntExceedBalance &&
+      !$v.amount.doesntExceedMinWithdraw && 
+      this.$v.amount.$dirty`) Minimal withdraw amount {{ minWithdraw }}
     TrustyInput(:isOpen="true", label="payment method" className="select_input payment-method")
       template(slot="input")
         input(:style="{display:'none'}")
@@ -23,7 +28,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import { validationMixin } from 'vuelidate';
 import { required } from 'vuelidate/lib/validators';
 import TrustyInput from '@/components/UI/form/input';
@@ -60,14 +65,38 @@ export default {
         const id = this.selectedCoin;
         const balance = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
         return (value * 1.03) < balance;
+      },
+      doesntExceedMinWithdraw(value) {
+        if (this.paymentMethod === 'OpenLedger') {
+          return value > this.minWithdraw;
+        }
+        return true;
       }
     }
+  },
+  beforeMount() {
+    this.fetchCoins();
+  },
+  methods: {
+    ...mapActions({
+      fetchCoins: 'openledger/fetchCoins'
+    })
   },
   computed: {
     ...mapGetters({
       balances: 'account/getCurrentUserBalances',
-      getAssetById: 'assets/getAssetById'
+      getAssetById: 'assets/getAssetById',
+      coinsData: 'openledger/getCoinsData'
     }),
+    minWithdraw() {
+      if (this.paymentMethod === 'OpenLedger') {
+        const coin = this.getAssetById(this.selectedCoin);
+        const coinName = coin.symbol.toLowerCase();
+        const { gateFee } = this.coinsData[coinName];
+        return parseFloat(gateFee) * 2;
+      }
+      return 0;
+    },
     isNonZeroLength() {
       return Object.keys(this.nonZeroAssets).length;
     },

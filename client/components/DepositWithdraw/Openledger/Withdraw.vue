@@ -10,7 +10,7 @@
      icon(name="trusty_input_close", className="address-close", )
     .trusty_cutted_address(v-html="depositAddress")
   .trusty_inline_buttons
-    button Confirm
+    button(:class="{'_disable': !enableButton}") Confirm
     button Cancel
   p.trusty_ps_text
     | Payment gateway service is provided by #[br]
@@ -48,13 +48,17 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getAssetById: 'assets/getAssetById'
+      getAssetById: 'assets/getAssetById',
+      coinsData: 'openledger/getCoinsData'
     }),
     depositAddress() {
       const firstCount = Math.floor(this.address.length / 2) - 1;
       const start = this.address.slice(0, firstCount);
       const end = this.address.slice(firstCount);
       return `<span>${start}</span><br/><span>${end}</span>`;
+    },
+    enableButton() {
+      return !this.$v.$invalid && this.payload.amount;
     }
   },
   methods: {
@@ -92,5 +96,10 @@ export default {
 
 .trusty_help_text._yellow {
   padding-top: 2vw;
+}
+
+button._disable {
+  pointer-events: none;
+  opacity: 0.5;
 }
 </style>
