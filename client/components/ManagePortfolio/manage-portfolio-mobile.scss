@@ -14,8 +14,6 @@
   }
 
 
-
-
   #trusty_manage_modal {
     z-index: 3000;
     a {
@@ -63,6 +61,9 @@
 
     table tbody {
       .trusty_portfolio_arrow_right {
+      	margin-left: 2.6vw;
+      	transform: translateY(1.1vw);
+		    max-width: 3vw;
         margin-left: 2.6vw;
         svg {
           height: 5.7vw;
