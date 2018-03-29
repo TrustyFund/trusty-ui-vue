@@ -77,7 +77,6 @@ export default {
       if (!this.$v.$invalid && this.payload.amount) {
         const coin = this.getAssetById(this.payload.selectedcoin);
         const coinName = coin.symbol.toLowerCase();
-        console.log(this.coinsData[coinName]);
         const { gateFee, intermediateAccount } = this.coinsData[coinName];
         const memo = coinName + ':' + this.address;
         const transaction = {

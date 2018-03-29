@@ -95,7 +95,7 @@ export default {
         const coin = this.getAssetById(this.selectedCoin);
         const coinName = coin.symbol.toLowerCase();
         const { gateFee } = this.coinsData[coinName];
-        return parseFloat(gateFee);
+        return parseFloat(gateFee) * 2;
       }
       return 0;
     },
@@ -142,7 +142,7 @@ export default {
       return availableMethods;
     },
     currentAssetAmount() {
-      //if (this.$v.$invalid) return 0;
+      if (this.$v.$invalid) return 0;
       return this.amount * (10 ** this.getAssetById(this.selectedCoin).precision);
     },
     payload() {

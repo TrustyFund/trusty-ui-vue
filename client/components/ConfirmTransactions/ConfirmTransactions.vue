@@ -9,8 +9,8 @@
       template(v-if="isWithdraw")
         p._value(v-if="isWithdraw") Withdraw {{ withdraw.amount}} {{ transfer.asset.symbol }} to {{ withdraw.address }}
         p
-        p._value OpenLedger gateway fee {{ withdraw.fee }}
-        p._value Transaction fee 0.01 BTS
+        p._value OpenLedger gateway fee {{ withdraw.fee }} {{ transfer.asset.symbol }}
+        p._value Transaction fee {{ withdrawFee }} BTS
       p._value(v-else) Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}
 
   TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
@@ -50,7 +50,8 @@ export default {
       isValidPassword: 'account/isValidPassword',
       getAssetById: 'assets/getAssetById',
       hasOrders: 'transactions/hasPendingOrders',
-      getAssetMultiplier: 'market/getAssetMultiplier'
+      getAssetMultiplier: 'market/getAssetMultiplier',
+      getFee: 'transactions/getMemoPrice'
     }),
     fiatMultiplier() {
       return this.getAssetMultiplier(this.fiatId);
@@ -67,12 +68,16 @@ export default {
       const realamount = (amount * (10 ** -asset.precision)).toFixed(asset.precision);
       return { asset, realamount, to };
     },
+    withdrawFee() {
+      const fee = this.getFee(this.withdraw.memo);
+      return fee * (10 ** -5);
+    },
     withdraw() {
-      const { fee, address } = this.pendingTransfer;
+      const { fee, address, memo } = this.pendingTransfer;
       const { realamount, asset } = this.transfer;
       const finalamount = realamount - fee;
       const amount = finalamount.toFixed(asset.precision);
-      return { amount, address, fee };
+      return { amount, address, fee, memo };
     },
     isWithdraw() {
       const { withdraw } = this.pendingTransfer;
