@@ -21,6 +21,8 @@ import Faq from '@/components/Faq/Faq';
 import ConfirmTransactions from '@/components/ConfirmTransactions/ConfirmTransactions';
 import EntryPoint from '@/components/EntryPoint/EntryPoint';
 
+import Test from '@/components/Transfer';
+
 
 Vue.use(Router);
 
@@ -31,6 +33,14 @@ const router = new Router({
       name: 'login',
       path: '/login',
       component: Login,
+      meta: {
+        requiredAuth: false
+      }
+    },
+    {
+      name: 'test',
+      path: '/test',
+      component: Test,
       meta: {
         requiredAuth: false
       }

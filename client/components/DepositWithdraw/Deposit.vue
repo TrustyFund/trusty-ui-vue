@@ -7,7 +7,7 @@
       template(slot="input" v-else)
         span(
           class="no_opened"
-        ).trusty_place_holder Send any sum
+        ).trusty_place_holder Choose currency
       template(slot="right")
         select(v-model="selectedcoin"  dir="rtl")
           option(v-for="coin in coins") {{ coin }}

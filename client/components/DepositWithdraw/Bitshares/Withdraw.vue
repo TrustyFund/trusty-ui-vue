@@ -1,12 +1,22 @@
 <template lang="pug">
   .withdraw-transfer-container
-    TrustyInput(label="enter receiver's username")
+    TrustyInput(label="enter receiver's address")
       template(slot="input")
         input(v-model="name" @input="$v.name.$touch()")
     .trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter account name
     .trusty_font_error(v-if="!$v.name.isUnique && !this.$v.$pending && this.$v.name.$dirty") No such user
     .trusty_font_error(v-if="!$v.name.notSelf && this.$v.name.$dirty") Can't send to yourself
-    .trusty_inline_buttons._mob._one_button(:class="{'_disabled': !payload.amount }", @click="sendFunds"): button SEND FUNDS
+    ._yellow.trusty_ps_text
+      | IMPORTANT: Please send {{ getAssetById(payload.selectedcoin).symbol }} only to 
+      br
+      | BitShares account using this payment method
+    .trusty_inline_buttons._mob
+          button(:class="{'_disable': !enableButton }", @click="sendFunds") Confirm
+          button(@click="$router.replace('/')") Cancel
+    p.trusty_ps_text
+      | Payments using BitShares
+      br
+      | are done directly at 0.0004$ fixed fee
 </template>
 
 <script>
@@ -47,8 +57,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userName: 'account/getCurrentUserName'
-    })
+      userName: 'account/getCurrentUserName',
+      getAssetById: 'assets/getAssetById'
+    }),
+    enableButton() {
+      return !this.$v.$invalid && this.payload.amount
+    }
   },
   methods: {
     ...mapActions({
@@ -71,3 +85,10 @@ export default {
 };
 
 </script>
+
+<style>
+button._disable {
+  pointer-events: none;
+  opacity: 0.5;
+}
+</style>

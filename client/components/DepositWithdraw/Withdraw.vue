@@ -16,7 +16,7 @@
       template(slot="input")
         input(:style="{display:'none'}")
         select(v-model="paymentMethod" )
-          option(v-for="method in transferMethods", :value="method") {{ method }}
+          option(v-for="method in methods") {{ method }}
 
   ._turnover_service
     component(:is="gateway" :payload="payload")
@@ -29,23 +29,24 @@ import { required } from 'vuelidate/lib/validators';
 import TrustyInput from '@/components/UI/form/input';
 import iconComponent from '@/components/UI/icon';
 import openledger from './Openledger/Withdraw';
-import Transfer from './Bitshares/Withdraw';
+import bitshares from './Bitshares/Withdraw';
 import './style.scss';
 
 
 const methodsByGate = {
-  openledger: ['openledger', 'transfer']
+  openledger: ['Openledger'],
+  bitshares: ['BitShares transfer']
 };
 // BTS amount 0.07
 export default {
   data() {
     return {
       selectedCoin: '1.3.0',
-      paymentMethod: 'transfer',
+      paymentMethod: 'BitShares transfer',
       amount: '',
     };
   },
-  components: { TrustyInput, iconComponent, openledger, Transfer },
+  components: { TrustyInput, iconComponent, openledger, bitshares },
   mixins: [validationMixin],
   validations: {
     amount: {
@@ -101,10 +102,20 @@ export default {
       return availableMethods;
     },
     gateway() {
-      return this.paymentMethod;
+      let selectedGateway = false;
+      Object.keys(methodsByGate).forEach((gateway) => {
+        if (methodsByGate[gateway].includes(this.paymentMethod)) {
+          selectedGateway = gateway;
+        }
+      });
+      return selectedGateway;
     },
     methods() {
-      return methodsByGate[this.gateway];
+      const availableMethods = [];
+      Object.keys(methodsByGate).forEach((gateway) => {
+        availableMethods.push(...methodsByGate[gateway]);
+      });
+      return availableMethods;
     },
     currentAssetAmount() {
       if (this.$v.$invalid) return 0;
