@@ -20,12 +20,12 @@
           .portfolio_item._index
             .fake_line_height
 
-            a._minus.normal.portfolio_asset(:class="{'_disable': item.share.toFixed(2) == 0}", @click="item.share-=0.2")
+            a._minus.normal.portfolio_asset(:class="{'_disable': item.share == 0}", @click="handleMinus(item)")
               Icon(name="trusty_minus")
 
-            span.normal.portfolio_asset {{ item.share.toFixed(1) }}%
+            span.normal.portfolio_asset {{ item.share }}%
 
-            a._plus.normal.portfolio_asset(:class="{'_disable': plusDisabled }", @click="item.share+=0.2")
+            a._plus.normal.portfolio_asset(:class="{'_disable': plusDisabled }", @click="handlePlus(item)")
               Icon(name="trusty_plus")
 
       tr.total-row
@@ -85,6 +85,9 @@ export default {
         baseValues[id] = this.items[id].baseValue;
       });
       return baseValues;
+    },
+    remainingPercents() {
+      return 100 - this.sharesTotal;
     },
     plusDisabled() {
       return parseInt(this.sharesTotal.toFixed(1), 10) === 100;
@@ -153,6 +156,20 @@ export default {
 
       this.percents = newPercents;
       this.percentsAsArray = this.convertPercentsToArray(this.percents);
+    },
+    handleMinus(item) {
+      if ((item.share - 0.2) < 0) {
+        item.share = 0;
+      } else {
+        item.share = parseFloat((item.share - 0.2).toFixed(2));
+      }
+    },
+    handlePlus(item) {
+      if (this.remainingPercents > 0.2) {
+        item.share = parseFloat((item.share + 0.2).toFixed(2));
+      } else {
+        item.share = parseFloat((item.share + this.remainingPercents).toFixed(2));
+      }
     }
   },
   mounted() {
