@@ -56,7 +56,7 @@ export default {
         'backup-done': 'let\'s review',
         transactions: 'recent transactions',
         'confirm-transactions': 'confirm transactions',
-        'terms': 'terms of use',
+        terms: 'terms of use',
         faq: 'FAQ',
         faq2: 'FAQ',
         portfolio: 'portfolio',
