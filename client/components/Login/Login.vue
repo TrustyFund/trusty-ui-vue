@@ -13,7 +13,7 @@
 			.trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter backup phrase
 			.trusty_font_error(v-if="showError") Please try again
 
-			p._tooltip_p
+			p._tooltip_p.disable_margin_bottom
 				| Enter 16 words you backed up when account was created
 
 			trusty-input(
@@ -25,7 +25,7 @@
 			.trusty_font_error(v-if="!$v.pin.required && this.$v.pin.$dirty") Enter PIN
 			.trusty_font_error(v-if="!$v.pin.minLength && this.$v.pin.$dirty") PIN must be 6 characters or more
 
-			p._tooltip_p
+			p._tooltip_p.disable_margin_bottom
 				| PIN code secures access only on this device
 
 			trusty-input(
@@ -135,6 +135,12 @@ export default {
 
 #trusty_auth {
 	@include trusty_main_padding;
+
+
+	*.disable_margin_bottom {
+		margin-bottom: 0;
+	}
+
 	&.signup {
 		.trusty_buttons {
 			margin-top: 4.6vw;

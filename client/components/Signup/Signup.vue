@@ -16,7 +16,7 @@
 			.trusty_font_error(v-if="$v.name.hasSpecialSymbol && $v.name.noBadSymbolAtEnd && !$v.name.isUnique && $v.$pending") Checking...
 			.trusty_font_error(v-if="$v.name.hasSpecialSymbol && $v.name.noBadSymbolAtEnd && !$v.name.isUnique && !$v.$pending && $v.name.$dirty") Account name already taken
 
-			p._tooltip_p
+			p._tooltip_p.disable_margin_bottom
 				| Use email for signup to receive notifications
 
 			trusty-input(
