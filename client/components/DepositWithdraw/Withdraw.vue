@@ -33,10 +33,10 @@
 			:foreignInput="true")
 			template(slot="input")
 				select(v-model="paymentMethod" )
-					option(v-for="method in transferMethods", :value="method") {{ method }}
+					option(v-for="method in methods", :value="method") {{ method }}
 
 	._turnover_service
-		component(:is="gateway", :payload="payload")
+		component(:is="gateway", :amount="payload.amount", :coin="payload.selectedcoin")
 
 </template>
 
