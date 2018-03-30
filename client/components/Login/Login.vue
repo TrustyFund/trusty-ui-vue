@@ -128,21 +128,13 @@ export default {
 
 #trusty_auth {
 	@include trusty_main_padding;
-	&.signup {
-		.trusty_buttons {
-			margin-top: 4.6vw;
-		}
+	.trusty_buttons {
+    margin-top: 4.6vw;
 	}
-
-  &.login {
-    .trusty_buttons {
-      margin-top: 2vw;
-    }
-  }
-
 
 	.text_area {
 		margin-bottom: 2vw;
+    margin-top: 4.5vw;
 	}
 
   .brainkey-input { 
@@ -191,10 +183,8 @@ export default {
 @media screen and (min-width: 769px) {
 
 	#trusty_auth {
-		&.signup {
-			.trusty_buttons {
-				margin-top: px_from_vw(4.6);
-			}
+		.trusty_buttons {
+			margin-top: px_from_vw(4.6);
 		}
 		.text_area {
 			margin-bottom: px_from_vw(2);
