@@ -1,35 +1,36 @@
 <template lang="pug">
-  
+
 #trusty_profile
-  
+
   .useful_wrap
 
     .trusty_inline_buttons._mob
-      button DEPOSIT
-      button WITHDRAW
+      button(@click='deposit') DEPOSIT
+      button(@click='withdraw') WITHDRAW
 
 
     TotalFunds(
-      v-if="userData" 
-     :name="userName" 
+    	:class="{ _not_transactions: !operations.length }",
+      v-if="userData"
+     :name="userName"
      :balances="userBalances"
      base-id="1.3.0"
      fiat-id="1.3.121")
-    
+
     ._wrap_desk_buttons._desk
       .trusty_inline_buttons
-        button DEPOSIT
-        button WITHDRAW
+        button(@click='deposit') DEPOSIT
+        button(@click='withdraw') WITHDRAW
 
     div.transactions-wrap
       Transactions(v-if="userId"
                   :limit="5"
                   :min-mode="true")
-    
 
-  
-  .table_wrap
-    Portfolio( 
+
+
+  .table_wrap(:class="{ _not_transactions: !operations.length }")
+    Portfolio(
      v-if="userData"
      :balances="userBalances"
       base-id="1.3.0"
@@ -57,7 +58,8 @@ export default {
       ready: 'connection/isReady',
       userBalances: 'account/getCurrentUserBalances',
       userName: 'account/getCurrentUserName',
-      userData: 'account/getCurrentUserData'
+      userData: 'account/getCurrentUserData',
+      operations: 'operations/getOperations',
     })
   },
   components: {
@@ -66,7 +68,13 @@ export default {
   methods: {
     ...mapActions({
       fetchCurrentUser: 'account/fetchCurrentUser'
-    })
+    }),
+    deposit() {
+      this.$router.push({ name: 'deposit' });
+    },
+    withdraw() {
+      this.$router.push({ name: 'withdraw' });
+    }
   },
   mounted() {
     if (this.ready) this.fetchCurrentUser();
@@ -91,6 +99,13 @@ export default {
   }
   .table_wrap {
     width: 100%;
+
+
+    &._not_transactions {
+	    .trusty_inline_buttons {
+				padding-top: 0;
+	    }
+    }
   }
 }
 
@@ -99,6 +114,10 @@ export default {
   #trusty_profile .trusty_total_funds {
     margin-top: 4.3vw;
     margin-bottom: 5.2vw;
+
+    &._not_transactions {
+    	margin-bottom: 3.2vw;
+    }
     h3 { font-size: 13.4vw; }
     .trusty_profile_info { padding: 0 3.6vw; }
     p { font-size: 4.2vw; }
@@ -120,7 +139,7 @@ export default {
   }
 }
 
-  
+
 
 
 </style>

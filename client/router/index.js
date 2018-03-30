@@ -3,13 +3,13 @@ import Cookies from 'js-cookie';
 import Router from 'vue-router';
 
 import Coin from '@/components/Coin/Coin';
-import Deposit from '@/components/Transfer';
+import Deposit from '@/components/DepositWithdraw/Deposit';
+import Withdraw from '@/components/DepositWithdraw/Withdraw';
 import User from '@/components/User/User.vue';
 import Signup from '@/components/Signup/Signup.vue';
 import Login from '@/components/Login/Login.vue';
 import ManagePortfolio from '@/components/ManagePortfolio/ManagePortfolio';
-import ManagePortfolioPercent from '@/components/ManagePortfolio/ManagePortfolioPercent';
-import ManagePortfolioValue from '@/components/ManagePortfolio/ManagePortfolioValue';
+import ManagePortfolioManager from '@/components/ManagePortfolio/ManagePortfolioManager';
 import Transactions from '@/components/Transactions/Transactions';
 import Backup from '@/components/Backup/Backup';
 import BackupDone from '@/components/Backup/BackupDone';
@@ -20,6 +20,10 @@ import BackupVerify from '@/components/Backup/BackupVerify';
 import Faq from '@/components/Faq/Faq';
 import ConfirmTransactions from '@/components/ConfirmTransactions/ConfirmTransactions';
 import EntryPoint from '@/components/EntryPoint/EntryPoint';
+import TermsOfUse from '@/components/TermsOfUse/TermsOfUse';
+
+import Test from '@/components/Transfer';
+
 
 Vue.use(Router);
 
@@ -35,11 +39,36 @@ const router = new Router({
       }
     },
     {
+      name: 'test',
+      path: '/test',
+      component: Test,
+      meta: {
+        requiredAuth: false
+      }
+    },
+    {
       name: 'signup',
       path: '/signup',
       component: Signup,
       meta: {
         requiredAuth: false
+      }
+    },
+    {
+      path: '/faq',
+      name: 'faq',
+      component: Faq,
+      meta: {
+        requiredAuth: false
+      }
+    },
+    {
+      path: '/terms',
+      name: 'terms',
+      component: TermsOfUse,
+      meta: {
+        requiredAuth: false,
+        adaptiveBack: true
       }
     },
     {
@@ -50,6 +79,11 @@ const router = new Router({
         requiredAuth: false
       },
       children: [
+        {
+          path: '/faq',
+          name: 'faq2',
+          component: Faq,
+        },
         {
           name: 'transactions',
           path: '/transactions',
@@ -68,24 +102,33 @@ const router = new Router({
           component: ManagePortfolio,
           meta: { requiredBackup: true },
           beforeEnter: (to, from, next) => {
-            console.log('from : ', from.name);
-            console.log('to : ', to.name);
-            if (from.name !== 'entry') next({ name: 'entry' });
+            if (from.name !== 'entry' && from.name !== 'coin'
+             && from.name !== 'confirm-transactions') {
+              next({ name: 'entry' });
+            }
             next();
           },
           children: [
             {
               path: 'percent',
               name: 'manage-percent',
-              component: ManagePortfolioPercent,
-              meta: { requiredBackup: true }
-
+              component: ManagePortfolioManager,
+              meta: {
+                requiresConfirmScreen: true,
+                requiredBackup: true
+              }
             },
             {
               path: 'value',
               name: 'manage-value',
-              component: ManagePortfolioValue,
-              meta: { requiredBackup: true }
+              component: ManagePortfolioManager,
+              meta: {
+                requiresConfirmScreen: true,
+                requiredBackup: true
+              },
+              props: {
+                type: 'fiat'
+              }
             }
           ]
         },
@@ -94,10 +137,13 @@ const router = new Router({
           path: '/confirm',
           component: ConfirmTransactions,
           beforeEnter: (to, from, next) => {
-            if (from.name !== 'manage-percent' && from.name !== 'manage-value') {
+            if (!from.meta.requiresConfirmScreen) {
               next({ name: 'entry' });
             }
             next();
+          },
+          meta: {
+            adaptiveBack: true
           }
         },
         {
@@ -109,14 +155,20 @@ const router = new Router({
         {
           name: 'withdraw',
           path: '/withdraw',
-          component: Deposit,
-          meta: { requiredBackup: true }
+          component: Withdraw,
+          meta: {
+            requiresConfirmScreen: true,
+            requiredBackup: true
+          }
         },
         {
           name: 'coin',
           path: '/coin/:symbol',
           component: Coin,
-          props: true
+          props: true,
+          meta: {
+            adaptiveBack: true
+          }
         },
         {
           path: '/backup',
@@ -150,14 +202,6 @@ const router = new Router({
           ]
         }
       ]
-    },
-    {
-      path: '/faq',
-      name: 'faq',
-      component: Faq,
-      meta: {
-        requiredAuth: false
-      }
     },
     {
       path: '*',

@@ -1,32 +1,33 @@
 <template lang="pug">
 
-#trusty_auth
+#trusty_auth.login
 
   .input_area
     .left
 
-      trusty-input(label="brainkey" type="textarea")
+      trusty-input(label="BACKUP PHRASE" type="textarea")
         template(slot="input")
-          textarea(v-model="brainkey" @input="$v.brainkey.$touch()")
-      .trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter brainkey
+          textarea(v-model="brainkey" @input="$v.brainkey.$touch()" class="brainkey-input")
+      .trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter backup phrase
+      .trusty_font_error(v-if="showError") Please try again
 
       p._tooltip_p
-        | Please enter account brainkey once for new devices, #[br]
-        | 12 words, you backed up, when account was created
+        | Enter 16 words you backed up when account was created
 
       trusty-input(label="create pin code")
         template(slot="input")
-          input(v-model="password" @input="$v.password.$touch()" type="tel")
-      .trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter PIN
-      .trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") PIN must be 6 characters or more
+          input(@input="debouncedPinInput" type="tel")
+      .trusty_font_error(v-if="!$v.pin.required && this.$v.pin.$dirty") Enter PIN
+      .trusty_font_error(v-if="!$v.pin.minLength && this.$v.pin.$dirty") PIN must be 6 characters or more
+
+      p._tooltip_p
+        | PIN code secures access only on this device
 
       trusty-input(label="confirm pin")
         template(slot="input")
-          input(v-model="confirmPassword" @input="$v.confirmPassword.$touch()" type="tel")
-      .trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PIN codes do not match
+          input(@input="debouncedRepeatPinInput" type="tel")
+      .trusty_font_error(v-if="!$v.confirmPin.sameAsPin && this.$v.confirmPin.$dirty") PIN codes do not match
 
-      p._tooltip_p
-        | For security reasons, you can create new PIN code every time you login
 
 
 
@@ -50,24 +51,26 @@ import Icon from '@/components/UI/icon';
 import { validationMixin } from 'vuelidate';
 import { required, minLength, sameAs } from 'vuelidate/lib/validators';
 import { mapGetters, mapActions } from 'vuex';
+import debounce from 'lodash/debounce';
 
 export default {
   mixins: [validationMixin],
   components: { trustyInput, Icon },
   data() {
     return {
-      password: '',
-      confirmPassword: '',
-      brainkey: ''
+      pin: '',
+      confirmPin: '',
+      brainkey: '',
+      showError: false
     };
   },
   validations: {
-    password: {
+    pin: {
       required,
       minLength: minLength(6)
     },
-    confirmPassword: {
-      sameAsPassword: sameAs('password')
+    confirmPin: {
+      sameAsPin: sameAs('pin')
     },
     brainkey: {
       required
@@ -85,27 +88,34 @@ export default {
       storeBackupDate: 'account/storeBackupDate'
     }),
     async handleLogin() {
-      // vuelidate (check all fields)
+      this.showError = false;
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const result = await this.login({
-          password: this.password,
-          brainkey: this.brainkey
+          password: this.pin,
+          brainkey: this.brainkey.toLowerCase()
         });
         if (result.success) {
           const date = new Date();
           this.storeBackupDate({ date, userId: this.getUserId });
           this.$router.push({ name: 'entry' });
         } else {
-          this.$notify({
-            group: 'auth',
-            type: 'error',
-            title: 'Login error',
-            text: result.error
-          });
+          this.showError = true;
         }
       }
-    }
+    },
+    debouncedPinInput: () => {},
+    debouncedRepeatPinInput: () => {}
+  },
+  created() {
+    this.debouncedPinInput = debounce((e) => {
+      this.pin = e.target.value;
+      this.$v.pin.$touch();
+    }, 800);
+    this.debouncedRepeatPinInput = debounce((e) => {
+      this.confirmPin = e.target.value;
+      this.$v.confirmPin.$touch();
+    }, 800);
   }
 };
 
@@ -118,15 +128,18 @@ export default {
 
 #trusty_auth {
 	@include trusty_main_padding;
-	&.signup {
-		.trusty_buttons {
-			margin-top: 4.6vw;
-		}
+	.trusty_buttons {
+    margin-top: 4.6vw;
 	}
 
 	.text_area {
 		margin-bottom: 2vw;
+    margin-top: 4.5vw;
 	}
+
+  .brainkey-input { 
+    text-transform: lowercase;
+  }
 }
 
 ._logo_owl {
@@ -170,10 +183,8 @@ export default {
 @media screen and (min-width: 769px) {
 
 	#trusty_auth {
-		&.signup {
-			.trusty_buttons {
-				margin-top: px_from_vw(4.6);
-			}
+		.trusty_buttons {
+			margin-top: px_from_vw(4.6);
 		}
 		.text_area {
 			margin-bottom: px_from_vw(2);

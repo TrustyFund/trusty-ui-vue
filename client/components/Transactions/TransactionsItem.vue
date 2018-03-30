@@ -1,5 +1,5 @@
 <template lang="pug">
-  .transaction_info
+  .transaction_info(:class="{'transaction_info--short' : short}")
     div.transaction_info__main
       TransactionsItemTransferInfo(
         v-if="type === 'transfer'" 
@@ -17,7 +17,7 @@
       TransactionsItemCancelOrderInfo(
         v-if="type === 'limit_order_cancel'" 
        :item="item")
-    div.transaction_info__date {{ relativeTime }}
+    div.transaction_info__date(v-show="!hideDate") {{ relativeTime }}
 
 </template>
 
@@ -44,6 +44,15 @@ export default {
     userId: {
       type: String,
       required: true
+    },
+    hideDate: {
+      type: Boolean,
+      required: true
+    },
+    short: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
@@ -54,9 +63,12 @@ export default {
       return this.item.type;
     },
     relativeTime() {
-      return distanceInWordsStrict(new Date(), this.item.date, {
-        addSuffix: true
-      });
+      let time = distanceInWordsStrict(new Date(), this.item.date);
+      time = time.replace('hours', 'h');
+      time = time.replace('hour', 'h');
+      time = time.replace('minutes', 'm');
+      time = time.replace('minute', 'm');
+      return time;
     }
   }
 };
@@ -65,7 +77,7 @@ export default {
 <style lang="scss">
 
 .transaction_info {
-  font-size: 3.3vw;
+  font-size: 3.9vw;
   margin-bottom: 2vw;
   display: flex;
   justify-content: space-between;
@@ -81,11 +93,19 @@ export default {
     margin-left: 0.5rem;
     text-align: right;
   }
+  &--short {
+    p._value {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;      
+    }
+  }
 
   p._value {
     color:#fdf101;
     margin: 0;
     font-family: Gotham_Pro_Regular;
+    line-height: 4vw;
     span {
       color:#fdf101;
     }

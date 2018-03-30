@@ -8,7 +8,6 @@
 				 v-if="!ready && !isLanding">
 			 <Spinner/>
 		</div>
-		<notifications group="auth" width="100%" position="bottom center"/>
 	</div>
 </template>
 
@@ -46,6 +45,12 @@ export default {
   beforeMount() {
     // retrieve cached user data & connect to bitsharesjs-ws
     this.initApp();
+    // prevents long click context menu
+    window.oncontextmenu = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    };
   },
   watch: {
     $route() {
@@ -85,4 +90,17 @@ export default {
   z-index: 100;
 }
 
+.notie-container {
+  font-family: "Gotham_Pro_Regular";
+  text-transform: uppercase;
+  &.notie-background-error {
+    background-color: rgba(128, 29, 32, 0.95);
+  }
+  &.notie-background-success {
+    background-color: rgba(26, 74, 16, 0.95);
+  }
+  &.notie-background-warning {
+    background-color: rgba(130, 106, 29, 0.95);
+  }
+}
 </style>

@@ -1,14 +1,17 @@
 @media screen and (max-width: 768px) {
-  
+
   #asset_tab {
 
-    ._one_button {
+    .trusty_inline_buttons:first-child {
       margin-top: 3vw;
-    } 
-    
+    }
+
+    .trusty_inline_buttons:last-child {
+      margin-top: 3vw;
+      padding-top: 0;
+    }
+
   }
-
-
 
 
   #trusty_manage_modal {
@@ -23,7 +26,7 @@
       right:0;
     }
   }
-  
+
   .trusty_portfolio_tabs {
 
     span.portfolio_asset {
@@ -44,21 +47,26 @@
     table thead tr th {
         font-size: 3.4vw;
         text-align: left;
-        padding-left: 11.5vw;
     }
 
     table thead tr th:first-child {
-        padding-left: 10.6vw;
+        padding-left: 6.3vw;
     }
 
     table thead tr th:last-child {
-        text-align: center;
-        padding-left: 0;
+        text-align: left;
+        padding-left: 16.3vw;
+
     }
 
     table tbody {
       .trusty_portfolio_arrow_right {
+      	margin-left: 2.6vw;
+      	transform: translateY(1vw);
+		    max-width: 3vw;
         margin-left: 2.6vw;
+        margin-bottom: -1vw;
+        max-width: 3vw;
         svg {
           height: 5.7vw;
           path  {
@@ -74,8 +82,8 @@
       tr .portfolio_item {
           font-size: 5.0vw;
           margin-top: 4.7vw;
-          display: flex;
-          align-items: center;
+					text-align: left;
+
         }
 
         tr:first-child .portfolio_item {
@@ -193,9 +201,9 @@
     position: absolute;
     top: 57.4%;
     transform: translateY(-50%);
-    p { 
+    p {
       margin-bottom: 0;
-      font-size: 7.3vw; 
+      font-size: 7.3vw;
       line-height: 9vw;
     }
 
@@ -211,9 +219,15 @@
   }
 
   .manage_third_tab {
-    img { 
+    img {
       width: 25vw
     }
+  }
+
+  .managePortfolio {
+
+
+
   }
 
 }

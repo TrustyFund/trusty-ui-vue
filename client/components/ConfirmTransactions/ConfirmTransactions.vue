@@ -2,8 +2,19 @@
 #approve_update_portfolio.main_padding
 
   .transaction_info
-    p._value(v-for="item in items") 
-      PlaceOrderInfo(:item="item", :min="true", :fiat-id="fiatId")
+    p._value(v-for="order in orders") 
+      PlaceOrderInfo(:item="order", :min="true" :fiat-id="fiatId")
+
+    template(v-if="hasPendingTransfer")
+      template(v-if="isWithdraw")
+        p._value(v-if="isWithdraw") Withdraw {{ withdraw.amount}} {{ transfer.asset.symbol }} to {{ withdraw.address }}
+        p
+        p._value OpenLedger gateway fee {{ withdraw.fee }} {{ transfer.asset.symbol }}
+        p._value Transaction fee {{ withdrawFee }} BTS
+      template(v-else)
+        p._value Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}
+        p
+        p._value Transaction fee {{ transferFee }} BTS
 
   TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
     template(slot="input")
@@ -35,10 +46,16 @@ export default {
   computed: {
     ...mapGetters({
       pendingOrders: 'transactions/getPendingOrders',
+      pendingTransfer: 'transactions/getPendingTransfer',
+      hasPendingTransfer: 'transactions/hasPendingTransfer',
       isLocked: 'account/isLocked',
       pending: 'transactions/areTransactionsProcessing',
       isValidPassword: 'account/isValidPassword',
-      getAssetMultiplier: 'market/getAssetMultiplier'
+      getAssetById: 'assets/getAssetById',
+      hasOrders: 'transactions/hasPendingOrders',
+      getAssetMultiplier: 'market/getAssetMultiplier',
+      getMemoFee: 'transactions/getMemoPrice',
+      transferPrice: 'transactions/getTransferFee'
     }),
     fiatMultiplier() {
       return this.getAssetMultiplier(this.fiatId);
@@ -49,71 +66,107 @@ export default {
     buyOrders() {
       return this.pendingOrders.buyOrders;
     },
-    items() {
-      const items = [];
-      if (!this.sellOrders || !this.buyOrders) return [];
+    transfer() {
+      const { assetId, amount, to } = this.pendingTransfer;
+      const asset = this.getAssetById(assetId);
+      const realamount = (amount * (10 ** -asset.precision)).toFixed(asset.precision);
+      return { asset, realamount, to };
+    },
+    withdrawFee() {
+      const fee = this.getMemoFee(this.withdraw.memo);
+      return (fee * (10 ** -5)).toFixed(5);
+    },
+    transferFee() {
+      return (this.transferPrice * (10 ** -5)).toFixed(5);
+    },
+    withdraw() {
+      const { fee, address, memo } = this.pendingTransfer;
+      const { realamount, asset } = this.transfer;
+      const finalamount = realamount - fee;
+      const amount = finalamount.toFixed(asset.precision);
+      return { amount, address, fee, memo };
+    },
+    isWithdraw() {
+      const { withdraw } = this.pendingTransfer;
+      if (withdraw) {
+        return true;
+      }
+      return false;
+    },
+    orders() {
+      const orders = [];
+      if (!this.hasOrders) return [];
       this.sellOrders.forEach(order => {
-        items.push({
+        orders.push({
           payload: order,
           buyer: false
         });
       });
       this.buyOrders.forEach(order => {
-        items.push({
+        orders.push({
           payload: order,
           buyer: true
         });
       });
-      return items;
+      return orders;
     }
   },
   methods: {
     ...mapActions({
       processPendingOrders: 'transactions/processPendingOrders',
       removePendingDistribution: 'transactions/removePendingDistribution',
-      unlockWallet: 'account/unlockWallet'
+      unlockWallet: 'account/unlockWallet',
+      transferAsset: 'transactions/transferAsset'
     }),
-    async confirm() {
+    checkLocked() {
       if (this.isLocked) {
         if (!this.pin) {
-          this.$notify({
-            group: 'auth',
-            type: 'success',
-            title: 'error',
-            text: 'Enter PIN'
-          });
-          return;
+          this.$toast.warning('Enter PIN');
+          return false;
         }
         if (this.isValidPassword(this.pin)) {
           this.unlockWallet(this.pin);
-          if (this.isLocked) return;
+          if (this.isLocked) return false;
         } else {
-          this.$notify({
-            group: 'auth',
-            type: 'error',
-            title: 'error',
-            text: 'Invalid PIN'
-          });
-          return;
+          this.$toast.error('Invalid PIN');
+          return false;
         }
       }
-
+      return true;
+    },
+    async confirm() {
+      if (!this.checkLocked()) return;
+      if (this.hasOrders) this.processOrders();
+      if (this.hasPendingTransfer) this.processTransfer();
+    },
+    async processOrders() {
       const result = await this.processPendingOrders();
       if (result.success) {
-        this.$notify({
-          group: 'auth',
-          type: 'success',
-          title: 'Success',
-          text: 'Orders placed'
-        });
+        this.$toast.success('Orders filled');
         this.$router.push({ name: 'entry' });
       } else {
-        this.$notify({
-          group: 'auth',
-          type: 'error',
-          title: 'Transactions error',
-          text: result.error
-        });
+        this.$toast.error('Transactions error: ' + result.error);
+      }
+    },
+    async processTransfer() {
+      console.log('TRANSFER!');
+      console.log(this.pendingTransfer.to);
+      const params = {
+        to: this.pendingTransfer.to,
+        assetId: this.pendingTransfer.assetId,
+        amount: this.pendingTransfer.amount
+      };
+
+      if (this.pendingTransfer.memo) {
+        params.memo = this.pendingTransfer.memo;
+      }
+
+      const result = await this.transferAsset(params);
+      if (result.success) {
+        this.$toast.success('Transaction completed');
+        this.$router.push({ name: 'entry' });
+      } else {
+        this.$toast.error('Transaction error: ' + result.error);
       }
     }
   },

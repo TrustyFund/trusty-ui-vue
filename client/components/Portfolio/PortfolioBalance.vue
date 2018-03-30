@@ -1,7 +1,9 @@
 <template lang="pug">
 
   tr.portfolio-container__balance 
-    td._text_left: span  {{ item.name }}
+    td._text_left(@click="navigateToCoin(item)")
+      span {{ item.name }}
+      Icon(name="trusty_portfolio_arrow_right")
     td._text_right: span {{ formattedShare }}%
     td._text_right: span {{ formattedBalanceFiat }}
     td._text_right: span {{ formattedChange }}%
@@ -9,7 +11,10 @@
 </template>
 
 <script>
+import Icon from '@/components/UI/icon';
+
 export default {
+  components: { Icon },
   props: {
     item: {
       type: Object,
@@ -48,6 +53,17 @@ export default {
       if (change.length > 3) change = change.substring(0, 3);
       return change;
     }
+  },
+  methods: {
+    navigateToCoin(asset) {
+      this.$router.push({
+        name: 'coin',
+        params: {
+          symbol: asset.name,
+          assetId: asset.id
+        }
+      });
+    }
   }
 };
 </script>
@@ -67,5 +83,12 @@ export default {
         margin-top: 10px;   
       }
     } 
+    .trusty_portfolio_arrow_right {
+      margin-left: 1vw;
+      svg {
+        fill: #9ea2a5;
+        height: 3.7vw;        
+      }
+    }
   }
 </style>

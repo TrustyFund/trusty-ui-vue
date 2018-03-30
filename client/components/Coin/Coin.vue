@@ -298,7 +298,7 @@ $color_green_value: #659d1a;
 
       .wrap_content {
       	transition: max-height .3s ease-in-out;
-        max-height: 2000px;
+        max-height: 10000px;
       }
 
 

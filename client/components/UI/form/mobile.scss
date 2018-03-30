@@ -42,7 +42,6 @@
     }
 
     ._input_space {
-      margin-top: 6vw;
     }
 
     .trusty_place_holder {
@@ -81,6 +80,17 @@
       padding-left: 0;
       font-size: 5.4vw !important;
     }
+
+	  ._simple_text_left {
+	    height: 6.4vw;
+	    font-size: 5.4vw !important;
+	  }
+
+	  ._right_slash {
+	    font-size: 5.7vw;
+	    margin-bottom: 1.14vw;
+	  }
+
   }
 }
 

@@ -58,12 +58,8 @@ export default {
         if (connected) {
           this.fetchUser(this.name).then(result => {
             if (!result.success) {
-              this.$notify({
-                group: 'auth',
-                type: 'error',
-                title: '',
-                text: this.name + ' : ' + result.error
-              });
+              this.$toast.error('Error while fetching user');
+              console.log(result.error);
               this.$router.push({ name: 'entry' });
             } else {
               const assetsIds = Object.keys(this.userBalances);
@@ -71,7 +67,7 @@ export default {
                 this.fetchMarketHistory({
                   baseId: '1.3.0',
                   assetsIds,
-                  days: 7
+                  days: 1
                 });
               });
             }
