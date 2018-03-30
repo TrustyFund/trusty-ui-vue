@@ -20,6 +20,7 @@ import BackupVerify from '@/components/Backup/BackupVerify';
 import Faq from '@/components/Faq/Faq';
 import ConfirmTransactions from '@/components/ConfirmTransactions/ConfirmTransactions';
 import EntryPoint from '@/components/EntryPoint/EntryPoint';
+import TermsOfUse from '@/components/TermsOfUse/TermsOfUse';
 
 
 Vue.use(Router);
@@ -49,6 +50,15 @@ const router = new Router({
       component: Faq,
       meta: {
         requiredAuth: false
+      }
+    },
+    {
+      path: '/terms',
+      name: 'terms',
+      component: TermsOfUse,
+      meta: {
+        requiredAuth: false,
+        adaptiveBack: true
       }
     },
     {
@@ -82,7 +92,10 @@ const router = new Router({
           component: ManagePortfolio,
           meta: { requiredBackup: true },
           beforeEnter: (to, from, next) => {
-            if (from.name !== 'entry' && from.name !== 'coin') next({ name: 'entry' });
+            if (from.name !== 'entry' && from.name !== 'coin'
+             && from.name !== 'confirm-transactions') {
+              next({ name: 'entry' });
+            }
             next();
           },
           children: [
@@ -118,6 +131,9 @@ const router = new Router({
               next({ name: 'entry' });
             }
             next();
+          },
+          meta: {
+            adaptiveBack: true
           }
         },
         {
@@ -139,7 +155,10 @@ const router = new Router({
           name: 'coin',
           path: '/coin/:symbol',
           component: Coin,
-          props: true
+          props: true,
+          meta: {
+            adaptiveBack: true
+          }
         },
         {
           path: '/backup',
