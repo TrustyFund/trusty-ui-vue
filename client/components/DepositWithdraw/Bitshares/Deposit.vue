@@ -21,7 +21,7 @@
   p.trusty_ps_text
     | Payments using BitShares
     br
-    | Are done directly at 0.0004$ fixed fee
+    | are done directly at 0.0004$ fixed fee
 
 
     
