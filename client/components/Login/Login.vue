@@ -117,10 +117,10 @@ export default {
     debouncedRepeatPinInput: () => {}
   },
   created() {
-    this.debouncedPinInput = debounce((e) => {
+    this.debouncedPinInput = debounce(() => {
       this.$v.pin.$touch();
     }, 800);
-    this.debouncedRepeatPinInput = debounce((e) => {
+    this.debouncedRepeatPinInput = debounce(() => {
       this.$v.confirmPin.$touch();
     }, 800);
   }

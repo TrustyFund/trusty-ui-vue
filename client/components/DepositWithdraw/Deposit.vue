@@ -6,7 +6,7 @@
 		trusty-input(
 			label="send any sum",
 			v-model="amount",
-			inputType="tel"
+			inputType="tel",
 			composed=true,
 			v-bind:class='{ "hideborder": !canEnterAmount}',
 			:close="false")
@@ -25,17 +25,17 @@
 			:foreignInput="true")
 
 			template(slot="input")
+				icon-component(name="trusty_arrow_down" style="position: absolute")
 				select(v-model="paymentmethod" )
 					option(v-for="method in methods", :value="method") {{ method }}
 
 	._turnover_service
 		component(:is="gateway", :payload="payload")
 
-
-
 </template>
 
 <script>
+
 import trustyInput from '@/components/UI/form/input';
 import iconComponent from '@/components/UI/icon';
 import openledger from './Openledger/Deposit';
@@ -120,5 +120,8 @@ export default {
 	width: 80vw!important;
 }
 
+._input_space.composed {
+	width: 68vw!important;
+}
 
 </style>

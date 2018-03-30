@@ -127,12 +127,12 @@ export default {
         const selected = select.options[select.selectedIndex];
 
         if (!selected) {
-        	setTimeout(() => {
-        		resize.call(this);
-        	}, 200);
+          setTimeout(() => {
+            resize.call(this);
+          }, 200);
         } else {
-	        fake.textContent = selected.text;
-	        select.style.width = fake.offsetWidth + 25 + 'px';
+          fake.textContent = selected.text;
+          select.style.width = fake.offsetWidth + 25 + 'px';
         }
       }
 

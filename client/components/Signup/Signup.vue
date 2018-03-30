@@ -43,7 +43,7 @@
 
 	._bottom_link(@click="$router.push({ name: 'login' })"): span Log in with existing account
 
-	._bottom_link._margins: span(@click="$router.push({name:'terms-of-use'})") I accept Terms of use
+	._bottom_link._margins: span(@click="$router.push({name:'terms'})") I accept Terms of use
 
 
 </template>
@@ -131,13 +131,13 @@ export default {
     }
   },
   created() {
-    this.debouncedPinInput = debounce((e) => {
+    this.debouncedPinInput = debounce(() => {
       this.$v.pin.$touch();
     }, 800);
-    this.debouncedRepeatPinInput = debounce((e) => {
+    this.debouncedRepeatPinInput = debounce(() => {
       this.$v.confirmPin.$touch();
     }, 800);
-    this.debouncedNameInput = debounce((e) => {
+    this.debouncedNameInput = debounce(() => {
       this.$v.name.$touch();
     }, 800);
   }
