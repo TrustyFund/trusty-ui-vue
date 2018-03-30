@@ -158,7 +158,6 @@ export default {
 
 	.text_area {
 		margin-bottom: 2vw;
-    margin-top: 4.5vw;
 	}
 
 	textarea {
