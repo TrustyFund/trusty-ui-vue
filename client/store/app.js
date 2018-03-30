@@ -40,6 +40,7 @@ const actions = {
       days: 1
     }, { root: true });
 
+    store.dispatch('transactions/fetchComissions', null, { root: true });
     store.dispatch('market/subscribeToMarket', { balances }, { root: true });
   },
 
