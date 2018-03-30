@@ -14,7 +14,7 @@
         td
           .portfolio_item._index
             .fake_line_height
-            span {{ item.name }}
+            span(@click="navigateToCoin(item)") {{ item.name }}
             Icon(name="trusty_portfolio_arrow_right"
                  @click.native="navigateToCoin(item)")
         td

@@ -11,7 +11,10 @@
         p
         p._value OpenLedger gateway fee {{ withdraw.fee }} {{ transfer.asset.symbol }}
         p._value Transaction fee {{ withdrawFee }} BTS
-      p._value(v-else) Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}
+      template(v-else)
+        p._value Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}
+        p
+        p._value Transaction fee {{ transferFee }} BTS
 
   TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
     template(slot="input")
@@ -51,7 +54,8 @@ export default {
       getAssetById: 'assets/getAssetById',
       hasOrders: 'transactions/hasPendingOrders',
       getAssetMultiplier: 'market/getAssetMultiplier',
-      getFee: 'transactions/getMemoPrice'
+      getMemoFee: 'transactions/getMemoPrice',
+      transferPrice: 'transactions/getTransferFee'
     }),
     fiatMultiplier() {
       return this.getAssetMultiplier(this.fiatId);
@@ -69,8 +73,11 @@ export default {
       return { asset, realamount, to };
     },
     withdrawFee() {
-      const fee = this.getFee(this.withdraw.memo);
-      return fee * (10 ** -5);
+      const fee = this.getMemoFee(this.withdraw.memo);
+      return (fee * (10 ** -5)).toFixed(5);
+    },
+    transferFee() {
+      return (this.transferPrice * (10 ** -5)).toFixed(5);
     },
     withdraw() {
       const { fee, address, memo } = this.pendingTransfer;
