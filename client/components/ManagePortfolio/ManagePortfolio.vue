@@ -114,7 +114,6 @@ export default {
 #trusty_manage_portfolio {
 
   height: 100%;
-
   ._plus, ._minus {
 
     &.greater._disable,
