@@ -55,7 +55,7 @@ export default {
       hasOrders: 'transactions/hasPendingOrders',
       getAssetMultiplier: 'market/getAssetMultiplier',
       getMemoFee: 'transactions/getMemoPrice',
-      transferPrice: 'transactions/getTransferPrice'
+      transferPrice: 'transactions/getTransferFee'
     }),
     fiatMultiplier() {
       return this.getAssetMultiplier(this.fiatId);
