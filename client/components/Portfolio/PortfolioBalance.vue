@@ -1,10 +1,9 @@
 <template lang="pug">
 
   tr.portfolio-container__balance 
-    td._text_left
+    td._text_left(@click="navigateToCoin(item)")
       span {{ item.name }}
-      Icon(name="trusty_portfolio_arrow_right"
-           @click.native="navigateToCoin(item)")
+      Icon(name="trusty_portfolio_arrow_right")
     td._text_right: span {{ formattedShare }}%
     td._text_right: span {{ formattedBalanceFiat }}
     td._text_right: span {{ formattedChange }}%
