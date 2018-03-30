@@ -92,7 +92,10 @@ const router = new Router({
           component: ManagePortfolio,
           meta: { requiredBackup: true },
           beforeEnter: (to, from, next) => {
-            if (from.name !== 'entry' && from.name !== 'coin') next({ name: 'entry' });
+            if (from.name !== 'entry' && from.name !== 'coin'
+             && from.name !== 'confirm-transactions') {
+              next({ name: 'entry' });
+            }
             next();
           },
           children: [
