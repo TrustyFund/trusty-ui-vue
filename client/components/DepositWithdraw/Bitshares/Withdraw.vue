@@ -7,7 +7,7 @@
     .trusty_font_error(v-if="!$v.name.isUnique && !this.$v.$pending && this.$v.name.$dirty") No such user
     .trusty_font_error(v-if="!$v.name.notSelf && this.$v.name.$dirty") Can't send to yourself
     ._yellow.trusty_ps_text
-      | IMPORTANT: Please send {{ getAssetById(payload.selectedcoin).symbol }} only to 
+      | IMPORTANT: Please send {{ getAssetById(coin).symbol }} only to 
       br
       | BitShares account using this payment method
     .trusty_inline_buttons._mob
@@ -27,8 +27,12 @@ import { required } from 'vuelidate/lib/validators';
 
 export default {
   props: {
-    payload: {
-      type: Object,
+    coin: {
+      type: String,
+      required: true
+    },
+    amount: {
+      type: Number,
       required: true
     }
   },
@@ -61,7 +65,7 @@ export default {
       getAssetById: 'assets/getAssetById'
     }),
     enableButton() {
-      return !this.$v.$invalid && this.payload.amount;
+      return !this.$v.$invalid && this.amount;
     }
   },
   methods: {
@@ -71,10 +75,10 @@ export default {
     }),
     sendFunds() {
       this.$v.$touch();
-      if (!this.$v.$invalid && this.payload.amount) {
+      if (!this.$v.$invalid && this.amount) {
         const transaction = {
-          assetId: this.payload.selectedcoin,
-          amount: this.payload.amount,
+          assetId: this.coin,
+          amount: this.amount,
           to: this.name
         };
         this.setTransaction({ transaction });

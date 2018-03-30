@@ -4,7 +4,7 @@
       template(slot="input")
         input(v-model="address", ref="addressinput", @input="$v.address.$touch()")
   .trusty_help_text._yellow(v-if="!$v.address.isValid")
-    | Please enter a valid {{ getAssetById(payload.selectedcoin).symbol }} address
+    | Please enter a valid {{ getAssetById(coin).symbol }} address
   div.withdraw-address(v-if="$v.address.isValid")
     div(@click="clearAddress")
      icon(name="trusty_input_close", className="address-close", )
@@ -27,7 +27,7 @@ import { required } from 'vuelidate/lib/validators';
 
 export default {
   mixins: [validationMixin],
-  props: ['payload'],
+  props: ['amount', 'coin'],
   components: {
     TrustyInput,
     Icon
@@ -41,7 +41,8 @@ export default {
     address: {
       required,
       isValid(address) {
-        const asset = this.getAssetById(this.payload.selectedcoin).symbol.toLowerCase();
+        console.log('validation adress');
+        const asset = this.getAssetById(this.coin).symbol.toLowerCase();
         return this.checkAddress({ asset, address });
       }
     }
@@ -58,7 +59,7 @@ export default {
       return `<span>${start}</span><br/><span>${end}</span>`;
     },
     enableButton() {
-      return !this.$v.$invalid && this.payload.amount;
+      return !this.$v.$invalid && this.amount;
     }
   },
   methods: {
@@ -74,15 +75,15 @@ export default {
     },
     withdraw() {
       this.$v.$touch();
-      if (!this.$v.$invalid && this.payload.amount) {
-        const coin = this.getAssetById(this.payload.selectedcoin);
+      if (!this.$v.$invalid && this.amount) {
+        const coin = this.getAssetById(this.coin);
         const coinName = coin.symbol.toLowerCase();
         const { gateFee, intermediateAccount } = this.coinsData[coinName];
         const memo = coinName + ':' + this.address;
         const transaction = {
           withdraw: true,
-          assetId: this.payload.selectedcoin,
-          amount: this.payload.amount,
+          assetId: this.coin,
+          amount: this.amount,
           to: intermediateAccount,
           address: this.address,
           fee: parseFloat(gateFee),

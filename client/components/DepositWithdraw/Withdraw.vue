@@ -24,7 +24,7 @@
           option(v-for="method in methods") {{ method }}
 
   ._turnover_service
-    component(:is="gateway" :payload="payload")
+    component(:is="gateway" :amount="payload.amount" :coin="payload.selectedcoin")
 </template>
 
 <script>
@@ -143,7 +143,7 @@ export default {
     },
     currentAssetAmount() {
       if (this.$v.$invalid) return 0;
-      return this.amount * (10 ** this.getAssetById(this.selectedCoin).precision);
+      return Math.floor(this.amount * (10 ** this.getAssetById(this.selectedCoin).precision));
     },
     payload() {
       return {
