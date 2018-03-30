@@ -34,7 +34,7 @@
 
   #coin_analysis._belongings
 
-    
+
 
     .content_area(:class="{_opened_article: opened==='description'}")
       ._items(@click="opened = opened==='description' ? '':'description'")
@@ -82,7 +82,7 @@
             ._grey_key_list(v-for="(one, k) in val", @click="showLink(one.url)")
               p {{ one.url }}
               p updated {{ one.lastUpdate}}
-    
+
     .content_area(:class="{_opened_article: opened==='about asset issuer'}")
           ._items(@click="opened = opened==='about asset issuer' ? '':'about asset issuer'")
             ._list_item
@@ -294,7 +294,7 @@ $color_green_value: #659d1a;
 
       .wrap_content {
       	transition: max-height .3s ease-in-out;
-        max-height: 2000px;
+        max-height: 10000px;
       }
 
 
@@ -438,7 +438,7 @@ $color_green_value: #659d1a;
       position: relative;
       height: 5rem;
     }
-    
+
 
     ._indicators {
       margin-bottom: 6vw;
@@ -465,7 +465,7 @@ $color_green_value: #659d1a;
         }
       }
 
-      
+
     }
 
   }

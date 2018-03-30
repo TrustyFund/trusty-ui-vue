@@ -38,7 +38,7 @@
 
   ._bottom_link(@click="$router.push({ name: 'login' })"): span Log in with existing account
 
-  ._bottom_link._margins: span(@click="$router.push({name:'terms-of-use'})") I accept Terms of use
+  ._bottom_link._margins: span(@click="$router.push({name:'terms'})") I accept Terms of use
 
 </template>
 

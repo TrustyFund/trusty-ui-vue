@@ -19,7 +19,8 @@ const actions = {
 
     await Promise.all([
       store.dispatch('assets/fetchDefaultAssets', null, { root: true }),
-      store.dispatch('account/fetchCurrentUser', null, { root: true })
+      store.dispatch('account/fetchCurrentUser', null, { root: true }),
+      store.dispatch('operations/fetchAndSubscribe', { userId, limit: 50 }, { root: true })
     ]);
 
     const balances = { ...rootGetters['account/getCurrentUserBalances'] };
@@ -39,7 +40,6 @@ const actions = {
       days: 1
     }, { root: true });
 
-    store.dispatch('operations/fetchAndSubscribe', { userId, limit: 100 }, { root: true });
     store.dispatch('market/subscribeToMarket', { balances }, { root: true });
   },
 
