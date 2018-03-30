@@ -56,7 +56,7 @@ export default {
         'backup-done': 'let\'s review',
         transactions: 'recent transactions',
         'confirm-transactions': 'confirm transactions',
-        'terms-of-use': 'terms of use',
+        'terms': 'terms of use',
         faq: 'FAQ',
         faq2: 'FAQ',
         portfolio: 'portfolio',
@@ -96,8 +96,7 @@ export default {
       this.settingsVisible = false;
     },
     handleBack() {
-      // TODO : refactor back button logic
-      if (this.$route.name === 'coin' || this.$route.name === 'confirm-transactions') {
+      if (this.$route.meta.adaptiveBack) {
         this.$router.go(-1);
         return;
       }
