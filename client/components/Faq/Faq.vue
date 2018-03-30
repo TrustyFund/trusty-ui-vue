@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import VueScrollTo from 'vue-scrollto';
 import icon from '@/components/UI/icon';
 import info from './info.js';
 
@@ -58,7 +59,9 @@ export default {
       opened: null,
     };
   },
+
   methods: {
+
     open(index) {
       this.opened = this.opened === index ? null : index;
       setTimeout(() => {
@@ -67,39 +70,16 @@ export default {
     },
 
     scrollTo(index) {
-      const elem = this.$refs['area_' + index][0];
-      const topPos = elem.offsetTop;
+      const element = this.$refs['area_' + index][0];
+      const options = {
+        container: '.router_content',
+        easing: 'ease-in',
+        cancelable: true,
+      };
+      VueScrollTo.scrollTo(element, 250, options);
+    }
 
-      /* eslint-disable */
-			function easeInOutQuad(currentTime, startValue, changeInValue, duration) {
-				currentTime /= duration / 2;
-				if (currentTime < 1) return changeInValue / 2 * currentTime * currentTime + startValue;
-				currentTime--;
-				return -changeInValue / 2 * (currentTime * (currentTime - 2) - 1) + startValue;
-			}
-			/* eslint-disable */
-
-			function scrollTo(element, to, duration) {
-				const start = element.scrollTop;
-				const change = to - start;
-				let currentTime = 0;
-				const increment = 20;
-
-				const animateScroll = function () {
-					currentTime += increment;
-					const val = easeInOutQuad(currentTime, start, change, duration);
-					element.scrollTop = val;
-					if (currentTime < duration) {
-						setTimeout(animateScroll, increment);
-					}
-				};
-
-				animateScroll();
-			}
-
-			scrollTo(document.body.querySelector('.router_content'), topPos + 1, 300);
-		}
-	}
+  }
 };
 </script>
 
