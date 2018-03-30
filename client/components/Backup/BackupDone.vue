@@ -18,7 +18,8 @@
 					:class="{_disabled_tick: !termOfUse.checked }",
 					:initialSvgColors="true")
 			._info
-				p.trusty_help_text(@click="$router.push({name:'faq'})" v-html="termOfUse.text")
+
+				p.trusty_help_text(@click="$router.push({name:'terms'})" v-html="termOfUse.text")
 
 		.trusty_inline_buttons._one_button(:class="{_disabled: !allChecks }")
 			button(@click="done") finish backup

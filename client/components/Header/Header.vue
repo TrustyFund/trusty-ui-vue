@@ -22,6 +22,7 @@
       div.settings-menu(:class="{ 'settings-menu--expanded': settingsVisible }")
         div.settings-menu__item(@click="$router.push({ name: 'backup' })") Backup wallet
         div.settings-menu__item.disabled Notifications
+        div.settings-menu__item(@click="$router.push({ name: 'faq2' })") FAQ
         div.settings-menu__item(@click="logout") Log out
 </div>
 
@@ -55,8 +56,9 @@ export default {
         'backup-done': 'let\'s review',
         transactions: 'recent transactions',
         'confirm-transactions': 'confirm transactions',
-        'terms-of-use': 'terms of use',
+        terms: 'terms of use',
         faq: 'FAQ',
+        faq2: 'FAQ',
         portfolio: 'portfolio',
         entry: 'profile',
         coin: 'coin overview',
@@ -99,7 +101,7 @@ export default {
         this.$router.push({ name: 'backup-done' });
         return;
       }
-      if (this.$route.name === 'coin' || this.$route.name === 'confirm-transactions') {
+      if (this.$route.meta.adaptiveBack) {
         this.$router.go(-1);
         return;
       }
@@ -194,7 +196,7 @@ $background_color: #1b1f22;
   transition: height 0.2s;
   overflow: hidden;
   &--expanded {
-    height: 40vw;
+    height: 53vw;
   }
   &__item {
     height: 13vw;

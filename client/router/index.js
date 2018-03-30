@@ -9,8 +9,7 @@ import User from '@/components/User/User.vue';
 import Signup from '@/components/Signup/Signup.vue';
 import Login from '@/components/Login/Login.vue';
 import ManagePortfolio from '@/components/ManagePortfolio/ManagePortfolio';
-import ManagePortfolioPercent from '@/components/ManagePortfolio/ManagePortfolioPercent';
-import ManagePortfolioValue from '@/components/ManagePortfolio/ManagePortfolioValue';
+import ManagePortfolioManager from '@/components/ManagePortfolio/ManagePortfolioManager';
 import Transactions from '@/components/Transactions/Transactions';
 import Backup from '@/components/Backup/Backup';
 import BackupDone from '@/components/Backup/BackupDone';
@@ -21,6 +20,9 @@ import BackupVerify from '@/components/Backup/BackupVerify';
 import Faq from '@/components/Faq/Faq';
 import ConfirmTransactions from '@/components/ConfirmTransactions/ConfirmTransactions';
 import EntryPoint from '@/components/EntryPoint/EntryPoint';
+import TermsOfUse from '@/components/TermsOfUse/TermsOfUse';
+
+import Test from '@/components/Transfer';
 
 
 Vue.use(Router);
@@ -37,11 +39,36 @@ const router = new Router({
       }
     },
     {
+      name: 'test',
+      path: '/test',
+      component: Test,
+      meta: {
+        requiredAuth: false
+      }
+    },
+    {
       name: 'signup',
       path: '/signup',
       component: Signup,
       meta: {
         requiredAuth: false
+      }
+    },
+    {
+      path: '/faq',
+      name: 'faq',
+      component: Faq,
+      meta: {
+        requiredAuth: false
+      }
+    },
+    {
+      path: '/terms',
+      name: 'terms',
+      component: TermsOfUse,
+      meta: {
+        requiredAuth: false,
+        adaptiveBack: true
       }
     },
     {
@@ -52,6 +79,11 @@ const router = new Router({
         requiredAuth: false
       },
       children: [
+        {
+          path: '/faq',
+          name: 'faq2',
+          component: Faq,
+        },
         {
           name: 'transactions',
           path: '/transactions',
@@ -70,14 +102,17 @@ const router = new Router({
           component: ManagePortfolio,
           meta: { requiredBackup: true },
           beforeEnter: (to, from, next) => {
-            if (from.name !== 'entry') next({ name: 'entry' });
+            if (from.name !== 'entry' && from.name !== 'coin'
+             && from.name !== 'confirm-transactions') {
+              next({ name: 'entry' });
+            }
             next();
           },
           children: [
             {
               path: 'percent',
               name: 'manage-percent',
-              component: ManagePortfolioPercent,
+              component: ManagePortfolioManager,
               meta: {
                 requiresConfirmScreen: true,
                 requiredBackup: true
@@ -86,10 +121,13 @@ const router = new Router({
             {
               path: 'value',
               name: 'manage-value',
-              component: ManagePortfolioValue,
+              component: ManagePortfolioManager,
               meta: {
                 requiresConfirmScreen: true,
                 requiredBackup: true
+              },
+              props: {
+                type: 'fiat'
               }
             }
           ]
@@ -103,6 +141,9 @@ const router = new Router({
               next({ name: 'entry' });
             }
             next();
+          },
+          meta: {
+            adaptiveBack: true
           }
         },
         {
@@ -124,7 +165,10 @@ const router = new Router({
           name: 'coin',
           path: '/coin/:symbol',
           component: Coin,
-          props: true
+          props: true,
+          meta: {
+            adaptiveBack: true
+          }
         },
         {
           path: '/backup',
@@ -158,14 +202,6 @@ const router = new Router({
           ]
         }
       ]
-    },
-    {
-      path: '/faq',
-      name: 'faq',
-      component: Faq,
-      meta: {
-        requiredAuth: false
-      }
     },
     {
       path: '*',

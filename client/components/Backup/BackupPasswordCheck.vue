@@ -45,11 +45,7 @@ export default {
         this.unlockWallet(this.password);
         this.next();
       } else {
-        this.$notify({
-          type: 'error',
-          title: 'Password error',
-          text: 'Please input correct password'
-        });
+        this.$toast.error('Please input correct password');
       }
     }
   },
