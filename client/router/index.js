@@ -9,8 +9,7 @@ import User from '@/components/User/User.vue';
 import Signup from '@/components/Signup/Signup.vue';
 import Login from '@/components/Login/Login.vue';
 import ManagePortfolio from '@/components/ManagePortfolio/ManagePortfolio';
-import ManagePortfolioPercent from '@/components/ManagePortfolio/ManagePortfolioPercent';
-import ManagePortfolioValue from '@/components/ManagePortfolio/ManagePortfolioValue';
+import ManagePortfolioManager from '@/components/ManagePortfolio/ManagePortfolioManager';
 import Transactions from '@/components/Transactions/Transactions';
 import Backup from '@/components/Backup/Backup';
 import BackupDone from '@/components/Backup/BackupDone';
@@ -45,6 +44,14 @@ const router = new Router({
       }
     },
     {
+      path: '/faq',
+      name: 'faq',
+      component: Faq,
+      meta: {
+        requiredAuth: false
+      }
+    },
+    {
       name: 'entry',
       path: '/',
       component: EntryPoint,
@@ -52,6 +59,11 @@ const router = new Router({
         requiredAuth: false
       },
       children: [
+        {
+          path: '/faq',
+          name: 'faq2',
+          component: Faq,
+        },
         {
           name: 'transactions',
           path: '/transactions',
@@ -70,14 +82,14 @@ const router = new Router({
           component: ManagePortfolio,
           meta: { requiredBackup: true },
           beforeEnter: (to, from, next) => {
-            if (from.name !== 'entry') next({ name: 'entry' });
+            if (from.name !== 'entry' && from.name !== 'coin') next({ name: 'entry' });
             next();
           },
           children: [
             {
               path: 'percent',
               name: 'manage-percent',
-              component: ManagePortfolioPercent,
+              component: ManagePortfolioManager,
               meta: {
                 requiresConfirmScreen: true,
                 requiredBackup: true
@@ -86,10 +98,13 @@ const router = new Router({
             {
               path: 'value',
               name: 'manage-value',
-              component: ManagePortfolioValue,
+              component: ManagePortfolioManager,
               meta: {
                 requiresConfirmScreen: true,
                 requiredBackup: true
+              },
+              props: {
+                type: 'fiat'
               }
             }
           ]
@@ -158,14 +173,6 @@ const router = new Router({
           ]
         }
       ]
-    },
-    {
-      path: '/faq',
-      name: 'faq',
-      component: Faq,
-      meta: {
-        requiredAuth: false
-      }
     },
     {
       path: '*',

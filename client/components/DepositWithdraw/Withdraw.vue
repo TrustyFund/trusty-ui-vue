@@ -1,34 +1,36 @@
 <template lang="pug">
 #trusty_transfer
-  ._turnover_inputs
+	._turnover_inputs
 
-    TrustyInput(
-    	label="send any sum",
-    	:validate="$v.amount.$touch()",
-    	v-model="amount",
-    	:close="false")
+		TrustyInput(
+			label="send any sum",
+			:validate="$v.amount.$touch",
+			inputType="tel",
+			composed=true,
+			v-model="amount",
+			:close="false")
 
-      template(slot="right")
-        icon-component(name="trusty_arrow_down")
-        span.fake_option_width
-        select(v-model="selectedCoin" v-if="isNonZeroLength")
-          option(v-for="(coin, id) in nonZeroAssets", v-bind:value="id") {{ coin.symbol }}
+			template(slot="right")
+				icon-component(name="trusty_arrow_down")
+				span.fake_option_width
+				select(v-model="selectedCoin")
+					option(v-for="(coin, id) in nonZeroAssets", v-bind:value="id") {{ coin.symbol }}
 
-    .trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
-    .trusty_font_error(v-if="$v.amount.required && !$v.amount.isNumeric && this.$v.amount.$dirty") Enter a number
-    .trusty_font_error(v-if="$v.amount.isNumeric && !$v.amount.doesntExceedBalance && this.$v.amount.$dirty") Innuficient funds
+		.trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
+		.trusty_font_error(v-if="$v.amount.required && !$v.amount.isNumeric && this.$v.amount.$dirty") Enter a number
+		.trusty_font_error(v-if="$v.amount.isNumeric && !$v.amount.doesntExceedBalance && this.$v.amount.$dirty") Innuficient funds
 
-    TrustyInput(
-    	:isOpen="true",
-    	label="payment method",
-    	className="select_input",
-    	:foreignInput="true")
-      template(slot="input")
-        select(v-model="paymentMethod" )
-          option(v-for="method in transferMethods", :value="method") {{ method }}
+		TrustyInput(
+			:isOpen="true",
+			label="payment method",
+			className="select_input",
+			:foreignInput="true")
+			template(slot="input")
+				select(v-model="paymentMethod" )
+					option(v-for="method in transferMethods", :value="method") {{ method }}
 
-  ._turnover_service
-    component(:is="gateway" :payload="payload")
+	._turnover_service
+		component(:is="gateway", :payload="payload")
 </template>
 
 <script>
@@ -38,7 +40,7 @@ import { required } from 'vuelidate/lib/validators';
 import TrustyInput from '@/components/UI/form/input';
 import iconComponent from '@/components/UI/icon';
 import openledger from './Openledger/Withdraw';
-import Transfer from './Transfer/WithdrawTransfer';
+import Transfer from './Bitshares/Withdraw';
 import './style.scss';
 
 
@@ -81,7 +83,9 @@ export default {
     nonZeroAssets() {
       const result = {};
       Object.keys(this.balances).forEach(id => {
-        if (this.balances[id].balance) result[id] = this.getAssetById(id);
+        if (this.balances[id].balance) {
+        	result[id] = this.getAssetById(id);
+        }
       });
       return result;
     },

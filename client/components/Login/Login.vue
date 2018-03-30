@@ -1,39 +1,40 @@
 <template lang="pug">
 
-#trusty_auth
+#trusty_auth.login
 
 	.input_area
 
-		.left
+			trusty-input(
+				label="BACKUP PHRASE",
+				type="textarea",
+				:textarea="true",
+				v-model="brainkey",
+				:validate="$v.brainkey.$touch")
+			.trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter backup phrase
+			.trusty_font_error(v-if="showError") Please try again
+
+			p._tooltip_p
+				| Enter 16 words you backed up when account was created
 
 			trusty-input(
-				label="enter pin code",
-				inputType="tel",
-				v-model="password",
-				:validate="$v.password.$touch")
+				label="create pin code",
+				:validate="debouncedPinInput",
+				v-model="pin"
+				inputType="tel")
 
-			.trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty")
-				| Enter PIN
-			.trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty")
-				| PIN must be 6 characters or more
+			.trusty_font_error(v-if="!$v.pin.required && this.$v.pin.$dirty") Enter PIN
+			.trusty_font_error(v-if="!$v.pin.minLength && this.$v.pin.$dirty") PIN must be 6 characters or more
+
+			p._tooltip_p
+				| PIN code secures access only on this device
 
 			trusty-input(
 				label="confirm pin",
-				inputType="tel",
-				v-model="confirmPassword",
-				:validate="$v.confirmPassword.$touch")
+				:validate="debouncedRepeatPinInput",
+				v-model="confirmPin"
+				inputType="tel")
 
-			.trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PIN codes do not match
-
-			trusty-input(
-				label="brainkey",
-				:textarea="true",
-				type="textarea",
-				v-model="brainkey",
-				:validate="$v.brainkey.$touch"
-			)
-
-			.trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter brainkey
+			.trusty_font_error(v-if="!$v.confirmPin.sameAsPin && this.$v.confirmPin.$dirty") PIN codes do not match
 
 	p._tooltip_p
 		| Please enter account brainkey once for new devices, #[br]
@@ -59,24 +60,26 @@ import Icon from '@/components/UI/icon';
 import { validationMixin } from 'vuelidate';
 import { required, minLength, sameAs } from 'vuelidate/lib/validators';
 import { mapGetters, mapActions } from 'vuex';
+import debounce from 'lodash/debounce';
 
 export default {
   mixins: [validationMixin],
   components: { trustyInput, Icon },
   data() {
     return {
-      password: '',
-      confirmPassword: '',
-      brainkey: ''
+      pin: '',
+      confirmPin: '',
+      brainkey: '',
+      showError: false
     };
   },
   validations: {
-    password: {
+    pin: {
       required,
       minLength: minLength(6)
     },
-    confirmPassword: {
-      sameAsPassword: sameAs('password')
+    confirmPin: {
+      sameAsPin: sameAs('pin')
     },
     brainkey: {
       required
@@ -94,24 +97,32 @@ export default {
       storeBackupDate: 'account/storeBackupDate'
     }),
     async handleLogin() {
+      this.showError = false;
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const result = await this.login({
-          password: this.password,
-          brainkey: this.brainkey
+          password: this.pin,
+          brainkey: this.brainkey.toLowerCase()
         });
         if (result.success) {
           const date = new Date();
           this.storeBackupDate({ date, userId: this.getUserId });
           this.$router.push({ name: 'entry' });
         } else {
-          this.$notify({
-            type: 'error',
-            text: result.error
-          });
+          this.showError = true;
         }
       }
-    }
+    },
+    debouncedPinInput: () => {},
+    debouncedRepeatPinInput: () => {}
+  },
+  created() {
+    this.debouncedPinInput = debounce((e) => {
+      this.$v.pin.$touch();
+    }, 800);
+    this.debouncedRepeatPinInput = debounce((e) => {
+      this.$v.confirmPin.$touch();
+    }, 800);
   }
 };
 
@@ -130,8 +141,19 @@ export default {
 		}
 	}
 
+	&.login {
+		.trusty_buttons {
+			margin-top: 2vw;
+		}
+	}
+
+
 	.text_area {
 		margin-bottom: 2vw;
+	}
+
+	textarea {
+		text-transform: lowercase;
 	}
 }
 

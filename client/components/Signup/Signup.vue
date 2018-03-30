@@ -6,37 +6,33 @@
 		.left
 
 			trusty-input(
-				label="new account name",
-				v-model="name",
-				:validate="$v.name.$touch")
+				label="enter email or account name",
+				v-model="name"
+				:validate="debouncedNameInput")
+			.trusty_font_error(v-if="!$v.name.required && $v.name.$dirty") Enter email or account name
+			.trusty_font_error(v-if="$v.name.required && !$v.name.minLength && $v.name.$dirty") Must be 4 characters or more
+			.trusty_font_error(v-if="$v.name.required &&$v.name.minLength && !$v.name.hasSpecialSymbol && $v.name.$dirty") Should contain '@', '-' or number
+			.trusty_font_error(v-if="$v.name.hasSpecialSymbol && !$v.name.noBadSymbolAtEnd && $v.name.$dirty") Should not end with '@', '-' or '.'
+			.trusty_font_error(v-if="$v.name.hasSpecialSymbol && $v.name.noBadSymbolAtEnd && !$v.name.isUnique && $v.$pending") Checking...
+			.trusty_font_error(v-if="$v.name.hasSpecialSymbol && $v.name.noBadSymbolAtEnd && !$v.name.isUnique && !$v.$pending && $v.name.$dirty") Account name already taken
 
-			.trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter account name
-			.trusty_font_error(v-if="!$v.name.isUnique && !this.$v.$pending && this.$v.name.$dirty") Account name already taken
-
-			trusty-input(
-				label="enter email",
-				v-model="email",
-				:validate="$v.email.$touch")
-
-			.trusty_font_error(v-if="!$v.email.required && this.$v.email.$dirty") Enter e-mail
-			.trusty_font_error(v-if="!$v.email.email && this.$v.email.$dirty") Invalid e-mail
+			p._tooltip_p
+				| Use email for signup to receive notifications
 
 			trusty-input(
-				label="enter pin code",
-				inputType="tel",
-				v-model="password",
-				:validate="$v.password.$touch")
-
-			.trusty_font_error(v-if="!$v.password.required && this.$v.password.$dirty") Enter PIN
-			.trusty_font_error(v-if="!$v.password.minLength && this.$v.password.$dirty") PIN must be 6 characters or more
+				label="create pin code",
+				:validate="debouncedPinInput",
+				v-model="pin",
+				inputType="tel")
+			.trusty_font_error(v-if="!$v.pin.required && this.$v.pin.$dirty") Enter PIN
+			.trusty_font_error(v-if="!$v.pin.minLength && this.$v.pin.$dirty") PIN must be 6 characters or more
 
 			trusty-input(
 				label="confirm pin",
-				v-model="confirmPassword",
-				inputType="tel",
-				:validate="$v.confirmPassword.$touch")
-
-			.trusty_font_error(v-if="!$v.confirmPassword.sameAsPassword") PINS do not match
+				:validate="debouncedRepeatPinInput",
+				v-model="confirmPin",
+				inputType="tel")
+			.trusty_font_error(v-if="!$v.confirmPin.sameAsPin && this.$v.confirmPin.$dirty") PIN codes do not match
 
 	.trusty_buttons
 		button(@click="handleSignUp" v-show="!pending") Sign up
@@ -49,16 +45,15 @@
 
 	._bottom_link._margins: span(@click="$router.push({name:'terms-of-use'})") I accept Terms of use
 
-	._logo_owl
-		Icon(name="trusty_owl_small_logo")
 
 </template>
 
 <script>
 import trustyInput from '@/components/UI/form/input';
 import Icon from '@/components/UI/icon';
+import debounce from 'lodash/debounce';
 import { validationMixin } from 'vuelidate';
-import { required, minLength, sameAs, email } from 'vuelidate/lib/validators';
+import { required, minLength, sameAs } from 'vuelidate/lib/validators';
 import { mapActions, mapGetters } from 'vuex';
 import dictionary from '../../../vuex-bitshares/test/brainkey_dictionary.js';
 
@@ -68,27 +63,39 @@ export default {
   data() {
     return {
       name: '',
-      password: '',
-      confirmPassword: '',
+      pin: '',
+      confirmPin: '',
     };
   },
   validations: {
     name: {
       required,
-      email,
+      hasSpecialSymbol(value) {
+        const hasDog = value.indexOf('@') > -1;
+        const hasLine = value.indexOf('-') > -1;
+        const hasNumber = /\d/.test(value);
+        return hasDog || hasLine || hasNumber;
+      },
+      noBadSymbolAtEnd(value) {
+        if (value.indexOf('@') === value.length - 1) return false;
+        if (value.indexOf('-') === value.length - 1) return false;
+        if (value.indexOf('.') === value.length - 1) return false;
+        return true;
+      },
       isUnique(value) {
-        if (value === '') return true;
-
+        if (!this.$v.name.required
+          || !this.$v.name.minLength
+          || !this.$v.name.hasSpecialSymbol) return true;
         return this.checkUsername({ username: value.replace(/@/g, '-') });
       },
       minLength: minLength(4)
     },
-    password: {
+    pin: {
       required,
       minLength: minLength(6)
     },
-    confirmPassword: {
-      sameAsPassword: sameAs('password')
+    confirmPin: {
+      sameAsPin: sameAs('pin')
     }
   },
   computed: {
@@ -101,28 +108,38 @@ export default {
       checkUsername: 'account/checkIfUsernameFree',
       signup: 'account/signup',
     }),
+    debouncedPinInput: () => {},
+    debouncedRepeatPinInput: () => {},
+    debouncedNameInput: () => {},
     async handleSignUp() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const replacedName = this.name.replace(/@/g, '-');
-        console.log(this.name, replacedName, this.password);
+        console.log(this.name, replacedName, this.pin);
         const result = await this.signup({
           name: replacedName,
-          password: this.password,
+          password: this.pin,
           dictionary: dictionary.en
         });
         if (result.success) {
           this.$router.push({ name: 'entry' });
         } else {
-          this.$notify({
-            type: 'error',
-            title: 'Account creation error',
-            text: result.error
-          });
+          this.$toast.error('Error: ' + result.error);
           console.log(result.error);
         }
       }
     }
+  },
+  created() {
+    this.debouncedPinInput = debounce((e) => {
+      this.$v.pin.$touch();
+    }, 800);
+    this.debouncedRepeatPinInput = debounce((e) => {
+      this.$v.confirmPin.$touch();
+    }, 800);
+    this.debouncedNameInput = debounce((e) => {
+      this.$v.name.$touch();
+    }, 800);
   }
 };
 

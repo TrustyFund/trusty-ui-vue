@@ -36,7 +36,7 @@ const actions = {
     store.dispatch('market/fetchMarketHistory', {
       baseId: '1.3.0',
       assetsIds: combinedAssetsIds,
-      days: 7
+      days: 1
     }, { root: true });
 
     store.dispatch('operations/fetchAndSubscribe', { userId, limit: 100 }, { root: true });

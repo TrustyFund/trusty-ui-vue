@@ -100,8 +100,8 @@ export default {
   methods: {
     updateCode(code) {
       this.$emit('input', code);
-      this.validate();
       this.code = code;
+      this.validate();
       if (!code) {
         this.$refs.inputArea.value = '';
         this.$refs.inputArea.focus();
@@ -125,8 +125,15 @@ export default {
       function resize() {
         const fake = this.$refs.right_space.querySelector('.fake_option_width');
         const selected = select.options[select.selectedIndex];
-        fake.textContent = selected.text;
-        select.style.width = fake.offsetWidth + 25 + 'px';
+
+        if (!selected) {
+        	setTimeout(() => {
+        		resize.call(this);
+        	}, 200);
+        } else {
+	        fake.textContent = selected.text;
+	        select.style.width = fake.offsetWidth + 25 + 'px';
+        }
       }
 
       if (select) {
@@ -176,15 +183,11 @@ export default {
 
 @import '~@/style/mixins';
 
-.composed {
-	width: 70vw!important;
-}
-
 input[type=tel] {
 		-webkit-text-security: disc;
 }
 
-.trusty_input_container:not(.text_area) {
+.trusty_input_container:not(.opened_text_area) {
 	margin-bottom: 2vw;
 	position: relative;
 	height: 10.7vw;;
@@ -310,7 +313,8 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 		padding-right: 0 !important;
 		color: white !important;
 		height: 100%;
-
+		position: relative;
+		z-index: 2000;
 		option {
 			background-color: black;
 		}
