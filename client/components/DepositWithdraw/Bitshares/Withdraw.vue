@@ -4,7 +4,8 @@
 		TrustyInput(
 			label="enter receiver's username",
 			v-model="name",
-			:validate="$v.name.$touch")
+			:validate="$v.name.$touch",
+			inputClass="recepient-input")
 
 		.trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter account name
 		.trusty_font_error(v-if="!$v.name.isUnique && !this.$v.$pending && this.$v.name.$dirty") No such user
@@ -56,11 +57,11 @@ export default {
       isUnique(value) {
         if (value === '') return true;
         return new Promise((resolve) => {
-          this.checkUsername({ username: value }).then(result => resolve(!result));
+          this.checkUsername({ username: value.toLowerCase() }).then(result => resolve(!result));
         });
       },
       notSelf(value) {
-        return value !== this.userName;
+        return value.toLowerCase() !== this.userName;
       }
     }
   },
@@ -84,7 +85,7 @@ export default {
         const transaction = {
           assetId: this.coin,
           amount: this.amount,
-          to: this.name
+          to: this.name.toLowerCase()
         };
         this.setTransaction({ transaction });
         this.$router.push({ name: 'confirm-transactions' });
@@ -95,9 +96,16 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss">
 button._disable {
 	pointer-events: none;
 	opacity: 0.5;
 }
+
+.withdraw-transfer-container {
+  .recepient-input {
+    text-transform: lowercase;
+  }
+}
 </style>
+

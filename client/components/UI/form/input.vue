@@ -19,6 +19,7 @@
 
 			template(v-else)
 				input(
+					:class="inputClass",
 					v-if="!textarea",
 					ref="inputArea",
 					:value="code",
@@ -27,6 +28,7 @@
 
 				textarea(
 					v-else,
+					:class="inputClass",
 					ref="inputArea",
 					:value="code",
 					@input="updateCode($event.target.value)")
@@ -47,6 +49,10 @@ export default {
   components: { trustyIcon },
 
   props: {
+    inputClass: {
+      type: String,
+      default: ''
+    },
     foreignInput: {
       type: Boolean,
       default: false,
