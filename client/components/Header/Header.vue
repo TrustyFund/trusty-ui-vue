@@ -96,11 +96,6 @@ export default {
       this.settingsVisible = false;
     },
     handleBack() {
-      // TODO : refactor back button logic
-      if (this.$route.name === 'faq' && this.userId) {
-        this.$router.push({ name: 'backup-done' });
-        return;
-      }
       if (this.$route.meta.adaptiveBack) {
         this.$router.go(-1);
         return;

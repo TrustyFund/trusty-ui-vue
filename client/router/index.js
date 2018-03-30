@@ -83,6 +83,9 @@ const router = new Router({
           path: '/faq',
           name: 'faq2',
           component: Faq,
+          meta: {
+            adaptiveBack: true
+          }
         },
         {
           name: 'transactions',
