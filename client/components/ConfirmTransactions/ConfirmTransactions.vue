@@ -4,6 +4,7 @@
   .transaction_info
     p._value(v-for="order in orders") 
       PlaceOrderInfo(:item="order", :min="true" :fiat-id="fiatId")
+    p._value Total fees: {{ totalOrderFees }} BTS 
 
     template(v-if="hasPendingTransfer")
       template(v-if="isWithdraw")
@@ -55,7 +56,8 @@ export default {
       hasOrders: 'transactions/hasPendingOrders',
       getAssetMultiplier: 'market/getAssetMultiplier',
       getMemoFee: 'transactions/getMemoPrice',
-      transferPrice: 'transactions/getTransferFee'
+      transferPrice: 'transactions/getTransferFee',
+      orderFee: 'transactions/getOrderFee'
     }),
     fiatMultiplier() {
       return this.getAssetMultiplier(this.fiatId);
@@ -109,6 +111,9 @@ export default {
         });
       });
       return orders;
+    },
+    totalOrderFees() {
+      return (this.orders.length * this.orderFee) / (10 ** 5);
     }
   },
   methods: {
