@@ -1,14 +1,11 @@
 <template lang="pug">
 ._turnover_info
-  TrustyInput(label="enter receiving address", v-show="!$v.address.isValid")
+  TrustyInput(label="enter receiving address")
       template(slot="input")
-        input(v-model="address", ref="addressinput", @input="$v.address.$touch()")
-  .trusty_help_text._yellow(v-if="!$v.address.isValid")
+        input(v-model="address", ref="addressinput", @input="$v.address.$touch()", class="withdraw-address")
+  .trusty_font_error(v-if="!$v.address.isValid")
     | Please enter a valid {{ getAssetById(coin).symbol }} address
-  div.withdraw-address(v-if="$v.address.isValid")
-    div(@click="clearAddress")
-     icon(name="trusty_input_close", className="address-close", )
-    .trusty_cutted_address(v-html="depositAddress")
+  br
   .trusty_inline_buttons
     button(:class="{'_disable': !enableButton}" @click="withdraw") Confirm
     button Cancel
@@ -41,8 +38,8 @@ export default {
     address: {
       required,
       isValid(address) {
-        console.log('validation adress');
         const asset = this.getAssetById(this.coin).symbol.toLowerCase();
+        console.log('validation adress');
         return this.checkAddress({ asset, address });
       }
     }
@@ -67,12 +64,6 @@ export default {
       checkAddress: 'openledger/checkIfAddressIsValid',
       setTransaction: 'transactions/setPendingTransfer'
     }),
-    clearAddress() {
-      this.address = '';
-      this.$nextTick(() => {
-        this.$refs.addressinput.focus();
-      });
-    },
     withdraw() {
       this.$v.$touch();
       if (!this.$v.$invalid && this.amount) {
@@ -104,7 +95,8 @@ export default {
 }
 
 .withdraw-address {
-  padding-top: 4vw;
+  font-size: 4.2vw!important;
+  width: 100vw!important;
 }
 
 .trusty_cutted_address {
