@@ -13,8 +13,8 @@
 			.trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter backup phrase
 			.trusty_font_error(v-if="showError") Please try again
 
-			p._tooltip_p.disable_margin_bottom
-				| Enter 16 words you backed up when account was created
+			p._tooltip_p
+				| Enter 16 words backed up when account was created
 
 			trusty-input(
 				label="create pin code",
@@ -25,7 +25,7 @@
 			.trusty_font_error(v-if="!$v.pin.required && this.$v.pin.$dirty") Enter PIN
 			.trusty_font_error(v-if="!$v.pin.minLength && this.$v.pin.$dirty") PIN must be 6 characters or more
 
-			p._tooltip_p.disable_margin_bottom
+			p._tooltip_p
 				| PIN code secures access only on this device
 
 			trusty-input(
@@ -49,8 +49,6 @@
 
 	._bottom_link(@click="$router.push({ name: 'signup' })"): span Sign up with new account
 
-	._logo_owl
-		Icon(name="trusty_owl_small_logo")
 
 </template>
 
@@ -135,10 +133,6 @@ export default {
 
 #trusty_auth {
 	@include trusty_main_padding;
-
-	*.disable_margin_bottom {
-		margin-bottom: 0;
-	}
 
 	&.signup {
 		.trusty_buttons {
