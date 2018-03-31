@@ -150,7 +150,10 @@ const mutations = {
     state.error = error;
   },
   [CRYPTOBOT_ORDER_UPDATE_RECEIVED]: (state, { order }) => {
-    state.order = new Order(order);
+    const oldOrderClass = new Order(state.order);
+    if (!oldOrderClass.isComplete()) {
+      state.order = new Order(order);
+    }
   },
   [CRYPTOBOT_SET_PAYMENT_REQUEST]: (state) => {
     state.pending = true;

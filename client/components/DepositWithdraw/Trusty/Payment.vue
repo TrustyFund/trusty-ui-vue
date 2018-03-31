@@ -11,7 +11,7 @@
 			template(slot="input"): div._simple_text_left {{ order.PaymentMethod }}
 
 		trusty-input(:isOpen="true" label="number")
-			template(slot="input"): div._simple_text_left {{ order.PaymentRequisites }}
+			template(slot="input"): div._simple_text_left {{ requisites }}
 
 		.trusty_inline_buttons._one_button
 			button copy address
@@ -68,6 +68,12 @@ export default {
       const final = (LBAmount - LBFee - OperatorFee - BotFee).toFixed(8);
       const rate = Math.floor(FiatAmount / final).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
       return { final, rate };
+    },
+    requisites() {
+      // Remove spaces
+      const withoutSpaces = this.order.PaymentRequisites.replace(/ /g, '');
+      // Add spaces ¯\_(ツ)_/¯
+      return withoutSpaces.replace(/(.{4})/g, '$1 ');
     }
   },
   methods: {

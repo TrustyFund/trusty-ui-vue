@@ -20,11 +20,6 @@
         timer(v-if="order.isRejected()" error)
 
         payment(v-if="order.hasRequisites()")
-
-        div(v-if="order.isComplete()")
-          span._tooltip Transaction complete, you will receive BTC soon
-          .trusty_inline_buttons._one_button
-            button(@click="clearOrder") Got it
 </template>
 
 <script>
@@ -98,7 +93,11 @@ export default {
   },
   watch: {
     order(newOrder) {
-      console.log('RECEIVE UPDATE', newOrder);
+      if (newOrder.Status === 10) {
+        this.clearOrder();
+        this.$toast.success('Deposit request complete');
+        this.$router.push({ name: 'entry' });
+      }
     }
   }
 };
