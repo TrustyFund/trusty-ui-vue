@@ -99,7 +99,7 @@ export default {
 
 <style scoped lang="scss">
 .trusty_help_text {
-  padding-top: 4vh;
+  padding-top: 2vh;
 }
 
 .deposit_text {

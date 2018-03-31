@@ -1,8 +1,9 @@
 <template lang="pug">
 ._turnover_info
+  p
   TrustyInput(label="enter receiving address")
       template(slot="input")
-        input(v-model="address", ref="addressinput", @input="$v.address.$touch()", class="withdraw-address")
+        input(v-model="address", ref="addressinput", @input="$v.address.$touch()", id="withdraw-address")
   .trusty_font_error(v-if="!$v.address.isValid")
     | Please enter a valid {{ getAssetById(coin).symbol }} address
   br
@@ -90,11 +91,8 @@ export default {
 </script>
 
 <style scoped>
-#trusty_transfer ._input_space input{
-  width: 75%!important;
-}
 
-.withdraw-address {
+#withdraw-address {
   font-size: 4.2vw!important;
   width: 100vw!important;
 }
