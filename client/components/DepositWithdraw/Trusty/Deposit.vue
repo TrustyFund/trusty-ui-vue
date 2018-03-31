@@ -98,6 +98,11 @@ export default {
         this.$toast.success('Deposit request complete');
         this.$router.push({ name: 'entry' });
       }
+      if (newOrder.Status === 9) {
+        this.clearOrder();
+        this.$toast.warning('TRANSACTION CANCELED');
+        this.$router.push({ name: 'entry' });
+      }
     }
   }
 };
