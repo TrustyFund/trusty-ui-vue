@@ -4,7 +4,7 @@
   .transaction_info
     p._value(v-for="order in orders") 
       PlaceOrderInfo(:item="order", :min="true" :fiat-id="fiatId")
-    p._value Total fees: {{ totalOrderFees }} BTS 
+    p._value Total fees: {{ totalOrderFees }} BTS ($)
 
     template(v-if="hasPendingTransfer")
       template(v-if="isWithdraw")
@@ -15,7 +15,7 @@
       template(v-else)
         p._value Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}
         p
-        p._value Transaction fee {{ transferFee }} BTS
+        p._value Transaction fee {{ transferFee }} BTS  ($)
 
   TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
     template(slot="input")
@@ -96,21 +96,9 @@ export default {
       return false;
     },
     orders() {
-      const orders = [];
       if (!this.hasOrders) return [];
-      this.sellOrders.forEach(order => {
-        orders.push({
-          payload: order,
-          buyer: false
-        });
-      });
-      this.buyOrders.forEach(order => {
-        orders.push({
-          payload: order,
-          buyer: true
-        });
-      });
-      return orders;
+      return [...this.sellOrders.map(order => ({ payload: order, buyer: false })),
+        ...this.buyOrders.map(order => ({ payload: order, buyer: true }))];
     },
     totalOrderFees() {
       return (this.orders.length * this.orderFee) / (10 ** 5);
