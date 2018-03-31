@@ -4,7 +4,8 @@
   .transaction_info
     p._value(v-for="order in orders") 
       PlaceOrderInfo(:item="order", :min="true" :fiat-id="fiatId")
-    p._value Total fees: {{ totalOrderFees }} BTS ($)
+    p._value
+    p._value Total fees: {{ totalOrderFees.base }} BTS ({{ totalOrderFees.fiat }}$)
 
     template(v-if="hasPendingTransfer")
       template(v-if="isWithdraw")
@@ -15,7 +16,7 @@
       template(v-else)
         p._value Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}
         p
-        p._value Transaction fee {{ transferFee }} BTS  ($)
+        p._value Transaction fee {{ transferFee.base }} BTS ({{ transferFee.fiat }}$)
 
   TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
     template(slot="input")
@@ -78,9 +79,6 @@ export default {
       const fee = this.getMemoFee(this.withdraw.memo);
       return (fee * (10 ** -5)).toFixed(5);
     },
-    transferFee() {
-      return (this.transferPrice * (10 ** -5)).toFixed(5);
-    },
     withdraw() {
       const { fee, address, memo } = this.pendingTransfer;
       const { realamount, asset } = this.transfer;
@@ -100,8 +98,21 @@ export default {
       return [...this.sellOrders.map(order => ({ payload: order, buyer: false })),
         ...this.buyOrders.map(order => ({ payload: order, buyer: true }))];
     },
+    transferFee() {
+      const transferFeeBase = (this.transferPrice * (10 ** -5));
+      const transferFeeFiat = transferFeeBase * this.fiatMultiplier.last;
+      return {
+        base: transferFeeBase.toFixed(5),
+        fiat: transferFeeFiat.toFixed(5)
+      };
+    },
     totalOrderFees() {
-      return (this.orders.length * this.orderFee) / (10 ** 5);
+      const baseValue = (this.orders.length * this.orderFee) / (10 ** 5);
+      const fiatValue = baseValue * this.fiatMultiplier.last;
+      return {
+        base: baseValue.toFixed(5),
+        fiat: fiatValue.toFixed(5)
+      };
     }
   },
   methods: {
