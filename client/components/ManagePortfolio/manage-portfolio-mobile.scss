@@ -62,13 +62,11 @@
     table tbody {
       .trusty_portfolio_arrow_right {
       	margin-left: 2.6vw;
-      	transform: translateY(1vw);
 		    max-width: 3vw;
         margin-left: 2.6vw;
-        margin-bottom: -1vw;
         max-width: 3vw;
         svg {
-          height: 5.7vw;
+          height: 5vw;
           path  {
             fill: #9ea2a5;
           }
@@ -83,7 +81,16 @@
           font-size: 5.0vw;
           margin-top: 4.7vw;
 					text-align: left;
-
+          white-space: nowrap;
+          &._name {
+            display: flex;
+            max-width: 31vw;
+            align-items: center;
+            span {
+              text-overflow: ellipsis;
+              overflow: hidden;
+            }
+          }
         }
 
         tr:first-child .portfolio_item {

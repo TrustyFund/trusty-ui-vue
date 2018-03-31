@@ -80,7 +80,8 @@ export default {
     }
     td {
       @media screen and (max-width: 750px){
-        margin-top: 10px;   
+        margin-top: 10px;  
+        padding-left: 0; 
       }
     } 
     .trusty_portfolio_arrow_right {

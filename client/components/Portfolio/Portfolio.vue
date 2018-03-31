@@ -132,6 +132,7 @@ export default {
     }
     th {
       padding-bottom: 1.9vw;
+      padding-left: 0;
     }
     th span {
       color: #cccccc;
