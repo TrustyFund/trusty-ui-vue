@@ -5,7 +5,7 @@
     p._value(v-for="order in orders") 
       PlaceOrderInfo(:item="order", :min="true" :fiat-id="fiatId")
     p._value
-    p._value Total fees: {{ totalOrderFees.base }} BTS ({{ totalOrderFees.fiat }}$)
+    p._value Transaction fee: {{ totalOrderFees.base }} BTS ({{ totalOrderFees.fiat }}$)
 
     template(v-if="hasPendingTransfer")
       template(v-if="isWithdraw")
