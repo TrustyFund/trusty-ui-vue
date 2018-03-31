@@ -73,6 +73,9 @@ export default {
       if (this.error) {
         return 'PLEASE TRY AGAIN LATER';
       }
+      if (this.secondsRemaining === 0 && this.minutesRemaining === 0) {
+        return 'PLEASE WAIT MORE <br /> WE ARE HANDLING YOUR REQUEST';
+      }
       return 'YOU WILL GET DEPOSIT DETAILS IN <br /> UNDER 3 MINUTES';
     },
     buttonText() {
@@ -84,7 +87,7 @@ export default {
   },
 
   mounted() {
-    this.interval = setInterval(this.tick, 1000);
+    this.interval = setInterval(this.tick.bind(this), 1000);
   },
 
   beforeDestroy() {
