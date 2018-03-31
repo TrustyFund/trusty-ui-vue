@@ -1,5 +1,5 @@
 <template lang="pug">
-  .transaction_info
+  .transaction_info(:class="{'transaction_info--short' : short}")
     div.transaction_info__main
       TransactionsItemTransferInfo(
         v-if="type === 'transfer'" 
@@ -48,6 +48,11 @@ export default {
     hideDate: {
       type: Boolean,
       required: true
+    },
+    short: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
@@ -58,9 +63,12 @@ export default {
       return this.item.type;
     },
     relativeTime() {
-      return distanceInWordsStrict(new Date(), this.item.date, {
-        addSuffix: true
-      });
+      let time = distanceInWordsStrict(new Date(), this.item.date);
+      time = time.replace('hours', 'h');
+      time = time.replace('hour', 'h');
+      time = time.replace('minutes', 'm');
+      time = time.replace('minute', 'm');
+      return time;
     }
   }
 };
@@ -84,6 +92,13 @@ export default {
     min-width: 6rem;
     margin-left: 0.5rem;
     text-align: right;
+  }
+  &--short {
+    p._value {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;      
+    }
   }
 
   p._value {

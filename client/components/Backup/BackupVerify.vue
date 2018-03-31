@@ -65,11 +65,7 @@ export default {
       if (this.compareArrays(this.comprehendPhrase, this.sourcePhrase.split(' '))) {
         this.$router.push({ name: 'backup-done' });
       } else {
-        this.$notify({
-          type: 'error',
-          title: 'Backup key error',
-          text: 'Please enter the correct sequence of words'
-        });
+        this.$toast.error('Please enter the correct sequence of words');
       }
     },
     compareArrays(array1, array2) {

@@ -92,20 +92,14 @@ export default {
     checkLocked() {
       if (this.isLocked) {
         if (!this.pin) {
-          this.$notify({
-            type: 'warn',
-            text: 'Enter PIN'
-          });
+          this.$toast.warning('Enter PIN');
           return false;
         }
         if (this.isValidPassword(this.pin)) {
           this.unlockWallet(this.pin);
           if (this.isLocked) return false;
         } else {
-          this.$notify({
-            type: 'error',
-            text: 'Invalid PIN'
-          });
+          this.$toast.error('Invalid PIN');
           return false;
         }
       }
@@ -119,17 +113,10 @@ export default {
     async processOrders() {
       const result = await this.processPendingOrders();
       if (result.success) {
-        this.$notify({
-          type: 'success',
-          text: 'Orders filled'
-        });
+        this.$toast.success('Orders filled');
         this.$router.push({ name: 'entry' });
       } else {
-        this.$notify({
-          type: 'error',
-          title: 'Transactions error',
-          text: result.error
-        });
+        this.$toast.error('Transactions error: ' + result.error);
       }
     },
     async processTransfer() {
@@ -142,17 +129,10 @@ export default {
       };
       const result = await this.transferAsset(params);
       if (result.success) {
-        this.$notify({
-          type: 'success',
-          text: 'Transaction completed'
-        });
+        this.$toast.success('Transaction completed');
         this.$router.push({ name: 'entry' });
       } else {
-        this.$notify({
-          type: 'error',
-          title: 'Transaction error',
-          text: result.error
-        });
+        this.$toast.error('Transaction error: ' + result.error);
       }
     }
   },

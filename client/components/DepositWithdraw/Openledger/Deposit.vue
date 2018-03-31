@@ -90,9 +90,6 @@ export default {
 .trusty_help_text {
   padding-top: 4vh;
 }
-._input_space input {
-	width: 75%!important;
-}
 
 .deposit_text {
   font-size: 3vw;
@@ -100,7 +97,7 @@ export default {
 }
 
 .trusty_inline_buttons {
-  padding-top: 1vh!important;
+  margin-bottom: 4.1vw;
   overflow: none!important;
   line-height: 13.2vw!important;
 }
