@@ -43,7 +43,7 @@ export default {
       titles: {
         signup: 'signup',
         login: 'login',
-        deposit: 'deposit details',
+        deposit: 'deposit',
         withdraw: 'withdraw',
         'manage-percent': 'manage fund',
         'manage-value': 'manage fund',

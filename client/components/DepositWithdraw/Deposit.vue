@@ -36,9 +36,15 @@ import bitshares from './Bitshares/Deposit';
 import './style.scss';
 
 const methodsByGate = {
-  trusty: ['Sberbank', 'Tinkoff'],
-  openledger: ['Openledger'],
-  bitshares: ['BitShares transfer']
+  trusty: [
+    'Tinkoff card2card transfer',
+    'Sberbank card2card transfer',
+    'VTB card2card transfer',
+    'Alfa bank card2card transfer',
+    'All banks card2card transfer'
+  ],
+  openledger: ['OpenLedger crypto gateway'],
+  bitshares: ['BitShares direct transfer']
 };
 
 const nonFiatCoins = ['BTC', 'ETH', 'LTC', 'NEO'];
