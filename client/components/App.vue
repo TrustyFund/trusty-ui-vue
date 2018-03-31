@@ -1,5 +1,5 @@
 <template>
-	<div id="app" :class="activeClass">
+	<div id="trusty-app" :class="activeClass">
 		<Header/>
 		<div class="router_content" ref="routerContent">
       <router-view></router-view>
@@ -61,7 +61,7 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
+#trusty-app {
 	position: relative;
 	display: flex;
 	flex-direction: column;

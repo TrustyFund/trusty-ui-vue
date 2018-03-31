@@ -16,11 +16,11 @@ body {
 	background: #1e2225;
 }
 
-html, body, #app {
+html, body, #trusty-app {
 	height: 100%;
 }
 
-#app {
+#trusty-app {
 
 	@media screen and (min-width: 769px){
 		width: $desk_window_width + px;
