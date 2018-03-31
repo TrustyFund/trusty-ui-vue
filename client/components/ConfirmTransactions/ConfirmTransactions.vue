@@ -11,7 +11,7 @@
       template(v-if="isWithdraw")
         p._value(v-if="isWithdraw") Withdraw {{ withdraw.amount}} {{ transfer.asset.symbol }} to {{ withdraw.address }}
         p
-        p._value OpenLedger gateway fee {{ withdraw.fee }} {{ transfer.asset.symbol }}
+        p._value Withdrawal fee {{ withdraw.fee }} {{ transfer.asset.symbol }}
         p._value Transaction fee {{ withdrawFee }} BTS
       template(v-else)
         p._value Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}

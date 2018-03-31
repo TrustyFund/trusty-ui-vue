@@ -8,7 +8,7 @@
         select(v-model="selectedCoin" v-if="isNonZeroLength" dir="rtl")
           option(v-for="(coin, id) in nonZeroAssets", v-bind:value="id") {{ coin.symbol }}
         icon-component(name="trusty_arrow_down")
-
+    p
     .trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
     .trusty_font_error(v-if="$v.amount.required && !$v.amount.isNumeric && this.$v.amount.$dirty") Enter a number
     .trusty_font_error(v-if="$v.amount.isNumeric && !$v.amount.doesntExceedBalance && this.$v.amount.$dirty") Innuficient funds
@@ -22,6 +22,7 @@
         input(:style="{display:'none'}")
         select(v-model="paymentMethod" )
           option(v-for="method in methods") {{ method }}
+        icon-component(name="trusty_arrow_down" style="position: absolute")
 
   ._turnover_service
     component(:is="gateway" :amount="payload.amount" :coin="payload.selectedcoin")
