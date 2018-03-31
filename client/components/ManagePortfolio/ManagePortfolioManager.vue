@@ -14,7 +14,7 @@
         td
           .portfolio_item._index
             .fake_line_height
-            span {{ item.name }}
+            span(@click="navigateToCoin(item)") {{ item.name }}
             Icon(name="trusty_portfolio_arrow_right"
                  @click.native="navigateToCoin(item)")
         td
@@ -42,7 +42,7 @@
             span TOTAL
         td
           .portfolio_item._index.total
-            span {{ sharesTotal.toFixed(1) }}%         
+            span {{ sharesTotal.toFixed(1) }}%
 
   .wrap.main_padding
     .trusty_inline_buttons._one_button
@@ -229,6 +229,7 @@ export default {
     opacity: 0.5;
   }
   .total-row .total {
-    margin-left: 19vw;
+    margin-left: 16vw;
   }
+
 </style>

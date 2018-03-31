@@ -13,4 +13,4 @@ if (config.pixel && process.env.NODE_ENV === 'development') {
   require('./style/pixel-glass.scss'); // eslint-disable-line global-require
 }
 
-app.$mount('#app');
+app.$mount('#trusty');

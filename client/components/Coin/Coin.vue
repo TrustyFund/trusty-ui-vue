@@ -251,7 +251,6 @@ export default {
 };
 
 </script>
-
 <style lang="scss">
 @import "./style";
 $color_red_value: #f42c2e;
@@ -259,274 +258,47 @@ $color_green_value: #659d1a;
 
 
 .text_button {
-	color: white;
-	font-family: Gotham_Pro_Regular;
-	font-size: 4.8vw;
-	text-transform: uppercase;
+  color: white;
+  font-family: Gotham_Pro_Regular;
+  font-size: 4.8vw;
+  text-transform: uppercase;
 }
 
 #trusty_coin_overview {
 
-	height: inherit;
-
-	._belongings {
-
-
-		._list_item {
-			border-top: 1px solid white;
-			padding-top: 3vw;
-			padding-bottom: 3vw;
-			border-bottom: 0;
-		}
-
-		.content_area:last-child {
-			._list_item {
-				border-bottom: 1px solid white;
-			}
-		}
-
-		.wrap_content {
-			overflow: hidden;
-			transition: max-height .3s ease-in-out;
-			overflow: hidden;
-			max-height: 0;
-		}
-
-		.trusty_arrow_down {
-			transition: all .3s ease-in-out;
-		}
-
-		.content_area._opened_article {
-
-			._list_item {
-				transition: all .3s;
-				border-bottom: none;
-			}
-
-			.trusty_arrow_down {
-				transform: rotate(180deg);
-			}
-
-			.wrap_content {
-				transition: max-height .3s ease-in-out;
-				max-height: 2000px;
-			}
-
-
-		}
-
-		._title {
-			padding-top: 1vw;
-			padding-bottom: 6vw;
-			color: white;
-			._font {
-				text-align: center;
-				font-size: 6vw;
-				letter-spacing: .25vw;
-			}
-		}
-		.trusty_icon {
-			float: right;
-			width: 4.1vw;
-			vertical-align: middle;
-			margin-right: 4vw;
-			margin-top: .4vw;
-		}
-		.text_button {
-			padding-left: 3.6vw;
-		}
-	}
-
-	.trusty_ps_text {
-		margin-top: 4.7vw;
-		margin-bottom: 3vw;
-	}
-
-	.coin_info {
-		margin-bottom: 3vw;
-	}
-
-	.top_values {
-
-		display: flex;
-		flex-wrap: wrap;
-		//justify-content: center;
-
-		section {
-			box-sizing: border-box;
-			//width: 50%;
-			margin-right: 2vw;
-			text-align: center;
-
-		}
-
-		&._bordered {
-			section {
-				border: 1px solid #606365;
-				&._db_right {
-					border-right: none;
-				}
-				&._db_left{
-					border-left: none;
-				}
-				&._db_bottom{
-					border-bottom: none;
-				}
-			}
-		}
-
-		h4 {
-			//color: black;
-			margin: 0;
-			//background: #c6c8cc;
-			font-size: 4.9vw;
-			font-family: Gotham_Pro;
-			font-weight: initial;
-
-
-			text-align: left;
-			font-size: 3.8vw;
-		}
-
-		._val  {
-
-			span._mark {
-				padding: 2vw 2vw 2vw 2vw;
-				//background: black;
-				border: 1px solid white;
-				color: white !important;
-			}
-		}
-
-		._val, ._val span {
-
-			height: 12vw;
-			line-height: 12vw;
-			color: $color_green_value;
-			font-size: 4.2vw;
-			font-family: Gotham_Pro;
-
-			.coin_head_trend_dn,
-			.coin_head_trend_up {
-				width: 5vw;
-				margin: 0 1.6vw;
-			}
-
-
-		}
-
-	}
-
-
-	._font {
-		font-family: Gotham_Pro;
-		font-size: 7vw;
-		height: 100%;
-		margin: auto 2vw;
-		color: white;
-	}
-
-	._head_title {
-
-		text-align: center;
-		padding-top: 1.9vw;
-
-		span {
-			display: inline-block;
-			vertical-align: middle;
-		}
-
-		.coin_head_ogo {
-			width: 8.6vw;
-		}
-
-		.coin_head_omg {
-			padding-top: 1vw;
-			width:13vw;
-		}
-
-		._font:first-letter {
-			text-transform: uppercase;
-		}
-
-		.spinner-container {
-			position: relative;
-			height: 5rem;
-		}
-
-
-		._indicators {
-			margin-bottom: 6vw;
-
-			> span {
-				vertical-align: middle;
-				color: white;
-			}
-
-			span._price {
-				margin: 2vw 0;
-				font-size: 7.7vw;
-				font-family: Gotham_Pro_Bold;
-			}
-
-			span._24change {
-				display: block;
-				font-size: 5vw;
-				font-family: Gotham_Pro_Regular;
-				margin-left: 2vw;
-				> span:nth-child(2){
-					font-size: 3.6vw;
-					font-family: Gotham_Pro;
-				}
-			}
-
-
-<<<<<<< HEAD
-		}
-=======
   height: inherit;
-
-
 
   ._belongings {
 
-    ._list_item:first-child {
-      border-top: 1px solid white;
 
+    ._list_item {
+      border-top: 1px solid white;
+      padding-top: 3vw;
+      padding-bottom: 3vw;
+      border-bottom: 0;
     }
 
-
-    .content_area:first-child,
-    .content_area:nth-child(2) {
+    .content_area:last-child {
       ._list_item {
-        border-bottom: 0;
+        border-bottom: 1px solid white;
       }
     }
 
-    ._list_item {
-      padding-top: 3vw;
-      padding-bottom: 3vw;
-      border-bottom: 1px solid white;
-
-
-    }
-
-
     .wrap_content {
       overflow: hidden;
-		  transition: max-height .3s ease-in-out;
-		  overflow: hidden;
-		  max-height: 0;
+      transition: max-height .3s ease-in-out;
+      overflow: hidden;
+      max-height: 0;
     }
 
     .trusty_arrow_down {
-    	transition: all .3s ease-in-out;
+      transition: all .3s ease-in-out;
     }
 
     .content_area._opened_article {
 
       ._list_item {
-      	transition: all .3s;
+        transition: all .3s;
         border-bottom: none;
       }
 
@@ -535,8 +307,8 @@ $color_green_value: #659d1a;
       }
 
       .wrap_content {
-      	transition: max-height .3s ease-in-out;
-        max-height: 10000px;
+        transition: max-height .3s ease-in-out;
+        max-height: 2000px;
       }
 
 
@@ -565,7 +337,7 @@ $color_green_value: #659d1a;
   }
 
   .trusty_ps_text {
-    margin-top: 1.7vw;
+    margin-top: 4.7vw;
     margin-bottom: 3vw;
   }
 
@@ -579,10 +351,13 @@ $color_green_value: #659d1a;
     flex-wrap: wrap;
     //justify-content: center;
 
-	}
+    section {
+      box-sizing: border-box;
+      //width: 50%;
+      margin-right: 2vw;
+      text-align: center;
 
-	
-
+    }
 
     &._bordered {
       section {
@@ -717,7 +492,6 @@ $color_green_value: #659d1a;
     background: white;
     color: black;
   }
->>>>>>> 7194ded8ba27f18b617e2d5bb2f39b82d896e858
 
 }
 
