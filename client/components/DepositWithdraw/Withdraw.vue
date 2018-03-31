@@ -65,7 +65,6 @@ export default {
         return parsed && !Number.isNaN(parsed);
       },
       doesntExceedBalance(value) {
-        return true;
         const id = this.selectedCoin;
         const balance = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
         return value <= balance;
