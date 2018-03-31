@@ -70,11 +70,11 @@ export default {
   computed: {
     ...mapGetters({
       userId: 'account/getAccountUserId',
-      getAssetSnapShot: 'assetInfo/getSnapShot'
+      getTechnology: 'assetInfo/getTechnology'
     }),
     headerTitle() {
       if (this.$route.name === 'coin') {
-        return this.getAssetSnapShot.name || this.$route.params.symbol;
+        return this.getTechnology.name || this.$route.params.symbol;
       }
       return this.titles[this.$route.name];
     },
