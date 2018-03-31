@@ -1,6 +1,6 @@
 <template lang="pug">
 #asset_tab
-  h5 Please select shares of assets #[br] in your portfolio
+  h5 Select shares of assets in portfolio 
 
   table.managePortfolio
     thead
@@ -12,9 +12,9 @@
 
       tr(v-for="item in percentsAsArray")
         td
-          .portfolio_item._index
+          .portfolio_item._index._name
             .fake_line_height
-            span(@click="navigateToCoin(item)") {{ item.name }}
+            span._title(@click="navigateToCoin(item)") {{ item.name }}
             Icon(name="trusty_portfolio_arrow_right"
                  @click.native="navigateToCoin(item)")
         td
@@ -216,6 +216,15 @@ export default {
     this.percentFiatValue = this.totalFiatValue / 100;
     this.percents = JSON.parse(JSON.stringify(this.initialPercents));
     this.percentsAsArray = this.convertPercentsToArray(this.percents);
+    // prevents long click context menu
+    window.oncontextmenu = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    };
+  },
+  beforeDestroy() {
+    window.oncontextmenu = null;
   }
 };
 </script>
