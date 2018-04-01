@@ -1,7 +1,8 @@
 <template lang="pug">
 ._turnover_info
   .status(v-if="!connected")
-    span(v-if="pending").loading Loading...
+    .spinner_container(v-show="pending")
+      Spinner
     span(v-if="error").loading Service unavailable
   template(v-else)
     .trusty_deposit_fiat(v-if="!hasorder")
@@ -29,6 +30,7 @@ import trustyInput from '@/components/UI/form/input';
 import icon from '@/components/UI/icon';
 import payment from './Payment';
 import timer from './Timer';
+import Spinner from '@/components/UI/Spinner';
 
 import './style.scss';
 
@@ -37,7 +39,8 @@ export default {
     timer,
     payment,
     trustyInput,
-    icon
+    icon,
+    Spinner
   },
   props: {
     payload: {
