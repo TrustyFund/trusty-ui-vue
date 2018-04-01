@@ -84,6 +84,7 @@ export default {
           fiatMultiplier: multiplier,
           isFiat: id === this.fiatId
         });
+        items[id].id = id;
       });
       return items;
     },
