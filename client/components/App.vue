@@ -63,6 +63,7 @@ export default {
 
 .router_content {
   padding-top: 12vw;
+  overflow-x: hidden;
 }
 
 .connecting-block-screen {
