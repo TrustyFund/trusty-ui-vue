@@ -24,6 +24,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import * as types from 'lib/src/mutations';
 import trustyInput from '@/components/UI/form/input';
 import icon from '@/components/UI/icon';
 import payment from './Payment';
@@ -89,12 +90,32 @@ export default {
         method: this.payload.method,
         name: this.clientName
       });
+    },
+    getTotalAmount(order) {
+      const {
+        LBAmount,
+        LBFee,
+        OperatorFee,
+        BotFee
+      } = order;
+      return (LBAmount - LBFee - OperatorFee - BotFee).toFixed(8);
     }
   },
   watch: {
     order(newOrder) {
       if (newOrder.Status === 10) {
         this.clearOrder();
+
+        const operation = {
+          date: new Date(),
+          type: 'pending_deposit',
+          amount: this.getTotalAmount(newOrder)
+        };
+
+        this.$store.commit('operations/' + types.ADD_USER_OPERATION, {
+          operation
+        });
+
         this.$toast.success('Deposit request complete');
         this.$router.push({ name: 'entry' });
       }

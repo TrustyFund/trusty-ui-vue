@@ -2,41 +2,45 @@
 
 .trusty_deposit_fiat_fullscreen
 
-	.deposit_paddings
+  .deposit_paddings
 
-		trusty-input(:isOpen="true" label="please use your online bank to send")
-			template(slot="input"): div._simple_text_left {{ order.FiatAmount  + ' ' + order.Currency }}
+    trusty-input(:isOpen="true" label="please use your online bank to send")
+      template(slot="input"): div._simple_text_left {{ order.FiatAmount  + ' ' + order.Currency }}
 
-		trusty-input(:isOpen="true" label="to")
-			template(slot="input"): div._simple_text_left {{ order.PaymentMethod }}
+    trusty-input(:isOpen="true" label="to")
+      template(slot="input"): div._simple_text_left {{ order.PaymentMethod }}
 
-		trusty-input(:isOpen="true" label="number")
-			template(slot="input"): div._simple_text_left {{ requisites }}
+    trusty-input(:isOpen="true" label="number")
+      template(slot="input"): div._simple_text_left {{ requisites }}
 
-		.trusty_inline_buttons._one_button
-			button copy address
+    .trusty_inline_buttons._one_button
+      button(
+        v-clipboard:copy="requisites"
+        v-clipboard:success="onCopy") copy address
+      
 
-		trusty-input(:isOpen="true" label="exchanged rate confirmed")
-			template(slot="input"): div._simple_text_left {{ amount.rate }}
-			template(slot="right"): div._right_slash RUB / BTC
+    trusty-input(:isOpen="true" label="exchanged rate confirmed")
+      template(slot="input"): div._simple_text_left {{ amount.rate }}
+      template(slot="right"): div._right_slash RUB / BTC
 
-		p._deposit_help_text you will receive {{ amount.final }} BTC
+    p._deposit_help_text you will receive {{ amount.final }} BTC
 
-		p.trusty_help_text._bottom._yellow Push CONFIRM button as soon as#[br] you have completed the payment
+    p.trusty_help_text._bottom._yellow Push CONFIRM button as soon as#[br] you have completed the payment
 
-		.trusty_inline_buttons
-			button(@click="$store.dispatch('app/setModal', 'payment')") Confirm
-			button(@click="cancelOrder") Cancel
+    .trusty_inline_buttons
+      button(@click="$store.dispatch('app/setModal', 'payment')") Confirm
+      button(@click="cancelOrder") Cancel
 
-		p.trusty_help_text Payment gateway service is provided by users of Localbitcoins.com
+    p.trusty_ps_text
+      | Payment gateway service is provided #[br]
+      | by users of Localbitcoins.com
 
-
-	.modal_wrap(v-if="getModalName === 'payment'")
-		.modal_content.main_padding
-			p.trusty_help_text Before you continue,#[br] make sure the#[br] payment is done
-			.trusty_inline_buttons
-				button(@click="markPayed") Done
-				button(@click="$store.dispatch('app/setModal', null)") Back
+  .modal_wrap(v-if="getModalName === 'payment'")
+    .modal_content.main_padding
+      p.trusty_help_text Before you continue,#[br] make sure the#[br] payment is done
+      .trusty_inline_buttons
+        button(@click="markPayed") Done
+        button(@click="$store.dispatch('app/setModal', null)") Back
 
 </template>
 
@@ -84,6 +88,9 @@ export default {
     markPayed() {
       this.$store.dispatch('app/setModal', null);
       this.payOrder();
+    },
+    onCopy() {
+      this.$toast.success('Address copied to clipboard');
     }
   }
 };
@@ -91,11 +98,30 @@ export default {
 
 <style lang="scss">
 .trusty_deposit_fiat_fullscreen {
-	.modal_content {
-		padding-top: 10vw;
-		padding-bottom: 10vw;
-		background: black;
-	}
+  .modal_content {
+    padding-top: 10vw;
+    padding-bottom: 10vw;
+    background: black;
+  }
+
+  .deposit_paddings {
+    padding-top: 10vw;
+  }
+
+  .trusty_input_container {
+    ._simple_text_left {
+      height: 5.4vw!important;
+    }
+  }
+
+  .trusty_ps_text {
+    font-size: 3.3vw;
+    margin: 3.8vw 0;
+    line-height: 4.3vw;
+    font-family: Gotham_Pro;
+    text-align: center;
+    color: white;
+  }
 }
 
 
