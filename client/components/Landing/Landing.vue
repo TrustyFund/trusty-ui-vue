@@ -100,7 +100,6 @@ div
 
 <script>
 import { mapGetters } from 'vuex';
-import SmoothScroll from 'smooth-scroll';
 import { isMobile } from './utils';
 import './style.scss';
 
@@ -169,7 +168,6 @@ export default {
       arrowDown,
       logo,
       logoDesk,
-      scroll: new SmoothScroll(),
       referClass: '',
       slideRefers: '',
       slideHeight: '',
@@ -224,7 +222,7 @@ export default {
       } else {
         current = element;
       }
-      this.scroll.animateScroll(current);
+      this.$scrollTo(current, 500);
     },
     clickScroll(index) {
       if (index === this.slides.length) {
@@ -237,3 +235,9 @@ export default {
 };
 
 </script>
+
+<style scoped>
+#landing {
+  margin-top: -12vw;
+}
+</style>
