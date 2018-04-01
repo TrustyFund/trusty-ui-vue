@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     activeClass() {
-      return this.isLanding ? '_landing_page' : '';
+      return this.isLanding ? '_landing_page' : 'app';
     },
     isLanding() {
       return this.$route.name === 'entry' && !this.userId;
@@ -59,19 +59,10 @@ export default {
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	overflow: hidden;
-	@media screen and (max-width: 768px) {
-		&._header_space {
-			padding-top: 12vw !important;
-		}
-	}
+}
 
-	.router_content {
-		height: 100%;
-		position: relative;
-		overflow-y: scroll;
-		overflow-x: hidden;
-	}
+.router_content {
+  padding-top: 12vw;
 }
 
 .connecting-block-screen {

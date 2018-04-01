@@ -20,7 +20,7 @@ html, body, #trusty-app {
 	height: 100%;
 }
 
-#trusty-app {
+#trusty-app.app {
 
 	@media screen and (min-width: 769px){
 		width: $desk_window_width + px;
