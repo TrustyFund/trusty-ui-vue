@@ -7,10 +7,12 @@
   template(v-else)
     .trusty_deposit_fiat(v-if="!hasorder")
       ._margin_bottom
-        trusty-input(:isOpen="false", label="NAME AND SURNAME OF PAYER")
-          template(slot="input"): input(type="text" v-model="clientName")
+        TrustyInput(:isOpen="false", label="NAME AND SURNAME OF PAYEUR")
+          template(slot="input")
+            input(type="text" v-model="clientName" @input="$v.clientName.$touch()")
+        .trusty_font_error(v-if="!$v.clientName.required && this.$v.clientName.$dirty") Enter payeur's name
           
-      .trusty_inline_buttons._one_button
+      .trusty_inline_buttons._one_button(:class="{'_disabled': !payload.amount}")
         button(@click="newOrder") CONFIRM
       p.trusty_ps_text
         | Payment gateway service is provided by users of #[br] Localbitcoins.com
@@ -24,22 +26,23 @@
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate';
+import { required } from 'vuelidate/lib/validators';
 import { mapGetters, mapActions } from 'vuex';
-import trustyInput from '@/components/UI/form/input';
-import icon from '@/components/UI/icon';
+import TrustyInput from '@/components/UI/form/input';
 import Spinner from '@/components/UI/Spinner';
 import * as types from 'lib/src/mutations';
-import payment from './Payment';
-import timer from './Timer';
+import Payment from './Payment';
+import Timer from './Timer';
 
 import './style.scss';
 
 export default {
+  mixins: [validationMixin],
   components: {
-    timer,
-    payment,
-    trustyInput,
-    icon,
+    Timer,
+    Payment,
+    TrustyInput,
     Spinner
   },
   props: {
@@ -52,6 +55,11 @@ export default {
     return {
       clientName: ''
     };
+  },
+  validations: {
+    clientName: {
+      required
+    }
   },
   beforeMount() {
     this.connect();
@@ -87,12 +95,15 @@ export default {
       return state === showState;
     },
     newOrder() {
-      this.createOrder({
-        currency: this.payload.coin,
-        amount: this.payload.amount,
-        method: this.payload.method,
-        name: this.clientName
-      });
+      this.$v.$touch();
+      if (!this.$v.$invalid && this.payload.amount) {
+        this.createOrder({
+          currency: this.payload.coin,
+          amount: this.payload.amount,
+          method: this.payload.method,
+          name: this.clientName
+        });
+      }
     },
     getTotalAmount(order) {
       const {
