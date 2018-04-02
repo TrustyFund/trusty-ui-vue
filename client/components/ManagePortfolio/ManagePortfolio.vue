@@ -12,8 +12,6 @@
     .tabs-content-container
       router-view(:items="items", fiat-id="1.3.121")
 
-
-
 </template>
 
 <script>

@@ -22,7 +22,7 @@
             .fake_line_height
 
             a._minus.normal.portfolio_asset(
-             :class="{'_disable': item.share === 0}"
+             :class="{'_disable': item.share === (minPercents[item.id] || 0)}"
              @touchstart="handleTouchMinus(item)"
              @touchend="clearTimer")
               Icon(name="trusty_minus")
@@ -80,7 +80,11 @@ export default {
       percents: {},
       percentsAsArray: [],
       percentFiatValue: 0,
-      timer: null
+      timer: null,
+      minPercents: {
+        '1.3.0': 0.8,
+        '1.3.2418': 1.4 // trusty token
+      }
     };
   },
   computed: {
@@ -186,10 +190,14 @@ export default {
       this.$toast.info('Portfolio suggested');
     },
     handleMinus(item) {
-      if ((item.share - 0.2) < 0) {
-        item.share = 0;
+      const min = this.minPercents[item.id] || 0;
+      const newShare = parseFloat((item.share - 0.2).toFixed(2));
+      if (newShare <= min) {
+        item.share = min;
+        this.clearTimer();
+        if (min) this.$toast.info(`Minimum share of ${item.name} is ${min}%`);
       } else {
-        item.share = parseFloat((item.share - 0.2).toFixed(2));
+        item.share = newShare;
       }
     },
     handlePlus(item) {
