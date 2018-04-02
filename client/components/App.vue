@@ -67,7 +67,7 @@ export default {
 }
 
 .connecting-block-screen {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -87,6 +87,9 @@ export default {
   }
   &.notie-background-warning {
     background-color: rgba(130, 106, 29, 0.95);
+  }
+  &.notie-background-info {
+    background-color: rgba(28, 57, 130, 0.95);
   }
 }
 </style>
