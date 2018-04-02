@@ -121,6 +121,7 @@ $background_color: #1b1f22;
   width: 100%;
   flex-shrink: 0;
   z-index: 2;
+  position: fixed;
 
   span._options {
     box-sizing: border-box;

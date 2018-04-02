@@ -9,7 +9,7 @@
   br
   .trusty_inline_buttons
     button(:class="{'_disable': !enableButton}" @click="withdraw") Confirm
-    button Cancel
+    button(@click="$router.push({ name: 'entry'})") Cancel
   p.trusty_ps_text
     | Payment gateway service is provided by #[br]
     | Openledger.io at 0% fee
