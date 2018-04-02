@@ -1,12 +1,16 @@
 /* eslint class-methods-use-this: [
   "error", {
-   "exceptMethods": ["getStats", "filterFields"]
+   "exceptMethods": ["filterFields"]
   }
  ] */
 import axios from 'axios';
 import dateFns from 'date-fns';
 
 class AssetInfo {
+  constructor() {
+    this.cancelToken = axios.CancelToken;
+  }
+
   static async initCoins() {
     const coinsQuery = 'https://min-api.cryptocompare.com/data/all/coinlist';
     const response = await axios.get(coinsQuery);
@@ -42,7 +46,10 @@ class AssetInfo {
     const socialQuery = 'https://proxy.trusty.fund/' +
       `socialstats/?id=${coinId}`;
     try {
-      const socialStats = await axios.get(socialQuery);
+      this.sourceSocial = this.cancelToken.source();
+      const socialStats = await axios.get(socialQuery, {
+        cancelToken: this.sourceSocial.token
+      });
       if (socialStats.data.Response === 'Success') {
         const data = {
           symbol: socialStats.data.Data.General.Name,
@@ -75,11 +82,16 @@ class AssetInfo {
         error: socialStats.data.Message
       };
     } catch (error) {
-      console.log('error', error);
-      return {
+      const result = {
         success: false,
         error
       };
+      if (axios.isCancel(error)) {
+        result.error = 'request canceled';
+      } else {
+        result.error = error;
+      }
+      return result;
     }
   }
 
@@ -102,7 +114,10 @@ class AssetInfo {
     const snapshotQuery = 'https://proxy.trusty.fund/' +
       `coinsnapshotfullbyid/?id=${coinId}`;
     try {
-      const snapshotStats = await axios.get(snapshotQuery);
+      this.sourceSnapshot = this.cancelToken.source();
+      const snapshotStats = await axios.get(snapshotQuery, {
+        cancelToken: this.sourceSnapshot.token
+      });
       if (snapshotStats.data.Response === 'Success') {
         const technology = {
           technology: snapshotStats.data.Data.General.Technology,
@@ -132,8 +147,13 @@ class AssetInfo {
     } catch (error) {
       const result = {
         success: false,
-        error
+        error: ''
       };
+      if (axios.isCancel(error)) {
+        result.error = 'request canceled';
+      } else {
+        result.error = error;
+      }
       return result;
     }
   }
@@ -157,8 +177,14 @@ class AssetInfo {
     const nowHourQuery = `https://min-api.cryptocompare.com/data/histohour?fsym=${fromSymbol}` +
 `&tsym=USD&limit=1&aggregate=1&toTs=${nowHourinMS}`;
     try {
-      const statsResponse = await axios.get(statsQuery);
-      const nowResponse = await axios.get(nowHourQuery);
+      this.sourceStats = this.cancelToken.source();
+      this.sourceNowHour = this.cancelToken.source();
+      const statsResponse = await axios.get(statsQuery, {
+        cancelToken: this.sourceStats.token
+      });
+      const nowResponse = await axios.get(nowHourQuery, {
+        cancelToken: this.sourceNowHour.token
+      });
 
       if (statsResponse.data.Response !== 'Error' && nowResponse.data.Response !== 'Error') {
         const total24 = statsResponse.data.DISPLAY[fromSymbol].USD.TOTALVOLUME24HTO;
@@ -204,10 +230,22 @@ class AssetInfo {
     } catch (error) {
       const result = {
         success: false,
-        error
+        error: ''
       };
+      if (axios.isCancel(error)) {
+        result.error = 'request canceled';
+      } else {
+        result.error = error;
+      }
       return result;
     }
+  }
+
+  cancelRequests() {
+    this.sourceSnapshot.cancel('canceled request');
+    this.sourceSocial.cancel('canceled request');
+    this.sourceStats.cancel('canceled request');
+    this.sourceNowHour.cancel('canceled request');
   }
 }
 
