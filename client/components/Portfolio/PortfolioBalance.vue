@@ -93,7 +93,8 @@ export default {
       top: -0.5vw;
       svg {
         fill: #9ea2a5;
-        height: 3.7vw;        
+        height: 3.7vw;    
+        width: 3.1vw!important;    
       }
     }
   }
