@@ -25,12 +25,12 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import * as types from 'lib/src/mutations';
 import trustyInput from '@/components/UI/form/input';
 import icon from '@/components/UI/icon';
+import Spinner from '@/components/UI/Spinner';
+import * as types from 'lib/src/mutations';
 import payment from './Payment';
 import timer from './Timer';
-import Spinner from '@/components/UI/Spinner';
 
 import './style.scss';
 

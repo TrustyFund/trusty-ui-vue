@@ -12,7 +12,7 @@
         select(v-model="selectedcoin"  dir="rtl")
           option(v-for="coin in coins") {{ coin }}
         icon-component(name="trusty_arrow_down")
-
+            
     trusty-input(:isOpen="true", label="payment method" className="select_input payment-method" )
       template(slot="input")
         input(:style="{display:'none'}")
