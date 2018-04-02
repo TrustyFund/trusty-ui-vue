@@ -183,7 +183,7 @@ export default {
 
       this.percents = newPercents;
       this.percentsAsArray = this.convertPercentsToArray(this.percents);
-      this.$toast.warning('Suggested portfolio percents applied');
+      this.$toast.infor('Portfolio suggested');
     },
     handleMinus(item) {
       if ((item.share - 0.2) < 0) {
