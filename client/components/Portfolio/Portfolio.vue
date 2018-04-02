@@ -156,7 +156,7 @@ export default {
     display: grid;
     grid-gap: 0%;
     grid-row-gap: 2.5vw;
-    grid-template-columns: 27% 3% 20% 25% 25%;
+    grid-template-columns: 30% 3% 20% 27% 20%;
     margin-bottom: 2em;
     padding-top: 3vw;
     font-family: 'Gotham_Pro_Regular';
