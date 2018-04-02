@@ -43,9 +43,11 @@ export default {
       return (this.share && Math.round(this.share, 0)) || 0;
     },
     formattedBalanceFiat() {
-      if (!this.item.fiatValue) return '0.00';
-      const precisedFiatValue = (this.item.fiatValue / (10 ** this.fiatPrecision)).toFixed(2);
-      return precisedFiatValue;
+      if (!this.item.fiatValue) return '0';
+      const precisedFiatValue = this.item.fiatValue / (10 ** this.fiatPrecision);
+      if (precisedFiatValue > 1) return Math.floor(precisedFiatValue);
+      if (precisedFiatValue > 0.1) return precisedFiatValue.toFixed(1);
+      return precisedFiatValue.toFixed(2);
     },
     formattedChange() {
       if (!this.item.change) return 0;
