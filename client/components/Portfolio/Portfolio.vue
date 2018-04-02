@@ -126,6 +126,7 @@ export default {
   .trusty_table {
     width: 100%;
     margin-top: 20px;
+    margin-bottom: 10px;
     thead, th, tbody {
       color: white;
       border: none;
