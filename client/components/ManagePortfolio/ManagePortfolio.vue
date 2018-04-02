@@ -146,7 +146,6 @@ export default {
       thead tr th  {
         font-family: Gotham_Pro;
         text-transform: uppercase;
-        color: white;
       }
       tbody tr td:first-child {
         width: 50%;

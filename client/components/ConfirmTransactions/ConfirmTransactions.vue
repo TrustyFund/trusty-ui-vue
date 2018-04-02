@@ -149,7 +149,7 @@ export default {
         this.$toast.success('Orders filled');
         this.$router.push({ name: 'entry' });
       } else {
-        this.$toast.error('Transactions error: ' + result.error);
+        this.$toast.error('Try again: Transactions error - ' + result.error);
       }
     },
     async processTransfer() {
