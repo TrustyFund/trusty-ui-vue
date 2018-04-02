@@ -89,7 +89,6 @@ export default {
     .trusty_portfolio_arrow_right {
       margin-left: 1vw;
       position: relative;
-      position: relative;
       top: -0.5vw;
       svg {
         fill: #9ea2a5;
