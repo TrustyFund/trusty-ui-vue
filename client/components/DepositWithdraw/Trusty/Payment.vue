@@ -1,7 +1,7 @@
 <template lang="pug">
 
 .trusty_deposit_fiat_fullscreen
-  .trusty_header
+  .trusty_header.cryptobot_header
     .header_title DEPOSIT
   .deposit_paddings
     trusty-input(:isOpen="true" label="please use your online bank to send")
@@ -30,7 +30,7 @@
 
     .trusty_inline_buttons
       button(@click="$store.dispatch('app/setModal', 'payment')") Confirm
-      button(@click="cancelOrder") Cancel
+      button(@click="cancel") Cancel
 
     p.trusty_ps_text
       | Payment gateway service is provided #[br]
@@ -89,6 +89,11 @@ export default {
     markPayed() {
       this.$store.dispatch('app/setModal', null);
       this.payOrder();
+    },
+    cancel() {
+      this.cancelOrder();
+      this.$toast.info('Order canceled');
+      this.$router.push({ name: 'entry' });
     },
     onCopy() {
       this.$toast.success('Address copied to clipboard');

@@ -15,6 +15,10 @@
 			}
 		}
 
+		.cryptobot_header {
+			position: absolute!important;
+
+		}
 
 		.trusty_deposit_fiat {
 			padding: 0 3.6vw;
@@ -37,7 +41,7 @@
 				._right_slash {
 					font-weight: bold;
 					height: 5.4vw !important;
-					margin-bottom: 1vw!important;
+					margin-bottom: 0.5vw!important;
 				}
 			}
 
