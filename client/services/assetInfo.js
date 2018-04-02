@@ -242,10 +242,10 @@ class AssetInfo {
   }
 
   cancelRequests() {
-    this.sourceSnapshot.cancel('canceled request');
-    this.sourceSocial.cancel('canceled request');
-    this.sourceStats.cancel('canceled request');
-    this.sourceNowHour.cancel('canceled request');
+    if (this.sourceSnapshot) this.sourceSnapshot.cancel('canceled request');
+    if (this.sourceSocial) this.sourceSocial.cancel('canceled request');
+    if (this.sourceStats) this.sourceStats.cancel('canceled request');
+    if (this.sourceNowHour) this.sourceNowHour.cancel('canceled request');
   }
 }
 
