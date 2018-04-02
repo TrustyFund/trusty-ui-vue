@@ -87,8 +87,11 @@ export default {
 @import "~@/style/mixins";
 
 #trusty_profile {
-  @include trusty_main_padding;
+  padding-right: 3.6vw;
+  padding-left: 3.6vw;
+  padding-bottom: 10vw;
   @media screen and (min-width: 768px) {
+
     max-width: 80%;
     margin: 0 auto;
     display: flex;
@@ -97,6 +100,8 @@ export default {
       flex: 1;
     }
   }
+
+
   .table_wrap {
     width: 100%;
 

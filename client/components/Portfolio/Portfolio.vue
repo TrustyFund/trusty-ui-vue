@@ -1,28 +1,26 @@
 <template lang="pug">
-  div
-    .trusty_inline_buttons._mob._one_button(@click="goToManagePortfolio" v-show="!minMode && totalBaseValue"): button MANAGE FUND
-    table.portfolio-container.trusty_table
-      thead
-        tr
-          th._text_left: span ASSET
-          th._text_right: span SHARE
-          th._text_right: span $VALUE
-          th._text_right: span 24H
-      tbody
-        PortfolioBalance(
-        v-for="item in itemsAsArray"
-        :key="item.name"
-        :item="item"
-        :totalBaseValue="totalBaseValue"
-        :fiatPrecision="fiatPrecision")
-
+div
+  .trusty_inline_buttons._mob._one_button(@click="goToManagePortfolio" v-show="!minMode && totalBaseValue"): button MANAGE FUND
+  div.grid_wrapper
+    ._text_left.portfolio_head ASSET
+    div
+    ._text_right.portfolio_head SHARE
+    ._text_right.portfolio_head $VALUE
+    ._text_right.portfolio_head 24H
+    template(v-for="item in itemsAsArray")
+      ._text_left.overflowed.portfolio_item {{ item.name }}
+      Icon(name="trusty_portfolio_arrow_right")
+      ._text_right.portfolio_item {{ formattedShare(item) }}%
+      ._text_right.portfolio_item {{ formattedBalanceFiat(item) }}
+      ._text_right.portfolio_item {{ formattedChange(item) }}%
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import Icon from '@/components/UI/icon';
 // eslint-disable-next-line
 import { calcPortfolioItem } from 'lib/src/utils';
-import PortfolioBalance from './PortfolioBalance.vue';
+
 
 export default {
   props: {
@@ -108,7 +106,7 @@ export default {
     }
   },
   components: {
-    PortfolioBalance
+    Icon
   },
   data() {
     return {
@@ -117,47 +115,68 @@ export default {
   methods: {
     goToManagePortfolio() {
       this.$router.push({ name: 'manage' });
+    },
+    share(item) {
+      return (item.baseValue / this.totalBaseValue) * 100;
+    },
+    formattedShare(item) {
+      return (this.share(item) && Math.round(this.share(item), 0)) || 0;
+    },
+    formattedBalanceFiat(item) {
+      if (!item.fiatValue) return '0';
+      const precisedFiatValue = item.fiatValue / (10 ** this.fiatPrecision);
+      if (precisedFiatValue > 10) return Math.floor(precisedFiatValue);
+      if (precisedFiatValue > 0.1) return precisedFiatValue.toFixed(1);
+      return precisedFiatValue.toFixed(2);
+    },
+    formattedChange(item) {
+      console.log(item);
+      if (!item.change) return 0;
+      let change = item.change.toFixed(0).toString();
+      if (change.length > 3) change = change.substring(0, 3);
+      return change;
+    },
+    navigateToCoin(item) {
+      this.$router.push({
+        name: 'coin',
+        params: {
+          symbol: item.asset.name,
+          assetId: item.asset.id
+        }
+      });
     }
   }
 };
 </script>
 
 <style lang="scss">
-  .trusty_table {
+  .grid_wrapper {
+    position: relative;
     width: 100%;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    thead, th, tbody {
-      color: white;
-      border: none;
-      background-color: transparent;
-    }
-    th {
-      padding-bottom: 1.9vw;
-      padding-left: 0;
-    }
-    th span {
+    display: grid;
+    grid-gap: 0%;
+    grid-row-gap: 2.5vw;
+    grid-template-columns: 27% 3% 20% 25% 25%;
+    margin-bottom: 2em;
+    padding-top: 3vw;
+    font-family: 'Gotham_Pro_Regular';
+
+    .portfolio_head {
+      font-size: 4.4vw;
       color: #cccccc;
-      font-family: 'Gotham_Pro_Regular';
-      @media screen and (max-width: 768px){
-        font-size: 4.4vw;
-      }
-    }
-    tbody {
-     td:first-child span {
-       display: inline-block;
-       position: relative;
-       overflow: hidden;
-       text-overflow: ellipsis;
-       max-width: 30vw;
-     }
+      font-weight: 700;
     }
 
-    td span {
-      display: inline-block;
-      overflow: hidden;
-      text-overflow: ellipsys;
-      max-width: 15vw;
+    .portfolio_item {
+      font-size: 6vw;
+      color: white;
     }
+
+  }
+
+  .overflowed {
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    white-space: nowrap;
   }
 </style>
