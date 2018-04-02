@@ -34,7 +34,7 @@
 
 	#coin_analysis._belongings
 
-		.content_area(:class="{_opened_article: opened==='description'}")
+		.content_area(:class="{_opened_article: opened==='description'}" v-if="descriptionExist")
 			._items(@click="opened = opened==='description' ? '':'description'")
 				._list_item
 					span.text_button DESCRIPTION
@@ -54,7 +54,7 @@
 					p
 					p(v-html="getFeatures")
 
-		.content_area(:class="{_opened_article: opened==='technology'}")
+		.content_area(:class="{_opened_article: opened==='technology'}" v-if="technologyExist")
 			._items(@click="opened = opened==='technology' ? '':'technology'")
 				._list_item
 					span.text_button TECHNOLOGY
@@ -190,6 +190,12 @@ export default {
     },
     socialExist() {
       return Object.keys(this.getSocial).length > 2;
+    },
+    descriptionExist() {
+      return Object.keys(this.getDescription).length !== 0;
+    },
+    technologyExist() {
+      return Object.keys(this.getTechnology).length !== 0;
     }
   },
 
