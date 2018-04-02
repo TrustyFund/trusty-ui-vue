@@ -1,16 +1,16 @@
 <template lang="pug">
-
-.trusty_deposit_timer
-  ._title(v-html="text" v-bind:class='{"error": error}')
-  ._timer(v-if="error")
-    | 00:00
-  ._timer(v-else)
-    | 0{{minutesRemaining}}
-    span
-      | :
-      span {{ secondsString }}
-  .trusty_inline_buttons._one_button
-    button(@click="buttonAction") {{ buttonText }}
+.trusty_deposit_fiat_fullscreen
+  .trusty_deposit_timer
+    ._title(v-html="text" v-bind:class='{"error": error}')
+    ._timer(v-if="error")
+      | 00:00
+    ._timer(v-else)
+      | 0{{minutesRemaining}}
+      span
+        | :
+        span {{ secondsString }}
+    .trusty_inline_buttons._one_button
+      button(@click="buttonAction") {{ buttonText }}
 
 </template>
 
