@@ -121,6 +121,7 @@ export default {
     this.preloadData();
   },
   beforeDestroy() {
+    this.cancelRequests();
     this.resetData();
   },
   props: {
@@ -230,7 +231,8 @@ export default {
       fetchStats: 'assetInfo/fetchStats',
       fetchSocial: 'assetInfo/fetchSocial',
       fetchSnapshot: 'assetInfo/fetchSnapshot',
-      resetData: 'assetInfo/resetData'
+      resetData: 'assetInfo/resetData',
+      cancelRequests: 'assetInfo/cancelRequests'
     }),
     parseUnderscore(string) {
       if (typeof string === 'string') {

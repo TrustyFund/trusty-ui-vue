@@ -15,6 +15,7 @@ const FETCH_ASSET_SNAPSHOT_COMPLETE = 'FETCH_ASSET_SNAPSHOT_COMPLETE';
 const FETCH_ASSET_SNAPSHOT_ERROR = 'FETCH_ASSET_SNAPSHOT_ERROR';
 
 const RESET_ASSET_INFO = 'RESET_ASSET_INFO';
+const CANCEL_ASSET_REQUEST = 'CANCEL_ASSET_REQUEST';
 
 const statsStub = {};
 
@@ -74,6 +75,7 @@ const mutations = {
     state.pending = false;
     state.pendingSnapShot = false;
   },
+
   [RESET_ASSET_INFO](state) {
     state.stats = {};
     state.social = {};
@@ -82,6 +84,13 @@ const mutations = {
     state.features = {};
     state.ico = {};
     state.penging = false;
+  },
+
+  [CANCEL_ASSET_REQUEST](state) {
+    state.penging = false;
+    state.pendingStats = false;
+    state.pendingSocial = false;
+    state.pendingSnapShot = false;
   }
 };
 
@@ -111,6 +120,7 @@ const actions = {
   async fetchSnapshot({ commit }, assetSymbol) {
     commit(FETCH_ASSET_SNAPSHOT_REQUEST);
     const result = await AssetInfo.getCoinSnapshot(assetSymbol);
+    console.log(result);
     if (result.success) {
       commit(FETCH_ASSET_SNAPSHOT_COMPLETE, {
         description: result.data.description,
@@ -126,6 +136,11 @@ const actions = {
 
   resetData({ commit }) {
     commit(RESET_ASSET_INFO);
+  },
+
+  cancelRequests({ commit }) {
+    AssetInfo.cancelRequests();
+    commit(CANCEL_ASSET_REQUEST);
   }
 };
 
