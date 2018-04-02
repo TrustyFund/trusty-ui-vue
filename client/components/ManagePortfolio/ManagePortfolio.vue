@@ -12,8 +12,6 @@
     .tabs-content-container
       router-view(:items="items", fiat-id="1.3.121")
 
-
-
 </template>
 
 <script>
@@ -148,7 +146,6 @@ export default {
       thead tr th  {
         font-family: Gotham_Pro;
         text-transform: uppercase;
-        color: white;
       }
       tbody tr td:first-child {
         width: 50%;
