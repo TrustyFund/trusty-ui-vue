@@ -195,7 +195,7 @@ export default {
       if (newShare <= min) {
         item.share = min;
         this.clearTimer();
-        if (min) this.$toast.info(`Minimum share of ${item.name} is ${min}!`);
+        if (min) this.$toast.info(`Minimum share of ${item.name} is ${min}`);
       } else {
         item.share = newShare;
       }
