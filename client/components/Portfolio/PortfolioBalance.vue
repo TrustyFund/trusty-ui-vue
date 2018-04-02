@@ -45,7 +45,7 @@ export default {
     formattedBalanceFiat() {
       if (!this.item.fiatValue) return '0';
       const precisedFiatValue = this.item.fiatValue / (10 ** this.fiatPrecision);
-      if (precisedFiatValue > 1) return Math.floor(precisedFiatValue);
+      if (precisedFiatValue > 10) return Math.floor(precisedFiatValue);
       if (precisedFiatValue > 0.1) return precisedFiatValue.toFixed(1);
       return precisedFiatValue.toFixed(2);
     },
@@ -85,9 +85,12 @@ export default {
         margin-top: 10px;  
         padding-left: 0; 
       }
+      white-space: nowrap;
     } 
     .trusty_portfolio_arrow_right {
       margin-left: 1vw;
+      position: relative;
+      top: -0.5vw;
       svg {
         fill: #9ea2a5;
         height: 3.7vw;        
