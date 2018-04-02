@@ -1,9 +1,9 @@
 <template lang="pug">
 
 .trusty_deposit_fiat_fullscreen
-
+  .trusty_header
+    .header_title DEPOSIT
   .deposit_paddings
-
     trusty-input(:isOpen="true" label="please use your online bank to send")
       template(slot="input"): div._simple_text_left {{ order.FiatAmount  + ' ' + order.Currency }}
 
@@ -19,11 +19,12 @@
         v-clipboard:success="onCopy") copy address
       
 
-    trusty-input(:isOpen="true" label="exchanged rate confirmed")
-      template(slot="input"): div._simple_text_left {{ amount.rate }}
-      template(slot="right"): div._right_slash RUB / BTC
+    trusty-input(:isOpen="true" label="exchange rate confirmed")
+      template(slot="input"): div._simple_text_left.rate {{ amount.rate }} RUB/BTC
+      template(slot="right")
+        label.trusty_place_holder You will receive
+        div._right_slash {{ amount.final }} BTC
 
-    p._deposit_help_text you will receive {{ amount.final }} BTC
 
     p.trusty_help_text._bottom._yellow Push CONFIRM button as soon as#[br] you have completed the payment
 
@@ -69,7 +70,7 @@ export default {
         OperatorFee,
         BotFee
       } = this.order;
-      const final = (LBAmount - LBFee - OperatorFee - BotFee).toFixed(8);
+      const final = (LBAmount - LBFee - OperatorFee - BotFee).toFixed(5);
       const rate = Math.floor(FiatAmount / final).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
       return { final, rate };
     },
@@ -95,34 +96,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.trusty_deposit_fiat_fullscreen {
-  .modal_content {
-    padding-top: 10vw;
-    padding-bottom: 10vw;
-    background: black;
-  }
-
-  .deposit_paddings {
-    padding-top: 10vw;
-  }
-
-  .trusty_input_container {
-    ._simple_text_left {
-      height: 5.4vw!important;
-    }
-  }
-
-  .trusty_ps_text {
-    font-size: 3.3vw;
-    margin: 3.8vw 0;
-    line-height: 4.3vw;
-    font-family: Gotham_Pro;
-    text-align: center;
-    color: white;
-  }
-}
-
-
-</style>

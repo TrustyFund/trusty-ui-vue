@@ -127,6 +127,9 @@ export default {
 </script>
 
 <style lang="scss">
+#trusty_transfer {
+  height: 100vh;
+}
 ._input_space.composed {
   width: 68vw!important;
 }

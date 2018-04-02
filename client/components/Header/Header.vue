@@ -120,7 +120,7 @@ $background_color: #1b1f22;
   color: white;
   width: 100%;
   flex-shrink: 0;
-  z-index: 2;
+  z-index: 450;
   position: fixed;
 
   span._options {
