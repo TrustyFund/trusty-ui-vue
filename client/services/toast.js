@@ -11,6 +11,9 @@ export default {
   success(text) {
     this.alert('success', text);
   },
+  info(text) {
+    this.alert('info', text);
+  },
   alert(type, text) {
     alert({ type, text, position: 'bottom' });
   }
