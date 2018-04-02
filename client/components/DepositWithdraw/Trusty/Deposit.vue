@@ -17,12 +17,11 @@
       p.trusty_ps_text
         | Payment gateway service is provided by users of #[br] Localbitcoins.com
 
-    .trusty_deposit_fiat_fullscreen(v-else)
-      .trusty_deposit_fiat
-        timer(v-if="order.isWaitingOperatorAction()")
-        timer(v-if="order.isRejected()" error)
+    .trusty_deposit_fiat(v-else)
+      timer(v-if="order.isWaitingOperatorAction()")
+      timer(v-if="order.isRejected()" error)
 
-        payment(v-if="order.hasRequisites()")
+      payment(v-if="order.hasRequisites()")
 </template>
 
 <script>

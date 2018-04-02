@@ -151,8 +151,12 @@ const mutations = {
   },
   [CRYPTOBOT_ORDER_UPDATE_RECEIVED]: (state, { order }) => {
     const oldOrderClass = new Order(state.order);
-    if (!oldOrderClass.isComplete()) {
-      state.order = new Order(order);
+    const newOrderClass = new Order(order);
+    if (state.order && !oldOrderClass.isComplete()) {
+      state.order = newOrderClass;
+    }
+    if (!state.order && !newOrderClass.isComplete()) {
+      state.order = newOrderClass;
     }
   },
   [CRYPTOBOT_SET_PAYMENT_REQUEST]: (state) => {

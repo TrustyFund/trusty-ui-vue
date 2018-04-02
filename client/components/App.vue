@@ -61,8 +61,10 @@ export default {
 	flex-direction: column;
 }
 
+
 .router_content {
   padding-top: 12vw;
+  margin-bottom: -12vw;
   overflow-x: hidden;
 }
 
