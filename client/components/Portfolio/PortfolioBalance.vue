@@ -85,6 +85,7 @@ export default {
         margin-top: 10px;  
         padding-left: 0; 
       }
+      white-space: nowrap;
     } 
     .trusty_portfolio_arrow_right {
       margin-left: 1vw;
