@@ -79,6 +79,6 @@ class CryptobotClient {
   }
 }
 
-const url = 'http://192.168.1.192:8093/channel';
+const url = 'http://bot.trusty.fund/channel';
 
 export default new CryptobotClient(url);
