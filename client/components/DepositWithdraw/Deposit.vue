@@ -1,7 +1,8 @@
 <template lang="pug">
 #trusty_transfer
+
 	._turnover_inputs
-		TrustyInput(label="Enter sum"
+		AlphaInput(label="Enter sum"
 								 composed=true
 								 :class="{'hideborder': !canEnterAmount}")
 			template(slot="input" v-if="canEnterAmount")
@@ -16,34 +17,6 @@
 				Icon(name="trusty_arrow_down")
 		.trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
 		.trusty_font_error(v-if="$v.amount.required && !$v.amount.isNumeric && this.$v.amount.$dirty") Enter a number
-
-		TrustyInput(:isOpen="true",
-								label="payment method"
-								className="select_input payment-method" )
-			template(slot="input")
-				input(:style="{display:'none'}")
-				select(v-model="paymentmethod" )
-					option(v-for="method in methods", :value="method") {{ method }}
-				Icon(name="trusty_arrow_down" style="position: absolute")
-
-	._turnover_service
-		component(:is="gateway", :payload="payload")
-
-	._turnover_inputs
-
-		trusty-input(
-			label="send any sum",
-			v-model="amount",
-			inputType="tel",
-			composed=true,
-			v-bind:class='{ "hideborder": !canEnterAmount}',
-			:close="false")
-
-			template(slot="right")
-				icon(name="trusty_arrow_down")
-				span.fake_option_width
-				select(v-model="selectedcoin")
-					option(v-for="coin in coins") {{ coin }}
 
 		trusty-input(
 			:isOpen="true",
@@ -67,6 +40,7 @@
 import { validationMixin } from 'vuelidate';
 import { required } from 'vuelidate/lib/validators';
 import TrustyInput from '@/components/UI/form/input';
+import AlphaInput from '@/components/UI/form/alpha';
 import Icon from '@/components/UI/icon';
 
 import openledger from './Openledger/Deposit';
@@ -98,7 +72,7 @@ const methodsByCoin = {
 
 export default {
   mixins: [validationMixin],
-  components: { TrustyInput, Icon, openledger, trusty, bitshares },
+  components: { AlphaInput, TrustyInput, Icon, openledger, trusty, bitshares },
   data() {
     return {
       selectedcoin: 'BTC',
@@ -158,16 +132,7 @@ export default {
 </script>
 
 <style lang="scss">
-// <<<<<<< HEAD
 
-// .payment-method ._input_space {
-// 	padding-bottom: 0.5vh;
-// }
-// .deposit_amount {
-// 	width: 80vw!important;
-// }
-
-// =======
 #trusty_transfer {
 	height: 100vh;
 }

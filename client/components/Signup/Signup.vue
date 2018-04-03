@@ -137,7 +137,7 @@ export default {
     this.debouncedRepeatPinInput = debounce(() => {
       this.$v.confirmPin.$touch();
     }, 500);
-    this.debouncedNameInput = debounce((e) => {
+    this.debouncedNameInput = debounce(() => {
       this.$v.name.$touch();
     }, 800);
   }

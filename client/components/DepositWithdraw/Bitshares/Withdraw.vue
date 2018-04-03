@@ -3,7 +3,7 @@
 .withdraw-transfer-container
 	p
 	TrustyInput(
-		label="enter receiver's username",
+		label="enter receiver's address",
 		v-model="name",
 		:validate="$v.name.$touch",
 		inputClass="recepient-input")
