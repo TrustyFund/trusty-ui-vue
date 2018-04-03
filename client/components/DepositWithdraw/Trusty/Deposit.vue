@@ -60,7 +60,7 @@ export default {
       required
     }
   },
-  beforeMount() {
+  mounted() {
     this.connect();
   },
   beforeDestroy() {

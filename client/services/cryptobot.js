@@ -1,5 +1,3 @@
-0;
-
 /* eslint no-underscore-dangle: 0 */
 import SockJS from 'sockjs-client';
 
