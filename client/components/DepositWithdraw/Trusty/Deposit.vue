@@ -14,6 +14,7 @@
         	label="NAME AND SURNAME OF PAYEUR",
         	v-model="clientName",
         	:validate="$v.clientName.$touch")
+
         .trusty_font_error(v-if="!$v.clientName.required && this.$v.clientName.$dirty") Enter cardholder's name
 
       .trusty_inline_buttons._one_button(:class="{'_disabled': !payload.amount}")
@@ -64,7 +65,7 @@ export default {
       required
     }
   },
-  beforeMount() {
+  mounted() {
     this.connect();
   },
   beforeDestroy() {

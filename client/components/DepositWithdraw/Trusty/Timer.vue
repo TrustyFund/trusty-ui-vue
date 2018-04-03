@@ -33,7 +33,9 @@ export default {
   methods: {
     ...mapActions({
       cancelOrder: 'cryptobot/cancelOrder',
-      clearOrder: 'cryptobot/clearOrder'
+      clearOrder: 'cryptobot/clearOrder',
+      hideHeader: 'app/hideHeader',
+      showHeader: 'app/showHeader'
     }),
 
     tick() {
@@ -91,11 +93,12 @@ export default {
 
   mounted() {
     this.interval = setInterval(this.tick.bind(this), 1000);
+    this.hideHeader();
   },
-
   beforeDestroy() {
+    this.showHeader();
     clearInterval(this.interval);
-  },
+  }
 
 };
 

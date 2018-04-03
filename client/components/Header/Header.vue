@@ -1,6 +1,6 @@
 <template lang="pug">
 
-.trusty_header(v-if="!isHidden")
+.trusty_header(v-if="!isHidden && showHeader")
 
     icon-component(
       name="trusty_fund_logo",
@@ -70,7 +70,8 @@ export default {
   computed: {
     ...mapGetters({
       userId: 'account/getAccountUserId',
-      getTechnology: 'assetInfo/getTechnology'
+      getTechnology: 'assetInfo/getTechnology',
+      showHeader: 'app/showHeader'
     }),
     headerTitle() {
       if (this.$route.name === 'coin') {
@@ -120,7 +121,6 @@ $background_color: #1b1f22;
   color: white;
   width: 100%;
   flex-shrink: 0;
-  z-index: 450;
   position: fixed;
 
   span._options {

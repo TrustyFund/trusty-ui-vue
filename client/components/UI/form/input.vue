@@ -326,8 +326,6 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 		}
 	}
 
-
-
 	._input_space {
 
 		width: 100%;
@@ -438,7 +436,6 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 			transform: translateY(-6.4vw);
 		}
 	}
-
 
 }
 

@@ -17,9 +17,7 @@
 
 
   #trusty_manage_modal {
-    z-index: 3000;
     a {
-      z-index: 3000;
       color: white;
       font-size: 12vw;
       padding-right: 3vw;
@@ -38,7 +36,6 @@
     }
 
     .modal-overlay.is-active {
-      z-index: 3000;
       //background-color: black !important;
     }
 

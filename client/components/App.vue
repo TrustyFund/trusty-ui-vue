@@ -1,9 +1,9 @@
 <template>
 	<div id="trusty-app" :class="activeClass">
-		<Header/>
 		<div class="router_content" ref="routerContent">
       <router-view></router-view>
     </div>
+    <Header/>
 		<div class="connecting-block-screen"
 				 v-if="!ready && !isLanding">
 			 <Spinner/>
@@ -75,7 +75,6 @@ export default {
 	width: 100%;
 	height: 100%;
 	background-color: rgba(30, 34, 37, 0.7);
-  z-index: 100;
 }
 
 .notie-container {
