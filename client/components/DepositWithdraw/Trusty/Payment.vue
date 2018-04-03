@@ -81,7 +81,7 @@ export default {
       return withoutSpaces.replace(/(.{4})/g, '$1 ');
     }
   },
-  beforeMount() {
+  mounted() {
     this.hideHeader();
   },
   beforeDestroy() {

@@ -218,8 +218,8 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     display: inline-block;
     position: absolute;
     right: 0;
+    bottom: 0;
     float: right;
-    bottom: 0vh;
     span {
       display: inline-block;
       color: white;

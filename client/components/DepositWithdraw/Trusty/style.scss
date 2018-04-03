@@ -40,9 +40,10 @@
 	  		bottom: 0.6vw;
 	  	}
 	  	._right_space {
+	  		bottom: auto!important;
 	  		text-align: right;
 				._right_slash {
-					font-weight: bold!important;
+					font-weight: bolder!important;
 					height: 5.4vw !important;
 					margin-bottom: 0.5vw!important;
 				}
@@ -107,7 +108,7 @@
 	}
 
 	.deposit_paddings{
-		padding-top: 17vw;
+		padding-top: 12vw;
 		padding-left: 3.6vw;
 		padding-right: 3.6vw;		
 	}

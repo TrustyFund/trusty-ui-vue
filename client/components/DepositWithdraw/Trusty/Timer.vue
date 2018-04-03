@@ -93,9 +93,6 @@ export default {
 
   mounted() {
     this.interval = setInterval(this.tick.bind(this), 1000);
-  },
-
-  beforeMount() {
     this.hideHeader();
   },
   beforeDestroy() {

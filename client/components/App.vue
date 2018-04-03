@@ -1,9 +1,9 @@
 <template>
 	<div id="trusty-app" :class="activeClass">
-		<Header/>
 		<div class="router_content" ref="routerContent">
       <router-view></router-view>
     </div>
+    <Header/>
 		<div class="connecting-block-screen"
 				 v-if="!ready && !isLanding">
 			 <Spinner/>
