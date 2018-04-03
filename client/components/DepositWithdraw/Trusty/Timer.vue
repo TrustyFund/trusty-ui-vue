@@ -61,6 +61,9 @@ export default {
       } else {
         this.cancelOrder();
       }
+      this.$nextTick(() => {
+        window.scrollTo(0, 0);
+      });
     }
   },
 
