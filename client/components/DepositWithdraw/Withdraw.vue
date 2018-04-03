@@ -99,7 +99,7 @@ export default {
     balanceAmountText() {
       const id = this.selectedCoin;
       const balance = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
-      return 'Max ' + balance;
+      return 'Max ' + balance + ' (click to paste)';
     },
     minWithdraw() {
       if (this.paymentMethod === OpenledgerName) {
