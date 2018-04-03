@@ -164,7 +164,6 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     cursor: pointer;
     display: inline-block;
     position: relative;
-    z-index: 200;
   }
 
   .trusty_input_container.text_area {
@@ -203,7 +202,6 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     color: $color_light_grey;
     transition: all .2s;
     text-transform: uppercase;
-    z-index: 100;
   }
 
 
@@ -219,7 +217,6 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
   ._right_space{
     display: inline-block;
     position: absolute;
-    z-index: 1;
     right: 0;
     float: right;
     bottom: 0vh;
@@ -258,7 +255,6 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 
 
   ._input_space {
-    z-index: 10;
     width: 100%;
     border-bottom: 1px solid $color_light_grey;
     input {
@@ -321,7 +317,6 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 
   span.fake_option_width {
     position: absolute;
-    z-index: -1000;
     opacity: 0;
     font-size: 1.5vw;
     font-family: Gotham_Pro_Bold;

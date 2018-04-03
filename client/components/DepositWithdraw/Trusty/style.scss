@@ -2,7 +2,6 @@
 
 	.trusty_deposit_fiat_fullscreen {
 
-		z-index: 450;
 		position: absolute;
 		width: 100%;
 		top: 0;
@@ -13,6 +12,10 @@
 			.trusty_deposit_fiat {
 				padding: 0;
 			}
+		}
+
+		._input_space {
+			border: none!important;
 		}
 
 		.cryptobot_header {
@@ -39,7 +42,7 @@
 	  	._right_space {
 	  		text-align: right;
 				._right_slash {
-					font-weight: bold;
+					font-weight: bold!important;
 					height: 5.4vw !important;
 					margin-bottom: 0.5vw!important;
 				}
@@ -104,15 +107,9 @@
 	}
 
 	.deposit_paddings{
-		padding-top: 15vw;
+		padding-top: 17vw;
 		padding-left: 3.6vw;
-		padding-right: 3.6vw;
-
-		
-
-		
-
-		
+		padding-right: 3.6vw;		
 	}
 
 }

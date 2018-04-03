@@ -59,7 +59,6 @@ $light_grey: #6d6e70;
 	left: 0;
 	bottom:0;
 	right: 0;
-	z-index: 500;
 	background: rgba(0,0,0,0.74);
 	@media screen and (min-width: 769px) {
 		background: #1e2225;

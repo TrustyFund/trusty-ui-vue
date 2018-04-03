@@ -1,3 +1,5 @@
+0;
+
 /* eslint no-underscore-dangle: 0 */
 import SockJS from 'sockjs-client';
 
@@ -77,6 +79,6 @@ class CryptobotClient {
   }
 }
 
-const url = 'https://bot.trusty.fund/channel';
+const url = 'http://192.168.1.192:8093/channel';
 
 export default new CryptobotClient(url);
