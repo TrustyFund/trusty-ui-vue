@@ -166,7 +166,7 @@ $background_color: #1b1f22;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.25s;
-  position: absolute;
+  position: fixed;
   top: 12vw;
   right: 0;
   left: 0;
