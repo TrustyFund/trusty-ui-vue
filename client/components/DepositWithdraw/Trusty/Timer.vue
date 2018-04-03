@@ -1,7 +1,7 @@
 <template lang="pug">
 .trusty_deposit_fiat_fullscreen
   .trusty_deposit_timer
-    ._title(v-html="text" v-bind:class='{"error": error}')
+    ._title(v-html="text" v-bind:class='{"error": error || textChange}')
     ._timer(v-if="error")
       | 00:00
     ._timer(v-else)
@@ -74,11 +74,14 @@ export default {
       const seconds = this.secondsRemaining;
       return (this.secondsRemaining < 10) ? '0' + seconds : seconds;
     },
+    textChange() {
+      return this.secondsRemaining === 0 && this.minutesRemaining === 0;
+    },
     text() {
       if (this.error) {
         return 'PLEASE TRY AGAIN LATER';
       }
-      if (this.secondsRemaining === 0 && this.minutesRemaining === 0) {
+      if (this.textChange) {
         return 'PLEASE WAIT MORE <br /> WE ARE HANDLING YOUR REQUEST';
       }
       return 'YOU WILL GET DEPOSIT DETAILS IN <br /> UNDER 3 MINUTES';
