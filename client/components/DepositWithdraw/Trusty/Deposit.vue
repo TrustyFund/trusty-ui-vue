@@ -7,7 +7,7 @@
   template(v-else)
     .trusty_deposit_fiat(v-if="!hasorder")
       ._margin_bottom
-        TrustyInput(:isOpen="clientName !== ''", label="NAME AND SURNAME OF PAYEUR")
+        TrustyInput(:isOpen="clientName !== ''", label="NAME AND SURNAME OF PAYER")
           template(slot="input")
             input(type="text" v-model="clientName" @input="$v.clientName.$touch()")
         .trusty_font_error(v-if="!$v.clientName.required && this.$v.clientName.$dirty") Enter cardholder's name
