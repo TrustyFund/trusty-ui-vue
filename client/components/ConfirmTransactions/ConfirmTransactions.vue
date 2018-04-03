@@ -2,10 +2,11 @@
 #approve_update_portfolio.main_padding
 
   .transaction_info
-    p._value(v-for="order in orders") 
-      PlaceOrderInfo(:item="order", :min="true" :fiat-id="fiatId")
-    p._value
-    p._value Transaction fee: {{ totalOrderFees.base }} BTS ({{ totalOrderFees.fiat }}$)
+    template(v-if="hasPendingOrders")
+      p._value(v-for="order in orders") 
+        PlaceOrderInfo(:item="order", :min="true" :fiat-id="fiatId")
+      p._value
+      p._value Transaction fee: {{ totalOrderFees.base }} BTS ({{ totalOrderFees.fiat }}$)
 
     template(v-if="hasPendingTransfer")
       template(v-if="isWithdraw")
