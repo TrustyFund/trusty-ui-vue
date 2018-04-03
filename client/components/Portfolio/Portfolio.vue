@@ -3,13 +3,11 @@ div
   .trusty_inline_buttons._mob._one_button(@click="goToManagePortfolio" v-show="!minMode && totalBaseValue"): button MANAGE FUND
   div.grid_wrapper
     ._text_left.portfolio_head ASSET
-    div
     ._text_right.portfolio_head SHARE
     ._text_right.portfolio_head $VALUE
     ._text_right.portfolio_head 24H
     template(v-for="item in itemsAsArray")
       ._text_left.overflowed.portfolio_item {{ item.name }}
-      Icon(name="trusty_portfolio_arrow_right")
       ._text_right.portfolio_item {{ formattedShare(item) }}%
       ._text_right.portfolio_item {{ formattedBalanceFiat(item) }}
       ._text_right.portfolio_item {{ formattedChange(item) }}%
@@ -156,7 +154,7 @@ export default {
     display: grid;
     grid-gap: 0%;
     grid-row-gap: 2.5vw;
-    grid-template-columns: 30% 3% 20% 27% 20%;
+    grid-template-columns: 35% 20% 25% 20%;
     margin-bottom: 2em;
     padding-top: 3vw;
     font-family: 'Gotham_Pro_Regular';
@@ -170,6 +168,7 @@ export default {
     .portfolio_item {
       font-size: 6vw;
       color: white;
+      overflow: hidden;
     }
 
   }

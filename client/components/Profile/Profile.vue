@@ -87,9 +87,11 @@ export default {
 @import "~@/style/mixins";
 
 #trusty_profile {
+
   padding-right: 3.6vw;
   padding-left: 3.6vw;
   padding-bottom: 10vw;
+  
   @media screen and (min-width: 768px) {
 
     max-width: 80%;

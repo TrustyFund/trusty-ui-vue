@@ -115,7 +115,7 @@ export default {
     this.debouncedRepeatPinInput = debounce((e) => {
       this.confirmPin = e.target.value;
       this.$v.confirmPin.$touch();
-    }, 800);
+    }, 500);
   }
 };
 
