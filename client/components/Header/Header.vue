@@ -43,7 +43,7 @@ export default {
       titles: {
         signup: 'signup',
         login: 'login',
-        deposit: 'deposit details',
+        deposit: 'deposit',
         withdraw: 'withdraw',
         'manage-percent': 'manage fund',
         'manage-value': 'manage fund',
@@ -70,11 +70,11 @@ export default {
   computed: {
     ...mapGetters({
       userId: 'account/getAccountUserId',
-      getAssetSnapShot: 'assetInfo/getSnapShot'
+      getTechnology: 'assetInfo/getTechnology'
     }),
     headerTitle() {
       if (this.$route.name === 'coin') {
-        return this.getAssetSnapShot.name || this.$route.params.symbol;
+        return this.getTechnology.name || this.$route.params.symbol;
       }
       return this.titles[this.$route.name];
     },
@@ -120,7 +120,8 @@ $background_color: #1b1f22;
   color: white;
   width: 100%;
   flex-shrink: 0;
-  z-index: 2;
+  z-index: 450;
+  position: fixed;
 
   span._options {
     box-sizing: border-box;
@@ -165,7 +166,7 @@ $background_color: #1b1f22;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.25s;
-  position: absolute;
+  position: fixed;
   top: 12vw;
   right: 0;
   left: 0;

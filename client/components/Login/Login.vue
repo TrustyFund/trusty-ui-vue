@@ -5,7 +5,7 @@
 	.input_area
 
 			trusty-input(
-				label="BACKUP PHRASE",
+				label="ENTER BACKUP PHRASE",
 				type="textarea",
 				:textarea="true",
 				v-model="brainkey",
@@ -120,7 +120,7 @@ export default {
     }, 800);
     this.debouncedRepeatPinInput = debounce(() => {
       this.$v.confirmPin.$touch();
-    }, 800);
+    }, 500);
   }
 };
 
@@ -147,7 +147,7 @@ export default {
 	}
 
 	.trusty_buttons {
-    margin-top: 4.6vw;
+		margin-top: 4.6vw;
 	}
 
 	.text_area {

@@ -1,42 +1,30 @@
 <template lang="pug">
 #trusty_transfer
 
-	._turnover_inputs
+  ._turnover_inputs
+    TrustyInput(label="enter sum" composed=true)
+      template(slot="input")
+        input(v-model="amount" @input="$v.amount.$touch()")
+      template(slot="right")
+        select(v-model="selectedCoin" v-if="isNonZeroLength" dir="rtl")
+          option(v-for="(coin, id) in nonZeroAssets", v-bind:value="id") {{ coin.symbol }}
+        icon-component(name="trusty_arrow_down")
+    p
+    .trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
+    .trusty_font_error(v-if="$v.amount.required && !$v.amount.isNumeric && this.$v.amount.$dirty") Enter a number
+    .trusty_font_error(v-if="$v.amount.isNumeric && !$v.amount.doesntExceedBalance && this.$v.amount.$dirty") Innuficient funds
+    .trusty_font_error(
+      v-if=`$v.amount.isNumeric &&
+      $v.amount.doesntExceedBalance &&
+      !$v.amount.doesntExceedMinWithdraw &&
+      this.$v.amount.$dirty`) Minimal withdraw amount {{ minWithdraw }}
 
-		TrustyInput(
-			label="send any sum",
-			:validate="$v.amount.$touch",
-			inputType="tel",
-			composed=true,
-			v-model="amount",
-			:close="false")
-
-			template(slot="right")
-				icon-component(name="trusty_arrow_down")
-				span.fake_option_width
-				select(v-model="selectedCoin")
-					option(v-for="(coin, id) in nonZeroAssets", v-bind:value="id") {{ coin.symbol }}
-
-		.trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
-		.trusty_font_error(v-if="$v.amount.required && !$v.amount.isNumeric && this.$v.amount.$dirty") Enter a number
-		.trusty_font_error(v-if="$v.amount.isNumeric && !$v.amount.doesntExceedBalance && this.$v.amount.$dirty") Innuficient funds
-		.trusty_font_error(
-			v-if=`$v.amount.isNumeric &&
-			$v.amount.doesntExceedBalance &&
-			!$v.amount.doesntExceedMinWithdraw &&
-			this.$v.amount.$dirty`) Minimal withdraw amount {{ minWithdraw }}
-
-		TrustyInput(
-			:isOpen="true",
-			label="payment method",
-			className="select_input",
-			:foreignInput="true")
-			template(slot="input")
-				select(v-model="paymentMethod" )
-					option(v-for="method in methods", :value="method") {{ method }}
-
-	._turnover_service
-		component(:is="gateway", :amount="payload.amount", :coin="payload.selectedcoin")
+    TrustyInput(:isOpen="true", label="payment method" className="select_input payment-method")
+      template(slot="input")
+        input(:style="{display:'none'}")
+        select(v-model="paymentMethod" )
+          option(v-for="method in methods") {{ method }}
+        icon-component(name="trusty_arrow_down" style="position: absolute")
 
 </template>
 

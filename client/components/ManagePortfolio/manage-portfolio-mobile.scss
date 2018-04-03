@@ -2,6 +2,8 @@
 
   #asset_tab {
 
+    padding-bottom: 15vw;
+
     .trusty_inline_buttons:first-child {
       margin-top: 3vw;
     }
@@ -32,6 +34,7 @@
     span.portfolio_asset {
       width: 19vw;
       color: white;
+      font-size: 6vw;
     }
 
     .modal-overlay.is-active {
@@ -45,8 +48,9 @@
     }
 
     table thead tr th {
-        font-size: 3.4vw;
-        text-align: left;
+      text-align: left;
+      font-size: 4.4vw;
+      color: #cccccc;
     }
 
     table thead tr th:first-child {
@@ -55,20 +59,19 @@
 
     table thead tr th:last-child {
         text-align: left;
-        padding-left: 16.3vw;
+        padding-left: 14.3vw;
 
     }
 
     table tbody {
       .trusty_portfolio_arrow_right {
       	margin-left: 2.6vw;
-      	transform: translateY(1vw);
 		    max-width: 3vw;
         margin-left: 2.6vw;
-        margin-bottom: -1vw;
         max-width: 3vw;
+        min-width: 3vw;
         svg {
-          height: 5.7vw;
+          height: 5vw;
           path  {
             fill: #9ea2a5;
           }
@@ -83,7 +86,18 @@
           font-size: 5.0vw;
           margin-top: 4.7vw;
 					text-align: left;
-
+          white-space: nowrap;
+          &._name {
+            display: flex;
+            max-width: 31vw;
+            align-items: center;
+            font-family: 'Gotham_Pro_Regular';
+            font-size: 6vw;
+            span {
+              text-overflow: ellipsis;
+              overflow: hidden;
+            }
+          }
         }
 
         tr:first-child .portfolio_item {

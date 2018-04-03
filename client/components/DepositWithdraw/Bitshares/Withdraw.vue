@@ -1,27 +1,26 @@
 <template lang="pug">
 
-	.withdraw-transfer-container
-		TrustyInput(
-			label="enter receiver's username",
-			v-model="name",
-			:validate="$v.name.$touch",
-			inputClass="recepient-input")
-
-		.trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter account name
-		.trusty_font_error(v-if="!$v.name.isUnique && !this.$v.$pending && this.$v.name.$dirty") No such user
-		.trusty_font_error(v-if="!$v.name.notSelf && this.$v.name.$dirty") Can't send to yourself
-		._yellow.trusty_ps_text
-			| IMPORTANT: Please send {{ getAssetById(coin).symbol }} only to
-			br
-			| BitShares account using this payment method
-		.trusty_inline_buttons._mob
-					button(:class="{'_disable': !enableButton }", @click="sendFunds") Confirm
-					button(@click="$router.replace('/')") Cancel
-		p.trusty_ps_text
-			| Payments using BitShares
-			br
-			| are done directly at 0.0004$ fixed fee
-
+.withdraw-transfer-container
+	p
+	TrustyInput(
+		label="enter receiver's username",
+		v-model="name",
+		:validate="$v.name.$touch",
+		inputClass="recepient-input")
+	.trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter account name
+	.trusty_font_error(v-if="!$v.name.isUnique && !this.$v.$pending && this.$v.name.$dirty") No such user
+	.trusty_font_error(v-if="!$v.name.notSelf && this.$v.name.$dirty") Can't send to yourself
+	._yellow.trusty_ps_text
+		| IMPORTANT: Please send {{ getAssetById(coin).symbol }} only to
+		br
+		| BitShares account using this payment method
+	.trusty_inline_buttons._mob
+				button(:class="{'_disable': !enableButton }", @click="sendFunds") Confirm
+				button(@click="$router.replace('/')") Cancel
+	p.trusty_ps_text
+		| Payments using BitShares
+		br
+		| are done directly at 0.0004$ fixed fee
 
 </template>
 
@@ -103,9 +102,9 @@ button._disable {
 }
 
 .withdraw-transfer-container {
-  .recepient-input {
-    text-transform: lowercase;
-  }
+	.recepient-input {
+		text-transform: lowercase;
+	}
 }
 </style>
 

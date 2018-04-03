@@ -86,7 +86,8 @@ export default {
         if (!this.$v.name.required
           || !this.$v.name.minLength
           || !this.$v.name.hasSpecialSymbol) return true;
-        return this.checkUsername({ username: value.replace(/@/g, '-') });
+        const username = value.replace(/@/g, '-').toLowerCase();
+        return this.checkUsername({ username });
       },
       minLength: minLength(4)
     },
@@ -114,8 +115,7 @@ export default {
     async handleSignUp() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        const replacedName = this.name.replace(/@/g, '-');
-        console.log(this.name, replacedName, this.pin);
+        const replacedName = this.name.replace(/@/g, '-').toLowerCase();
         const result = await this.signup({
           name: replacedName,
           password: this.pin,
@@ -136,8 +136,8 @@ export default {
     }, 800);
     this.debouncedRepeatPinInput = debounce(() => {
       this.$v.confirmPin.$touch();
-    }, 800);
-    this.debouncedNameInput = debounce(() => {
+    }, 500);
+    this.debouncedNameInput = debounce((e) => {
       this.$v.name.$touch();
     }, 800);
   }

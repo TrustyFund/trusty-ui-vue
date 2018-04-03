@@ -22,26 +22,18 @@ import ConfirmTransactions from '@/components/ConfirmTransactions/ConfirmTransac
 import EntryPoint from '@/components/EntryPoint/EntryPoint';
 import TermsOfUse from '@/components/TermsOfUse/TermsOfUse';
 
-import Test from '@/components/Transfer';
-
-
 Vue.use(Router);
 
 const router = new Router({
   mode: 'history',
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  },
   routes: [
     {
       name: 'login',
       path: '/login',
       component: Login,
-      meta: {
-        requiredAuth: false
-      }
-    },
-    {
-      name: 'test',
-      path: '/test',
-      component: Test,
       meta: {
         requiredAuth: false
       }
