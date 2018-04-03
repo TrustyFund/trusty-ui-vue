@@ -132,7 +132,7 @@ export default {
     this.debouncedRepeatPinInput = debounce((e) => {
       this.confirmPin = e.target.value;
       this.$v.confirmPin.$touch();
-    }, 800);
+    }, 500);
     this.debouncedNameInput = debounce((e) => {
       this.name = e.target.value;
       this.$v.name.$touch();
