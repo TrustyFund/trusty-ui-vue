@@ -1,7 +1,15 @@
 const APP_SET_MODAL = 'APP_SET_MODAL';
 const APP_INIT = 'APP_INIT';
+const SHOW_HEADER = 'SHOW_HEADER';
+const HIDE_HEADER = 'HIDE_HEADER';
 
 const actions = {
+  showHeader({ commit }) {
+    commit(SHOW_HEADER);
+  },
+  hideHeader({ commit }) {
+    commit(HIDE_HEADER);
+  },
   setModal({ commit }, val) {
     commit(APP_SET_MODAL, val);
   },
@@ -65,6 +73,7 @@ const actions = {
 
 const getters = {
   getModalName: state => state.modalName,
+  showHeader: state => state.showHeader
 };
 
 const mutations = {
@@ -72,12 +81,19 @@ const mutations = {
     state.modalName = modalName;
   },
   [APP_INIT]() {
+  },
+  [SHOW_HEADER](state) {
+    state.showHeader = true;
+  },
+  [HIDE_HEADER](state) {
+    state.showHeader = false;
   }
 };
 
 
 const state = {
-  modalName: ''
+  modalName: '',
+  showHeader: true
 };
 
 export default {

@@ -17,6 +17,11 @@
       TransactionsItemCancelOrderInfo(
         v-if="type === 'limit_order_cancel'" 
        :item="item")
+
+      TransactionsItemPendingDeposit(
+        v-if="type === 'pending_deposit'"
+        :item="item"
+      )
     div.transaction_info__date(v-show="!hideDate") {{ relativeTime }}
 
 </template>
@@ -27,6 +32,7 @@ import TransactionsItemTransferInfo from './TransactionsItemTransferInfo';
 import TransactionsItemPlaceOrderInfo from './TransactionsItemPlaceOrderInfo';
 import TransactionsItemFillOrderInfo from './TransactionsItemFillOrderInfo';
 import TransactionsItemCancelOrderInfo from './TransactionsItemCancelOrderInfo';
+import TransactionsItemPendingDeposit from './TransactionsItemPendingDeposit';
 
 
 export default {
@@ -34,7 +40,8 @@ export default {
     TransactionsItemTransferInfo,
     TransactionsItemPlaceOrderInfo,
     TransactionsItemFillOrderInfo,
-    TransactionsItemCancelOrderInfo
+    TransactionsItemCancelOrderInfo,
+    TransactionsItemPendingDeposit
   },
   props: {
     item: {

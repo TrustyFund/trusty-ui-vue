@@ -1,9 +1,9 @@
 <template>
-	<div id="app" :class="activeClass">
-		<Header/>
+	<div id="trusty-app" :class="activeClass">
 		<div class="router_content" ref="routerContent">
       <router-view></router-view>
     </div>
+    <Header/>
 		<div class="connecting-block-screen"
 				 v-if="!ready && !isLanding">
 			 <Spinner/>
@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     activeClass() {
-      return this.isLanding ? '_landing_page' : '';
+      return this.isLanding ? '_landing_page' : 'app';
     },
     isLanding() {
       return this.$route.name === 'entry' && !this.userId;
@@ -45,12 +45,6 @@ export default {
   beforeMount() {
     // retrieve cached user data & connect to bitsharesjs-ws
     this.initApp();
-    // prevents long click context menu
-    window.oncontextmenu = (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      return false;
-    };
   },
   watch: {
     $route() {
@@ -61,33 +55,26 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
+#trusty-app {
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	overflow: hidden;
-	@media screen and (max-width: 768px) {
-		&._header_space {
-			padding-top: 12vw !important;
-		}
-	}
+}
 
-	.router_content {
-		height: 100%;
-		position: relative;
-		overflow-y: scroll;
-		overflow-x: hidden;
-	}
+
+.router_content {
+  padding-top: 12vw;
+  margin-bottom: -12vw;
+  overflow-x: hidden;
 }
 
 .connecting-block-screen {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
 	background-color: rgba(30, 34, 37, 0.7);
-  z-index: 100;
 }
 
 .notie-container {
@@ -101,6 +88,9 @@ export default {
   }
   &.notie-background-warning {
     background-color: rgba(130, 106, 29, 0.95);
+  }
+  &.notie-background-info {
+    background-color: rgba(28, 57, 130, 0.95);
   }
 }
 </style>

@@ -1,12 +1,15 @@
 import Vue from 'vue';
 import { sync } from 'vuex-router-sync';
+import VueScrollTo from 'vue-scrollto';
 import VueClipboard from 'vue-clipboard2';
 import router from './router';
 import store from './store';
 import App from './components/App';
 import toast from './services/toast';
 
+
 Vue.use(VueClipboard);
+Vue.use(VueScrollTo);
 sync(store, router);
 
 Vue.config.productionTip = false;

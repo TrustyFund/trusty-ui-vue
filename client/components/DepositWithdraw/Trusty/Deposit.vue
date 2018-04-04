@@ -1,52 +1,48 @@
 <template lang="pug">
 ._turnover_info
-	.status(v-if="!connected")
-		span(v-if="pending").loading Loading...
-		span(v-if="error").loading Service unavailable
-	template(v-else)
-		.trusty_deposit_fiat(v-if="!hasorder")
-			._margin_bottom
-				trusty-input(:isOpen="false", label="NAME AND SURNAME OF PAYER")
-					template(slot="input"): input(type="text" v-model="clientName")
-					
-			.trusty_inline_buttons._one_button
-				button(@click="newOrder") CONFIRM
-			p.trusty_ps_text
-				| Payment gateway service is provided by users of #[br] Localbitcoins.com
+  .status(v-if="!connected")
+    .spinner_container(v-show="pending")
+      Spinner
+    span(v-if="error").loading Service unavailable
+  template(v-else)
+    .trusty_deposit_fiat(v-if="!hasorder")
+      ._margin_bottom
+        TrustyInput(:isOpen="clientName !== ''", label="NAME AND SURNAME OF PAYER")
+          template(slot="input")
+            input(type="text" v-model="clientName" @input="$v.clientName.$touch()")
+        .trusty_font_error(v-if="!$v.clientName.required && this.$v.clientName.$dirty") Enter cardholder's name
+          
+      .trusty_inline_buttons._one_button(:class="{'_disabled': !payload.amount}")
+        button(@click="newOrder") CONFIRM
+      p.trusty_ps_text
+        | Payment gateway service is provided by users of #[br] Localbitcoins.com
 
-		.trusty_deposit_fiat_fullscreen(v-else)
-			.trusty_deposit_fiat
+    .trusty_deposit_fiat(v-else)
+      timer(v-if="order.isWaitingOperatorAction()")
+      timer(v-if="order.isRejected()" error)
 
-				timer(v-if="order.isWaitingOperatorAction()")
-
-				payment(v-if="order.hasRequisites()")
-
-				div(v-if="order.isRejected()")
-					span._tooltip No operators availble
-					.trusty_inline_buttons._one_button
-						button(@click="clearOrder") try again
-
-				div(v-if="order.isComplete()")
-					span._tooltip Transaction complete, you will receive BTC soon
-					.trusty_inline_buttons._one_button
-						button(@click="clearOrder") Got it
+      payment(v-if="order.hasRequisites()")
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate';
+import { required } from 'vuelidate/lib/validators';
 import { mapGetters, mapActions } from 'vuex';
-import trustyInput from '@/components/UI/form/input';
-import icon from '@/components/UI/icon';
-import payment from './Payment';
-import timer from './Timer';
+import TrustyInput from '@/components/UI/form/input';
+import Spinner from '@/components/UI/Spinner';
+import * as types from 'lib/src/mutations';
+import Payment from './Payment';
+import Timer from './Timer';
 
 import './style.scss';
 
 export default {
+  mixins: [validationMixin],
   components: {
-    timer,
-    payment,
-    trustyInput,
-    icon
+    Timer,
+    Payment,
+    TrustyInput,
+    Spinner
   },
   props: {
     payload: {
@@ -59,7 +55,12 @@ export default {
       clientName: ''
     };
   },
-  beforeMount() {
+  validations: {
+    clientName: {
+      required
+    }
+  },
+  mounted() {
     this.connect();
   },
   beforeDestroy() {
@@ -93,12 +94,53 @@ export default {
       return state === showState;
     },
     newOrder() {
-      this.createOrder({
-        currency: this.payload.coin,
-        amount: this.payload.amount,
-        method: this.payload.method,
-        name: this.clientName
-      });
+      this.$v.$touch();
+      if (!this.$v.$invalid && this.payload.amount) {
+        this.createOrder({
+          currency: this.payload.coin,
+          amount: this.payload.amount,
+          method: this.payload.method,
+          name: this.clientName
+        });
+      }
+    },
+    getTotalAmount(order) {
+      const {
+        LBAmount,
+        LBFee,
+        OperatorFee,
+        BotFee
+      } = order;
+      return (LBAmount - LBFee - OperatorFee - BotFee).toFixed(8);
+    }
+  },
+  watch: {
+    order(newOrder) {
+      if (newOrder.Status === 10) {
+        this.clearOrder();
+
+        const operation = {
+          date: new Date(),
+          type: 'pending_deposit',
+          amount: this.getTotalAmount(newOrder)
+        };
+
+        this.$store.commit('operations/' + types.ADD_USER_OPERATION, {
+          operation
+        });
+
+        this.$toast.success('Deposit request complete');
+        this.$router.push({ name: 'entry' });
+      }
+      if (newOrder.Status === 9) {
+        this.clearOrder();
+        this.$toast.warning('TRANSACTION CANCELED');
+        this.$router.push({ name: 'entry' });
+      }
+
+      if (newOrder.Status === 8) {
+        this.clearOrder();
+      }
     }
   }
 };
@@ -108,16 +150,16 @@ export default {
 
 .trusty_deposit_fiat {
 
-	._tooltip, .loading {
-		display: block;
-		position:relaive;
-		font-family: Gotham_Pro;
-		font-size: 4vw;
-	}
+  ._tooltip, .loading {
+    display: block;
+    position:relaive;
+    font-family: Gotham_Pro;
+    font-size: 4vw;
+  }
 }
 
 .status {
-	position: fixed; /* or absolute */
+  position: fixed; /* or absolute */
   top: 50%;
   left: 50%;
   /* bring your own prefixes */
@@ -125,11 +167,11 @@ export default {
 }
 
 .debug_but {
-	position: absolute;
-	bottom: 0;
-	right: 3.6vw;
-	left: 0;
-	width: 100%;
+  position: absolute;
+  bottom: 0;
+  right: 3.6vw;
+  left: 0;
+  width: 100%;
 
 }
 .debug {

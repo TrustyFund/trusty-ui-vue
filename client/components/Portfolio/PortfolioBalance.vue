@@ -43,9 +43,11 @@ export default {
       return (this.share && Math.round(this.share, 0)) || 0;
     },
     formattedBalanceFiat() {
-      if (!this.item.fiatValue) return '0.00';
-      const precisedFiatValue = (this.item.fiatValue / (10 ** this.fiatPrecision)).toFixed(2);
-      return precisedFiatValue;
+      if (!this.item.fiatValue) return '0';
+      const precisedFiatValue = this.item.fiatValue / (10 ** this.fiatPrecision);
+      if (precisedFiatValue > 10) return Math.floor(precisedFiatValue);
+      if (precisedFiatValue > 0.1) return precisedFiatValue.toFixed(1);
+      return precisedFiatValue.toFixed(2);
     },
     formattedChange() {
       if (!this.item.change) return 0;
@@ -80,14 +82,19 @@ export default {
     }
     td {
       @media screen and (max-width: 750px){
-        margin-top: 10px;   
+        margin-top: 10px;  
+        padding-left: 0; 
       }
+      white-space: nowrap;
     } 
     .trusty_portfolio_arrow_right {
       margin-left: 1vw;
+      position: relative;
+      top: -0.5vw;
       svg {
         fill: #9ea2a5;
-        height: 3.7vw;        
+        height: 3.7vw;    
+        width: 3.1vw!important;    
       }
     }
   }

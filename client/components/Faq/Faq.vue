@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import VueScrollTo from 'vue-scrollto';
 import icon from '@/components/UI/icon';
 import info from './info.js';
 
@@ -72,11 +71,12 @@ export default {
     scrollTo(index) {
       const element = this.$refs['area_' + index][0];
       const options = {
-        container: '.router_content',
+        offset: -45,
+        container: 'body',
         easing: 'ease-in',
         cancelable: true,
       };
-      VueScrollTo.scrollTo(element, 250, options);
+      this.$scrollTo(element, 250, options);
     }
 
   }

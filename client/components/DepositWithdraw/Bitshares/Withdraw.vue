@@ -1,5 +1,6 @@
 <template lang="pug">
   .withdraw-transfer-container
+    p
     TrustyInput(label="enter receiver's address")
       template(slot="input")
         input(v-model="name" @input="$v.name.$touch()" class="recepient-input")

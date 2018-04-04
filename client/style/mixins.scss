@@ -7,7 +7,7 @@ $desk_window_width: 375;
 
 @mixin trusty_main_padding {
 	@media screen and (max-width: 768px) {
-		padding: 0 3.6vw;
+    padding: 0 3.6vw;
 	}
 	@media screen and (min-width: 769px) {
 		padding: 0 px_from_vw(3.6);

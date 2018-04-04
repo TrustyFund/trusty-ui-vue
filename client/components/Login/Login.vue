@@ -5,14 +5,14 @@
   .input_area
     .left
 
-      trusty-input(label="BACKUP PHRASE" type="textarea")
+      trusty-input(label="ENTER BACKUP PHRASE" type="textarea")
         template(slot="input")
           textarea(v-model="brainkey" @input="$v.brainkey.$touch()" class="brainkey-input")
       .trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter backup phrase
       .trusty_font_error(v-if="showError") Please try again
 
       p._tooltip_p
-        | Enter 16 words you backed up when account was created
+        | Enter 16 words backed up when account was created
 
       trusty-input(label="create pin code")
         template(slot="input")
@@ -115,7 +115,7 @@ export default {
     this.debouncedRepeatPinInput = debounce((e) => {
       this.confirmPin = e.target.value;
       this.$v.confirmPin.$touch();
-    }, 800);
+    }, 500);
   }
 };
 

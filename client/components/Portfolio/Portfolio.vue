@@ -84,6 +84,7 @@ export default {
           fiatMultiplier: multiplier,
           isFiat: id === this.fiatId
         });
+        items[id].id = id;
       });
       return items;
     },
@@ -125,6 +126,7 @@ export default {
   .trusty_table {
     width: 100%;
     margin-top: 20px;
+    margin-bottom: 10px;
     thead, th, tbody {
       color: white;
       border: none;
@@ -132,6 +134,7 @@ export default {
     }
     th {
       padding-bottom: 1.9vw;
+      padding-left: 0;
     }
     th span {
       color: #cccccc;
