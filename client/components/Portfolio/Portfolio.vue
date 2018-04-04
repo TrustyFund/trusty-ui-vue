@@ -30,8 +30,8 @@
 import { mapGetters } from 'vuex';
 // eslint-disable-next-line
 import { calcPortfolioItem } from 'lib/src/utils';
-import PortfolioBalance from './PortfolioBalance.vue';
 import Spinner from '@/components/UI/Spinner';
+import PortfolioBalance from './PortfolioBalance.vue';
 
 export default {
   components: {
