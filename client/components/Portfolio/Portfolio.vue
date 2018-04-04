@@ -3,9 +3,9 @@
     .trusty_inline_buttons._mob._one_button(
       @click="goToManagePortfolio" 
       v-show="!minMode && totalBaseValue"
-      :class="{'_disabled': displayPending && !subscribedToMarket}")
-      button(v-show="!displayPending || subscribedToMarket") MANAGE FUND
-      button(v-show="displayPending && !subscribedToMarket")
+      :class="{'_disabled': !subscribedToMarket}")
+      button(v-show="subscribedToMarket") MANAGE FUND
+      button(v-show="!subscribedToMarket")
         Spinner(size="small", :absolute="false")
         div LOADING MARKET...
 
@@ -39,7 +39,6 @@ export default {
   },
   data() {
     return {
-      displayPending: false
     };
   },
   props: {
@@ -127,10 +126,7 @@ export default {
   },
   methods: {
     goToManagePortfolio() {
-      if (!this.subscribedToMarket) {
-        if (!this.displayPending) this.displayPending = true;
-        return;
-      }
+      if (!this.subscribedToMarket) return;
       this.$router.push({ name: 'manage' });
     }
   }

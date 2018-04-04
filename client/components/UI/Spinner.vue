@@ -34,9 +34,7 @@ export default {
   @keyframes spinner {
     to {transform: rotate(360deg);}
   }
-   
-
-
+  
   .spinner:before {
     content: '';
     box-sizing: border-box;
@@ -76,5 +74,4 @@ export default {
     margin-left: 0;
     position: static;
   }
-
 </style>
