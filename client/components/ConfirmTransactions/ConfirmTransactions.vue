@@ -24,9 +24,11 @@
       input(v-model="pin" type="tel")
 
 
-  .trusty_inline_buttons._one_button
+  .trusty_inline_buttons._one_button(:class="{'_disabled': pending}")
     button(v-show="!pending" @click="confirm") CONFIRM
-    button(v-show="pending") PROCESSING...
+    button(v-show="pending") 
+      Spinner(size="small" :absolute="false")
+      div Processing
 
 </template>
 
@@ -34,11 +36,13 @@
 import { mapGetters, mapActions } from 'vuex';
 import TrustyInput from '@/components/UI/form/input';
 import PlaceOrderInfo from '@/components/Transactions/TransactionsItemPlaceOrderInfo.vue';
+import Spinner from '@/components/UI/Spinner';
 
 export default {
   components: {
     PlaceOrderInfo,
-    TrustyInput
+    TrustyInput,
+    Spinner
   },
   data() {
     return {

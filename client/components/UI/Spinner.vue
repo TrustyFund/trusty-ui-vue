@@ -1,6 +1,6 @@
 <template> 
   <div class="spinner" :class="{
-    'spinner--absolute-pos': absolute,
+    'spinner--static': !absolute,
     'spinner--medium': size === 'medium',
     'spinner--small': size === 'small',
     'spinner--big': size === 'big'
@@ -45,38 +45,36 @@ export default {
     border-top-color: white;
     animation: spinner .7s linear infinite;
     display: block;
-  }
-
-  .spinner--absolute-pos:before {
     position: absolute;
     top: 50%;
     left: 50%;
-    &.spinner--small:before {
-      margin-top: -20px;
-      margin-left: -20px;
-    }
-    &.spinner--medium:before {
-      margin-top: -10px;
-      margin-left: -10px;
-    }
-    &.spinner--large:before {
-      margin-top: -30px;
-      margin-left: -30px;
-    }
   }
 
   .spinner--medium:before {
     width: 40px;
     height: 40px;
+    margin-top: -20px;
+    margin-left: -20px;
   }
 
   .spinner--small:before {
     width: 20px;
     height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
   }
 
   .spinner--big:before {
     width: 60px;
     height: 60px;
+    margin-top: -30px;
+    margin-left: -30px;
   }
+
+  .spinner--static:before {
+    margin-top: 0;
+    margin-left: 0;
+    position: static;
+  }
+
 </style>
