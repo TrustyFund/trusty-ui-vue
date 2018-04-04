@@ -60,7 +60,8 @@ class Order {
     return (
       this.Status === orderStatus.COONFIRMATION ||
       this.Status === orderStatus.TRANSFER ||
-      this.Status === orderStatus.FINISHED
+      this.Status === orderStatus.FINISHED ||
+      this.Status === orderStatus.CANCELED
     );
   }
 }

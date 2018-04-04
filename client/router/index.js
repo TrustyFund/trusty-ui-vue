@@ -148,6 +148,7 @@ const router = new Router({
           name: 'withdraw',
           path: '/withdraw',
           component: Withdraw,
+          props: true,
           meta: {
             requiresConfirmScreen: true,
             requiredBackup: true

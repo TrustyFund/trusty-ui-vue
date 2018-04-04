@@ -190,7 +190,7 @@ export default {
   },
   methods: {
     handleScroll() {
-      if (!this.isMobile) {
+      if (!isMobile()) {
         this.slideRefers.forEach(refer => {
           const el = this.$refs[refer][0];
           const rect = el.getBoundingClientRect();
@@ -210,7 +210,11 @@ export default {
     },
     clickLink(destination) {
       if (this.authUser === null) {
-        this.$router.push({ name: destination });
+        if (!isMobile()) {
+          alert('Now available only on mobile devices'); // eslint-disable-line
+        } else {
+          this.$router.push({ name: destination });
+        }
       } else {
         this.$router.push({ name: 'profile' });
       }
