@@ -1,6 +1,10 @@
 <template lang="pug">
   div
-    .trusty_inline_buttons._mob._one_button(@click="goToManagePortfolio" v-show="!minMode && totalBaseValue"): button MANAGE FUND
+    .trusty_inline_buttons._mob._one_button(
+      @click="goToManagePortfolio" 
+      v-show="!minMode && totalBaseValue"
+      :class="{'_disabled': !subscribedToMarket}")
+      button MANAGE FUND
     table.portfolio-container.trusty_table
       thead
         tr
@@ -25,6 +29,13 @@ import { calcPortfolioItem } from 'lib/src/utils';
 import PortfolioBalance from './PortfolioBalance.vue';
 
 export default {
+  components: {
+    PortfolioBalance
+  },
+  data() {
+    return {
+    };
+  },
   props: {
     baseId: {
       type: String,
@@ -54,7 +65,8 @@ export default {
       marketError: 'market/isError',
       getAssetMultiplier: 'market/getAssetMultiplier',
       assets: 'assets/getAssets',
-      defaultAssetsIds: 'assets/getDefaultAssetsIds'
+      defaultAssetsIds: 'assets/getDefaultAssetsIds',
+      subscribedToMarket: 'market/isSubscribed'
     }),
     combinedBalances() {
       const combinedBalances = { ...this.balances };
@@ -106,13 +118,6 @@ export default {
         return result + this.items[id].baseValue;
       }, 0);
     }
-  },
-  components: {
-    PortfolioBalance
-  },
-  data() {
-    return {
-    };
   },
   methods: {
     goToManagePortfolio() {

@@ -59,7 +59,7 @@ export default {
       userBalances: 'account/getCurrentUserBalances',
       userName: 'account/getCurrentUserName',
       userData: 'account/getCurrentUserData',
-      operations: 'operations/getOperations',
+      operations: 'operations/getOperations'
     })
   },
   components: {
