@@ -181,6 +181,12 @@ export default {
   },
   beforeDestroy() {
     this.removePendingDistribution();
+  },
+  created() {
+    if (!this.hasOrders && !this.hasPendingTransfer) {
+      this.$router.go(-1);
+      this.$toast.error('Unable to create orders, try again');
+    }
   }
 };
 </script>
