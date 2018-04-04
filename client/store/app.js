@@ -65,9 +65,9 @@ const actions = {
   unsubFromUserData(store) {
     const { rootGetters } = store;
     const balances = { ...rootGetters['account/getCurrentUserBalances'] };
+    store.dispatch('operations/unsubscribeFromUserOperations', null, { root: true });
     if (!balances) return;
     store.dispatch('market/unsubscribeFromMarket', { balances }, { root: true });
-    store.dispatch('operations/unsubscribeFromUserOperations', null, { root: true });
   }
 };
 
