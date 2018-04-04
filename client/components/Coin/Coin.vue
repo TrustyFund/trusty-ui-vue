@@ -302,8 +302,8 @@ $color_green_value: #659d1a;
 
     .wrap_content {
       overflow: hidden;
-      transition: max-height .3s ease-in-out;
-      overflow: hidden;
+      transition: all .5s ease-in-out;
+      opacity: 0;
       max-height: 0;
     }
 
@@ -323,7 +323,8 @@ $color_green_value: #659d1a;
       }
 
       .wrap_content {
-        transition: max-height .3s ease-in-out;
+      	opacity: 1;
+      	overflow: initial;
         max-height: 2000px;
       }
 
