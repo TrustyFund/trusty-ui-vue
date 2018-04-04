@@ -2,7 +2,7 @@
 #approve_update_portfolio.main_padding
 
   .transaction_info
-    template(v-if="hasPendingOrders")
+    template(v-if="hasOrders")
       p._value(v-for="order in orders") 
         PlaceOrderInfo(:item="order", :min="true" :fiat-id="fiatId")
       p._value
