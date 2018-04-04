@@ -51,15 +51,15 @@ export default {
     position: absolute;
     top: 50%;
     left: 50%;
-    &.spinner--small {
+    &.spinner--small:before {
       margin-top: -20px;
       margin-left: -20px;
     }
-    &.spinner--medium {
+    &.spinner--medium:before {
       margin-top: -10px;
       margin-left: -10px;
     }
-    &.spinner--large {
+    &.spinner--large:before {
       margin-top: -30px;
       margin-left: -30px;
     }

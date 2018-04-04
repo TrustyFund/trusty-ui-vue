@@ -1,6 +1,6 @@
 <template lang="pug">
   div.portfolio-container
-    .trusty_inline_buttons._mob._one_button(
+    .trusty_inline_buttons._mob._one_button._disabled(
       @click="goToManagePortfolio" 
       v-show="!minMode && totalBaseValue"
       :class="{'_disabled': !subscribedToMarket}")
