@@ -48,9 +48,16 @@ const methodsByGate = {
 
 // BTS amount 0.07
 export default {
+  props: {
+    coin: {
+      type: String,
+      required: false,
+      default: '1.3.0'
+    },
+  },
   data() {
     return {
-      selectedCoin: '1.3.0',
+      selectedCoin: this.coin,
       paymentMethod: BitsharesName,
       amount: '',
     };
