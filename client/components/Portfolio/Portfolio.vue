@@ -1,10 +1,15 @@
 <template lang="pug">
-  div
+  div.portfolio-container
     .trusty_inline_buttons._mob._one_button(
       @click="goToManagePortfolio" 
       v-show="!minMode && totalBaseValue"
       :class="{'_disabled': !subscribedToMarket}")
-      button MANAGE FUND
+      //- button(v-show="subscribedToMarket") MANAGE FUND
+      //- button(v-show="!subscribedToMarket")
+      button
+        Spinner(size="small", :absolute="false")
+        span LOADING MARKET...
+
     table.portfolio-container.trusty_table
       thead
         tr
@@ -14,11 +19,11 @@
           th._text_right: span 24H
       tbody
         PortfolioBalance(
-        v-for="item in itemsAsArray"
-        :key="item.name"
-        :item="item"
-        :totalBaseValue="totalBaseValue"
-        :fiatPrecision="fiatPrecision")
+          v-for="item in itemsAsArray"
+          :key="item.name"
+          :item="item"
+          :totalBaseValue="totalBaseValue"
+          :fiatPrecision="fiatPrecision")
 
 </template>
 
@@ -27,10 +32,11 @@ import { mapGetters } from 'vuex';
 // eslint-disable-next-line
 import { calcPortfolioItem } from 'lib/src/utils';
 import PortfolioBalance from './PortfolioBalance.vue';
+import Spinner from '@/components/UI/Spinner';
 
 export default {
   components: {
-    PortfolioBalance
+    PortfolioBalance, Spinner
   },
   data() {
     return {
