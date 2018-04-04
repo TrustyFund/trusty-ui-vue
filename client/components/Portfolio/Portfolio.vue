@@ -8,7 +8,7 @@
       //- button(v-show="!subscribedToMarket")
       button
         Spinner(size="small", :absolute="false")
-        span LOADING MARKET...
+        div LOADING MARKET...
 
     table.portfolio-container.trusty_table
       thead

@@ -30,7 +30,7 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss">
   @keyframes spinner {
     to {transform: rotate(360deg);}
   }
@@ -51,26 +51,32 @@ export default {
     position: absolute;
     top: 50%;
     left: 50%;
+    &.spinner--small {
+      margin-top: -20px;
+      margin-left: -20px;
+    }
+    &.spinner--medium {
+      margin-top: -10px;
+      margin-left: -10px;
+    }
+    &.spinner--large {
+      margin-top: -30px;
+      margin-left: -30px;
+    }
   }
 
   .spinner--medium:before {
     width: 40px;
     height: 40px;
-    margin-top: -20px;
-    margin-left: -20px;
   }
 
   .spinner--small:before {
     width: 20px;
     height: 20px;
-    margin-top: -10px;
-    margin-left: -10px;
   }
 
   .spinner--big:before {
     width: 60px;
     height: 60px;
-    margin-top: -30px;
-    margin-left: -30px;
   }
 </style>
