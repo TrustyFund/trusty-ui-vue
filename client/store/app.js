@@ -68,6 +68,14 @@ const actions = {
     store.dispatch('operations/unsubscribeFromUserOperations', null, { root: true });
     store.dispatch('account/clearCurrentUserData', null, { root: true });
     store.dispatch('operations/resetState', null, { root: true });
+  },
+
+  unsubFromUserData(store) {
+    const { rootGetters } = store;
+    const balances = { ...rootGetters['account/getCurrentUserBalances'] };
+    store.dispatch('operations/unsubscribeFromUserOperations', null, { root: true });
+    if (!balances) return;
+    store.dispatch('market/unsubscribeFromMarket', { balances }, { root: true });
   }
 };
 

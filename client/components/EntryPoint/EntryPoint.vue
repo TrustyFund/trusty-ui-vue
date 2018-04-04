@@ -31,7 +31,12 @@ export default {
   watch: {
     ready: {
       handler(connected) {
-        if (connected && this.userId) this.initUserData();
+        if (!this.userId) return;
+        if (connected) {
+          this.initUserData();
+        } else {
+          this.unsubFromUserData();
+        }
       },
       immediate: true
     },
@@ -43,7 +48,8 @@ export default {
   methods: {
     ...mapActions({
       initUserData: 'app/initUserData',
-      resetUserData: 'app/resetUserData'
+      resetUserData: 'app/resetUserData',
+      unsubFromUserData: 'app/unsubFromUserData'
     })
   },
 };
