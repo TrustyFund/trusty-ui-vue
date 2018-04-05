@@ -99,11 +99,13 @@ export default {
       if (!assetsIds.length) return items;
       assetsIds.forEach(id => {
         const { balance } = this.combinedBalances[id];
+
         const asset = this.getAssetById(id);
         const precisedBalance = balance / (10 ** asset.precision);
         let history24 = this.history24[id];
         let history7 = this.history7[id];
         if (!history24 || !history7) return;
+
         const multiplier = this.fiatMultiplier;
         if (id === this.baseId) history24 = { first: 1, last: 1 };
         if (id === this.baseId) history7 = { first: 1, last: 1 };

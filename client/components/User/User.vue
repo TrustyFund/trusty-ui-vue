@@ -48,7 +48,7 @@ export default {
   methods: {
     ...mapActions({
       fetchUser: 'user/fetchUser',
-      fetchMarketHistory: 'market/fetchMarketHistory',
+      fetchAssetsHistory: 'market2/fetchAssetsHistory',
       fetchAssets: 'assets/fetchAssets'
     })
   },
@@ -64,7 +64,7 @@ export default {
             } else {
               const assetsIds = Object.keys(this.userBalances);
               this.fetchAssets({ assets: assetsIds }).then(() => {
-                this.fetchMarketHistory({
+                this.fetchAssetsHistory({
                   baseId: '1.3.0',
                   assetsIds,
                   days: 1

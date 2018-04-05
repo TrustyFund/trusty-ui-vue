@@ -45,9 +45,7 @@ export default {
       Object.keys(this.combinedBalances).forEach(id => {
         const { balance } = this.combinedBalances[id];
         let price = this.getMarketPriceById(id);
-        // const multiplier = { ...this.multiplier };
         if (id === this.baseId) price = 1;
-        // if (id === this.fiatId) multiplier.last = 1;
         const baseValue = parseInt((balance * price).toFixed(0), 10);
         const fiatValue = parseInt((baseValue * this.fiatMultiplier.last).toFixed(0), 10);
         const name = (this.assets[id] && this.assets[id].symbol) || '...';

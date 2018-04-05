@@ -12,9 +12,9 @@ import Login from '@/components/Login/Login.vue';
 import ManagePortfolio from '@/components/ManagePortfolio/ManagePortfolio';
 import ManagePortfolioManager from '@/components/ManagePortfolio/ManagePortfolioManager';
 import ManagePortfolioManual from '@/components/ManagePortfolio/ManagePortfolioManual';
-import ManagePortfolioManualMarkets from '@/components/ManagePortfolio/ManagePortfolioManualMarkets';
+import ManagePortfolioManualMarkets from '@/components/ManagePortfolio/ManagePortfolioManualMarkets'; // eslint-disable-line
 import ManagePortfolioManualMarket from '@/components/ManagePortfolio/ManagePortfolioManualMarket';
-import ManagePortfolioManualMarketAsset from '@/components/ManagePortfolio/ManagePortfolioManualMarketAsset';
+import ManagePortfolioManualMarketAsset from '@/components/ManagePortfolio/ManagePortfolioManualMarketAsset'; // eslint-disable-line
 
 import Transactions from '@/components/Transactions/Transactions';
 import Backup from '@/components/Backup/Backup';

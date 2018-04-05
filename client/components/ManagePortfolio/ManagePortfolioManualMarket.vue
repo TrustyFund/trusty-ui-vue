@@ -31,7 +31,10 @@ export default {
   },
   methods: {
     goToMarketAsset(asset) {
-      this.$router.push({ name: 'manage-manual-market-asset', params: { market: this.market, asset } });
+      this.$router.push({
+        name: 'manage-manual-market-asset',
+        params: { market: this.market, asset }
+      });
     }
   }
 };
