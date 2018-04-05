@@ -58,12 +58,7 @@ export default {
 
       return (totalFiatValue / (10 ** fiatPrecision)) || 0;
     }
-  },
-  methods: {
-    goToManagePortfolio() {
-      this.$router.push({ name: 'manage' });
-    }
-  },
+  }
 };
 </script>
 

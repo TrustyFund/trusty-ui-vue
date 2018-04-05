@@ -12,8 +12,6 @@
     .tabs-content-container
       router-view(:items="items", fiat-id="1.3.121")
 
-
-
 </template>
 
 <script>
@@ -148,7 +146,6 @@ export default {
       thead tr th  {
         font-family: Gotham_Pro;
         text-transform: uppercase;
-        color: white;
       }
       tbody tr td:first-child {
         width: 50%;
@@ -164,6 +161,8 @@ export default {
       tbody tr td {
         text-align: left;
         font-family: Gotham_Pro_Regular;
+        padding-top: 0;
+        padding-bottom: 0;
       }
       tr {
         padding-bottom: 0 !important;
@@ -173,6 +172,9 @@ export default {
 
     .portfolio_item span {
       color: white;
+      &._title {
+        font-family: 'Gotham_Pro_Regular';
+      }
       &._green {
         color: #79c610;
       }
@@ -188,6 +190,7 @@ export default {
       display: inline-block;
       text-align: center;
       margin: 0 1.5vw;
+      font-family: 'Gotham_Pro_Regular';
     }
   }
 }

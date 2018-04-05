@@ -1,17 +1,15 @@
 <template lang="pug">
 ._turnover_info
-  TrustyInput(label="enter receiving address", v-show="!$v.address.isValid")
+  p
+  TrustyInput(label="enter receiving address")
       template(slot="input")
-        input(v-model="address", ref="addressinput", @input="$v.address.$touch()")
-  .trusty_help_text._yellow(v-if="!$v.address.isValid")
+        input(v-model="address", ref="addressinput", @input="$v.address.$touch()", id="withdraw-address")
+  .trusty_font_error(v-if="!$v.address.isValid")
     | Please enter a valid {{ getAssetById(coin).symbol }} address
-  div.withdraw-address(v-if="$v.address.isValid")
-    div(@click="clearAddress")
-     icon(name="trusty_input_close", className="address-close", )
-    .trusty_cutted_address(v-html="depositAddress")
+  br
   .trusty_inline_buttons
     button(:class="{'_disable': !enableButton}" @click="withdraw") Confirm
-    button Cancel
+    button(@click="$router.push({ name: 'entry'})") Cancel
   p.trusty_ps_text
     | Payment gateway service is provided by #[br]
     | Openledger.io at 0% fee
@@ -41,8 +39,8 @@ export default {
     address: {
       required,
       isValid(address) {
-        console.log('validation adress');
         const asset = this.getAssetById(this.coin).symbol.toLowerCase();
+        console.log('validation adress');
         return this.checkAddress({ asset, address });
       }
     }
@@ -67,12 +65,6 @@ export default {
       checkAddress: 'openledger/checkIfAddressIsValid',
       setTransaction: 'transactions/setPendingTransfer'
     }),
-    clearAddress() {
-      this.address = '';
-      this.$nextTick(() => {
-        this.$refs.addressinput.focus();
-      });
-    },
     withdraw() {
       this.$v.$touch();
       if (!this.$v.$invalid && this.amount) {
@@ -99,12 +91,10 @@ export default {
 </script>
 
 <style scoped>
-#trusty_transfer ._input_space input{
-  width: 75%!important;
-}
 
-.withdraw-address {
-  padding-top: 4vw;
+#withdraw-address {
+  font-size: 4.2vw!important;
+  width: 100vw!important;
 }
 
 .trusty_cutted_address {

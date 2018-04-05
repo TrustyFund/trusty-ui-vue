@@ -1,6 +1,6 @@
 <template lang="pug">
 #asset_tab
-  h5 Please select shares of assets #[br] in your portfolio
+  h5 Select shares of assets in portfolio 
 
   table.managePortfolio
     thead
@@ -12,9 +12,9 @@
 
       tr(v-for="item in percentsAsArray")
         td
-          .portfolio_item._index
+          .portfolio_item._index._name
             .fake_line_height
-            span(@click="navigateToCoin(item)") {{ item.name }}
+            span._title(@click="navigateToCoin(item)") {{ item.name }}
             Icon(name="trusty_portfolio_arrow_right"
                  @click.native="navigateToCoin(item)")
         td
@@ -22,7 +22,7 @@
             .fake_line_height
 
             a._minus.normal.portfolio_asset(
-             :class="{'_disable': item.share === 0}"
+             :class="{'_disable': item.share === (minPercents[item.id] || 0)}"
              @touchstart="handleTouchMinus(item)"
              @touchend="clearTimer")
               Icon(name="trusty_minus")
@@ -80,7 +80,11 @@ export default {
       percents: {},
       percentsAsArray: [],
       percentFiatValue: 0,
-      timer: null
+      timer: null,
+      minPercents: {
+        '1.3.0': 0.8,
+        '1.3.2418': 1.4 // trusty token
+      }
     };
   },
   computed: {
@@ -183,13 +187,17 @@ export default {
 
       this.percents = newPercents;
       this.percentsAsArray = this.convertPercentsToArray(this.percents);
-      this.$toast.warning('Suggested portfolio percents applied');
+      this.$toast.info('Portfolio suggested');
     },
     handleMinus(item) {
-      if ((item.share - 0.2) < 0) {
-        item.share = 0;
+      const min = this.minPercents[item.id] || 0;
+      const newShare = parseFloat((item.share - 0.2).toFixed(2));
+      if (newShare <= min) {
+        item.share = min;
+        this.clearTimer();
+        if (min) this.$toast.info(`Minimum share of ${item.name} is ${min}%`);
       } else {
-        item.share = parseFloat((item.share - 0.2).toFixed(2));
+        item.share = newShare;
       }
     },
     handlePlus(item) {
@@ -216,6 +224,15 @@ export default {
     this.percentFiatValue = this.totalFiatValue / 100;
     this.percents = JSON.parse(JSON.stringify(this.initialPercents));
     this.percentsAsArray = this.convertPercentsToArray(this.percents);
+    // prevents long click context menu
+    window.oncontextmenu = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    };
+  },
+  beforeDestroy() {
+    window.oncontextmenu = null;
   }
 };
 </script>

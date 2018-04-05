@@ -100,7 +100,6 @@ div
 
 <script>
 import { mapGetters } from 'vuex';
-import SmoothScroll from 'smooth-scroll';
 import { isMobile } from './utils';
 import './style.scss';
 
@@ -169,7 +168,6 @@ export default {
       arrowDown,
       logo,
       logoDesk,
-      scroll: new SmoothScroll(),
       referClass: '',
       slideRefers: '',
       slideHeight: '',
@@ -192,7 +190,7 @@ export default {
   },
   methods: {
     handleScroll() {
-      if (!this.isMobile) {
+      if (!isMobile()) {
         this.slideRefers.forEach(refer => {
           const el = this.$refs[refer][0];
           const rect = el.getBoundingClientRect();
@@ -212,7 +210,11 @@ export default {
     },
     clickLink(destination) {
       if (this.authUser === null) {
-        this.$router.push({ name: destination });
+        if (!isMobile()) {
+          alert('Now available only on mobile devices'); // eslint-disable-line
+        } else {
+          this.$router.push({ name: destination });
+        }
       } else {
         this.$router.push({ name: 'profile' });
       }
@@ -224,7 +226,7 @@ export default {
       } else {
         current = element;
       }
-      this.scroll.animateScroll(current);
+      this.$scrollTo(current, 500);
     },
     clickScroll(index) {
       if (index === this.slides.length) {
@@ -237,3 +239,9 @@ export default {
 };
 
 </script>
+
+<style scoped>
+#landing {
+  margin-top: -12vw;
+}
+</style>

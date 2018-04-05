@@ -5,16 +5,16 @@
   .input_area
     .left
 
-      trusty-input(label="BACKUP PHRASE" type="textarea")
+      TrustyInput(label="ENTER BACKUP PHRASE" type="textarea")
         template(slot="input")
           textarea(v-model="brainkey" @input="$v.brainkey.$touch()" class="brainkey-input")
       .trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter backup phrase
       .trusty_font_error(v-if="showError") Please try again
 
       p._tooltip_p
-        | Enter 16 words you backed up when account was created
+        | Enter 16 words backed up when account was created
 
-      trusty-input(label="create pin code")
+      TrustyInput(label="create pin code")
         template(slot="input")
           input(@input="debouncedPinInput" type="tel")
       .trusty_font_error(v-if="!$v.pin.required && this.$v.pin.$dirty") Enter PIN
@@ -23,7 +23,7 @@
       p._tooltip_p
         | PIN code secures access only on this device
 
-      trusty-input(label="confirm pin")
+      TrustyInput(label="confirm pin")
         template(slot="input")
           input(@input="debouncedRepeatPinInput" type="tel")
       .trusty_font_error(v-if="!$v.confirmPin.sameAsPin && this.$v.confirmPin.$dirty") PIN codes do not match
@@ -33,20 +33,18 @@
 
   .trusty_buttons
     button(@click="handleLogin" v-show="!pending") Log in
-    button(v-show="pending") Loading....
+    button(v-show="pending") Loading...
 
   p._tooltip_p._text_center
     | Before continuing, make sure your device is secure #[br]
 
   ._bottom_link(@click="$router.push({ name: 'signup' })"): span Sign up with new account
 
-  //- ._logo_owl
-  //-   Icon(name="trusty_owl_small_logo")
 
 </template>
 
 <script>
-import trustyInput from '@/components/UI/form/input';
+import TrustyInput from '@/components/UI/form/input';
 import Icon from '@/components/UI/icon';
 import { validationMixin } from 'vuelidate';
 import { required, minLength, sameAs } from 'vuelidate/lib/validators';
@@ -55,7 +53,7 @@ import debounce from 'lodash/debounce';
 
 export default {
   mixins: [validationMixin],
-  components: { trustyInput, Icon },
+  components: { TrustyInput, Icon },
   data() {
     return {
       pin: '',
@@ -115,7 +113,7 @@ export default {
     this.debouncedRepeatPinInput = debounce((e) => {
       this.confirmPin = e.target.value;
       this.$v.confirmPin.$touch();
-    }, 800);
+    }, 500);
   }
 };
 

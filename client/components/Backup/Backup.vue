@@ -32,7 +32,7 @@ export default {
       lockWallet: 'account/lockWallet'
     }),
     handleExit() {
-      this.$router.push({ name: this.prevAddress });
+      this.$router.push({ name: this.prevAddress || 'entry' });
     }
   },
   mounted() {
@@ -59,7 +59,6 @@ $light_grey: #6d6e70;
 	left: 0;
 	bottom:0;
 	right: 0;
-	z-index: 999;
 	background: rgba(0,0,0,0.74);
 	@media screen and (min-width: 769px) {
 		background: #1e2225;
@@ -80,7 +79,7 @@ $light_grey: #6d6e70;
 	left: 0;
 	bottom:0;
 	right: 0;
-	z-index: 99;
+	
 
 	.modal_content {
 		background: black !important;

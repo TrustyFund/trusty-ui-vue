@@ -2,6 +2,10 @@
 
 	.trusty_deposit_fiat_fullscreen {
 
+		position: absolute;
+		width: 100%;
+		top: 0;
+		left: 0;
 
 		&.no_order {
 			position: static;
@@ -10,18 +14,56 @@
 			}
 		}
 
+		._input_space {
+			border: none!important;
+		}
+
+		.cryptobot_header {
+			position: absolute!important;
+
+		}
 
 		.trusty_deposit_fiat {
 			padding: 0 3.6vw;
 		}
 
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		left: 0;
+	  .modal_content {
+	    padding-top: 10vw;
+	    padding-bottom: 10vw;
+	    background: black;
+	  }
+
+	  .trusty_input_container {
+
+	  	.trusty_place_holder{
+	  		position: relative!important;
+	  		bottom: 0.6vw;
+	  	}
+	  	._right_space {
+	  		bottom: auto!important;
+	  		text-align: right;
+				._right_slash {
+					font-weight: bolder!important;
+					height: 5.4vw !important;
+					margin-bottom: 0.5vw!important;
+				}
+			}
+
+	    ._simple_text_left {
+	      height: 5.4vw!important;
+	    }
+	  }
+
+	  .trusty_ps_text {
+	    font-size: 3.3vw;
+	    margin: 3.8vw 0;
+	    line-height: 4.3vw;
+	    font-family: Gotham_Pro;
+	    text-align: center;
+	    color: white;
+	  }
+	  
 		background-color: #1e2225 !important;
-		z-index: 1170;
 		.modal-overlay.is-active {
 			position: fixed;
 			#trusty_modal_deposit {
@@ -54,6 +96,8 @@
 
 	.trusty_deposit_timer {
 	    padding-top: 50%;
+	    padding-left: 5vw;
+	    padding-right: 5vw;
 	}
 
 	._deposit_help_text {
@@ -64,8 +108,9 @@
 	}
 
 	.deposit_paddings{
+		padding-top: 12vw;
 		padding-left: 3.6vw;
-		padding-right: 3.6vw;
+		padding-right: 3.6vw;		
 	}
 
 }

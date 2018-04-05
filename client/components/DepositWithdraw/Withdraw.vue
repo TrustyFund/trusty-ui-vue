@@ -3,12 +3,11 @@
   ._turnover_inputs
     TrustyInput(label="enter sum" composed=true)
       template(slot="input")
-        input(v-model="amount" @input="$v.amount.$touch()")
+        input(v-model="amount" ref="amount" @input="$v.amount.$touch()")
       template(slot="right")
         select(v-model="selectedCoin" v-if="isNonZeroLength" dir="rtl")
           option(v-for="(coin, id) in nonZeroAssets", v-bind:value="id") {{ coin.symbol }}
         icon-component(name="trusty_arrow_down")
-
     .trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
     .trusty_font_error(v-if="$v.amount.required && !$v.amount.isNumeric && this.$v.amount.$dirty") Enter a number
     .trusty_font_error(v-if="$v.amount.isNumeric && !$v.amount.doesntExceedBalance && this.$v.amount.$dirty") Innuficient funds
@@ -17,11 +16,13 @@
       $v.amount.doesntExceedBalance &&
       !$v.amount.doesntExceedMinWithdraw && 
       this.$v.amount.$dirty`) Minimal withdraw amount {{ minWithdraw }}
+    p.withdraw_tooltip(@click="setAmount") {{ balanceAmountText }}
     TrustyInput(:isOpen="true", label="payment method" className="select_input payment-method")
       template(slot="input")
         input(:style="{display:'none'}")
         select(v-model="paymentMethod" )
           option(v-for="method in methods") {{ method }}
+        icon-component(name="trusty_arrow_down" style="position: absolute")
 
   ._turnover_service
     component(:is="gateway" :amount="payload.amount" :coin="payload.selectedcoin")
@@ -37,8 +38,8 @@ import openledger from './Openledger/Withdraw';
 import bitshares from './Bitshares/Withdraw';
 import './style.scss';
 
-const OpenledgerName = 'OpenLedger';
-const BitsharesName = 'BitShares transfer';
+const OpenledgerName = 'OpenLedger crypto gateway';
+const BitsharesName = 'BitShares direct transfer';
 
 const methodsByGate = {
   openledger: [OpenledgerName],
@@ -47,9 +48,16 @@ const methodsByGate = {
 
 // BTS amount 0.07
 export default {
+  props: {
+    coin: {
+      type: String,
+      required: false,
+      default: '1.3.0'
+    },
+  },
   data() {
     return {
-      selectedCoin: '1.3.0',
+      selectedCoin: this.coin,
       paymentMethod: BitsharesName,
       amount: '',
     };
@@ -82,7 +90,12 @@ export default {
   methods: {
     ...mapActions({
       fetchCoins: 'openledger/fetchCoins'
-    })
+    }),
+    setAmount() {
+      const id = this.selectedCoin;
+      this.amount = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
+      this.$refs.amount.focus();
+    }
   },
   computed: {
     ...mapGetters({
@@ -90,6 +103,11 @@ export default {
       getAssetById: 'assets/getAssetById',
       coinsData: 'openledger/getCoinsData'
     }),
+    balanceAmountText() {
+      const id = this.selectedCoin;
+      const balance = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
+      return 'Max ' + balance + ' (click to paste)';
+    },
     minWithdraw() {
       if (this.paymentMethod === OpenledgerName) {
         const coin = this.getAssetById(this.selectedCoin);
@@ -160,5 +178,12 @@ export default {
 <style lang="scss">
 ._input_space.composed {
   width: 68vw!important;
+}
+.withdraw_tooltip{
+  font-size: 3.3vw;
+  font-family: "Gotham_Pro";
+  color: white;
+  margin: 0;
+  padding: 0;
 }
 </style>

@@ -60,7 +60,8 @@ class Order {
     return (
       this.Status === orderStatus.COONFIRMATION ||
       this.Status === orderStatus.TRANSFER ||
-      this.Status === orderStatus.FINISHED
+      this.Status === orderStatus.FINISHED ||
+      this.Status === orderStatus.CANCELED
     );
   }
 }
@@ -150,7 +151,14 @@ const mutations = {
     state.error = error;
   },
   [CRYPTOBOT_ORDER_UPDATE_RECEIVED]: (state, { order }) => {
-    state.order = new Order(order);
+    const oldOrderClass = new Order(state.order);
+    const newOrderClass = new Order(order);
+    if (state.order && !oldOrderClass.isComplete()) {
+      state.order = newOrderClass;
+    }
+    if (!state.order && !newOrderClass.isComplete()) {
+      state.order = newOrderClass;
+    }
   },
   [CRYPTOBOT_SET_PAYMENT_REQUEST]: (state) => {
     state.pending = true;
