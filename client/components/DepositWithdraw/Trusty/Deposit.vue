@@ -35,6 +35,7 @@ import { required } from 'vuelidate/lib/validators';
 import { mapGetters, mapActions } from 'vuex';
 import TrustyInput from '@/components/UI/form/input';
 import Spinner from '@/components/UI/Spinner';
+// eslint-disable-next-line
 import * as types from 'lib/src/mutations';
 import Payment from './Payment';
 import Timer from './Timer';

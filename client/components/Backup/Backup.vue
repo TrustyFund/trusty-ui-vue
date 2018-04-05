@@ -32,7 +32,7 @@ export default {
       lockWallet: 'account/lockWallet'
     }),
     handleExit() {
-      this.$router.push({ name: this.prevAddress });
+      this.$router.push({ name: this.prevAddress || 'entry' });
     }
   },
   mounted() {

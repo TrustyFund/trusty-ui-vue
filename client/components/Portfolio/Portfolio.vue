@@ -1,6 +1,14 @@
 <template lang="pug">
-  div
-    .trusty_inline_buttons._mob._one_button(@click="goToManagePortfolio" v-show="!minMode && totalBaseValue"): button MANAGE FUND
+  div.portfolio-container
+    .trusty_inline_buttons._mob._one_button(
+      @click="goToManagePortfolio" 
+      v-show="!minMode && totalBaseValue"
+      :class="{'_disabled': !subscribedToMarket}")
+      button(v-show="subscribedToMarket") MANAGE FUND
+      button(v-show="!subscribedToMarket")
+        Spinner(size="small", :absolute="false")
+        div LOADING MARKET...
+
     table.portfolio-container.trusty_table
       thead
         tr
@@ -10,11 +18,11 @@
           th._text_right: span 24H
       tbody
         PortfolioBalance(
-        v-for="item in itemsAsArray"
-        :key="item.name"
-        :item="item"
-        :totalBaseValue="totalBaseValue"
-        :fiatPrecision="fiatPrecision")
+          v-for="item in itemsAsArray"
+          :key="item.name"
+          :item="item"
+          :totalBaseValue="totalBaseValue"
+          :fiatPrecision="fiatPrecision")
 
 </template>
 
@@ -22,9 +30,17 @@
 import { mapGetters } from 'vuex';
 // eslint-disable-next-line
 import { calcPortfolioItem } from 'lib/src/utils';
+import Spinner from '@/components/UI/Spinner';
 import PortfolioBalance from './PortfolioBalance.vue';
 
 export default {
+  components: {
+    PortfolioBalance, Spinner
+  },
+  data() {
+    return {
+    };
+  },
   props: {
     baseId: {
       type: String,
@@ -54,7 +70,8 @@ export default {
       marketError: 'market/isError',
       getAssetMultiplier: 'market/getAssetMultiplier',
       assets: 'assets/getAssets',
-      defaultAssetsIds: 'assets/getDefaultAssetsIds'
+      defaultAssetsIds: 'assets/getDefaultAssetsIds',
+      subscribedToMarket: 'market/isSubscribed'
     }),
     combinedBalances() {
       const combinedBalances = { ...this.balances };
@@ -107,15 +124,9 @@ export default {
       }, 0);
     }
   },
-  components: {
-    PortfolioBalance
-  },
-  data() {
-    return {
-    };
-  },
   methods: {
     goToManagePortfolio() {
+      if (!this.subscribedToMarket) return;
       this.$router.push({ name: 'manage' });
     }
   }

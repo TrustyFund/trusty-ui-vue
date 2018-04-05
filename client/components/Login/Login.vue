@@ -42,7 +42,7 @@
 
 	.trusty_buttons
 		button(@click="handleLogin" v-show="!pending") Log in
-		button(v-show="pending") Loading....
+		button(v-show="pending") Loading...
 
 	p._tooltip_p._text_center
 		| Before continuing, make sure your device is secure #[br]
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import trustyInput from '@/components/UI/form/input';
+import TrustyInput from '@/components/UI/form/input';
 import Icon from '@/components/UI/icon';
 import { validationMixin } from 'vuelidate';
 import { required, minLength, sameAs } from 'vuelidate/lib/validators';
@@ -62,7 +62,7 @@ import debounce from 'lodash/debounce';
 
 export default {
   mixins: [validationMixin],
-  components: { trustyInput, Icon },
+  components: { TrustyInput, Icon },
   data() {
     return {
       pin: '',

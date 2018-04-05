@@ -2,7 +2,7 @@
 #approve_update_portfolio.main_padding
 
 	.transaction_info
-		template(v-if="hasPendingOrders")
+		template(v-if="hasOrders")
 			p._value(v-for="order in orders")
 				PlaceOrderInfo(:item="order", :min="true" :fiat-id="fiatId")
 			p._value
@@ -26,9 +26,11 @@
 		v-model="pin",
 		inputType="tel")
 
-	.trusty_inline_buttons._one_button
+	.trusty_inline_buttons._one_button(:class="{'_disabled': pending}")
 		button(v-show="!pending" @click="confirm") CONFIRM
-		button(v-show="pending") PROCESSING...
+		button(v-show="pending")
+			Spinner(size="small" :absolute="false")
+			div Processing
 
 </template>
 
@@ -36,11 +38,13 @@
 import { mapGetters, mapActions } from 'vuex';
 import TrustyInput from '@/components/UI/form/input';
 import PlaceOrderInfo from '@/components/Transactions/TransactionsItemPlaceOrderInfo.vue';
+import Spinner from '@/components/UI/Spinner';
 
 export default {
   components: {
     PlaceOrderInfo,
-    TrustyInput
+    TrustyInput,
+    Spinner
   },
   data() {
     return {
@@ -179,6 +183,12 @@ export default {
   },
   beforeDestroy() {
     this.removePendingDistribution();
+  },
+  created() {
+    if (!this.hasOrders && !this.hasPendingTransfer) {
+      this.$router.go(-1);
+      this.$toast.error('Unable to create orders, try again');
+    }
   }
 };
 </script>
