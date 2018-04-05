@@ -42,8 +42,11 @@ const actions = {
       assets: combinedAssetsIds
     }, { root: true });
 
+
+    const baseId = '1.3.0';
+
     store.dispatch('history/fetch', {
-      baseId: '1.3.0',
+      baseId,
       assetsIds: combinedAssetsIds,
       days: 1
     }, { root: true });
@@ -54,7 +57,7 @@ const actions = {
     }, { root: true });
 
     store.dispatch('transactions/fetchComissions', null, { root: true });
-    store.dispatch('market/subscribeToMarket', { balances }, { root: true });
+    store.dispatch('market/subscribeToExchangeRates', { balances }, { root: true });
   },
 
   // reset user-related data & unsub from market
@@ -64,12 +67,13 @@ const actions = {
     // temporary, move to market
     const balances = { ...rootGetters['account/getCurrentUserBalances'] };
     const defaultAssetsIds = rootGetters['assets/getDefaultAssetsIds'];
+    const baseId = rootGetters['market2/getSystemBaseId'];
     defaultAssetsIds.forEach(id => {
       if (balances[id]) return;
       balances[id] = { balance: 0 };
     });
 
-    store.dispatch('market/unsubscribeFromMarket', { balances }, { root: true });
+    store.dispatch('market2/unsubscribeFromMarket', { baseId }, { root: true });
     store.dispatch('operations/unsubscribeFromUserOperations', null, { root: true });
     store.dispatch('account/clearCurrentUserData', null, { root: true });
     store.dispatch('operations/resetState', null, { root: true });
@@ -80,7 +84,8 @@ const actions = {
     const balances = { ...rootGetters['account/getCurrentUserBalances'] };
     store.dispatch('operations/unsubscribeFromUserOperations', null, { root: true });
     if (!balances) return;
-    store.dispatch('market/unsubscribeFromMarket', { balances }, { root: true });
+    const baseId = rootGetters['market2/getSystemBaseId'];
+    store.dispatch('market2/unsubscribeFromMarket', { baseId }, { root: true });
   }
 };
 
