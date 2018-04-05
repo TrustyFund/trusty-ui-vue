@@ -36,10 +36,6 @@
 
 			.trusty_font_error(v-if="!$v.confirmPin.sameAsPin && this.$v.confirmPin.$dirty") PIN codes do not match
 
-	p._tooltip_p
-		| Please enter account brainkey once for new devices, #[br]
-		| 12 words, you backed up, when account was created
-
 	.trusty_buttons
 		button(@click="handleLogin" v-show="!pending") Log in
 		button(v-show="pending") Loading...
@@ -137,12 +133,6 @@ export default {
 	&.signup {
 		.trusty_buttons {
 			margin-top: 4.6vw;
-		}
-	}
-
-	&.login {
-		.trusty_buttons {
-			margin-top: 2vw;
 		}
 	}
 
