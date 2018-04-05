@@ -2,10 +2,10 @@
 .manual_trading_market_asset Market {{ getAssetById(market).symbol }} : {{ getAssetById(asset).symbol }}
   .orders.sell_orders
     template(v-for="order in sellOrders")
-      p {{ order.id }}
+      p {{ order.for_sale }} - {{ dumbPrice(order) }}
   .orders.buy_orders
     template(v-for="order in buyOrders")
-      p {{ order.id }}
+      p {{ order.for_sale }} - {{ dumbPrice(order) }}
 </template>
 
 <script>
@@ -33,7 +33,10 @@ export default {
     ...mapActions({
       subscribeToMarket: 'market2/subscribeToMarket',
       unsubscribeFromMarket: 'market2/unsubscribeFromMarket'
-    })
+    }),
+    dumbPrice(order) {
+      return order.sell_price.base.amount / order.sell_price.quote.amount;
+    }
   },
   created() {
     const baseId = this.market;
