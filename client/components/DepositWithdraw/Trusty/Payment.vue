@@ -19,11 +19,11 @@
         v-clipboard:success="onCopy") copy address
       
 
-    trusty-input(:isOpen="true" label="exchange rate confirmed")
-      template(slot="input"): div._simple_text_left.rate {{ amount.rate }} RUB/BTC
+    trusty-input(:isOpen="true" label="exchange rate RUB/BTC")
+      template(slot="input"): div._simple_text_left.rate {{ amount.rate }}
       template(slot="right")
-        label.trusty_place_holder You will receive
-        div._right_slash {{ amount.final }} BTC
+        label.trusty_place_holder You will receive BTC
+        div._right_slash {{ amount.final }}
 
 
     p.trusty_help_text._bottom._yellow Push CONFIRM button as soon as#[br] you have completed the payment
@@ -81,10 +81,18 @@ export default {
       return withoutSpaces.replace(/(.{4})/g, '$1 ');
     }
   },
+  mounted() {
+    this.hideHeader();
+  },
+  beforeDestroy() {
+    this.showHeader();
+  },
   methods: {
     ...mapActions({
       cancelOrder: 'cryptobot/cancelOrder',
-      payOrder: 'cryptobot/setPayedStatus'
+      payOrder: 'cryptobot/setPayedStatus',
+      hideHeader: 'app/hideHeader',
+      showHeader: 'app/showHeader'
     }),
     markPayed() {
       this.$store.dispatch('app/setModal', null);

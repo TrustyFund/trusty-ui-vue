@@ -1,13 +1,20 @@
 <template lang="pug">
-div
-  .trusty_inline_buttons._mob._one_button(@click="goToManagePortfolio" v-show="!minMode && totalBaseValue"): button MANAGE FUND
+div.portfolio-container
+  .trusty_inline_buttons._mob._one_button(
+      @click="goToManagePortfolio" 
+      v-show="!minMode && totalBaseValue"
+      :class="{'_disabled': !subscribedToMarket}")
+      button(v-show="subscribedToMarket") MANAGE FUND
+      button(v-show="!subscribedToMarket")
+        Spinner(size="small", :absolute="false")
+        div LOADING MARKET...
   div.grid_wrapper
     ._text_left.portfolio_head ASSET
     ._text_right.portfolio_head SHARE
     ._text_right.portfolio_head $VALUE
     ._text_right.portfolio_head 24H
     template(v-for="item in itemsAsArray")
-      ._text_left.overflowed.portfolio_item {{ item.name }}
+      ._text_left.overflowed.portfolio_item(@click="navigateToCoin(item)") {{ item.name }}
       ._text_right.portfolio_item {{ formattedShare(item) }}%
       ._text_right.portfolio_item {{ formattedBalanceFiat(item) }}
       ._text_right.portfolio_item {{ formattedChange(item) }}%
@@ -15,12 +22,18 @@ div
 
 <script>
 import { mapGetters } from 'vuex';
-import Icon from '@/components/UI/icon';
 // eslint-disable-next-line
 import { calcPortfolioItem } from 'lib/src/utils';
-
+import Spinner from '@/components/UI/Spinner';
 
 export default {
+  components: {
+    Spinner
+  },
+  data() {
+    return {
+    };
+  },
   props: {
     baseId: {
       type: String,
@@ -50,7 +63,8 @@ export default {
       marketError: 'market/isError',
       getAssetMultiplier: 'market/getAssetMultiplier',
       assets: 'assets/getAssets',
-      defaultAssetsIds: 'assets/getDefaultAssetsIds'
+      defaultAssetsIds: 'assets/getDefaultAssetsIds',
+      subscribedToMarket: 'market/isSubscribed'
     }),
     combinedBalances() {
       const combinedBalances = { ...this.balances };
@@ -77,8 +91,7 @@ export default {
           asset,
           prices,
           baseAsset: this.assets[this.baseId],
-          fiatMultiplier: multiplier,
-          isFiat: id === this.fiatId
+          fiatMultiplier: multiplier
         });
         items[id].id = id;
       });
@@ -103,15 +116,9 @@ export default {
       }, 0);
     }
   },
-  components: {
-    Icon
-  },
-  data() {
-    return {
-    };
-  },
   methods: {
     goToManagePortfolio() {
+      if (!this.subscribedToMarket) return;
       this.$router.push({ name: 'manage' });
     },
     share(item) {
@@ -128,18 +135,18 @@ export default {
       return precisedFiatValue.toFixed(2);
     },
     formattedChange(item) {
-      console.log(item);
       if (!item.change) return 0;
       let change = item.change.toFixed(0).toString();
       if (change.length > 3) change = change.substring(0, 3);
       return change;
     },
     navigateToCoin(item) {
+      console.log('ITEM', item);
       this.$router.push({
         name: 'coin',
         params: {
-          symbol: item.asset.name,
-          assetId: item.asset.id
+          symbol: item.name,
+          assetId: item.id
         }
       });
     }

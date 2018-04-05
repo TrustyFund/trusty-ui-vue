@@ -59,7 +59,7 @@ export default {
       userBalances: 'account/getCurrentUserBalances',
       userName: 'account/getCurrentUserName',
       userData: 'account/getCurrentUserData',
-      operations: 'operations/getOperations',
+      operations: 'operations/getOperations'
     })
   },
   components: {
@@ -73,7 +73,20 @@ export default {
       this.$router.push({ name: 'deposit' });
     },
     withdraw() {
-      this.$router.push({ name: 'withdraw' });
+      const balancesAsssets = Object.keys(this.userBalances);
+      if (balancesAsssets.length) {
+        const [balanceAsset] = balancesAsssets;
+        if (this.userBalances[balanceAsset].balance > 0) {
+          this.$router.push({
+            name: 'withdraw',
+            params: {
+              coin: balanceAsset,
+            }
+          });
+          return;
+        }
+      }
+      this.$toast.info('YOU HAVE NO FUNDS');
     }
   },
   mounted() {

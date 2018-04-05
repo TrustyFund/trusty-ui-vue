@@ -66,6 +66,16 @@ $desk_font_button: 1.2vw;
 		button {
 			color: grey;
 			border-color: grey;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			opacity: 0.8;
+			div:nth-child(2) {
+				margin-left: 4vw;
+			}
+			div, span {
+				color: inherit;
+			}
 		}
 	}
 

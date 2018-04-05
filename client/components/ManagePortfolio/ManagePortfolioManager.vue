@@ -179,7 +179,6 @@ export default {
     },
     suggestPortfolio() {
       const newPercents = {};
-      console.log(config.suggestedPortfolioShares);
       Object.keys(this.initialPercents).forEach(id => {
         newPercents[id] = { ...this.initialPercents[id] };
         newPercents[id].share = config.suggestedPortfolioShares[id] || 0;
@@ -190,7 +189,8 @@ export default {
       this.$toast.info('Portfolio suggested');
     },
     handleMinus(item) {
-      const min = this.minPercents[item.id] || 0;
+      // const min = this.minPercents[item.id] || 0;
+      const min = 0;
       const newShare = parseFloat((item.share - 0.2).toFixed(2));
       if (newShare <= min) {
         item.share = min;
@@ -217,6 +217,25 @@ export default {
     },
     clearTimer() {
       clearInterval(this.timer);
+    },
+    checkForMinPercents() {
+      const toModifyPercents = {};
+      Object.keys(this.minPercents).forEach(id => {
+        const diff = parseFloat((this.minPercents[id] - this.percents[id].share).toFixed(2));
+        if (diff > 0) toModifyPercents[id] = diff;
+      });
+
+      console.log(toModifyPercents);
+      const biggestShareAsset = this.percentsAsArray[0];
+      console.log('biggest share : ', biggestShareAsset);
+      Object.keys(toModifyPercents).forEach(id => {
+        console.log('before : ', this.percents[id].share);
+        console.log('before big :', biggestShareAsset.share);
+        biggestShareAsset.share = biggestShareAsset.share - toModifyPercents[id];
+        this.percents[id].share = this.percents[id].share + toModifyPercents[id];
+        console.log('after : ', this.percents[id].share);
+        console.log('after big :', biggestShareAsset.share);
+      });
     }
   },
   mounted() {
@@ -224,6 +243,7 @@ export default {
     this.percentFiatValue = this.totalFiatValue / 100;
     this.percents = JSON.parse(JSON.stringify(this.initialPercents));
     this.percentsAsArray = this.convertPercentsToArray(this.percents);
+    this.checkForMinPercents();
     // prevents long click context menu
     window.oncontextmenu = (event) => {
       event.preventDefault();
