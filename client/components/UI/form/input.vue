@@ -406,12 +406,13 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
 	span.trusty_input_close {
 		display: inline-block;
 		position: absolute;
-		right: 1vw;
+		right: .5vw;
 		top: 0;
 		margin: 0;
 		padding: 0;
-		width: 4.6vw;
+		width: 4.2vw;
 		z-index: 3000;
+		opacity: .7;
 	}
 
 
