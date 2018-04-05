@@ -2,7 +2,7 @@
 #trusty_transfer
 
 	._turnover_inputs
-		TrustyInput(label="enter sum" composed=true)
+		AlphaInput(label="enter sum" composed=true)
 			template(slot="input")
 				input(v-model="amount" ref="amount" @input="$v.amount.$touch()")
 			template(slot="right")
@@ -17,34 +17,8 @@
 			$v.amount.doesntExceedBalance &&
 			!$v.amount.doesntExceedMinWithdraw &&
 			this.$v.amount.$dirty`) Minimal withdraw amount {{ minWithdraw }}
+
 		p.withdraw_tooltip(@click="setAmount") {{ balanceAmountText }}
-		TrustyInput(:isOpen="true", label="payment method" className="select_input payment-method")
-			template(slot="input")
-				input(:style="{display:'none'}")
-				select(v-model="paymentMethod" )
-					option(v-for="method in methods") {{ method }}
-				icon-component(name="trusty_arrow_down" style="position: absolute")
-
-	._turnover_inputs
-
-		AlphaInput(label="enter sum" composed=true)
-			template(slot="input")
-				input(v-model="amount" @input="$v.amount.$touch()")
-			template(slot="right")
-				select(v-model="selectedCoin" v-if="isNonZeroLength" dir="rtl")
-					option(v-for="(coin, id) in nonZeroAssets", v-bind:value="id") {{ coin.symbol }}
-				icon-component(name="trusty_arrow_down")
-
-		p
-
-		.trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
-		.trusty_font_error(v-if="$v.amount.required && !$v.amount.isNumeric && this.$v.amount.$dirty") Enter a number
-		.trusty_font_error(v-if="$v.amount.isNumeric && !$v.amount.doesntExceedBalance && this.$v.amount.$dirty") Innuficient funds
-		.trusty_font_error(
-			v-if=`$v.amount.isNumeric &&
-			$v.amount.doesntExceedBalance &&
-			!$v.amount.doesntExceedMinWithdraw &&
-			this.$v.amount.$dirty`) Minimal withdraw amount {{ minWithdraw }}
 
 		TrustyInput(
 			:isOpen="true",
