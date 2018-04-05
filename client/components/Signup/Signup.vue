@@ -47,7 +47,7 @@ import trustyInput from '@/components/UI/form/input';
 import Icon from '@/components/UI/icon';
 import debounce from 'lodash/debounce';
 import { validationMixin } from 'vuelidate';
-import { required, minLength, sameAs } from 'vuelidate/lib/validators';
+import { required, minLength, sameAs, email } from 'vuelidate/lib/validators';
 import { mapActions, mapGetters } from 'vuex';
 import dictionary from '../../../vuex-bitshares/test/brainkey_dictionary.js';
 
@@ -109,11 +109,23 @@ export default {
     async handleSignUp() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        const replacedName = this.name.replace(/@/g, '-').toLowerCase();
+        let trustyName = '';
+        let savedEmail = '';
+        if (email(this.name)) {
+          savedEmail = this.name;
+          const [name] = savedEmail.split('@');
+          trustyName = name + '.tf';
+        } else {
+          trustyName = this.name.replace(/@/g, '-').toLowerCase();
+        }
+
+        console.log('Process register', trustyName);
+
         const result = await this.signup({
-          name: replacedName,
+          name: trustyName,
           password: this.pin,
-          dictionary: dictionary.en
+          dictionary: dictionary.en,
+          email: savedEmail
         });
         if (result.success) {
           this.$router.push({ name: 'entry' });
