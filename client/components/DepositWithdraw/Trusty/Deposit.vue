@@ -11,7 +11,7 @@
 
         TrustyInput(
         	:isOpen="clientName !== ''",
-        	label="NAME AND SURNAME OF PAYEUR",
+        	label="NAME AND SURNAME OF PAYER",
         	v-model="clientName",
         	:validate="$v.clientName.$touch")
 
