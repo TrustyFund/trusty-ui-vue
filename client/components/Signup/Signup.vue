@@ -109,23 +109,21 @@ export default {
     async handleSignUp() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        let trustyName = '';
-        let savedEmail = '';
-        if (email(this.name)) {
-          savedEmail = this.name;
-          const [name] = savedEmail.split('@');
-          trustyName = name + '.tf';
+        let trustyName = this.name.toLowerCase();
+        let trustyEmail = '';
+        if (email(trustyName)) {
+          trustyEmail = trustyName;
+          const [namePart] = trustyEmail.split('@');
+          trustyName = namePart + '.tf';
         } else {
-          trustyName = this.name.replace(/@/g, '-').toLowerCase();
+          trustyName = trustyName.replace(/@/g, '-');
         }
-
-        console.log('Process register', trustyName);
 
         const result = await this.signup({
           name: trustyName,
           password: this.pin,
           dictionary: dictionary.en,
-          email: savedEmail
+          email: trustyEmail
         });
         if (result.success) {
           this.$router.push({ name: 'entry' });
