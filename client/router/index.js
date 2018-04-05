@@ -153,8 +153,8 @@ const router = new Router({
                   props: true
                 },
                 {
-                  path: 'market-asset',
-                  name: 'manage-manual-market-asset',
+                  path: 'trade',
+                  name: 'manage-manual-market-trade',
                   component: ManagePortfolioManualMarketAsset,
                   props: true
                 }

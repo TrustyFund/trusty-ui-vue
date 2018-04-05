@@ -32,7 +32,7 @@ export default {
   methods: {
     goToMarketAsset(asset) {
       this.$router.push({
-        name: 'manage-manual-market-asset',
+        name: 'manage-manual-market-trade',
         params: { market: this.market, asset }
       });
     }
