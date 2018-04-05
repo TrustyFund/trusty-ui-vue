@@ -8,8 +8,14 @@ import Withdraw from '@/components/DepositWithdraw/Withdraw';
 import User from '@/components/User/User.vue';
 import Signup from '@/components/Signup/Signup.vue';
 import Login from '@/components/Login/Login.vue';
+
 import ManagePortfolio from '@/components/ManagePortfolio/ManagePortfolio';
 import ManagePortfolioManager from '@/components/ManagePortfolio/ManagePortfolioManager';
+import ManagePortfolioManual from '@/components/ManagePortfolio/ManagePortfolioManual';
+import ManagePortfolioManualMarkets from '@/components/ManagePortfolio/ManagePortfolioManualMarkets';
+import ManagePortfolioManualMarket from '@/components/ManagePortfolio/ManagePortfolioManualMarket';
+import ManagePortfolioManualMarketAsset from '@/components/ManagePortfolio/ManagePortfolioManualMarketAsset';
+
 import Transactions from '@/components/Transactions/Transactions';
 import Backup from '@/components/Backup/Backup';
 import BackupDone from '@/components/Backup/BackupDone';
@@ -124,6 +130,35 @@ const router = new Router({
               props: {
                 type: 'fiat'
               }
+            },
+            {
+              path: 'manual',
+              name: 'manage-manual',
+              redirect: '/manage/manual/markets',
+              component: ManagePortfolioManual,
+              meta: {
+                requiresConfirmScreen: true,
+                requiredBackup: true
+              },
+              children: [
+                {
+                  path: 'markets',
+                  name: 'manage-manual-markets',
+                  component: ManagePortfolioManualMarkets
+                },
+                {
+                  path: 'market',
+                  name: 'manage-manual-market',
+                  component: ManagePortfolioManualMarket,
+                  props: true
+                },
+                {
+                  path: 'market-asset',
+                  name: 'manage-manual-market-asset',
+                  component: ManagePortfolioManualMarketAsset,
+                  props: true
+                }
+              ]
             }
           ]
         },
