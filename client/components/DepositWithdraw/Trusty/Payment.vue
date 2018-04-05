@@ -4,13 +4,13 @@
   .trusty_header.cryptobot_header
     .header_title DEPOSIT
   .deposit_paddings
-    trusty-input(:isOpen="true", :foreignKey="true" label="please use your online bank to send")
+    alpha-input(:isOpen="true", label="please use your online bank to send")
       template(slot="input"): div._simple_text_left {{ order.FiatAmount  + ' ' + order.Currency }}
 
-    trusty-input(:isOpen="true", :foreignKey="true" label="to")
+    alpha-input(:isOpen="true", label="to")
       template(slot="input"): div._simple_text_left {{ order.PaymentMethod }}
 
-    trusty-input(:isOpen="true", :foreignInput="true", label="number")
+    alpha-input(:isOpen="true", label="number")
       template(slot="input"): div._simple_text_left {{ requisites }}
 
     .trusty_inline_buttons._one_button
@@ -18,7 +18,7 @@
         v-clipboard:copy="requisites"
         v-clipboard:success="onCopy") copy address
 
-    trusty-input(:isOpen="true" label="exchange rate RUB/BTC")
+    alpha-input(:isOpen="true" label="exchange rate RUB/BTC")
       template(slot="input"): div._simple_text_left.rate {{ amount.rate }}
       template(slot="right")
         label.trusty_place_holder You will receive BTC
@@ -44,11 +44,11 @@
 </template>
 
 <script>
-import trustyInput from '@/components/UI/form/input';
+import AlphaInput from '@/components/UI/form/alpha';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  components: { trustyInput },
+  components: { AlphaInput },
   name: 'Payment',
   data() {
     return {

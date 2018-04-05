@@ -27,6 +27,7 @@
       timer(v-if="order.isRejected()" error)
 
       payment(v-if="order.hasRequisites()")
+
 </template>
 
 <script>
