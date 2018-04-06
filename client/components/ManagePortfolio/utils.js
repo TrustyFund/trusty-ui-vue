@@ -3,9 +3,7 @@ import { distributionFromBalances, distributionSampling } from 'lib/src/utils';
 
 export const computePercentsFromBaseValues = (baseValues) => {
   const rawDistributions = distributionFromBalances(baseValues);
-  console.log('initial raw : ', rawDistributions);
   const initialPercents = distributionSampling(rawDistributions, 3);
-  console.log('initial sampled : ', initialPercents);
   return initialPercents;
 };
 

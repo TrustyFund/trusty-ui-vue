@@ -200,8 +200,6 @@ export default {
         if (diff > 0) toModifyPercents[id] = diff;
       });
 
-      console.log(toModifyPercents);
-
       // find asset with the biggest share that is not needed to modify
       const toModifyIds = Object.keys(toModifyPercents);
       const biggestShareAsset = this.percentsAsArray.find(item => {
