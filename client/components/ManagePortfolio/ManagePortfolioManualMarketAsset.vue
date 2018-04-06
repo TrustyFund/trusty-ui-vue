@@ -28,15 +28,15 @@ export default {
       isPending: 'market2/isPending'
     }),
     buyOrders() {
-      return this.getMarketOrders(this.market)[this.asset].buy;
+      return this.getMarketOrders(this.market, this.asset).buy;
     },
     sellOrders() {
-      return this.getMarketOrders(this.market)[this.asset].sell;
+      return this.getMarketOrders(this.market, this.asset).sell;
     }
   },
   methods: {
     ...mapActions({
-      subscribeToMarket: 'market2/subscribeToMarket',
+      subscribeToMarketOrders: 'market2/subscribeToMarketOrders',
       unsubscribeFromMarket: 'market2/unsubscribeFromMarket'
     }),
     dumbPrice(order) {
@@ -46,7 +46,7 @@ export default {
   created() {
     const baseId = this.market;
     const assetId = this.asset;
-    this.subscribeToMarket({ baseId, assetId });
+    this.subscribeToMarketOrders({ baseId, assetId });
   },
   beforeDestroy() {
     this.unsubscribeFromMarket({ baseId: this.market });
