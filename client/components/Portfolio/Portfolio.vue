@@ -67,7 +67,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      history: 'market/getMarketHistory',
+      history24: 'market/getMarketHistory24',
+      history7: 'market/getMarketHistory7',
       marketFetching: 'market/isFetching',
       marketError: 'market/isError',
       getAssetMultiplier: 'market/getAssetMultiplier',
@@ -95,15 +96,18 @@ export default {
         const { balance } = this.combinedBalances[id];
         const asset = this.getAssetById(id);
         const precisedBalance = balance / (10 ** asset.precision);
-        let prices = this.history[id];
-        if (!prices) return;
+        let prices24 = this.history24[id];
+        let prices7 = this.history7[id];
+        if (!prices24 || !prices7) return;
         const multiplier = this.fiatMultiplier;
-        if (id === this.baseId) prices = { first: 1, last: 1 };
+        if (id === this.baseId) prices24 = { first: 1, last: 1 };
+        if (id === this.baseId) prices7 = { first: 1, last: 1 };
 
         items[id] = calcPortfolioItem({
           balance,
           asset,
-          prices,
+          prices24,
+          prices7,
           baseAsset: this.assets[this.baseId],
           fiatMultiplier: multiplier
         });

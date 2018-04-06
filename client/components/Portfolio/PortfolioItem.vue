@@ -1,9 +1,9 @@
 <template lang="pug">
   .portfolio-row-item
     .portfolio-row-item__name._text_left(@click="navigateToCoin(item)") {{ item.name }}
-    ._text_right {{ balancesMode ? formattedPrice : formattedBalanceFiat }}
-    ._text_right {{ balancesMode ? formattedChange + '%' : tokensNum }}
-    ._text_right {{ balancesMode ? formattedChange : formattedShare }}%
+    ._text_right {{ balancesMode ? formattedPrice.toFixed(3) : formattedBalanceFiat }}
+    ._text_right {{ balancesMode ? formattedChange24 + '%' : tokensNum }}
+    ._text_right {{ balancesMode ? formattedChange7 : formattedShare }}%
 </template>
 
 <script>
@@ -47,7 +47,7 @@ export default {
       return (this.share && Math.round(this.share, 0)) || 0;
     },
     formattedPrice() {
-      return (1 / (this.item.price * this.fiatMultiplier) / (10 ** this.fiatPrecision)).toFixed(3);
+      return (this.item.price * this.fiatMultiplier) / (10 ** this.fiatPrecision);
     },
     tokensNum() {
       return this.item.precisedBalance.toFixed(2);
@@ -59,9 +59,15 @@ export default {
       if (precisedFiatValue > 0.1) return precisedFiatValue.toFixed(1);
       return precisedFiatValue.toFixed(2);
     },
-    formattedChange() {
-      if (!this.item.change) return 0;
-      let change = this.item.change.toFixed(0).toString();
+    formattedChange24() {
+      if (!this.item.change24) return 0;
+      let change = this.item.change24.toFixed(0).toString();
+      if (change.length > 3) change = change.substring(0, 3);
+      return change;
+    },
+    formattedChange7() {
+      if (!this.item.change7) return 0;
+      let change = this.item.change7.toFixed(0).toString();
       if (change.length > 3) change = change.substring(0, 3);
       return change;
     }

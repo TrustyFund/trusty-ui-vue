@@ -48,6 +48,12 @@ const actions = {
       days: 1
     }, { root: true });
 
+    store.dispatch('market/fetchMarketHistory', {
+      baseId: '1.3.0',
+      assetsIds: combinedAssetsIds,
+      days: 7
+    }, { root: true });
+
     store.dispatch('transactions/fetchComissions', null, { root: true });
     store.dispatch('market/subscribeToMarket', { balances }, { root: true });
   },

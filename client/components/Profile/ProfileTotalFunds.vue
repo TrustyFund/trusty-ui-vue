@@ -35,7 +35,7 @@ export default {
   computed: {
     ...mapGetters({
       assets: 'assets/getAssets',
-      prices: 'market/getMarketHistory'
+      prices: 'market/getMarketHistory24'
     }),
     baseAsset() {
       return this.assets[this.baseId];

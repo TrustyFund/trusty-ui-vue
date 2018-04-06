@@ -27,7 +27,7 @@ export default {
     ...mapGetters({
       balances: 'account/getCurrentUserBalances',
       defaultAssetsIds: 'assets/getDefaultAssetsIds',
-      history: 'market/getMarketHistory',
+      history: 'market/getMarketHistory24',
       baseId: 'market/getBaseAssetId',
       assets: 'assets/getAssets',
       getAssetMultiplier: 'market/getAssetMultiplier'
