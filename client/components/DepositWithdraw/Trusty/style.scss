@@ -6,6 +6,7 @@
 		width: 100%;
 		top: 0;
 		left: 0;
+		z-index: 2000;
 
 		&.no_order {
 			position: static;
@@ -62,7 +63,7 @@
 	    text-align: center;
 	    color: white;
 	  }
-	  
+
 		background-color: #1e2225 !important;
 		.modal-overlay.is-active {
 			position: fixed;
@@ -110,7 +111,7 @@
 	.deposit_paddings{
 		padding-top: 12vw;
 		padding-left: 3.6vw;
-		padding-right: 3.6vw;		
+		padding-right: 3.6vw;
 	}
 
 }
