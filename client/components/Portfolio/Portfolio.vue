@@ -8,16 +8,23 @@ div.portfolio-container
       button(v-show="!subscribedToMarket")
         Spinner(size="small", :absolute="false")
         div LOADING MARKET...
-  div.grid_wrapper
-    ._text_left.portfolio_head ASSET
-    ._text_right.portfolio_head SHARE
-    ._text_right.portfolio_head $VALUE
-    ._text_right.portfolio_head 24H
-    template(v-for="item in itemsAsArray")
-      ._text_left.overflowed.portfolio_item(@click="navigateToCoin(item)") {{ item.name }}
-      ._text_right.portfolio_item {{ formattedShare(item) }}%
-      ._text_right.portfolio_item {{ formattedBalanceFiat(item) }}
-      ._text_right.portfolio_item {{ formattedChange(item) }}%
+
+  div._text_right 
+    span.portfolio-toggle(@click="toggle") {{ toggleTitle }}
+  div.portfolio-data
+    div.portfolio-data__header
+      ._text_left.portfolio_head ASSET
+      ._text_right.portfolio_head {{ showBalances ? '$PRICE' : '$VALUE' }}
+      ._text_right.portfolio_head {{ showBalances ? '24H' : 'TOKENS' }}
+      ._text_right.portfolio_head {{ showBalances ? '7D' : 'SHARE' }}
+    div.portfolio-data__body
+      PortfolioItem(v-for="item in itemsAsArray" 
+                    :key="item.id"
+                    :balances-mode="showBalances"
+                    :item="item"
+                    :total-base-value="totalBaseValue"
+                    :fiat-multiplier="fiatMultiplier.last"
+                    :fiat-precision="fiatPrecision")
 </template>
 
 <script>
@@ -25,13 +32,15 @@ import { mapGetters } from 'vuex';
 // eslint-disable-next-line
 import { calcPortfolioItem } from 'lib/src/utils';
 import Spinner from '@/components/UI/Spinner';
+import PortfolioItem from './PortfolioItem';
 
 export default {
   components: {
-    Spinner
+    Spinner, PortfolioItem
   },
   data() {
     return {
+      showBalances: true
     };
   },
   props: {
@@ -64,8 +73,12 @@ export default {
       getAssetMultiplier: 'market/getAssetMultiplier',
       assets: 'assets/getAssets',
       defaultAssetsIds: 'assets/getDefaultAssetsIds',
-      subscribedToMarket: 'market/isSubscribed'
+      subscribedToMarket: 'market/isSubscribed',
+      getAssetById: 'assets/getAssetById'
     }),
+    toggleTitle() {
+      return this.showBalances ? 'SHOW BALANCES' : 'SHOW PRICES';
+    },
     combinedBalances() {
       const combinedBalances = { ...this.balances };
       this.defaultAssetsIds.forEach(id => {
@@ -80,7 +93,8 @@ export default {
       if (!assetsIds.length) return items;
       assetsIds.forEach(id => {
         const { balance } = this.combinedBalances[id];
-        const asset = this.assets[id];
+        const asset = this.getAssetById(id);
+        const precisedBalance = balance / (10 ** asset.precision);
         let prices = this.history[id];
         if (!prices) return;
         const multiplier = this.fiatMultiplier;
@@ -94,6 +108,7 @@ export default {
           fiatMultiplier: multiplier
         });
         items[id].id = id;
+        items[id].precisedBalance = precisedBalance;
       });
       return items;
     },
@@ -121,68 +136,40 @@ export default {
       if (!this.subscribedToMarket) return;
       this.$router.push({ name: 'manage' });
     },
-    share(item) {
-      return (item.baseValue / this.totalBaseValue) * 100;
-    },
-    formattedShare(item) {
-      return (this.share(item) && Math.round(this.share(item), 0)) || 0;
-    },
-    formattedBalanceFiat(item) {
-      if (!item.fiatValue) return '0';
-      const precisedFiatValue = item.fiatValue / (10 ** this.fiatPrecision);
-      if (precisedFiatValue > 10) return Math.floor(precisedFiatValue);
-      if (precisedFiatValue > 0.1) return precisedFiatValue.toFixed(1);
-      return precisedFiatValue.toFixed(2);
-    },
-    formattedChange(item) {
-      if (!item.change) return 0;
-      let change = item.change.toFixed(0).toString();
-      if (change.length > 3) change = change.substring(0, 3);
-      return change;
-    },
-    navigateToCoin(item) {
-      console.log('ITEM', item);
-      this.$router.push({
-        name: 'coin',
-        params: {
-          symbol: item.name,
-          assetId: item.id
-        }
-      });
+    toggle() {
+      this.showBalances = !this.showBalances;
     }
   }
 };
 </script>
 
 <style lang="scss">
-  .grid_wrapper {
-    position: relative;
-    width: 100%;
-    display: grid;
-    grid-gap: 0%;
-    grid-row-gap: 2.5vw;
-    grid-template-columns: 35% 20% 25% 20%;
+  .portfolio-container .portfolio-toggle {
+    cursor: pointer;
+    color: white;
+    opacity: 0.5;
+    font-family: 'Gotham_Pro_Regular';
+    font-size: 4.4vw;
+  }
+
+  .portfolio-container .portfolio-data {
     margin-bottom: 2em;
     padding-top: 3vw;
     font-family: 'Gotham_Pro_Regular';
 
-    .portfolio_head {
-      font-size: 4.4vw;
-      color: white;
-      font-weight: 700;
+    &__header {
+      display: grid;
+      grid-template-columns: 35% 20% 25% 20%;
+      margin-bottom: 2.5vw;
+      div {
+        font-size: 4.4vw;
+        color: white;
+        font-weight: 700;
+      }
     }
-
-    .portfolio_item {
-      font-size: 6vw;
-      color: white;
-      overflow: hidden;
+    &__body {
+      display: grid;
+      grid-row-gap: 2.5vw;
     }
-
-  }
-
-  .overflowed {
-    text-overflow: ellipsis;
-    overflow: hidden; 
-    white-space: nowrap;
   }
 </style>
