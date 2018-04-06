@@ -104,8 +104,9 @@ export default {
   padding-right: 3.6vw;
   padding-left: 3.6vw;
   padding-bottom: 10vw;
-
+  
   @media screen and (min-width: 768px) {
+
     max-width: 80%;
     margin: 0 auto;
     display: flex;
@@ -114,6 +115,7 @@ export default {
       flex: 1;
     }
   }
+
   .table_wrap {
     width: 100%;
 
@@ -130,7 +132,7 @@ export default {
 @media screen and (max-width: 768px){
   #trusty_profile .trusty_total_funds {
     margin-top: 4.3vw;
-    margin-bottom: 5.2vw;
+    margin-bottom: 3.3vw;
 
     &._not_transactions {
     	margin-bottom: 3.2vw;

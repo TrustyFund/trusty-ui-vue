@@ -1,13 +1,9 @@
 <template lang="pug">
-
-  tr.portfolio-container__balance 
-    td._text_left(@click="navigateToCoin(item)")
-      span {{ item.name }}
-      Icon(name="trusty_portfolio_arrow_right")
-    td._text_right: span {{ formattedShare }}%
-    td._text_right: span {{ formattedBalanceFiat }}
-    td._text_right: span {{ formattedChange }}%
-
+  .portfolio-row-item
+    .portfolio-row-item__name._text_left(@click="navigateToCoin(item)") {{ item.name }}
+    ._text_right {{ balancesMode ? formattedPrice : formattedBalanceFiat }}
+    ._text_right {{ balancesMode ? formattedChange + '%' : tokensNum }}
+    ._text_right {{ balancesMode ? formattedChange : formattedShare }}%
 </template>
 
 <script>
@@ -21,6 +17,10 @@ export default {
       required: true,
       default: {}
     },
+    balancesMode: {
+      type: Boolean,
+      required: true
+    },
     totalBaseValue: {
       type: Number,
       required: true,
@@ -30,6 +30,10 @@ export default {
       type: Number,
       required: true,
       default: 0
+    },
+    fiatMultiplier: {
+      type: Number,
+      required: true
     }
   },
   data() {
@@ -41,6 +45,12 @@ export default {
     },
     formattedShare() {
       return (this.share && Math.round(this.share, 0)) || 0;
+    },
+    formattedPrice() {
+      return (1 / (this.item.price * this.fiatMultiplier) / (10 ** this.fiatPrecision)).toFixed(3);
+    },
+    tokensNum() {
+      return this.item.precisedBalance.toFixed(2);
     },
     formattedBalanceFiat() {
       if (!this.item.fiatValue) return '0';
@@ -71,30 +81,17 @@ export default {
 </script>
 
 <style lang="scss">
-  .portfolio-container__balance {
-    td, td span, td div {
+  .portfolio-row-item {
+    display: grid;
+    grid-template-columns: 35% 20% 25% 20%;
+    div {
+      font-size: 6vw;
       color: white;
-      @media screen and (max-width: 768px) {
-        font-size: 6vw;
-      }
-      font-family: 'Gotham_Pro_Regular';
-
-    }
-    td {
-      @media screen and (max-width: 750px){
-        margin-top: 10px;  
-        padding-left: 0; 
-      }
-      white-space: nowrap;
-    } 
-    .trusty_portfolio_arrow_right {
-      margin-left: 1vw;
-      position: relative;
-      top: -0.5vw;
-      svg {
-        fill: #9ea2a5;
-        height: 3.7vw;    
-        width: 3.1vw!important;    
+      overflow: hidden;
+      &.portfolio-row-item__name {
+        text-overflow: ellipsis;
+        overflow: hidden; 
+        white-space: nowrap;
       }
     }
   }
