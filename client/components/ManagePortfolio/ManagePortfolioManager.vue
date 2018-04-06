@@ -55,10 +55,11 @@
 
 <script>
 import Icon from '@/components/UI/icon';
+import config from '@/../config';
 import { mapGetters, mapActions } from 'vuex';
 import { computePercentsFromBaseValues, calcPercentsChange,
   convertPercentsToSortedArray } from './utils';
-import config from '@/../config';
+
 
 export default {
   props: {
@@ -207,8 +208,9 @@ export default {
       });
 
       Object.keys(toModifyPercents).forEach(id => {
-        biggestShareAsset.share = parseFloat((biggestShareAsset.share - toModifyPercents[id]).toFixed(2));
-        this.percents[id].share = parseFloat((this.percents[id].share + toModifyPercents[id]).toFixed(2));
+        const modify = toModifyPercents[id];
+        biggestShareAsset.share = parseFloat((biggestShareAsset.share - modify).toFixed(2));
+        this.percents[id].share = parseFloat((this.percents[id].share + modify).toFixed(2));
       });
     }
   },
