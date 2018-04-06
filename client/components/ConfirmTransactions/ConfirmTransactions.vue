@@ -30,7 +30,7 @@
 		button(v-show="!pending" @click="confirm") CONFIRM
 		button(v-show="pending")
 			Spinner(size="small" :absolute="false")
-			div Processing
+			div Processing...
 
 </template>
 
