@@ -208,14 +208,9 @@ export default {
         return toModifyIds.indexOf(item.id) === -1;
       });
 
-      console.log('biggest share : ', biggestShareAsset);
       Object.keys(toModifyPercents).forEach(id => {
-        console.log('before : ', this.percents[id].share);
-        console.log('before big :', biggestShareAsset.share);
-        biggestShareAsset.share = biggestShareAsset.share - toModifyPercents[id];
-        this.percents[id].share = this.percents[id].share + toModifyPercents[id];
-        console.log('after : ', this.percents[id].share);
-        console.log('after big :', biggestShareAsset.share);
+        biggestShareAsset.share = parseFloat((biggestShareAsset.share - toModifyPercents[id]).toFixed(2));
+        this.percents[id].share = parseFloat((this.percents[id].share + toModifyPercents[id]).toFixed(2));
       });
     }
   },
