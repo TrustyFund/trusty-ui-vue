@@ -55,10 +55,11 @@
 
 <script>
 import Icon from '@/components/UI/icon';
-import { mapGetters, mapActions } from 'vuex';
-// eslint-disable-next-line
-import { distributionFromBalances, distributionSampling } from 'lib/src/utils';
 import config from '@/../config';
+import { mapGetters, mapActions } from 'vuex';
+import { computePercentsFromBaseValues, calcPercentsChange,
+  convertPercentsToSortedArray } from './utils';
+
 
 export default {
   props: {
@@ -105,16 +106,9 @@ export default {
       });
       return baseValues;
     },
-    fiatValues() {
-      const fiatValues = {};
-      Object.keys(this.items).forEach(id => {
-        fiatValues[id] = this.items[id].fiatValue;
-      });
-      return fiatValues;
-    },
     totalFiatValue() {
-      return Object.keys(this.fiatValues).reduce((result, id) => {
-        return result + this.fiatValues[id];
+      return Object.keys(this.items).reduce((result, id) => {
+        return result + this.items[id].fiatValue;
       }, 0);
     },
     remainingPercents() {
@@ -129,10 +123,7 @@ export default {
       setPendingDistribution: 'transactions/setPendingDistribution'
     }),
     computeInitialPercents() {
-      const rawDistributions = distributionFromBalances(this.baseValues);
-      console.log('initial raw : ', rawDistributions);
-      const initialPercents = distributionSampling(rawDistributions, 3);
-      console.log('initial sampled : ', initialPercents);
+      const initialPercents = computePercentsFromBaseValues(this.baseValues);
       Object.keys(initialPercents).forEach(id => {
         initialPercents[id] = {
           share: parseFloat((initialPercents[id] * 100).toFixed(1), 10),
@@ -142,24 +133,8 @@ export default {
       });
       return initialPercents;
     },
-    convertPercentsToArray(percentsObj) {
-      const array = Object.keys(percentsObj).map(assetId => percentsObj[assetId]);
-      const sortedArray = array.sort((a, b) => {
-        return a.share === b.share ? 0 : +(b.share > a.share) || -1;
-      });
-      return sortedArray;
-    },
-    calcChangedPercents() {
-      const changed = {};
-      Object.keys(this.percents).forEach(id => {
-        if (this.percents[id].share !== this.initialPercents[id].share) {
-          changed[id] = this.percents[id].share / 100;
-        }
-      });
-      return changed;
-    },
     updatePortfolio() {
-      const changed = this.calcChangedPercents();
+      const changed = calcPercentsChange(this.initialPercents, this.percents);
       if (!Object.keys(changed).length) {
         this.$toast.warning('Nothing changed');
         return;
@@ -185,12 +160,11 @@ export default {
       });
 
       this.percents = newPercents;
-      this.percentsAsArray = this.convertPercentsToArray(this.percents);
+      this.percentsAsArray = convertPercentsToSortedArray(this.percents);
       this.$toast.info('Portfolio suggested');
     },
     handleMinus(item) {
-      // const min = this.minPercents[item.id] || 0;
-      const min = 0;
+      const min = this.minPercents[item.id] || 0;
       const newShare = parseFloat((item.share - 0.2).toFixed(2));
       if (newShare <= min) {
         item.share = min;
@@ -220,21 +194,23 @@ export default {
     },
     checkForMinPercents() {
       const toModifyPercents = {};
+
+      // array with differences
       Object.keys(this.minPercents).forEach(id => {
         const diff = parseFloat((this.minPercents[id] - this.percents[id].share).toFixed(2));
         if (diff > 0) toModifyPercents[id] = diff;
       });
 
-      console.log(toModifyPercents);
-      const biggestShareAsset = this.percentsAsArray[0];
-      console.log('biggest share : ', biggestShareAsset);
+      // find asset with the biggest share that is not needed to modify
+      const toModifyIds = Object.keys(toModifyPercents);
+      const biggestShareAsset = this.percentsAsArray.find(item => {
+        return toModifyIds.indexOf(item.id) === -1;
+      });
+
       Object.keys(toModifyPercents).forEach(id => {
-        console.log('before : ', this.percents[id].share);
-        console.log('before big :', biggestShareAsset.share);
-        biggestShareAsset.share = biggestShareAsset.share - toModifyPercents[id];
-        this.percents[id].share = this.percents[id].share + toModifyPercents[id];
-        console.log('after : ', this.percents[id].share);
-        console.log('after big :', biggestShareAsset.share);
+        const modify = toModifyPercents[id];
+        biggestShareAsset.share = parseFloat((biggestShareAsset.share - modify).toFixed(2));
+        this.percents[id].share = parseFloat((this.percents[id].share + modify).toFixed(2));
       });
     }
   },
@@ -242,7 +218,7 @@ export default {
     this.initialPercents = this.computeInitialPercents();
     this.percentFiatValue = this.totalFiatValue / 100;
     this.percents = JSON.parse(JSON.stringify(this.initialPercents));
-    this.percentsAsArray = this.convertPercentsToArray(this.percents);
+    this.percentsAsArray = convertPercentsToSortedArray(this.percents);
     this.checkForMinPercents();
     // prevents long click context menu
     window.oncontextmenu = (event) => {
