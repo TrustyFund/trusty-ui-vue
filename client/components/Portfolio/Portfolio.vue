@@ -168,7 +168,7 @@ export default {
 
     .portfolio_head {
       font-size: 4.4vw;
-      color: #cccccc;
+      color: white;
       font-weight: 700;
     }
 

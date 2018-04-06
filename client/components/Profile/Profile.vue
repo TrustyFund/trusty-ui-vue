@@ -116,7 +116,6 @@ export default {
     }
   }
 
-
   .table_wrap {
     width: 100%;
 
@@ -133,7 +132,7 @@ export default {
 @media screen and (max-width: 768px){
   #trusty_profile .trusty_total_funds {
     margin-top: 4.3vw;
-    margin-bottom: 5.2vw;
+    margin-bottom: 3.3vw;
 
     &._not_transactions {
     	margin-bottom: 3.2vw;
