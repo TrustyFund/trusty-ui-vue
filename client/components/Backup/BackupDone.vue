@@ -35,7 +35,7 @@ const infos = [
 {
 	text: `
 I understand that my funds are<br/>
-help securely on this device, not<br/>
+held securely on this device, not<br/>
 by a company and nobody can<br/>
 recover my backup phrase and password
 	`,
@@ -45,7 +45,7 @@ recover my backup phrase and password
 	text:`
 I understand that if I open Trusty<br/>
 on a new device or clear browser<br/>
-cash, my funds can only be<br/>
+cache, my funds can only be<br/>
 accessed with the backed phrase
 	`,
 	checked: false
@@ -55,7 +55,7 @@ accessed with the backed phrase
 
 const termOfUse ={
   text:`
-I have read, understood and<br/>gree&nbsp
+I have read, understood and<br/>agree to&nbsp
 <span class="_yellow">The terms of use</span>
 `,
   checked: false
