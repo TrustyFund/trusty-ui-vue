@@ -273,7 +273,7 @@ funds are held on an established blockchain.
     text: `
 We are a team of crypto enthusiasts with over 30 years of entrepreneurial,
 technological and financial experience combined. Nevertheless,
-as an open-source project, we want to Trusty to develop autonomously
+as an open-source project, we want Trusty to develop autonomously
 and independently, backed by the growing community of users.
 Please feel free to join our organization on Github
 <a href="https://github.com/trustyfund">https://github.com/trustyfund</a>.
