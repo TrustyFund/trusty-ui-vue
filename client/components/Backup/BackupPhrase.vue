@@ -9,6 +9,7 @@
 			p.trusty_help_text._second We'll confirm on the next sreen
 			.trusty_inline_buttons._one_button
 				button(@click="$router.push({ name: 'backup-verify' });") i've written it down
+			br
 
 </template>
 
