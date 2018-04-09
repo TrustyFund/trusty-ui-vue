@@ -2,7 +2,7 @@
   .portfolio-row-item
     .portfolio-row-item__name._text_left(@click="navigateToCoin(item)") {{ item.name }}
     ._text_right {{ balancesMode ? formattedPrice : formattedBalanceFiat }}
-    ._text_right {{ balancesMode ? formattedChange24 + '%' : tokensNum }}
+    ._text_right {{ balancesMode ? formattedChange24 + '%' : tokensNum.toFixed(2) }}
     ._text_right {{ balancesMode ? formattedChange7 : formattedShare }}%
 </template>
 
@@ -43,15 +43,19 @@ export default {
     share() {
       return (this.item.baseValue / this.totalBaseValue) * 100;
     },
+    precisedFiatValue() {
+      return this.item.fiatValue / (10 ** this.fiatPrecision);
+    },
     formattedShare() {
       return (this.share && Math.round(this.share, 0)) || 0;
     },
     formattedPrice() {
-      const price = (this.item.price * this.fiatMultiplier) * (10 ** (this.item.precision - this.fiatPrecision));
+      const fiatPrice = this.item.price * this.fiatMultiplier;
+      const price = fiatPrice * (10 ** (this.item.precision - this.fiatPrecision));
       return this.preciseFiatValue(price, 2);
     },
     tokensNum() {
-      return this.item.precisedBalance.toFixed(2);
+      return this.item.balance / (10 ** this.item.precision);
     },
     formattedBalanceFiat() {
       if (!this.item.fiatValue) return '0';
@@ -92,6 +96,14 @@ export default {
 </script>
 
 <style lang="scss">
+   .fade-enter-active, .fade-leave-active {
+    transition: all .25s;
+  }
+
+  .fade-enter, .fade-leave-active {
+    opacity: 0;
+  }
+
   .portfolio-row-item {
     display: grid;
     grid-template-columns: 35% 20% 25% 20%;

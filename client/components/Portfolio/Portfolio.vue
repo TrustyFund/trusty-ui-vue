@@ -14,9 +14,12 @@ div.portfolio-container
   div.portfolio-data
     div.portfolio-data__header
       ._text_left.portfolio_head ASSET
-      ._text_right.portfolio_head {{ showBalances ? '$PRICE' : '$VALUE' }}
-      ._text_right.portfolio_head {{ showBalances ? '24H' : 'TOKENS' }}
-      ._text_right.portfolio_head {{ showBalances ? '7D' : 'SHARE' }}
+      transition(name="fade" mode="out-in")
+        ._text_right.portfolio_head(:key="showBalances") {{ showBalances ? '$PRICE' : '$VALUE' }}
+      transition(name="fade" mode="out-in")
+        ._text_right.portfolio_head(:key="showBalances") {{ showBalances ? '24H' : 'TOKENS' }}
+      transition(name="fade" mode="out-in")
+        ._text_right.portfolio_head(:key="showBalances") {{ showBalances ? '7D' : 'SHARE' }}
     div.portfolio-data__body
       PortfolioItem(v-for="item in itemsAsArray" 
                     :key="item.id"
@@ -149,6 +152,14 @@ export default {
 </script>
 
 <style lang="scss">
+  .fade-enter-active, .fade-leave-active {
+    transition: all .25s;
+  }
+
+  .fade-enter, .fade-leave-active {
+    opacity: 0;
+  }
+
   .portfolio-container .portfolio-toggle {
     cursor: pointer;
     color: white;
