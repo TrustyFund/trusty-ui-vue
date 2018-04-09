@@ -4,7 +4,11 @@
 	#coin_analysis._belongings
 
 		template(v-for="item, index in info")
-			.content_area(:class="{_opened_article: opened===index}", @click="open(index)")
+			.content_area(
+				:class="{_opened_article: index===opened}",
+				:id="['item'+index]",
+				@click="open(index)",
+				:ref="'area_'+index")
 				._items
 					._list_item._many_lines(:class="{_none_top_border: index === 0}")
 						span.text_button {{ item.title }}
@@ -13,22 +17,27 @@
 				.wrap_content.main_padding
 
 					._grey_key_list
-						p._text(v-html="item.text")
 
-						template(v-if="item.list")
+						template(v-if="item.list && item.firstList")
 
 							._team_area
 
-								template(v-if="item.list.type === 'numbers'")
+								template
 									h3._list_title {{ item.list.title }}
-									ol
+									ul
 										template(v-for="one in item.list.items")
 											li(v-html="one")
 											br
 
-								template(v-else)
+						p._text(v-html="item.text")
+
+						template(v-if="item.list && !item.firstList")
+
+							._team_area
+
+								template
 									h3._list_title {{ item.list.title }}
-									ul(:class="getListClass(item.list.type)"  )
+									ul
 										template(v-for="one in item.list.items")
 											li(v-html="one")
 											br
@@ -49,22 +58,42 @@ export default {
       opened: null,
     };
   },
+
   methods: {
+
     open(index) {
       this.opened = this.opened === index ? null : index;
+      setTimeout(() => {
+        this.scrollTo(index);
+      }, 500);
     },
-    getListClass(type) {
-      return {
-        _dashed: type === 'dashed'
+
+    scrollTo(index) {
+      const element = this.$refs['area_' + index][0];
+      const options = {
+        offset: -45,
+        container: 'body',
+        easing: 'ease-in',
+        cancelable: true,
       };
+      this.$scrollTo(element, 250, options);
     }
+
   }
 };
 </script>
 
 <style lang="scss">
 
+@import "~@/style/mixins";
+
 #trusty_coin_overview.trusty_faq  {
+
+	._grey_key_list {
+		 > ._text:last-child {
+			margin-bottom: 5vw;
+		 }
+	}
 
 	._list_item._many_lines {
 		position: relative;
@@ -85,53 +114,54 @@ export default {
 		border-top: none;
 	}
 
-	span._bordered_item {
-		border-bottom: 1px solid white;
-	}
 
 	li {
 		color: white;
+		font-size: 4.3vw;
 	}
 
-	ol {
+	._list_title {
+		text-align: left;
+	}
 
-		counter-reset: item;
-		margin-left: 0;
-		padding-left: 0;
+	ul {
+		padding-left: 4.5vw;
+		margin-bottom: 0;
+	}
+
+}
+
+@media screen and (min-width: 769px) {
+
+
+	#trusty_coin_overview.trusty_faq  {
+
+		._grey_key_list {
+			 > ._text:last-child {
+				margin-bottom: px_from_vw(5);
+			 }
+		}
+
+		._list_item._many_lines {
+			padding-right: px_from_vw(15);
+		}
+
+		.trusty_arrow_down {
+			top: px_from_vw(3);
+		}
 
 		li {
-			display: block;
-			margin-left: 4vw;
+			font-size: px_from_vw(4.3);
 		}
 
-		li::before {
-			display: inline-block;
-			content: counter(item) ") ";
-			counter-increment: item;
-			//width: 2em;
-			//margin-left: -2em;
+		._list_title {
 		}
 
-	}
-
-
-	ul._dashed {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-
-		li {
-				padding-left: 16px;
-		}
-
-		li:before {
-			content: "—";
-			padding-right: 8px;
-			color: white;
+		ul {
+			padding-left: px_from_vw(4.5);
 		}
 
 	}
-
 
 }
 
