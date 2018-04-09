@@ -73,12 +73,15 @@ export default {
 	}
 	._wrap_warnings {
 
+		padding-top: 5vw;
+
 		span, div {
 			margin: 0 !important;
 			padding: 0 !important;
 		}
 	  .trusty_big_font {
 			line-height: initial;
+			padding-bottom: 5vw;
 	  }
 	  .account_backup_ico_safe {
 		  width:23.2vh !important;
