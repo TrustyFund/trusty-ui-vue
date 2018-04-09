@@ -113,6 +113,7 @@ export default {
         });
         items[id].id = id;
         items[id].precisedBalance = precisedBalance;
+        items[id].precision = asset.precision;
       });
       return items;
     },

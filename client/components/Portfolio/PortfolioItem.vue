@@ -1,7 +1,7 @@
 <template lang="pug">
   .portfolio-row-item
     .portfolio-row-item__name._text_left(@click="navigateToCoin(item)") {{ item.name }}
-    ._text_right {{ balancesMode ? formattedPrice.toFixed(3) : formattedBalanceFiat }}
+    ._text_right {{ balancesMode ? formattedPrice : formattedBalanceFiat }}
     ._text_right {{ balancesMode ? formattedChange24 + '%' : tokensNum }}
     ._text_right {{ balancesMode ? formattedChange7 : formattedShare }}%
 </template>
@@ -47,17 +47,16 @@ export default {
       return (this.share && Math.round(this.share, 0)) || 0;
     },
     formattedPrice() {
-      return (this.item.price * this.fiatMultiplier) / (10 ** this.fiatPrecision);
+      const price = (this.item.price * this.fiatMultiplier) * (10 ** (this.item.precision - this.fiatPrecision));
+      return this.preciseFiatValue(price, 2);
     },
     tokensNum() {
       return this.item.precisedBalance.toFixed(2);
     },
     formattedBalanceFiat() {
       if (!this.item.fiatValue) return '0';
-      const precisedFiatValue = this.item.fiatValue / (10 ** this.fiatPrecision);
-      if (precisedFiatValue > 10) return Math.floor(precisedFiatValue);
-      if (precisedFiatValue > 0.1) return precisedFiatValue.toFixed(1);
-      return precisedFiatValue.toFixed(2);
+      const fiatValue = this.item.fiatValue / (10 ** this.fiatPrecision);
+      return this.preciseFiatValue(fiatValue);
     },
     formattedChange24() {
       if (!this.item.change24) return 0;
@@ -81,6 +80,12 @@ export default {
           assetId: asset.id
         }
       });
+    },
+    preciseFiatValue(value, precision = 1) {
+      if (!value) return 0;
+      if (value > 10) return Math.floor(value);
+      if (value > 0.1) return value.toFixed(precision);
+      return value.toFixed(2);
     }
   }
 };
