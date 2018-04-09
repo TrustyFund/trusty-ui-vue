@@ -148,9 +148,12 @@ $screen_wide: 1440;
 		.land_slide {
 			display: flex;
 			flex-direction: row-reverse;
-			width: 100vw;
-			margin: 12vw 0;
-			//justify-content: center;
+			margin: 0;
+
+
+			&:not(.sl_id-1) {
+				padding-top: 12vw;
+			}
 
 			.image_area, .text_area {
 				width: 34vw !important;
@@ -182,6 +185,7 @@ $screen_wide: 1440;
 		}
 
 		.land_slides {
+
 
 			.sl_id-1 {
 				margin: 0;
