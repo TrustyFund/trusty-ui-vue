@@ -78,7 +78,7 @@ export default {
       default: 'default'
     },
     styleSheet: {
-      default: () => { return {}; },
+      default: () => {},
       type: Object
     },
     label: {
@@ -105,13 +105,17 @@ export default {
   },
   methods: {
     updateCode(code) {
-      this.$emit('input', code);
-      this.code = code;
-      this.validate();
-      if (!code) {
-        this.$refs.inputArea.value = '';
-        this.$refs.inputArea.focus();
-      }
+      Promise.resolve()
+        .then(() => {
+          this.$emit('input', code);
+          this.code = code;
+          if (!code) {
+            this.$refs.inputArea.value = '';
+            this.$refs.inputArea.focus();
+          }
+        }).then(() => {
+          this.validate();
+        });
     },
     focusBlur() {
       const target = this.$refs.inputArea;

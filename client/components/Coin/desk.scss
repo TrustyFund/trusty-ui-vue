@@ -1,0 +1,255 @@
+@media screen and (min-width: 769px) {
+
+
+	#coin_analysis {
+
+		h3._list_title {
+
+			font-size: px_from_vw(4.8);
+		}
+
+		._grey_key_list {
+
+			> p:first-child {
+				font-size: px_from_vw(2.7);
+				margin-bottom: px_from_vw(.7);
+			}
+
+			> p:last-child, {
+				font-size: px_from_vw(4.3);
+				margin-bottom: px_from_vw(2.4);
+			}
+
+			p._text {
+
+				font-size: px_from_vw(4.3);
+				margin-bottom: px_from_vw(2.4);
+			}
+		}
+
+		._grey_key_list:first-child {
+			margin-top: px_from_vw(2);
+
+		}
+
+		._team_area .h3 {
+			margin-bottom: px_from_vw(3);
+			padding-left: px_from_vw(4.6);
+			font-size: px_from_vw(4.8);
+		}
+
+		._scores_indicate  {
+			margin-top: px_from_vw(7);
+			._black_bg {
+
+				margin-bottom: px_from_vw(5);
+				padding: px_from_vw(1) 0 0 0;
+				._indicator {
+					padding: px_from_vw(.6) px_from_vw(1.5);
+					span:not(._show_span) {
+						margin-left: px_from_vw(2);
+						font-size: px_from_vw(4.6);
+					}
+					._show_span {
+						height: px_from_vw(3);
+						width: 83%;
+					}
+				}
+			}
+
+			._title_ind {
+				letter-spacing: px_from_vw(.07);
+				font-size: px_from_vw(4.7);
+				padding: px_from_vw(2) 0;
+			}
+
+			._grey_key_list {
+				margin-top: px_from_vw(1);
+				margin-bottom: px_from_vw(3);
+			}
+
+			 ._points {
+
+
+				> span:first-child {
+					font-size: px_from_vw(6.5);
+					line-height:px_from_vw(5);
+				}
+
+				._right_tabs {
+
+
+					.trusty_icon {
+						width: px_from_vw(3.4);
+					}
+
+					span {
+						font-size: px_from_vw(4.8);
+						padding-left: px_from_vw(1);
+						padding-right: px_from_vw(5);
+						height: px_from_vw(6);
+					}
+
+					span:nth-child(2) {
+						padding-left: px_from_vw(2);
+						padding-right: px_from_vw(7.8);
+						height: px_from_vw(6.04);
+
+					}
+
+				}
+			}
+		}
+
+		._why_area {
+
+			margin-top: px_from_vw(.5);
+			._top {
+				background: white;
+				padding: px_from_vw(2.2);
+			}
+			._grey_key_list p, ._grey_key_list {
+
+			}
+			._grey_key_list {
+				margin-bottom:px_from_vw(1);
+			}
+			._underarm {
+				padding: px_from_vw(2.2);
+			}
+		}
+	}
+
+	#trusty_coin_overview {
+
+	  ._belongings {
+
+	    ._list_item {
+	      padding-top: px_from_vw(3);
+	      padding-bottom: px_from_vw(3);
+
+	    }
+
+
+	    ._title {
+	      padding-top: px_from_vw(1);
+	      padding-bottom: px_from_vw(6);
+
+	      ._font {
+
+	        font-size: px_from_vw(6);
+	        letter-spacing: px_from_vw(.25);
+	      }
+	    }
+	    .trusty_icon {
+	      width: px_from_vw(4.1);
+	      margin-right: px_from_vw(4);
+	      margin-top: px_from_vw(.4);
+	    }
+
+	    .text_button {
+	      padding-left: px_from_vw(3.6);
+	    }
+
+	  }
+
+	  .trusty_ps_text {
+	    margin-top: px_from_vw(1.7);
+	    margin-bottom: px_from_vw(3);
+	  }
+
+	  .coin_info {
+	    margin-bottom: px_from_vw(3);
+	  }
+
+	  .top_values {
+
+	    section {
+	      margin-right: px_from_vw(2);
+	    }
+
+
+	    h4 {
+
+	      font-size: px_from_vw(4.9);
+	      font-size: px_from_vw(3.8);
+	    }
+
+	    ._val  {
+
+	      span._mark {
+	        padding: px_from_vw(2);
+
+	      }
+	    }
+
+	    ._val, ._val span {
+
+	      height: px_from_vw(12);
+	      line-height: px_from_vw(12);
+
+	      font-size: px_from_vw(4.2);
+
+	      .coin_head_trend_dn,
+	      .coin_head_trend_up {
+	        width: px_from_vw(5);
+	        margin: 0 px_from_vw(1.6);
+	      }
+
+
+	    }
+
+	  }
+
+
+	  ._font {
+	    font-size: px_from_vw(7);
+	    margin: auto px_from_vw(2);
+	  }
+
+	  ._head_title {
+
+	    padding-top: px_from_vw(1.9);
+
+
+
+	    .coin_head_ogo {
+	      width: px_from_vw(8.6);
+	    }
+
+	    .coin_head_omg {
+	      padding-top: px_from_vw(1);
+	      width:px_from_vw(13);
+	    }
+
+
+	    ._indicators {
+	      margin-bottom: px_from_vw(6);
+
+
+
+	      span._price {
+	        margin: px_from_vw(2) 0;
+	        font-size: px_from_vw(7.7);
+	      }
+
+	      span._24change {
+	        font-size: px_from_vw(5);
+	        margin-left: px_from_vw(2);
+	        > span:nth-child(2){
+	          font-size: px_from_vw(3.6);
+	        }
+	      }
+
+
+	    }
+
+	  }
+
+	  .coin_vista {
+	    margin-top: px_from_vw(6.5);
+	  }
+
+	}
+
+}

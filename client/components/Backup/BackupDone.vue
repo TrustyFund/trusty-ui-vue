@@ -18,6 +18,7 @@
 					:class="{_disabled_tick: !termOfUse.checked }",
 					:initialSvgColors="true")
 			._info
+
 				p.trusty_help_text(@click="$router.push({name:'terms'})" v-html="termOfUse.text")
 
 		.trusty_inline_buttons._one_button(:class="{_disabled: !allChecks }")
@@ -34,18 +35,18 @@ const infos = [
 {
 	text: `
 I understand that my funds are<br/>
-help securely on this device, not<br/>
-by a compony, and nobody can<br/>
+held securely on this device, not<br/>
+by a company and nobody can<br/>
 recover my backup phrase and password
 	`,
 	checked: false
 },
 {
 	text:`
-I understand that if I open Trusty,<br/>
+I understand that if I open Trusty<br/>
 on a new device or clear browser<br/>
-cash, my funds can only be<br/>
-accessed with the backed pharse
+cache, my funds can only be<br/>
+accessed with the backed phrase
 	`,
 	checked: false
 },
@@ -54,7 +55,7 @@ accessed with the backed pharse
 
 const termOfUse ={
   text:`
-I have read, understood, and<br/>gree&nbsp
+I have read, understood and<br/>agreed to&nbsp
 <span class="_yellow">The terms of use</span>
 `,
   checked: false
