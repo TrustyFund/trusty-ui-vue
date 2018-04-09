@@ -47,6 +47,10 @@ div
 					div.image_area
 						div
 							template(v-if="index === 0")
+								.phontom_buttons
+									span(
+										v-for="refer in iconsRefers",
+										@click.stop="scrollTo(refer)")
 								img._image._mob(:src="slide.image")
 								img._image._desk(:src="slide.imageDesk")
 							template(v-else)
@@ -172,6 +176,7 @@ export default {
       slideRefers: '',
       slideHeight: '',
       windowHeight: '',
+      iconsRefers: '',
     };
   },
   computed: {
@@ -182,6 +187,7 @@ export default {
   mounted() {
     this.windowHeight = window.innerHeight + 'px';
     this.slideRefers = [1, 2, 3, 4, 5, 6, 7].map(item => `sl_id-${item}`);
+    this.iconsRefers = this.slideRefers.slice(1);
     this.slideHeight = isMobile() ? { height: this.windowHeight } : {};
     window.addEventListener('scroll', this.handleScroll);
   },
@@ -211,7 +217,7 @@ export default {
     clickLink(destination) {
       if (this.authUser === null) {
         if (!isMobile()) {
-          alert('Now available only on mobile devices'); // eslint-disable-line
+					alert('Now available only on mobile devices'); // eslint-disable-line
         } else {
           this.$router.push({ name: destination });
         }
@@ -242,6 +248,9 @@ export default {
 
 <style scoped>
 #landing {
-  margin-top: -12vw;
+	margin-top: -12vw;
+
+
 }
+
 </style>
