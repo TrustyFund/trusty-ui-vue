@@ -55,7 +55,7 @@ accessed with the backed phrase
 
 const termOfUse ={
   text:`
-I have read, understood and<br/>agree to&nbsp
+I have read, understood and<br/>agreed to&nbsp
 <span class="_yellow">The terms of use</span>
 `,
   checked: false
