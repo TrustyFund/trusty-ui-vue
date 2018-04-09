@@ -411,7 +411,8 @@ $color_light_grey:#a9aaaa;//#8a8e8e;//#757777
     top: 0;
     margin: 0;
     padding: 0;
-    width: 4.2vw;
+    width: 3.2vw;
+    padding: 0.5vw;
     opacity: .7;
   }
 
