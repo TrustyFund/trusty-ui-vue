@@ -32,8 +32,7 @@ div.portfolio-container
 
 <script>
 import { mapGetters } from 'vuex';
-// eslint-disable-next-line
-import { calcPortfolioItem } from 'lib/src/utils';
+import { calcPortfolioItem } from './utils';
 import Spinner from '@/components/UI/Spinner';
 import PortfolioItem from './PortfolioItem';
 
@@ -140,7 +139,6 @@ export default {
     fiatMultiplier() {
       const multiplier = this.getAssetMultiplier(1, this.fiatId);
       if (this.fiatMarketPrice) multiplier.last = 1 / this.fiatMarketPrice;
-      console.log(multiplier);
       return multiplier;
     },
     fiatPrecision() {

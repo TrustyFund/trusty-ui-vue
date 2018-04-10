@@ -60,13 +60,13 @@ export default {
       isValidPassword: 'account/isValidPassword',
       getAssetById: 'assets/getAssetById',
       hasOrders: 'transactions/hasPendingOrders',
-      getAssetMultiplier: 'market/getAssetMultiplier',
+      getMarketPriceById: 'market/getPriceById',
       getMemoFee: 'transactions/getMemoPrice',
       transferPrice: 'transactions/getTransferFee',
       orderFee: 'transactions/getOrderFee'
     }),
     fiatMultiplier() {
-      return this.getAssetMultiplier(this.fiatId);
+      return 1 / this.getMarketPriceById(this.fiatId);
     },
     sellOrders() {
       return this.pendingOrders.sellOrders;
