@@ -37,7 +37,8 @@ export default {
   computed: {
     ...mapGetters({
       getAssetById: 'assets/getAssetById',
-      getMarketPriceById: 'market/getPriceById'
+      getMarketPriceById: 'market/getPriceById',
+      getHistoryAssetMultiplier: 'history/getHistoryAssetMultiplier'
     }),
     assetSell() {
       return this.getAssetById(this.item.payload.amount_to_sell.asset_id);
@@ -49,14 +50,17 @@ export default {
       return this.fiatAsset.precision;
     },
     fiatMultiplier() {
-      return 1 / this.getMarketPriceById(this.fiatId);
+      const multiplier = { ...this.getHistoryAssetMultiplier(1, this.fiatId) };
+      const fiatMarketPrice = this.getMarketPriceById(this.fiatId);
+      if (fiatMarketPrice) multiplier.last = fiatMarketPrice;
+      return multiplier;
     },
     assetReceive() {
       return this.getAssetById(this.item.payload.min_to_receive.asset_id);
     },
     sell() {
       const amount = this.item.payload.amount_to_sell.amount / (10 ** this.assetSell.precision);
-      const amountFiat = (this.item.payload.amount_to_sell.amount * this.fiatMultiplier) /
+      const amountFiat = (this.item.payload.amount_to_sell.amount * this.fiatMultiplier.last) /
         (10 ** this.fiatPrecision);
       return {
         amount: amount.toFixed(8).replace(/\.?0+$/, ''),
@@ -66,7 +70,7 @@ export default {
     },
     receive() {
       const amount = this.item.payload.min_to_receive.amount / (10 ** this.assetReceive.precision);
-      const amountFiat = (this.item.payload.min_to_receive.amount * this.fiatMultiplier) /
+      const amountFiat = (this.item.payload.min_to_receive.amount * this.fiatMultiplier.last) /
         (10 ** this.fiatPrecision);
       return {
         amount: amount.toFixed(8).replace(/\.?0+$/, ''),

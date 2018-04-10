@@ -47,7 +47,6 @@ const actions = {
       assetsIds: combinedAssetsIds,
       days: 1
     }, { root: true });
-
     store.dispatch('history/fetch', {
       baseId: '1.3.0',
       assetsIds: combinedAssetsIds,

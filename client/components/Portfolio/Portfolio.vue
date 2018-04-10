@@ -32,8 +32,8 @@ div.portfolio-container
 
 <script>
 import { mapGetters } from 'vuex';
-import { calcPortfolioItem } from './utils';
 import Spinner from '@/components/UI/Spinner';
+import { calcPortfolioItem } from './utils';
 import PortfolioItem from './PortfolioItem';
 
 export default {
@@ -137,7 +137,7 @@ export default {
       return this.getMarketPriceById(this.fiatId);
     },
     fiatMultiplier() {
-      const multiplier = this.getAssetMultiplier(1, this.fiatId);
+      const multiplier = { ...this.getAssetMultiplier(1, this.fiatId) };
       if (this.fiatMarketPrice) multiplier.last = 1 / this.fiatMarketPrice;
       return multiplier;
     },

@@ -63,10 +63,14 @@ export default {
       getMarketPriceById: 'market/getPriceById',
       getMemoFee: 'transactions/getMemoPrice',
       transferPrice: 'transactions/getTransferFee',
-      orderFee: 'transactions/getOrderFee'
+      orderFee: 'transactions/getOrderFee',
+      getHistoryAssetMultiplier: 'history/getHistoryAssetMultiplier'
     }),
     fiatMultiplier() {
-      return 1 / this.getMarketPriceById(this.fiatId);
+      const multiplier = { ...this.getHistoryAssetMultiplier(1, this.fiatId) };
+      const fiatMarketPrice = this.getMarketPriceById(this.fiatId);
+      if (fiatMarketPrice) multiplier.last = fiatMarketPrice;
+      return multiplier.last;
     },
     sellOrders() {
       return this.pendingOrders.sellOrders;
