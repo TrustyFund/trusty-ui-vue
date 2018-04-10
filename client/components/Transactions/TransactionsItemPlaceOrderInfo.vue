@@ -37,7 +37,7 @@ export default {
   computed: {
     ...mapGetters({
       getAssetById: 'assets/getAssetById',
-      getAssetMultiplier: 'market/getAssetMultiplier'
+      getMarketPriceById: 'market/getPriceById'
     }),
     assetSell() {
       return this.getAssetById(this.item.payload.amount_to_sell.asset_id);
@@ -49,7 +49,7 @@ export default {
       return this.fiatAsset.precision;
     },
     fiatMultiplier() {
-      return this.getAssetMultiplier(this.fiatId).last;
+      return 1 / this.getMarketPriceById(this.fiatId);
     },
     assetReceive() {
       return this.getAssetById(this.item.payload.min_to_receive.asset_id);

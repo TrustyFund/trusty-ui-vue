@@ -27,10 +27,9 @@ export default {
     ...mapGetters({
       balances: 'account/getCurrentUserBalances',
       defaultAssetsIds: 'assets/getDefaultAssetsIds',
-      history: 'market/getMarketHistory24',
       baseId: 'market/getBaseAssetId',
       assets: 'assets/getAssets',
-      getAssetMultiplier: 'market/getAssetMultiplier'
+      getMarketPriceById: 'market/getPriceById'
     }),
     combinedBalances() {
       const combinedBalances = { ...this.balances };
@@ -44,12 +43,12 @@ export default {
       const items = {};
       Object.keys(this.combinedBalances).forEach(id => {
         const { balance } = this.combinedBalances[id];
-        let price = (this.history[id] && this.history[id].last) || 0;
-        const multiplier = { ...this.multiplier };
+        let price = this.getMarketPriceById(id);
+        // const multiplier = { ...this.multiplier };
         if (id === this.baseId) price = 1;
-        if (id === this.fiatId) multiplier.last = 1;
+        // if (id === this.fiatId) multiplier.last = 1;
         const baseValue = parseInt((balance * price).toFixed(0), 10);
-        const fiatValue = parseInt((baseValue * this.fiatMultiplier.last).toFixed(0), 10);
+        const fiatValue = parseInt((baseValue * this.fiatMultiplier).toFixed(0), 10);
         const name = (this.assets[id] && this.assets[id].symbol) || '...';
         items[id] = {
           baseValue,
@@ -60,7 +59,7 @@ export default {
       return items;
     },
     fiatMultiplier() {
-      return this.getAssetMultiplier(this.fiatId);
+      return 1 / this.getMarketPriceById(this.fiatId);
     },
     isPercent() {
       return this.$route.name === 'manage-percent';

@@ -15,15 +15,15 @@ div.portfolio-container
     div.portfolio-data__header
       ._text_left.portfolio_head ASSET
       transition(name="fade" mode="out-in")
-        ._text_right.portfolio_head(:key="showBalances") {{ showBalances ? '$PRICE' : '$VALUE' }}
+        ._text_right.portfolio_head(:key="showPrices") {{ showPrices ? '$PRICE' : '$VALUE' }}
       transition(name="fade" mode="out-in")
-        ._text_right.portfolio_head(:key="showBalances") {{ showBalances ? '24H' : 'TOKENS' }}
+        ._text_right.portfolio_head(:key="showPrices") {{ showPrices ? '24H' : 'TOKENS' }}
       transition(name="fade" mode="out-in")
-        ._text_right.portfolio_head(:key="showBalances") {{ showBalances ? '7D' : 'SHARE' }}
+        ._text_right.portfolio_head(:key="showPrices") {{ showPrices ? '7D' : 'SHARE' }}
     div.portfolio-data__body
       PortfolioItem(v-for="item in itemsAsArray" 
                     :key="item.id"
-                    :balances-mode="showBalances"
+                    :balances-mode="showPrices"
                     :item="item"
                     :total-base-value="totalBaseValue"
                     :fiat-multiplier="fiatMultiplier.last"
@@ -43,7 +43,7 @@ export default {
   },
   data() {
     return {
-      showBalances: true
+      showPrices: false
     };
   },
   props: {
@@ -70,18 +70,24 @@ export default {
   },
   computed: {
     ...mapGetters({
-      history24: 'market/getMarketHistory24',
-      history7: 'market/getMarketHistory7',
       marketFetching: 'market/isFetching',
       marketError: 'market/isError',
-      getAssetMultiplier: 'market/getAssetMultiplier',
+      getAssetMultiplier: 'history/getHistoryAssetMultiplier',
       assets: 'assets/getAssets',
       defaultAssetsIds: 'assets/getDefaultAssetsIds',
       subscribedToMarket: 'market/isSubscribed',
-      getAssetById: 'assets/getAssetById'
+      getAssetById: 'assets/getAssetById',
+      getHistoryByDay: 'history/getByDay',
+      getMarketPriceById: 'market/getPriceById'
     }),
+    history24() {
+      return this.getHistoryByDay(1);
+    },
+    history7() {
+      return this.getHistoryByDay(7);
+    },
     toggleTitle() {
-      return this.showBalances ? 'SHOW BALANCES' : 'SHOW PRICES';
+      return this.showPrices ? 'SHOW BALANCES' : 'SHOW PRICES';
     },
     combinedBalances() {
       const combinedBalances = { ...this.balances };
@@ -99,20 +105,21 @@ export default {
         const { balance } = this.combinedBalances[id];
         const asset = this.getAssetById(id);
         const precisedBalance = balance / (10 ** asset.precision);
-        let prices24 = this.history24[id];
-        let prices7 = this.history7[id];
-        if (!prices24 || !prices7) return;
+        let history24 = this.history24[id];
+        let history7 = this.history7[id];
+        if (!history24 || !history7) return;
         const multiplier = this.fiatMultiplier;
-        if (id === this.baseId) prices24 = { first: 1, last: 1 };
-        if (id === this.baseId) prices7 = { first: 1, last: 1 };
+        if (id === this.baseId) history24 = { first: 1, last: 1 };
+        if (id === this.baseId) history7 = { first: 1, last: 1 };
 
         items[id] = calcPortfolioItem({
           balance,
           asset,
-          prices24,
-          prices7,
+          history24,
+          history7,
           baseAsset: this.assets[this.baseId],
-          fiatMultiplier: multiplier
+          fiatMultiplier: multiplier,
+          marketPrice: this.getMarketPriceById(id)
         });
         items[id].id = id;
         items[id].precisedBalance = precisedBalance;
@@ -127,8 +134,14 @@ export default {
       });
       return sortedArray;
     },
+    fiatMarketPrice() {
+      return this.getMarketPriceById(this.fiatId);
+    },
     fiatMultiplier() {
-      return this.getAssetMultiplier(this.fiatId);
+      const multiplier = this.getAssetMultiplier(1, this.fiatId);
+      if (this.fiatMarketPrice) multiplier.last = 1 / this.fiatMarketPrice;
+      console.log(multiplier);
+      return multiplier;
     },
     fiatPrecision() {
       return (this.assets[this.fiatId] && this.assets[this.fiatId].precision) || 0;
@@ -145,7 +158,7 @@ export default {
       this.$router.push({ name: 'manage' });
     },
     toggle() {
-      this.showBalances = !this.showBalances;
+      this.showPrices = !this.showPrices;
     }
   }
 };
