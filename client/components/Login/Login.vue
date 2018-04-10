@@ -4,35 +4,33 @@
 
 	.input_area
 
-			trusty-input(
-				label="ENTER BACKUP PHRASE",
-				type="textarea",
-				:textarea="true",
-				v-model="brainkey",
-				:validate="$v.brainkey.$touch")
+			AlphaInput(label="ENTER BACKUP PHRASE" type="textarea")
+				template(slot="input")
+					textarea(ref="brainkey" v-model="brainkey" @input="$v.brainkey.$touch()" class="brainkey-input")
+					div(v-if="brainkey", @click="clear('brainkey')"): trusty-icon(name="trusty_input_close")
+
 			.trusty_font_error(v-if="!$v.brainkey.required && this.$v.brainkey.$dirty") Enter backup phrase
 			.trusty_font_error(v-if="showError") Please try again
 
 			p._tooltip_p
 				| Enter 16 words backed up when account was created
 
-			trusty-input(
-				label="create pin code",
-				:validate="debouncedPinInput",
-				v-model="pin"
-				inputType="tel")
-
+			AlphaInput(label="create pin code")
+				template(slot="input")
+					input(@input="debouncedPinInput" type="tel", ref="pin")
+					div(v-if="pin", @click="clear('pin')"): trusty-icon(name="trusty_input_close")
 			.trusty_font_error(v-if="!$v.pin.required && this.$v.pin.$dirty") Enter PIN
 			.trusty_font_error(v-if="!$v.pin.minLength && this.$v.pin.$dirty") PIN must be 6 characters or more
 
 			p._tooltip_p
 				| PIN code secures access only on this device
 
-			trusty-input(
-				label="confirm pin",
-				:validate="debouncedRepeatPinInput",
-				v-model="confirmPin"
-				inputType="tel")
+			AlphaInput(label="confirm pin")
+				template(slot="input")
+					input(@input="debouncedRepeatPinInput" type="tel", ref="confirmPin")
+					div(v-if="confirmPin",
+						@click="clear('confirmPin')")
+						trusty-icon(name="trusty_input_close")
 
 			.trusty_font_error(v-if="!$v.confirmPin.sameAsPin && this.$v.confirmPin.$dirty") PIN codes do not match
 
@@ -50,7 +48,8 @@
 
 <script>
 import TrustyInput from '@/components/UI/form/input';
-import Icon from '@/components/UI/icon';
+import AlphaInput from '@/components/UI/form/alpha';
+import TrustyIcon from '@/components/UI/icon';
 import { validationMixin } from 'vuelidate';
 import { required, minLength, sameAs } from 'vuelidate/lib/validators';
 import { mapGetters, mapActions } from 'vuex';
@@ -58,7 +57,7 @@ import debounce from 'lodash/debounce';
 
 export default {
   mixins: [validationMixin],
-  components: { TrustyInput, Icon },
+  components: { TrustyInput, AlphaInput, TrustyIcon },
   data() {
     return {
       pin: '',
@@ -86,6 +85,19 @@ export default {
     })
   },
   methods: {
+    clear(ref) {
+      this.$refs[ref].value = '';
+      this.$refs[ref].focus();
+      if (ref === 'pin') {
+        this.debouncedPinInput({ target: { value: '' } });
+      }
+      if (ref === 'confirmPin') {
+        this.debouncedRepeatPinInput({ target: { value: '' } });
+      }
+      if (ref === 'brainkey') {
+        this.brainkey = '';
+      }
+    },
     ...mapActions({
       login: 'account/login',
       storeBackupDate: 'account/storeBackupDate'
@@ -111,10 +123,12 @@ export default {
     debouncedRepeatPinInput: () => {}
   },
   created() {
-    this.debouncedPinInput = debounce(() => {
+    this.debouncedPinInput = debounce((e) => {
+      this.pin = e.target.value;
       this.$v.pin.$touch();
     }, 800);
-    this.debouncedRepeatPinInput = debounce(() => {
+    this.debouncedRepeatPinInput = debounce((e) => {
+      this.confirmPin = e.target.value;
       this.$v.confirmPin.$touch();
     }, 500);
   }
