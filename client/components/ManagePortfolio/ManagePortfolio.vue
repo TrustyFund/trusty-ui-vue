@@ -7,7 +7,7 @@
     .tabs-header-container
       .tab-link(@click="$router.push({ name: 'manage-percent' })", :class="{'tab-link-active': isPercent }") Shares
       .tab-link(@click="$router.push({ name: 'manage-value' })", :class="{'tab-link-active': isValue }") Values
-      .tab-link.disabled Mirror
+      .tab-link(@click="$router.push({ name: 'manage-manual' })", :class="{'tab-link-active': isManual }") Manual
 
     .tabs-content-container
       router-view(:items="items", fiat-id="1.3.121")
@@ -27,10 +27,10 @@ export default {
     ...mapGetters({
       balances: 'account/getCurrentUserBalances',
       defaultAssetsIds: 'assets/getDefaultAssetsIds',
-      history: 'market/getMarketHistory',
-      baseId: 'market/getBaseAssetId',
+      history: 'market2/getMarketHistory',
+      baseId: 'market2/getSystemBaseId',
       assets: 'assets/getAssets',
-      getAssetMultiplier: 'market/getAssetMultiplier'
+      getAssetMultiplier: 'market2/getAssetMultiplier'
     }),
     combinedBalances() {
       const combinedBalances = { ...this.balances };
@@ -44,7 +44,7 @@ export default {
       const items = {};
       Object.keys(this.combinedBalances).forEach(id => {
         const { balance } = this.combinedBalances[id];
-        let price = (this.history[id] && this.history[id].last) || 0;
+        let price = (this.history(this.baseId)[id] && this.history(this.baseId)[id].last) || 0;
         const multiplier = { ...this.multiplier };
         if (id === this.baseId) price = 1;
         if (id === this.fiatId) multiplier.last = 1;
@@ -67,6 +67,10 @@ export default {
     },
     isValue() {
       return this.$route.name === 'manage-value';
+    },
+    isManual() {
+      console.log(this.$route);
+      return this.$route.name.includes('manage-manual-');
     }
   }
 };

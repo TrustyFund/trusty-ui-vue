@@ -37,7 +37,7 @@ export default {
   computed: {
     ...mapGetters({
       getAssetById: 'assets/getAssetById',
-      getAssetMultiplier: 'market/getAssetMultiplier'
+      getAssetMultiplier: 'market2/getAssetMultiplier'
     }),
     assetSell() {
       return this.getAssetById(this.item.payload.amount_to_sell.asset_id);

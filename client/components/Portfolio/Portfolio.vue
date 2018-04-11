@@ -1,11 +1,13 @@
 <template lang="pug">
   div.portfolio-container
+     
+
     .trusty_inline_buttons._mob._one_button(
       @click="goToManagePortfolio" 
       v-show="!minMode && totalBaseValue"
-      :class="{'_disabled': !subscribedToMarket}")
-      button(v-show="subscribedToMarket") MANAGE FUND
-      button(v-show="!subscribedToMarket")
+      :class="{'_disabled': !isSubscribed}")
+      button(v-show="isSubscribed") MANAGE FUND
+      button(v-show="!isSubscribed")
         Spinner(size="small", :absolute="false")
         div LOADING MARKET...
 
@@ -65,13 +67,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      history: 'market/getMarketHistory',
-      marketFetching: 'market/isFetching',
-      marketError: 'market/isError',
-      getAssetMultiplier: 'market/getAssetMultiplier',
+      history: 'market2/getMarketHistory',
+      marketError: 'market2/isError',
+      getAssetMultiplier: 'market2/getAssetMultiplier',
       assets: 'assets/getAssets',
       defaultAssetsIds: 'assets/getDefaultAssetsIds',
-      subscribedToMarket: 'market/isSubscribed'
+      isSubscribed: 'market2/isSubscribed'
     }),
     combinedBalances() {
       const combinedBalances = { ...this.balances };
@@ -88,7 +89,7 @@ export default {
       assetsIds.forEach(id => {
         const { balance } = this.combinedBalances[id];
         const asset = this.assets[id];
-        let prices = this.history[id];
+        let prices = this.history(this.baseId)[id];
         if (!prices) return;
         const multiplier = this.fiatMultiplier;
         if (id === this.baseId) prices = { first: 1, last: 1 };
@@ -125,7 +126,7 @@ export default {
   },
   methods: {
     goToManagePortfolio() {
-      if (!this.subscribedToMarket) return;
+      if (!this.isSubscribed) return;
       this.$router.push({ name: 'manage' });
     }
   }

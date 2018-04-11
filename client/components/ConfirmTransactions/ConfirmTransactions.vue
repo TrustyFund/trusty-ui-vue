@@ -60,7 +60,7 @@ export default {
       isValidPassword: 'account/isValidPassword',
       getAssetById: 'assets/getAssetById',
       hasOrders: 'transactions/hasPendingOrders',
-      getAssetMultiplier: 'market/getAssetMultiplier',
+      getAssetMultiplier: 'market2/getAssetMultiplier',
       getMemoFee: 'transactions/getMemoPrice',
       transferPrice: 'transactions/getTransferFee',
       orderFee: 'transactions/getOrderFee'
