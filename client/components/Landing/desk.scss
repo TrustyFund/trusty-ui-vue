@@ -20,7 +20,7 @@ $screen_wide: 1440;
 	}
 
 	#landing {
-
+		position: relative;
 		button.land:not(.controls-panel__control) {
 			margin-top: 1.5vw;
 		   width: 18.8vw;
@@ -127,13 +127,18 @@ $screen_wide: 1440;
 		}
 
 		.last_text {
+			padding-top: 4vh;
+			box-sizing: border-box;
+			padding-bottom: 24vh;
+			height: 100vh;
 			text-align: center;
 			font-family: Gotham_Pro_Bold;
 			font-size: 2.5vw;
 			background-size: 30% !important;
 			p {
 				line-height: 3.2vw;
-				margin:  1.9vw 0 1.9vw 0 !important;
+				//margin:  1.9vw 0 1.9vw 0 !important;
+				margin:  2.9vh 0 2.9vh 0 !important;
 			}
 
 		}
@@ -149,11 +154,8 @@ $screen_wide: 1440;
 			display: flex;
 			flex-direction: row-reverse;
 			margin: 0;
-
-
-			&:not(.sl_id-1) {
-				padding-top: 12vw;
-			}
+			align-items: center;
+			height: 100vh;
 
 			.image_area, .text_area {
 				width: 34vw !important;
@@ -219,6 +221,11 @@ $screen_wide: 1440;
 	}
 
 	._land_bottom_info {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		margin-top: 5vh;
 		padding-left: 10vw;
 		padding-right: 10vw;
 		padding-top: 1.95vw;
