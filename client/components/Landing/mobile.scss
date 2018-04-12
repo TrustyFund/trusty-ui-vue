@@ -6,6 +6,53 @@
 
 		padding: 0 $land_padding 2vh $land_padding;
 
+
+		.phontom_buttons {
+
+			position: absolute;
+			height: 80vh;
+			left:0;
+			right: 0;
+
+			span {
+				display: inline-block;
+				height: 24vw;
+				width: 24vw;
+				position: absolute;
+			}
+
+			span:first-child {
+				top: 43vw;
+				left: 33vw;
+			}
+
+			span:nth-child(2) {
+				left: 33vw;
+				top: 0;
+
+			}
+			span:nth-child(3) {
+				right: -2vw;
+				top: 34vw;
+
+			}
+			span:nth-child(4) {
+				right: 8vw;
+				top: 75vw;
+			}
+			span:nth-child(5) {
+				left: 10vw;
+				top: 75vw;
+			}
+
+			span:last-child {
+				left: 0vw;
+				top: 34vw;
+
+			}
+
+		}
+
 		button.land {
 			font-family: Gotham_Pro_Bold;
 			border-radius: 10px;
@@ -94,6 +141,10 @@
 		.land_slide {
 
 			&.sl_id-1 {
+				.text_area {
+					margin-bottom: 5.2vw;
+				}
+
 				img {
 					width: 90vw !important;
 				}
