@@ -81,7 +81,7 @@ export default {
 		}
 	  .trusty_big_font {
 			line-height: initial;
-			padding-bottom: 5vw;
+			padding-bottom: 1vw;
 	  }
 	  .account_backup_ico_safe {
 		  width:23.2vh !important;

@@ -105,7 +105,7 @@ export default {
   padding-left: 3.6vw;
   padding-bottom: 10vw;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 769px) {
     max-width: 80%;
     margin: 0 auto;
     display: flex;
