@@ -1,39 +1,39 @@
 <template lang="pug">
 #trusty_transfer
 
-	._turnover_inputs
-		AlphaInput(label="enter sum" composed=true)
-			template(slot="input")
-				input(v-model="amount" ref="amount" @input="$v.amount.$touch()")
-			template(slot="right")
-				select(v-model="selectedCoin" v-if="isNonZeroLength" dir="rtl")
-					option(v-for="(coin, id) in nonZeroAssets", v-bind:value="id") {{ coin.symbol }}
-				icon-component(name="trusty_arrow_down")
-		.trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
-		.trusty_font_error(v-if="$v.amount.required && !$v.amount.isNumeric && this.$v.amount.$dirty") Enter a number
-		.trusty_font_error(v-if="$v.amount.isNumeric && !$v.amount.doesntExceedBalance && this.$v.amount.$dirty") Innuficient funds
-		.trusty_font_error(
-			v-if=`$v.amount.isNumeric &&
-			$v.amount.doesntExceedBalance &&
-			!$v.amount.doesntExceedMinWithdraw &&
-			this.$v.amount.$dirty`) Minimal withdraw amount {{ minWithdraw }}
+  ._turnover_inputs
+    AlphaInput(label="enter sum" composed=true)
+      template(slot="input")
+        input(v-model="amount" ref="amount" @input="$v.amount.$touch()")
+      template(slot="right")
+        select(v-model="selectedCoin" v-if="isNonZeroLength" dir="rtl")
+          option(v-for="(coin, id) in nonZeroAssets", v-bind:value="id") {{ coin.symbol }}
+        icon-component(name="trusty_arrow_down")
+    .trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
+    .trusty_font_error(v-if="$v.amount.required && !$v.amount.isNumeric && this.$v.amount.$dirty") Enter a number
+    .trusty_font_error(v-if="$v.amount.isNumeric && !$v.amount.doesntExceedBalance && this.$v.amount.$dirty" @click="setAmount") {{ insufficientAmountText }}
+    .trusty_font_error(
+      v-if=`$v.amount.isNumeric &&
+      $v.amount.doesntExceedBalance &&
+      !$v.amount.doesntExceedMinWithdraw &&
+      this.$v.amount.$dirty`) Minimal withdraw amount {{ minWithdraw }}
 
-		p.withdraw_tooltip(@click="setAmount") {{ balanceAmountText }}
+    p.withdraw_tooltip(v-if="!$v.amount.required" @click="setAmount") {{ balanceAmountText }}
+    p
+    TrustyInput(
+      :isOpen="true",
+      label="payment method",
+      className="select_input payment-method",
+      :close="false",
+      :foreignInput="true")
 
-		TrustyInput(
-			:isOpen="true",
-			label="payment method",
-			className="select_input payment-method",
-			:close="false",
-			:foreignInput="true")
+      template(slot="input")
+        icon-component(name="trusty_arrow_down" style="position: absolute")
+        select(v-model="paymentMethod" )
+          option(v-for="method in methods", :value="method") {{ method }}
 
-			template(slot="input")
-				icon-component(name="trusty_arrow_down" style="position: absolute")
-				select(v-model="paymentMethod" )
-					option(v-for="method in methods", :value="method") {{ method }}
-
-	._turnover_service
-		component(:is="gateway", :amount="payload.amount", :coin="payload.selectedcoin")
+  ._turnover_service
+    component(:is="gateway", :amount="payload.amount", :coin="payload.selectedcoin")
 
 </template>
 
@@ -116,7 +116,13 @@ export default {
     balanceAmountText() {
       const id = this.selectedCoin;
       const balance = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
-      return 'Max ' + balance + ' (click to paste)';
+      return 'max ' + balance + ' (click to paste)';
+    },
+    insufficientAmountText() {
+      const id = this.selectedCoin;
+      const { symbol, precision } = this.getAssetById(id);
+      const balance = this.balances[id].balance / (10 ** precision);
+      return 'insufficient funds, max ' + balance + ' ' + symbol + '(click to paste)';
     },
     minWithdraw() {
       if (this.paymentMethod === OpenledgerName) {
@@ -189,13 +195,13 @@ export default {
 
 <style lang="scss">
 ._input_space.composed {
-	width: 68vw!important;
+  width: 68vw!important;
 }
 .withdraw_tooltip{
-	font-size: 3.3vw;
-	font-family: "Gotham_Pro";
-	color: white;
-	margin: 0;
-	padding: 0;
+  font-size: 3.3vw;
+  font-family: "Gotham_Pro";
+  color: white;
+  margin: 0;
+  padding: 0;
 }
 </style>
