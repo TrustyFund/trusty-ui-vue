@@ -120,7 +120,7 @@ export default {
         if (email(trustyName)) {
           trustyEmail = trustyName;
           const [namePart] = trustyEmail.split('@');
-          trustyName = namePart + '.tf';
+          trustyName = namePart + '.fund';
         } else {
           trustyName = trustyName.replace(/@/g, '-');
         }

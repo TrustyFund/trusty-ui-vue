@@ -54,7 +54,9 @@ const methodsByGate = {
     'Sberbank card2card transfer',
     'VTB card2card transfer',
     'Alfa bank card2card transfer',
-    'All banks card2card transfer'
+    'Raiffeisen card2card transfer',
+    'VTB card2card transfer',
+    'Rocket card2card transfer'
   ],
   openledger: ['OpenLedger crypto gateway'],
   bitshares: ['BitShares direct transfer']

@@ -54,7 +54,7 @@ export default {
         const end = this.address.slice(firstCount);
         return `<span>${start}</span><br/><span>${end}</span>`;
       }
-      return '<span>No address</span>';
+      return '<span>Try again later</span>';
     },
     getCoinData() {
       const coin = this.payload.coin.toLowerCase();
