@@ -11,7 +11,7 @@
 
         TrustyInput(
         	:isOpen="clientName !== ''",
-        	label="NAME AND SURNAME OF PAYER",
+        	label="ENTER CARDHOLDER'S NAME",
         	v-model="clientName",
         	:validate="$v.clientName.$touch")
 
