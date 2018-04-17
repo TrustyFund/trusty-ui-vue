@@ -1,5 +1,6 @@
 <template lang="pug">
 ._turnover_info
+
   .status(v-if="!connected")
     .spinner_container(v-show="pending")
       Spinner
@@ -7,11 +8,15 @@
   template(v-else)
     .trusty_deposit_fiat(v-if="!hasorder")
       ._margin_bottom
-        TrustyInput(:isOpen="clientName !== ''", label="NAME AND SURNAME OF PAYER")
-          template(slot="input")
-            input(type="text" v-model="clientName" @input="$v.clientName.$touch()")
+
+        TrustyInput(
+        	:isOpen="clientName !== ''",
+        	label="NAME AND SURNAME OF PAYER",
+        	v-model="clientName",
+        	:validate="$v.clientName.$touch")
+
         .trusty_font_error(v-if="!$v.clientName.required && this.$v.clientName.$dirty") Enter cardholder's name
-          
+
       .trusty_inline_buttons._one_button(:class="{'_disabled': !payload.amount}")
         button(@click="newOrder") CONFIRM
       p.trusty_ps_text
@@ -22,6 +27,7 @@
       timer(v-if="order.isRejected()" error)
 
       payment(v-if="order.hasRequisites()")
+
 </template>
 
 <script>

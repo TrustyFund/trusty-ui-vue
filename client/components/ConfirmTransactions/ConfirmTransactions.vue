@@ -1,34 +1,36 @@
 <template lang="pug">
 #approve_update_portfolio.main_padding
 
-  .transaction_info
-    template(v-if="hasOrders")
-      p._value(v-for="order in orders") 
-        PlaceOrderInfo(:item="order", :min="true" :fiat-id="fiatId")
-      p._value
-      p._value Transaction fee: {{ totalOrderFees.base }} BTS ({{ totalOrderFees.fiat }}$)
+	.transaction_info
+		template(v-if="hasOrders")
+			p._value(v-for="order in orders")
+				PlaceOrderInfo(:item="order", :min="true" :fiat-id="fiatId")
+			p._value
+			p._value Transaction fee: {{ totalOrderFees.base }} BTS ({{ totalOrderFees.fiat }}$)
 
-    template(v-if="hasPendingTransfer")
-      template(v-if="isWithdraw")
-        p._value(v-if="isWithdraw") Withdraw {{ withdraw.amount}} {{ transfer.asset.symbol }} to {{ withdraw.address }}
-        p
-        p._value Withdrawal fee {{ withdraw.fee }} {{ transfer.asset.symbol }}
-        p._value Transaction fee {{ withdrawFee }} BTS
-      template(v-else)
-        p._value Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}
-        p
-        p._value Transaction fee {{ transferFee.base }} BTS ({{ transferFee.fiat }}$)
-
-  TrustyInput(label="ENTER PIN TO CONFIRM" v-show="isLocked")
-    template(slot="input")
-      input(v-model="pin" type="tel")
+		template(v-if="hasPendingTransfer")
+			template(v-if="isWithdraw")
+				p._value(v-if="isWithdraw") Withdraw {{ withdraw.amount}} {{ transfer.asset.symbol }} to {{ withdraw.address }}
+				p
+				p._value Withdrawal fee {{ withdraw.fee }} {{ transfer.asset.symbol }}
+				p._value Transaction fee {{ withdrawFee }} BTS
+			template(v-else)
+				p._value Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}
+				p
+				p._value Transaction fee {{ transferFee.base }} BTS ({{ transferFee.fiat }}$)
 
 
-  .trusty_inline_buttons._one_button(:class="{'_disabled': pending}")
-    button(v-show="!pending" @click="confirm") CONFIRM
-    button(v-show="pending") 
-      Spinner(size="small" :absolute="false")
-      div Processing...
+	TrustyInput(
+		label="ENTER PIN TO CONFIRM",
+		v-show="isLocked",
+		v-model="pin",
+		inputType="tel")
+
+	.trusty_inline_buttons._one_button(:class="{'_disabled': pending}")
+		button(v-show="!pending" @click="confirm") CONFIRM
+		button(v-show="pending")
+			Spinner(size="small" :absolute="false")
+			div Processing...
 
 </template>
 
@@ -193,12 +195,12 @@ export default {
 
 <style lang="scss">
 p._value {
-  padding-top: 1vw;
+	padding-top: 1vw;
 }
 .trusty_inline_buttons._one_button {
-  padding-top: 5vw;
+	padding-top: 5vw;
 }
 #approve_update_portfolio .transaction_info {
-  flex-direction: column;
+	flex-direction: column;
 }
 </style>

@@ -1,8 +1,8 @@
 <template lang="pug">
 #trusty_transfer
-	._turnover_inputs
 
-		TrustyInput(label="Enter sum"
+	._turnover_inputs
+		AlphaInput(label="Enter sum"
 								 composed=true
 								 :class="{'hideborder': !canEnterAmount}")
 			template(slot="input" v-if="canEnterAmount")
@@ -18,27 +18,31 @@
 		.trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
 		.trusty_font_error(v-if="$v.amount.required && !$v.amount.isNumeric && this.$v.amount.$dirty") Enter a number
 
-		TrustyInput(:isOpen="true",
-								label="payment method"
-								className="select_input payment-method" )
+		trusty-input(
+			:isOpen="true",
+			label="payment method",
+			className="select_input payment-method",
+			:close="false",
+			:foreignInput="true")
+
 			template(slot="input")
-				input(:style="{display:'none'}")
+				icon(name="trusty_arrow_down" style="position: absolute")
 				select(v-model="paymentmethod" )
 					option(v-for="method in methods", :value="method") {{ method }}
-				Icon(name="trusty_arrow_down" style="position: absolute")
 
 	._turnover_service
 		component(:is="gateway", :payload="payload")
 
-
-
 </template>
 
 <script>
+
 import { validationMixin } from 'vuelidate';
 import { required } from 'vuelidate/lib/validators';
 import TrustyInput from '@/components/UI/form/input';
+import AlphaInput from '@/components/UI/form/alpha';
 import Icon from '@/components/UI/icon';
+
 import openledger from './Openledger/Deposit';
 import trusty from './Trusty/Deposit';
 import bitshares from './Bitshares/Deposit';
@@ -68,7 +72,7 @@ const methodsByCoin = {
 
 export default {
   mixins: [validationMixin],
-  components: { TrustyInput, Icon, openledger, trusty, bitshares },
+  components: { AlphaInput, TrustyInput, Icon, openledger, trusty, bitshares },
   data() {
     return {
       selectedcoin: 'BTC',
@@ -128,10 +132,13 @@ export default {
 </script>
 
 <style lang="scss">
+
 #trusty_transfer {
 	height: 100vh;
 }
+
 ._input_space.composed {
 	width: 68vw!important;
 }
+
 </style>

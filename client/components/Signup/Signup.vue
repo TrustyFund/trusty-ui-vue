@@ -2,43 +2,49 @@
 
 #trusty_auth.signup
 
-  .input_area
-    .left
+	.input_area
+		.left
 
-      trusty-input(label="enter email or account name")
-        template(slot="input")
-          input(@input="debouncedNameInput")
-      .trusty_font_error(v-if="!$v.name.required && $v.name.$dirty") Enter email or account name
-      .trusty_font_error(v-if="$v.name.required && !$v.name.minLength && $v.name.$dirty") Must be 4 characters or more
-      .trusty_font_error(v-if="$v.name.required &&$v.name.minLength && !$v.name.hasSpecialSymbol && $v.name.$dirty") Should contain '@', '-' or number
-      .trusty_font_error(v-if="$v.name.hasSpecialSymbol && !$v.name.noBadSymbolAtEnd && $v.name.$dirty") Should not end with '@', '-' or '.'
-      .trusty_font_error(v-if="$v.name.hasSpecialSymbol && $v.name.noBadSymbolAtEnd && !$v.name.isUnique && $v.$pending") Checking...
-      .trusty_font_error(v-if="$v.name.hasSpecialSymbol && $v.name.noBadSymbolAtEnd && !$v.name.isUnique && !$v.$pending && $v.name.$dirty") Account name already taken
+			trusty-input(
+				label="enter email or account name",
+				v-model="name"
+				:validate="debouncedNameInput")
+			.trusty_font_error(v-if="!$v.name.required && $v.name.$dirty") Enter email or account name
+			.trusty_font_error(v-if="$v.name.required && !$v.name.minLength && $v.name.$dirty") Must be 4 characters or more
+			.trusty_font_error(v-if="$v.name.required &&$v.name.minLength && !$v.name.hasSpecialSymbol && $v.name.$dirty") Should contain '@', '-' or number
+			.trusty_font_error(v-if="$v.name.hasSpecialSymbol && !$v.name.noBadSymbolAtEnd && $v.name.$dirty") Should not end with '@', '-' or '.'
+			.trusty_font_error(v-if="$v.name.hasSpecialSymbol && $v.name.noBadSymbolAtEnd && !$v.name.isUnique && $v.$pending") Checking...
+			.trusty_font_error(v-if="$v.name.hasSpecialSymbol && $v.name.noBadSymbolAtEnd && !$v.name.isUnique && !$v.$pending && $v.name.$dirty") Account name already taken
 
-      p._tooltip_p
-        | Use email for signup to receive notifications
+			p._tooltip_p
+				| Use email for signup to receive notifications
 
-      trusty-input(label="create pin code")
-        template(slot="input")
-          input(@input="debouncedPinInput" type="tel")
-      .trusty_font_error(v-if="!$v.pin.required && this.$v.pin.$dirty") Enter PIN
-      .trusty_font_error(v-if="!$v.pin.minLength && this.$v.pin.$dirty") PIN must be 6 characters or more
+			trusty-input(
+				label="create pin code",
+				:validate="debouncedPinInput",
+				v-model="pin",
+				inputType="tel")
+			.trusty_font_error(v-if="!$v.pin.required && this.$v.pin.$dirty") Enter PIN
+			.trusty_font_error(v-if="!$v.pin.minLength && this.$v.pin.$dirty") PIN must be 6 characters or more
 
-      trusty-input(label="confirm pin")
-        template(slot="input")
-          input(@input="debouncedRepeatPinInput" type="tel")
-      .trusty_font_error(v-if="!$v.confirmPin.sameAsPin && this.$v.confirmPin.$dirty") PIN codes do not match
+			trusty-input(
+				label="confirm pin",
+				:validate="debouncedRepeatPinInput",
+				v-model="confirmPin",
+				inputType="tel")
+			.trusty_font_error(v-if="!$v.confirmPin.sameAsPin && this.$v.confirmPin.$dirty") PIN codes do not match
 
-  .trusty_buttons
-    button(@click="handleSignUp" v-show="!pending") Sign up
-    button(v-show="pending") loading....
+	.trusty_buttons
+		button(@click="handleSignUp" v-show="!pending") Sign up
+		button(v-show="pending") loading....
 
-  p._tooltip_p._text_center
-    | Before continuing, make sure your device is secure
+	p._tooltip_p._text_center
+		| Before continuing, make sure your device is secure
 
-  ._bottom_link(@click="$router.push({ name: 'login' })"): span Log in with existing account
+	._bottom_link(@click="$router.push({ name: 'login' })"): span Log in with existing account
 
-  ._bottom_link._margins: span(@click="$router.push({name:'terms'})") I accept Terms of use
+	._bottom_link._margins: span(@click="$router.push({name:'terms'})") I accept Terms of use
+
 
 </template>
 
@@ -135,16 +141,13 @@ export default {
     }
   },
   created() {
-    this.debouncedPinInput = debounce((e) => {
-      this.pin = e.target.value;
+    this.debouncedPinInput = debounce(() => {
       this.$v.pin.$touch();
     }, 800);
-    this.debouncedRepeatPinInput = debounce((e) => {
-      this.confirmPin = e.target.value;
+    this.debouncedRepeatPinInput = debounce(() => {
       this.$v.confirmPin.$touch();
     }, 500);
-    this.debouncedNameInput = debounce((e) => {
-      this.name = e.target.value;
+    this.debouncedNameInput = debounce(() => {
       this.$v.name.$touch();
     }, 800);
   }
