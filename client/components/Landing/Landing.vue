@@ -89,7 +89,18 @@ div
 			a.wrap_button
 				button.land(@click="clickLink('faq')") FAQ
 
-	div._land_bottom_info
+		div._land_bottom_info._desk
+			section
+				| The above references are for information purposes only.
+				br._mob
+				|  They are not intended to be investment advices.
+				br
+				| Trusty.Fund provides a trustless service for its clients to manage and
+				br._mob
+				| store funds on the BitShares blockchain via trusted gateways.
+			section 2018 Trusty.Fund
+
+	div._land_bottom_info._mob
 		section
 			| The above references are for information purposes only.
 			br._mob
@@ -201,7 +212,7 @@ export default {
           const el = this.$refs[refer][0];
           const rect = el.getBoundingClientRect();
           if (window.scrollY >= parseFloat(this.windowHeight)) {
-            if (Math.abs(rect.top) >= 0 && rect.top <= el.clientHeight) {
+            if (rect.top <= 0 && Math.abs(rect.top) <= el.clientHeight) {
               this.referClass = refer;
             }
           } else {
@@ -249,7 +260,6 @@ export default {
 <style scoped>
 #landing {
 	margin-top: -12vw;
-
 
 }
 
