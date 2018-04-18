@@ -56,4 +56,8 @@ export default {
 </script>
 
 <style lang="scss">
+
+.entry-point {
+	height: 100%;
+}
 </style>
