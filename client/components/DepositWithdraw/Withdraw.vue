@@ -96,23 +96,36 @@ export default {
   },
   beforeMount() {
     this.fetchCoins();
+    this.getBtcPrice();
   },
   methods: {
     ...mapActions({
-      fetchCoins: 'openledger/fetchCoins'
+      fetchCoins: 'openledger/fetchCoins',
+      getBtcPrice: 'cryptobot/getBtcPrice'
     }),
     setAmount() {
       const id = this.selectedCoin;
       this.amount = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
       this.$refs.amount.focus();
+    },
+    getAssetById(id) {
+      if (id == 0) {
+        return { symbol: 'RUB', id: 0, precision: 2 };
+      }
+      return this.getAsset(id);
     }
   },
   computed: {
     ...mapGetters({
-      balances: 'account/getCurrentUserBalances',
-      getAssetById: 'assets/getAssetById',
+      userBalances: 'account/getCurrentUserBalances',
+      getAsset: 'assets/getAssetById',
       coinsData: 'openledger/getCoinsData'
     }),
+    balances() {
+      const balances = this.userBalances;
+      balances[0] = { asset_type: 0, balance: 10 };
+      return this.userBalances;
+    },
     balanceAmountText() {
       const id = this.selectedCoin;
       const balance = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
@@ -143,6 +156,7 @@ export default {
           result[id] = this.getAssetById(id);
         }
       });
+      console.log('RESULT', result);
       return result;
     },
     nonZeroBalanceAssetsIds() {
