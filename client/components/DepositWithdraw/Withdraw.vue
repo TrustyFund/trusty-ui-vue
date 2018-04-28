@@ -112,13 +112,13 @@ export default {
     }),
     setAmount() {
       const id = this.selectedCoin;
-      const precision = this.getAssetById(id).precision;
+      const [precision] = this.getAssetById(id);
       const newAmount = this.balances[id].balance / (10 ** precision);
       this.amount = newAmount.toFixed(precision);
       this.$refs.amount.focus();
     },
     getAssetById(id) {
-      if (id == 0) {
+      if (id === '0') {
         return { symbol: 'RUB', id: 0, precision: 0 };
       }
       return this.getAsset(id);
@@ -136,15 +136,14 @@ export default {
       const btcBalance = balances['1.3.861'];
       const rubBalance = { asset_type: 0, balance: 1 };
       if (btcBalance) {
-        rubBalance.balance = this.btcPrice * btcBalance.balance / (10 ** 8);
-        console.log('BTC PRICE', this.btcPrice);
+        rubBalance.balance = (this.btcPrice * btcBalance.balance) / (10 ** 8);
       }
       balances[0] = rubBalance;
       return balances;
     },
     balanceAmountText() {
       const id = this.selectedCoin;
-      const precision = this.getAssetById(id).precision;
+      const [precision] = this.getAssetById(id);
       const balance = this.balances[id].balance / (10 ** precision);
       return 'max ' + balance.toFixed(precision) + ' (click to paste)';
     },
@@ -152,7 +151,8 @@ export default {
       const id = this.selectedCoin;
       const { symbol, precision } = this.getAssetById(id);
       const balance = this.balances[id].balance / (10 ** precision);
-      return 'insufficient funds, max ' + balance.toFixed(precision) + ' ' + symbol + '(click to paste)';
+      const prefixText = 'insufficient funds, max ';
+      return prefixText + balance.toFixed(precision) + ' ' + symbol + '(click to paste)';
     },
     minWithdraw() {
       if (this.paymentMethod === OpenledgerName) {
@@ -205,7 +205,7 @@ export default {
         availableMethods.push(OpenledgerName);
       }
 
-      if (this.selectedCoin == 0) {
+      if (this.selectedCoin === 0) {
         this.paymentMethod = TrustyName;
         return [TrustyName];
       }
