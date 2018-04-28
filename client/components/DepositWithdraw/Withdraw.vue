@@ -98,21 +98,23 @@ export default {
   },
   beforeMount() {
     this.fetchCoins();
-    this.getBtcPrice();
+    this.fetchBtcPrice();
   },
   methods: {
     ...mapActions({
       fetchCoins: 'openledger/fetchCoins',
-      getBtcPrice: 'cryptobot/getBtcPrice'
+      fetchBtcPrice: 'cryptobot/fetchBtcPrice'
     }),
     setAmount() {
       const id = this.selectedCoin;
-      this.amount = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
+      const precision = this.getAssetById(id).precision;
+      const newAmount = this.balances[id].balance / (10 ** precision);
+      this.amount = newAmount.toFixed(precision);
       this.$refs.amount.focus();
     },
     getAssetById(id) {
       if (id == 0) {
-        return { symbol: 'RUB', id: 0, precision: 2 };
+        return { symbol: 'RUB', id: 0, precision: 0 };
       }
       return this.getAsset(id);
     }
@@ -121,23 +123,31 @@ export default {
     ...mapGetters({
       userBalances: 'account/getCurrentUserBalances',
       getAsset: 'assets/getAssetById',
-      coinsData: 'openledger/getCoinsData'
+      coinsData: 'openledger/getCoinsData',
+      btcPrice: 'cryptobot/getBtcPrice'
     }),
     balances() {
       const balances = this.userBalances;
-      balances[0] = { asset_type: 0, balance: 10 };
-      return this.userBalances;
+      const btcBalance = balances['1.3.861'];
+      const rubBalance = { asset_type: 0, balance: 1 };
+      if (btcBalance) {
+        rubBalance.balance = this.btcPrice * btcBalance.balance / (10 ** 8);
+        console.log('BTC PRICE', this.btcPrice);
+      }
+      balances[0] = rubBalance;
+      return balances;
     },
     balanceAmountText() {
       const id = this.selectedCoin;
-      const balance = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
-      return 'max ' + balance + ' (click to paste)';
+      const precision = this.getAssetById(id).precision;
+      const balance = this.balances[id].balance / (10 ** precision);
+      return 'max ' + balance.toFixed(precision) + ' (click to paste)';
     },
     insufficientAmountText() {
       const id = this.selectedCoin;
       const { symbol, precision } = this.getAssetById(id);
       const balance = this.balances[id].balance / (10 ** precision);
-      return 'insufficient funds, max ' + balance + ' ' + symbol + '(click to paste)';
+      return 'insufficient funds, max ' + balance.toFixed(precision) + ' ' + symbol + '(click to paste)';
     },
     minWithdraw() {
       if (this.paymentMethod === OpenledgerName) {
