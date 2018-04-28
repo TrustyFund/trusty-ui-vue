@@ -100,6 +100,11 @@ export default {
     this.fetchCoins();
     this.fetchBtcPrice();
   },
+  watch: {
+    selectedCoin() {
+      this.amount = '';
+    }
+  },
   methods: {
     ...mapActions({
       fetchCoins: 'openledger/fetchCoins',
