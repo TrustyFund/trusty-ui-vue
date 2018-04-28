@@ -119,8 +119,8 @@ export default {
       this.$refs.amount.focus();
     },
     getAssetById(id) {
-      if (id === '0') {
-        return { symbol: 'RUB', id: 0, precision: 0 };
+      if (id === 'RUB') {
+        return { symbol: 'RUB', id: 'RUB', precision: 0 };
       }
       return this.getAsset(id);
     }
@@ -135,11 +135,11 @@ export default {
     balances() {
       const balances = this.userBalances;
       const btcBalance = balances['1.3.861'];
-      const rubBalance = { asset_type: 0, balance: 1 };
+      const rubBalance = { asset_type: 'RUB', balance: 1 };
       if (btcBalance) {
         rubBalance.balance = (this.btcPrice * btcBalance.balance) / (10 ** 8);
       }
-      balances[0] = rubBalance;
+      balances.RUB = rubBalance;
       return balances;
     },
     balanceAmountText() {
@@ -207,7 +207,7 @@ export default {
         availableMethods.push(OpenledgerName);
       }
 
-      if (this.selectedCoin === 0) {
+      if (this.selectedCoin === 'RUB') {
         this.paymentMethod = TrustyName;
         return [TrustyName];
       }
