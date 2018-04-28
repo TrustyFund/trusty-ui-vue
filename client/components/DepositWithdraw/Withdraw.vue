@@ -46,17 +46,19 @@ import TrustyInput from '@/components/UI/form/input';
 import iconComponent from '@/components/UI/icon';
 import openledger from './Openledger/Withdraw';
 import bitshares from './Bitshares/Withdraw';
+import trusty from './Trusty/Withdraw';
 import './style.scss';
 
 const OpenledgerName = 'OpenLedger crypto gateway';
 const BitsharesName = 'BitShares direct transfer';
+const TrustyName = 'Trusty withdraw';
 
 const methodsByGate = {
   openledger: [OpenledgerName],
-  bitshares: [BitsharesName]
+  bitshares: [BitsharesName],
+  trusty: [TrustyName]
 };
 
-// BTS amount 0.07
 export default {
   props: {
     coin: {
@@ -72,7 +74,7 @@ export default {
       amount: '',
     };
   },
-  components: { TrustyInput, AlphaInput, iconComponent, openledger, bitshares },
+  components: { TrustyInput, AlphaInput, iconComponent, openledger, bitshares, trusty },
   mixins: [validationMixin],
   validations: {
     amount: {
@@ -156,7 +158,6 @@ export default {
           result[id] = this.getAssetById(id);
         }
       });
-      console.log('RESULT', result);
       return result;
     },
     nonZeroBalanceAssetsIds() {
@@ -188,6 +189,12 @@ export default {
       if (issuer === '1.2.96397') {
         availableMethods.push(OpenledgerName);
       }
+
+      if (this.selectedCoin == 0) {
+        this.paymentMethod = TrustyName;
+        return [TrustyName];
+      }
+
       [this.paymentMethod] = availableMethods;
       return availableMethods;
     },
