@@ -112,7 +112,8 @@ export default {
     }),
     setAmount() {
       const id = this.selectedCoin;
-      const [precision] = this.getAssetById(id);
+      // eslint-disable-next-line
+      const precision = this.getAssetById(id).precision;
       const newAmount = this.balances[id].balance / (10 ** precision);
       this.amount = newAmount.toFixed(precision);
       this.$refs.amount.focus();
@@ -143,7 +144,8 @@ export default {
     },
     balanceAmountText() {
       const id = this.selectedCoin;
-      const [precision] = this.getAssetById(id);
+      // eslint-disable-next-line
+      const precision = this.getAssetById(id).precision;
       const balance = this.balances[id].balance / (10 ** precision);
       return 'max ' + balance.toFixed(precision) + ' (click to paste)';
     },
