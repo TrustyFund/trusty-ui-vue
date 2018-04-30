@@ -51,12 +51,20 @@ import './style.scss';
 
 const OpenledgerName = 'OpenLedger crypto gateway';
 const BitsharesName = 'BitShares direct transfer';
-const TrustyName = 'Trusty withdraw';
+const TrustyMethods = [
+  'Tinkoff card2card transfer',
+  'Sberbank card2card transfer',
+  'VTB card2card transfer',
+  'Alfa bank card2card transfer',
+  'Raiffeisen card2card transfer',
+  'VTB card2card transfer',
+  'Rocket card2card transfer'
+];
 
 const methodsByGate = {
   openledger: [OpenledgerName],
   bitshares: [BitsharesName],
-  trusty: [TrustyName]
+  trusty: TrustyMethods
 };
 
 export default {
@@ -208,8 +216,8 @@ export default {
       }
 
       if (this.selectedCoin === 'RUB') {
-        this.paymentMethod = TrustyName;
-        return [TrustyName];
+        [this.paymentMethod] = TrustyMethods;
+        return TrustyMethods;
       }
 
       [this.paymentMethod] = availableMethods;
