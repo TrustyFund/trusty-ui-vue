@@ -14,12 +14,9 @@ div.portfolio-container
   div.portfolio-data
     div.portfolio-data__header
       ._text_left.portfolio_head ASSET
-      transition(name="fade" mode="out-in")
-        ._text_right.portfolio_head(:key="showPrices") {{ showPrices ? '$PRICE' : '$VALUE' }}
-      transition(name="fade" mode="out-in")
-        ._text_right.portfolio_head(:key="showPrices") {{ showPrices ? '24H' : 'TOKENS' }}
-      transition(name="fade" mode="out-in")
-        ._text_right.portfolio_head(:key="showPrices") {{ showPrices ? '7D' : 'SHARE' }}
+      ._text_right.portfolio_head {{ showPrices ? '$PRICE' : '$VALUE' }}
+      ._text_right.portfolio_head {{ showPrices ? '24H' : 'TOKENS' }}
+      ._text_right.portfolio_head {{ showPrices ? '7D' : 'SHARE' }}
     div.portfolio-data__body
       PortfolioItem(v-for="item in itemsAsArray" 
                     :key="item.id"

@@ -29,7 +29,8 @@ export default {
       defaultAssetsIds: 'assets/getDefaultAssetsIds',
       baseId: 'market/getBaseAssetId',
       assets: 'assets/getAssets',
-      getMarketPriceById: 'market/getPriceById'
+      getMarketPriceById: 'market/getPriceById',
+      getAssetMultiplier: 'history/getHistoryAssetMultiplier'
     }),
     combinedBalances() {
       const combinedBalances = { ...this.balances };
@@ -48,7 +49,7 @@ export default {
         if (id === this.baseId) price = 1;
         // if (id === this.fiatId) multiplier.last = 1;
         const baseValue = parseInt((balance * price).toFixed(0), 10);
-        const fiatValue = parseInt((baseValue * this.fiatMultiplier).toFixed(0), 10);
+        const fiatValue = parseInt((baseValue * this.fiatMultiplier.last).toFixed(0), 10);
         const name = (this.assets[id] && this.assets[id].symbol) || '...';
         items[id] = {
           baseValue,
@@ -59,7 +60,7 @@ export default {
       return items;
     },
     fiatMultiplier() {
-      return 1 / this.getMarketPriceById(this.fiatId);
+      return { ...this.getAssetMultiplier(1, this.fiatId) };
     },
     isPercent() {
       return this.$route.name === 'manage-percent';
