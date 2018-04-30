@@ -127,7 +127,8 @@ export default {
       processPendingOrders: 'transactions/processPendingOrders',
       removePendingDistribution: 'transactions/removePendingDistribution',
       unlockWallet: 'account/unlockWallet',
-      transferAsset: 'transactions/transferAsset'
+      transferAsset: 'transactions/transferAsset',
+      clearPendingTransfer: 'transactions/clearPendingTransfer'
     }),
     checkLocked() {
       if (this.isLocked) {
@@ -174,6 +175,7 @@ export default {
 
       const result = await this.transferAsset(params);
       if (result.success) {
+        this.clearPendingTransfer();
         this.$toast.success('Transaction completed');
         this.$router.push({ name: 'entry' });
       } else {
