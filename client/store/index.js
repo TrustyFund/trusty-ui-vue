@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 // eslint-disable-next-line
-import vuexBitshares from 'lib/src';
+import vuexBitshares from 'vuex-bitshares';
 import app from './app';
 import assetInfo from './modules/assetInfo';
 import cryptobot from './modules/cryptobot';

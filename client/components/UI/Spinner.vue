@@ -1,4 +1,4 @@
-<template> 
+<template>
   <div class="spinner" :class="{
     'spinner--static': !absolute,
     'spinner--medium': size === 'medium',
@@ -34,7 +34,7 @@ export default {
   @keyframes spinner {
     to {transform: rotate(360deg);}
   }
-  
+
   .spinner:before {
     content: '';
     box-sizing: border-box;

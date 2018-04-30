@@ -1,7 +1,8 @@
 <template lang="pug">
 #trusty_transfer
+
   ._turnover_inputs
-    TrustyInput(label="enter sum" composed=true)
+    AlphaInput(label="enter sum" composed=true)
       template(slot="input")
         input(v-model="amount" ref="amount" @input="$v.amount.$touch()")
       template(slot="right")
@@ -10,28 +11,37 @@
         icon-component(name="trusty_arrow_down")
     .trusty_font_error(v-if="!$v.amount.required && this.$v.amount.$dirty") Enter amount
     .trusty_font_error(v-if="$v.amount.required && !$v.amount.isNumeric && this.$v.amount.$dirty") Enter a number
-    .trusty_font_error(v-if="$v.amount.isNumeric && !$v.amount.doesntExceedBalance && this.$v.amount.$dirty") Innuficient funds
+    .trusty_font_error(v-if="$v.amount.isNumeric && !$v.amount.doesntExceedBalance && this.$v.amount.$dirty" @click="setAmount") {{ insufficientAmountText }}
     .trusty_font_error(
-      v-if=`$v.amount.isNumeric && 
+      v-if=`$v.amount.isNumeric &&
       $v.amount.doesntExceedBalance &&
-      !$v.amount.doesntExceedMinWithdraw && 
+      !$v.amount.doesntExceedMinWithdraw &&
       this.$v.amount.$dirty`) Minimal withdraw amount {{ minWithdraw }}
-    p.withdraw_tooltip(@click="setAmount") {{ balanceAmountText }}
-    TrustyInput(:isOpen="true", label="payment method" className="select_input payment-method")
+
+    p.withdraw_tooltip(v-if="!$v.amount.required" @click="setAmount") {{ balanceAmountText }}
+    p
+    TrustyInput(
+      :isOpen="true",
+      label="payment method",
+      className="select_input payment-method",
+      :close="false",
+      :foreignInput="true")
+
       template(slot="input")
-        input(:style="{display:'none'}")
-        select(v-model="paymentMethod" )
-          option(v-for="method in methods") {{ method }}
         icon-component(name="trusty_arrow_down" style="position: absolute")
+        select(v-model="paymentMethod" )
+          option(v-for="method in methods", :value="method") {{ method }}
 
   ._turnover_service
-    component(:is="gateway" :amount="payload.amount" :coin="payload.selectedcoin")
+    component(:is="gateway", :amount="payload.amount", :coin="payload.selectedcoin")
+
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { validationMixin } from 'vuelidate';
 import { required } from 'vuelidate/lib/validators';
+import AlphaInput from '@/components/UI/form/alpha';
 import TrustyInput from '@/components/UI/form/input';
 import iconComponent from '@/components/UI/icon';
 import openledger from './Openledger/Withdraw';
@@ -62,7 +72,7 @@ export default {
       amount: '',
     };
   },
-  components: { TrustyInput, iconComponent, openledger, bitshares },
+  components: { TrustyInput, AlphaInput, iconComponent, openledger, bitshares },
   mixins: [validationMixin],
   validations: {
     amount: {
@@ -106,7 +116,13 @@ export default {
     balanceAmountText() {
       const id = this.selectedCoin;
       const balance = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
-      return 'Max ' + balance + ' (click to paste)';
+      return 'max ' + balance + ' (click to paste)';
+    },
+    insufficientAmountText() {
+      const id = this.selectedCoin;
+      const { symbol, precision } = this.getAssetById(id);
+      const balance = this.balances[id].balance / (10 ** precision);
+      return 'insufficient funds, max ' + balance + ' ' + symbol + '(click to paste)';
     },
     minWithdraw() {
       if (this.paymentMethod === OpenledgerName) {
@@ -123,7 +139,9 @@ export default {
     nonZeroAssets() {
       const result = {};
       Object.keys(this.balances).forEach(id => {
-        if (this.balances[id].balance) result[id] = this.getAssetById(id);
+        if (this.balances[id].balance) {
+          result[id] = this.getAssetById(id);
+        }
       });
       return result;
     },

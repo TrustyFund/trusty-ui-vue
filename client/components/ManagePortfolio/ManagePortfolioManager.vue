@@ -22,7 +22,7 @@
             .fake_line_height
 
             a._minus.normal.portfolio_asset(
-             :class="{'_disable': item.share === (minPercents[item.id] || 0)}"
+             :class="{'_disable': item.share === (minPercents[item.id] - 1 || 0)}"
              @touchstart="handleTouchMinus(item)"
              @touchend="clearTimer")
               Icon(name="trusty_minus")
@@ -239,7 +239,7 @@ export default {
   }
   .trusty_inline_buttons._one_button button._disable {
     pointer-events: none;
-    opacity: 0.5;
+    opacity: 0.2;
   }
   .total-row .total {
     margin-left: 16vw;

@@ -49,7 +49,7 @@ export default {
         'manage-value': 'manage fund',
         user: 'user page',
         profile: 'user profile',
-        backup: 'compulsory backup',
+        backup: 'backup',
         'backup-password': 'check password',
         'backup-phrase': 'backup phrase',
         'backup-verify': 'verify backup',

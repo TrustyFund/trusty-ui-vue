@@ -47,6 +47,10 @@ div
 					div.image_area
 						div
 							template(v-if="index === 0")
+								.phontom_buttons
+									span(
+										v-for="refer in iconsRefers",
+										@click.stop="scrollTo(refer)")
 								img._image._mob(:src="slide.image")
 								img._image._desk(:src="slide.imageDesk")
 							template(v-else)
@@ -85,7 +89,18 @@ div
 			a.wrap_button
 				button.land(@click="clickLink('faq')") FAQ
 
-	div._land_bottom_info
+		div._land_bottom_info._desk
+			section
+				| The above references are for information purposes only.
+				br._mob
+				|  They are not intended to be investment advices.
+				br
+				| Trusty.Fund provides a trustless service for its clients to manage and
+				br._mob
+				| store funds on the BitShares blockchain via trusted gateways.
+			section 2018 Trusty.Fund
+
+	div._land_bottom_info._mob
 		section
 			| The above references are for information purposes only.
 			br._mob
@@ -172,6 +187,7 @@ export default {
       slideRefers: '',
       slideHeight: '',
       windowHeight: '',
+      iconsRefers: '',
     };
   },
   computed: {
@@ -182,6 +198,7 @@ export default {
   mounted() {
     this.windowHeight = window.innerHeight + 'px';
     this.slideRefers = [1, 2, 3, 4, 5, 6, 7].map(item => `sl_id-${item}`);
+    this.iconsRefers = this.slideRefers.slice(1);
     this.slideHeight = isMobile() ? { height: this.windowHeight } : {};
     window.addEventListener('scroll', this.handleScroll);
   },
@@ -195,7 +212,7 @@ export default {
           const el = this.$refs[refer][0];
           const rect = el.getBoundingClientRect();
           if (window.scrollY >= parseFloat(this.windowHeight)) {
-            if (Math.abs(rect.top) >= 0 && rect.top <= el.clientHeight) {
+            if (rect.top <= 0 && Math.abs(rect.top) <= el.clientHeight) {
               this.referClass = refer;
             }
           } else {
@@ -211,7 +228,7 @@ export default {
     clickLink(destination) {
       if (this.authUser === null) {
         if (!isMobile()) {
-          alert('Now available only on mobile devices'); // eslint-disable-line
+					alert('Now available only on mobile devices'); // eslint-disable-line
         } else {
           this.$router.push({ name: destination });
         }
@@ -242,6 +259,8 @@ export default {
 
 <style scoped>
 #landing {
-  margin-top: -12vw;
+	margin-top: -12vw;
+
 }
+
 </style>

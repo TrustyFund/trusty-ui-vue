@@ -2,12 +2,13 @@
 
 #password_check
 
-  trusty-input(label="enter pin code")
-    template(slot="input")
-      input(v-model="password" type="password")
+	trusty-input(
+		label="enter pin code",
+		inputType="tel",
+		v-model="password")
 
-  .trusty_inline_buttons._one_button
-    button(@click="checkPassword()") Check
+	.trusty_inline_buttons._one_button
+		button(@click="checkPassword()") Check
 
 </template>
 
