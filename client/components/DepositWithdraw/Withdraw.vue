@@ -94,6 +94,7 @@ export default {
       doesntExceedBalance(value) {
         const id = this.selectedCoin;
         const balance = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
+        console.log('Check rub', value, balance, ' : ', id, this.balances[id].balance);
         return value <= balance;
       },
       doesntExceedMinWithdraw(value) {
@@ -145,7 +146,7 @@ export default {
       const btcBalance = balances['1.3.861'];
       const rubBalance = { asset_type: 'RUB', balance: 1 };
       if (btcBalance) {
-        rubBalance.balance = (this.btcPrice * btcBalance.balance) / (10 ** 8);
+        rubBalance.balance = Math.floor((this.btcPrice * btcBalance.balance) / (10 ** 8));
       }
       balances.RUB = rubBalance;
       return balances;
