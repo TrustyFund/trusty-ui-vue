@@ -3,26 +3,27 @@
   TrustyInput(
     label="Enter your card number",
     v-model="address")
-  ._yellow.trusty_ps_text
-    | IMPORTANT: Please send 
-    br
-    | BitShares account using this payment method
+  p
+  .withdraw_rate
+    alpha-input(:isOpen="true" label="exchange rate RUB/BTC")
+      template(slot="input"): div._simple_text_left.rate {{ this.btcPrice }}
+      template(slot="right")
+        label.trusty_place_holder You will pay BTC
+        div._right_slash {{ reqBtcText }}
+  p
   .trusty_inline_buttons
     button(@click="withdraw") Confirm
     button(@click="$router.push({ name: 'entry'})") Cancel
 </template>
 
 <script>
-// Здесь мы примем на вход сумму рублей, сколько битков,
-// Номер карты получаем из инпута и
-// отправляем транзакцию:
-// 44500:Master card:42760023145112
+import AlphaInput from '@/components/UI/form/alpha';
 import TrustyInput from '@/components/UI/form/input';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
   components: {
-    TrustyInput
+    TrustyInput, AlphaInput
   },
   props: ['amount', 'coin'],
   data() {
@@ -35,14 +36,13 @@ export default {
       setTransaction: 'transactions/setPendingTransfer'
     }),
     withdraw() {
-      const reqBtc = Math.floor((this.amount / this.btcPrice) * (10 ** 8));
       const trustyWithdrawAccount = '1.2.383374';
 
       const memo = this.amount + ':' + this.address;
       const transaction = {
         withdraw: true,
         assetId: '1.3.861',
-        amount: reqBtc,
+        amount: this.reqBtc,
         to: trustyWithdrawAccount,
         address: this.address,
         fee: 0,
@@ -51,7 +51,7 @@ export default {
       console.log('goto transactions', transaction);
       this.setTransaction({ transaction });
       this.$router.push({ name: 'confirm-transactions' });
-      console.log('withdraw', this.amount, this.coin, this.address, this.btcBalance, reqBtc);
+      console.log('withdraw', this.amount, this.coin, this.address, this.btcBalance, this.reqBtc);
     }
   },
   computed: {
@@ -61,7 +61,27 @@ export default {
     }),
     btcBalance() {
       return this.userBalances['1.3.861'].balance;
+    },
+    reqBtc() {
+      return Math.floor((this.amount / this.btcPrice) * (10 ** 8));
+    },
+    reqBtcText() {
+      return (this.reqBtc / (10 ** 8)).toFixed(8);
     }
   }
 };
 </script>
+
+<style>
+.withdraw_rate {
+  ._right_space {
+    width: 40vw;
+
+    text-align: right;
+
+    label {
+      position: relative;
+    }
+  }
+}
+</style>
