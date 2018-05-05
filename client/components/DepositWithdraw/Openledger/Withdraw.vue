@@ -1,9 +1,10 @@
 <template lang="pug">
 ._turnover_info
   p
-  TrustyInput(label="enter receiving address")
-      template(slot="input")
-        input(v-model="address", ref="addressinput", @input="$v.address.$touch()", id="withdraw-address")
+  TrustyInput(
+    label="enter receiving address",
+    :validate="$v.address.$touch()",
+    v-model="address")  
   .trusty_font_error(v-if="!$v.address.isValid")
     | Please enter a valid {{ getAssetById(coin).symbol }} address
   br
