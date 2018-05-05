@@ -6,7 +6,7 @@
   p
   .withdraw_rate
     alpha-input(:isOpen="true" label="exchange rate RUB/BTC")
-      template(slot="input"): div._simple_text_left.rate {{ this.btcPrice }}
+      template(slot="input"): div._simple_text_left.rate {{ Math.floor(btcPrice) }}
       template(slot="right")
         label.trusty_place_holder You will pay BTC
         div._right_slash {{ reqBtcText }}
@@ -36,7 +36,7 @@ export default {
       setTransaction: 'transactions/setPendingTransfer'
     }),
     withdraw() {
-      const trustyWithdrawAccount = '1.2.383374';
+      const trustyWithdrawAccount = '1.2.852336';
 
       const memo = this.amount + ':' + this.address;
       const transaction = {

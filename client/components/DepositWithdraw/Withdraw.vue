@@ -94,7 +94,6 @@ export default {
       doesntExceedBalance(value) {
         const id = this.selectedCoin;
         const balance = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
-        console.log('Check rub', value, balance, ' : ', id, this.balances[id].balance);
         return value <= balance;
       },
       doesntExceedMinWithdraw(value) {
