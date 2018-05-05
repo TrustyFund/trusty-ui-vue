@@ -77,11 +77,13 @@ export default {
   ._right_space {
     width: 40vw;
 
-    text-align: right;
 
-    label {
-      position: relative;
-    }
+    text-align: right;
+  }
+
+  label.trusty_place_holder {
+    position: relative;
+    bottom: 0;
   }
 }
 </style>
