@@ -1,12 +1,18 @@
 <template lang="pug">
 #rub_withdraw
   TrustyInput(
-    label="Enter your card number",
+    type="tel",
+    label="ENTER CARDHOLDER'S NAME",
+    v-model="name")
+  p
+  TrustyInput(
+    type="tel",
+    label="Enter card number",
     v-model="address")
   p
   .withdraw_rate
     alpha-input(:isOpen="true" label="exchange rate RUB/BTC")
-      template(slot="input"): div._simple_text_left.rate {{ Math.floor(btcPrice) }}
+      template(slot="input"): div._simple_text_left.rate {{ rate }}
       template(slot="right")
         label.trusty_place_holder You will pay BTC
         div._right_slash {{ reqBtcText }}
@@ -14,6 +20,8 @@
   .trusty_inline_buttons
     button(@click="withdraw") Confirm
     button(@click="$router.push({ name: 'entry'})") Cancel
+  p.trusty_ps_text
+    | Payment gateway service is provided by users of #[br] Localbitcoins.com
 </template>
 
 <script>
@@ -28,7 +36,8 @@ export default {
   props: ['amount', 'coin'],
   data() {
     return {
-      address: ''
+      address: '',
+      name: ''
     };
   },
   methods: {
@@ -67,6 +76,9 @@ export default {
     },
     reqBtcText() {
       return (this.reqBtc / (10 ** 8)).toFixed(8);
+    },
+    rate() {
+      return Math.floor(this.btcPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     }
   }
 };
@@ -74,6 +86,11 @@ export default {
 
 <style>
 .withdraw_rate {
+
+  ._input_space {
+    border: none!important;
+  }
+
   ._right_space {
     width: 40vw;
 
