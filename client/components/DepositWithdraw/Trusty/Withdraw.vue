@@ -1,14 +1,17 @@
 <template lang="pug">
 #rub_withdraw
+  p
   TrustyInput(
     type="tel",
     label="ENTER CARDHOLDER'S NAME",
     v-model="name")
+  .trusty_font_error(v-if="!$v.name.required && this.$v.name.$dirty") Enter cardholder's name
   p
   TrustyInput(
     type="tel",
     label="Enter card number",
     v-model="address")
+  .trusty_font_error(v-if="!$v.address.required && this.$v.address.$dirty") Enter card number
   p
   .withdraw_rate
     alpha-input(:isOpen="true" label="exchange rate RUB/BTC")
@@ -25,11 +28,15 @@
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate';
+import { mapGetters, mapActions } from 'vuex';
+import { required } from 'vuelidate/lib/validators';
 import AlphaInput from '@/components/UI/form/alpha';
 import TrustyInput from '@/components/UI/form/input';
-import { mapGetters, mapActions } from 'vuex';
+import config from '@/../config';
 
 export default {
+  mixins: [validationMixin],
   components: {
     TrustyInput, AlphaInput
   },
@@ -40,19 +47,25 @@ export default {
       name: ''
     };
   },
+  validations: {
+    address: {
+      required
+    },
+    name: {
+      required
+    }
+  },
   methods: {
     ...mapActions({
       setTransaction: 'transactions/setPendingTransfer'
     }),
-    withdraw() {
-      const trustyWithdrawAccount = '1.2.852336';
-
+    processWithdraw() {
       const memo = this.amount + ':' + this.address;
       const transaction = {
         withdraw: true,
         assetId: '1.3.861',
         amount: this.reqBtc,
-        to: trustyWithdrawAccount,
+        to: config.trustyWithdrawAccount,
         address: this.address,
         fee: 0,
         memo
@@ -61,6 +74,12 @@ export default {
       this.setTransaction({ transaction });
       this.$router.push({ name: 'confirm-transactions' });
       console.log('withdraw', this.amount, this.coin, this.address, this.btcBalance, this.reqBtc);
+    },
+    withdraw() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        this.processWithdraw();
+      }
     }
   },
   computed: {
