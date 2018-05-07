@@ -22,18 +22,33 @@
         v-if="type === 'pending_deposit'"
         :item="item"
       )
+
+      TransactionsItemWithdraw(
+        v-if="type === 'pending_withdraw'"
+        type="pending"
+        :item="item"
+      )
+
+      TransactionsItemWithdraw(
+        v-if="type === 'result_withdraw'"
+        type="result"
+        :item="item"
+      )
+
+
     div.transaction_info__date(v-show="!hideDate") {{ relativeTime }}
 
 </template>
 
 <script>
+import config from '@/../config';
 import distanceInWordsStrict from 'date-fns/distance_in_words_strict';
 import TransactionsItemTransferInfo from './TransactionsItemTransferInfo';
 import TransactionsItemPlaceOrderInfo from './TransactionsItemPlaceOrderInfo';
 import TransactionsItemFillOrderInfo from './TransactionsItemFillOrderInfo';
 import TransactionsItemCancelOrderInfo from './TransactionsItemCancelOrderInfo';
 import TransactionsItemPendingDeposit from './TransactionsItemPendingDeposit';
-
+import TransactionsItemWithdraw from './TransactionsItemWithdraw';
 
 export default {
   components: {
@@ -41,7 +56,8 @@ export default {
     TransactionsItemPlaceOrderInfo,
     TransactionsItemFillOrderInfo,
     TransactionsItemCancelOrderInfo,
-    TransactionsItemPendingDeposit
+    TransactionsItemPendingDeposit,
+    TransactionsItemWithdraw
   },
   props: {
     item: {
@@ -67,6 +83,12 @@ export default {
   },
   computed: {
     type() {
+      if (this.item.payload.to === config.trustyWithdrawAccount) {
+        return 'pending_withdraw';
+      }
+      if (this.item.payload.from === config.trustyWithdrawAccount) {
+        return 'result_withdraw';
+      }
       return this.item.type;
     },
     relativeTime() {
