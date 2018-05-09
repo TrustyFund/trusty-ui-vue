@@ -5,6 +5,7 @@ import vuexBitshares from 'vuex-bitshares';
 import app from './app';
 import assetInfo from './modules/assetInfo';
 import cryptobot from './modules/cryptobot';
+import portfolio from './modules/portfolio';
 
 Vue.use(Vuex);
 
@@ -12,7 +13,8 @@ const store = new Vuex.Store({
   modules: {
     app,
     assetInfo,
-    cryptobot
+    cryptobot,
+    portfolio
   }
 });
 vuexBitshares(store);

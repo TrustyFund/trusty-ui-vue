@@ -10,17 +10,17 @@ div.portfolio-container
         div LOADING MARKET...
 
   div._text_right 
-    span.portfolio-toggle(@click="toggle") {{ toggleTitle }}
+    span.portfolio-toggle(@click="togglePortfolioMode") {{ toggleTitle }}
   div.portfolio-data
     div.portfolio-data__header
       ._text_left.portfolio_head ASSET
-      ._text_right.portfolio_head {{ showPrices ? '$PRICE' : '$VALUE' }}
-      ._text_right.portfolio_head {{ showPrices ? '24H' : 'TOKENS' }}
-      ._text_right.portfolio_head {{ showPrices ? '7D' : 'SHARE' }}
+      ._text_right.portfolio_head {{ priceMode ? '$PRICE' : '$VALUE' }}
+      ._text_right.portfolio_head {{ priceMode ? '24H' : 'TOKENS' }}
+      ._text_right.portfolio_head {{ priceMode ? '7D' : 'SHARE' }}
     div.portfolio-data__body
       PortfolioItem(v-for="item in itemsAsArray" 
                     :key="item.id"
-                    :balances-mode="showPrices"
+                    :balances-mode="priceMode"
                     :item="item"
                     :total-base-value="totalBaseValue"
                     :fiat-multiplier="fiatMultiplier.last"
@@ -28,7 +28,7 @@ div.portfolio-container
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import Spinner from '@/components/UI/Spinner';
 import { calcPortfolioItem } from './utils';
 import PortfolioItem from './PortfolioItem';
@@ -39,7 +39,6 @@ export default {
   },
   data() {
     return {
-      showPrices: false
     };
   },
   props: {
@@ -74,7 +73,8 @@ export default {
       subscribedToMarket: 'market/isSubscribed',
       getAssetById: 'assets/getAssetById',
       getHistoryByDay: 'history/getByDay',
-      getMarketPriceById: 'market/getPriceById'
+      getMarketPriceById: 'market/getPriceById',
+      priceMode: 'portfolio/isPriceMode'
     }),
     history24() {
       return this.getHistoryByDay(1);
@@ -83,7 +83,7 @@ export default {
       return this.getHistoryByDay(7);
     },
     toggleTitle() {
-      return this.showPrices ? 'SHOW BALANCES' : 'SHOW PRICES';
+      return this.priceMode ? 'SHOW BALANCES' : 'SHOW PRICES';
     },
     combinedBalances() {
       const combinedBalances = { ...this.balances };
@@ -148,12 +148,12 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      togglePortfolioMode: 'portfolio/togglePriceMode'
+    }),
     goToManagePortfolio() {
       if (!this.subscribedToMarket) return;
       this.$router.push({ name: 'manage' });
-    },
-    toggle() {
-      this.showPrices = !this.showPrices;
     }
   }
 };
