@@ -70,8 +70,6 @@ export default {
     }),
     fiatMultiplier() {
       const multiplier = { ...this.getHistoryAssetMultiplier(1, this.fiatId) };
-      const fiatMarketPrice = this.getMarketPriceById(this.fiatId);
-      if (fiatMarketPrice) multiplier.last = fiatMarketPrice;
       return multiplier.last;
     },
     sellOrders() {
