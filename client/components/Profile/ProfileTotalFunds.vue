@@ -47,9 +47,10 @@ export default {
       if (!this.prices[this.fiatId]) return 0;
 
       const totalBaseValue = Object.keys(this.balances).reduce((result, id) => {
+        const balance = parseInt(this.balances[id].balance, 10);
         if (!this.prices[id]) return result;
-        if (id === this.baseId) return result + this.balances[id].balance;
-        return result + (this.balances[id].balance * this.prices[id].last);
+        if (id === this.baseId) return result + balance;
+        return result + (balance * this.prices[id].last);
       }, 0);
 
       const fiatMultiplier = 1 / this.prices[this.fiatId].last;
