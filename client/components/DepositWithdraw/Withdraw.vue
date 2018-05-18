@@ -46,17 +46,27 @@ import TrustyInput from '@/components/UI/form/input';
 import iconComponent from '@/components/UI/icon';
 import openledger from './Openledger/Withdraw';
 import bitshares from './Bitshares/Withdraw';
+import trusty from './Trusty/Withdraw';
 import './style.scss';
 
 const OpenledgerName = 'OpenLedger crypto gateway';
 const BitsharesName = 'BitShares direct transfer';
+const TrustyMethods = [
+  'Tinkoff card2card transfer',
+  'Sberbank card2card transfer',
+  'VTB card2card transfer',
+  'Alfa bank card2card transfer',
+  'Raiffeisen card2card transfer',
+  'VTB card2card transfer',
+  'Rocket card2card transfer'
+];
 
 const methodsByGate = {
   openledger: [OpenledgerName],
-  bitshares: [BitsharesName]
+  bitshares: [BitsharesName],
+  trusty: TrustyMethods
 };
 
-// BTS amount 0.07
 export default {
   props: {
     coin: {
@@ -72,7 +82,7 @@ export default {
       amount: '',
     };
   },
-  components: { TrustyInput, AlphaInput, iconComponent, openledger, bitshares },
+  components: { TrustyInput, AlphaInput, iconComponent, openledger, bitshares, trusty },
   mixins: [validationMixin],
   validations: {
     amount: {
@@ -96,33 +106,63 @@ export default {
   },
   beforeMount() {
     this.fetchCoins();
+    this.fetchBtcPrice();
+  },
+  watch: {
+    selectedCoin() {
+      this.amount = '';
+    }
   },
   methods: {
     ...mapActions({
-      fetchCoins: 'openledger/fetchCoins'
+      fetchCoins: 'openledger/fetchCoins',
+      fetchBtcPrice: 'cryptobot/fetchBtcPrice'
     }),
     setAmount() {
       const id = this.selectedCoin;
-      this.amount = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
+      // eslint-disable-next-line
+      const precision = this.getAssetById(id).precision;
+      const newAmount = this.balances[id].balance / (10 ** precision);
+      this.amount = newAmount.toFixed(precision);
       this.$refs.amount.focus();
+    },
+    getAssetById(id) {
+      if (id === 'RUB') {
+        return { symbol: 'RUB', id: 'RUB', precision: 0 };
+      }
+      return this.getAsset(id);
     }
   },
   computed: {
     ...mapGetters({
-      balances: 'account/getCurrentUserBalances',
-      getAssetById: 'assets/getAssetById',
-      coinsData: 'openledger/getCoinsData'
+      userBalances: 'account/getCurrentUserBalances',
+      getAsset: 'assets/getAssetById',
+      coinsData: 'openledger/getCoinsData',
+      btcPrice: 'cryptobot/getBtcPrice'
     }),
+    balances() {
+      const balances = this.userBalances;
+      const btcBalance = balances['1.3.861'];
+      const rubBalance = { asset_type: 'RUB', balance: 1 };
+      if (btcBalance) {
+        rubBalance.balance = Math.floor((this.btcPrice * btcBalance.balance) / (10 ** 8));
+      }
+      balances.RUB = rubBalance;
+      return balances;
+    },
     balanceAmountText() {
       const id = this.selectedCoin;
-      const balance = this.balances[id].balance / (10 ** this.getAssetById(id).precision);
-      return 'max ' + balance + ' (click to paste)';
+      // eslint-disable-next-line
+      const precision = this.getAssetById(id).precision;
+      const balance = this.balances[id].balance / (10 ** precision);
+      return 'max ' + balance.toFixed(precision) + ' (click to paste)';
     },
     insufficientAmountText() {
       const id = this.selectedCoin;
       const { symbol, precision } = this.getAssetById(id);
       const balance = this.balances[id].balance / (10 ** precision);
-      return 'insufficient funds, max ' + balance + ' ' + symbol + '(click to paste)';
+      const prefixText = 'insufficient funds, max ';
+      return prefixText + balance.toFixed(precision) + ' ' + symbol + '(click to paste)';
     },
     minWithdraw() {
       if (this.paymentMethod === OpenledgerName) {
@@ -174,6 +214,12 @@ export default {
       if (issuer === '1.2.96397') {
         availableMethods.push(OpenledgerName);
       }
+
+      if (this.selectedCoin === 'RUB') {
+        [this.paymentMethod] = TrustyMethods;
+        return TrustyMethods;
+      }
+
       [this.paymentMethod] = availableMethods;
       return availableMethods;
     },

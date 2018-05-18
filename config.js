@@ -10,7 +10,8 @@ const config = {
     '1.3.973': 4,
     '1.3.0': 4,
     '1.3.2418': 3
-  }
+  },
+  trustyWithdrawAccount: '1.2.852336'
 };
 
 export default config;
