@@ -81,6 +81,7 @@ export default {
       percents: {},
       percentsAsArray: [],
       percentFiatValue: 0,
+      holdCount: 0,
       timer: null,
       minPercents: {
         '1.3.0': 0.8,
@@ -163,9 +164,10 @@ export default {
       this.percentsAsArray = convertPercentsToSortedArray(this.percents);
       this.$toast.info('Portfolio suggested');
     },
-    handleMinus(item) {
+    handleMinus(item, speedUp) {
+      const step = (speedUp) ? 2 : 0.2;
       const min = this.minPercents[item.id] || 0;
-      const newShare = parseFloat((item.share - 0.2).toFixed(2));
+      const newShare = parseFloat((item.share - step).toFixed(2));
       if (newShare <= min) {
         item.share = min;
         this.clearTimer();
@@ -174,22 +176,32 @@ export default {
         item.share = newShare;
       }
     },
-    handlePlus(item) {
-      if (this.remainingPercents > 0.2) {
-        item.share = parseFloat((item.share + 0.2).toFixed(2));
+    handlePlus(item, speedUp) {
+      const step = (speedUp) ? 2 : 0.2;
+      if (this.remainingPercents > step) {
+        item.share = parseFloat((item.share + step).toFixed(2));
       } else {
         item.share = parseFloat((item.share + this.remainingPercents).toFixed(2));
       }
     },
     handleTouchMinus(item) {
       this.handleMinus(item);
-      this.timer = setInterval(() => { this.handleMinus(item); }, 175);
+      this.timer = setInterval(() => this.longTouchHandle(this.handleMinus, item), 175);
     },
     handleTouchPlus(item) {
       this.handlePlus(item);
-      this.timer = setInterval(() => { this.handlePlus(item); }, 175);
+      this.timer = setInterval(() => this.longTouchHandle(this.handlePlus, item), 175);
+    },
+    longTouchHandle(callback, item) {
+      let speedUp = false;
+      if (this.holdCount > 2) {
+        speedUp = true;
+      }
+      callback(item, speedUp);
+      this.holdCount += 1;
     },
     clearTimer() {
+      this.holdCount = 0;
       clearInterval(this.timer);
     },
     checkForMinPercents() {
