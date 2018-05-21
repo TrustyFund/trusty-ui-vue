@@ -14,8 +14,8 @@ div.portfolio-container
   div.portfolio-data
     div.portfolio-data__header
       ._text_left.portfolio_head ASSET
-      ._text_right.portfolio_head {{ priceMode ? '$PRICE' : '$VALUE' }}
-      ._text_right.portfolio_head {{ priceMode ? '24H' : 'TOKENS' }}
+      ._text_right.portfolio_head {{ priceMode ? '$PRICE' : 'TOKENS' }}
+      ._text_right.portfolio_head {{ priceMode ? '24H' : '$VALUE' }}
       ._text_right.portfolio_head {{ priceMode ? '7D' : 'SHARE' }}
     div.portfolio-data__body
       PortfolioItem(v-for="item in itemsAsArray" 

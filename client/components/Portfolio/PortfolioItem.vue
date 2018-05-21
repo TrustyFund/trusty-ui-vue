@@ -1,8 +1,8 @@
 <template lang="pug">
   .portfolio-row-item
     .portfolio-row-item__name._text_left(@click="navigateToCoin(item)") {{ item.name }}
-    ._text_right {{ balancesMode ? formattedPrice : formattedBalanceFiat }}
-    ._text_right {{ balancesMode ? formattedChange24 + '%' : tokensNum.toFixed(2) }}
+    ._text_right {{ balancesMode ? formattedPrice : tokensNum.toFixed(2) }}
+    ._text_right {{ balancesMode ? formattedChange24 + '%' : formattedBalanceFiat }}
     ._text_right {{ balancesMode ? formattedChange7 : formattedShare }}%
 </template>
 
