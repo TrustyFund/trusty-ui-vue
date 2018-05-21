@@ -177,7 +177,6 @@ export default {
 
       const result = await this.transferAsset(params);
       if (result.success) {
-        this.clearPendingTransfer();
         this.$toast.success('Transaction completed');
         this.$router.push({ name: 'entry' });
       } else {
@@ -186,6 +185,7 @@ export default {
     }
   },
   beforeDestroy() {
+    this.clearPendingTransfer();
     this.removePendingDistribution();
   },
   created() {

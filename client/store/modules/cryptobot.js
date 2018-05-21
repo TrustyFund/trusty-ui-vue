@@ -91,11 +91,15 @@ const CRYPTOBOT_SET_PAYMENT_ERROR = 'CRYPTOBOT_SET_PAYMENT_ERROR';
 
 const CRYPTOBOT_ORDER_UPDATE_RECEIVED = 'CRYPTOBOT_ORDER_UPDATE_RECEIVED';
 
+const CRYPTOBOT_GET_BTC_PRICE = 'CRYPTOBOT_GET_BTC_PRICE';
+const CRYPTOBOT_GET_BTC_PRICE_ERROR = 'CRYPTOBOT_GET_BTC_PRICE_ERROR';
+// https://api.coinmarketcap.com/v1/ticker/bitcoin/
 const initialState = {
   pending: false,
   connected: false,
   error: false,
-  order: false
+  order: false,
+  btcprice: 0
 };
 
 
@@ -169,6 +173,12 @@ const mutations = {
   },
   [CRYPTOBOT_SET_PAYMENT_COMPLETE]: (state) => {
     state.pending = false;
+  },
+  [CRYPTOBOT_GET_BTC_PRICE]: (state, price) => {
+    state.btcprice = price;
+  },
+  [CRYPTOBOT_GET_BTC_PRICE_ERROR]: (state) => {
+    state.btcprice = -1;
   }
 };
 
@@ -177,10 +187,22 @@ const getters = {
   getCurrentOrder: state => state.order,
   isConnected: state => state.connected,
   getPendingStatus: state => state.pending,
-  getError: state => state.error
+  getError: state => state.error,
+  getBtcPrice: state => state.btcprice
 };
 
 const actions = {
+  async fetchBtcPrice({ commit }) {
+    const response = await fetch('https://api.coinmarketcap.com/v1/ticker/bitcoin/');
+    if (response.status === 200) {
+      const data = await response.json();
+      const usdPrice = parseFloat(data[0].price_usd);
+      const rubPrice = usdPrice * 59;
+      commit(CRYPTOBOT_GET_BTC_PRICE, rubPrice);
+    } else {
+      commit(CRYPTOBOT_GET_BTC_PRICE_ERROR);
+    }
+  },
   connect({ commit, dispatch }) {
     commit(CRYPTOBOT_CONNECT_REQUEST);
 
