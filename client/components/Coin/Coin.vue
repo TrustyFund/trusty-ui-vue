@@ -62,9 +62,9 @@
 				.wrap_content.main_padding
 					._grey_key_list(v-for="(val, key) in getTechnology" v-if="val")
 						template(v-if="key")
-							p {{ parseCamel(key) }}
+							p(v-if="key!='technology'") {{ parseCamel(key) }}
 							p(v-html="val") {{ val }}
-
+   
 		.content_area(:class="{_opened_article: opened==='ico'}" v-if="ICOExist")
 			._items(@click="opened = opened==='ico' ? '':'ico'")
 				._list_item
