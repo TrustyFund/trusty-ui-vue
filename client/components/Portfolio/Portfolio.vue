@@ -1,6 +1,6 @@
 <template lang="pug">
-  div.portfolio-container
-    .trusty_inline_buttons._mob._one_button(
+div.portfolio-container
+  .trusty_inline_buttons._mob._one_button(
       @click="goToManagePortfolio" 
       v-show="!minMode && totalBaseValue"
       :class="{'_disabled': !subscribedToMarket}")
@@ -9,33 +9,33 @@
         Spinner(size="small", :absolute="false")
         div LOADING MARKET...
 
-    table.portfolio-container.trusty_table
-      thead
-        tr
-          th._text_left: span ASSET
-          th._text_right: span SHARE
-          th._text_right: span $VALUE
-          th._text_right: span 24H
-      tbody
-        PortfolioBalance(
-          v-for="item in itemsAsArray"
-          :key="item.name"
-          :item="item"
-          :totalBaseValue="totalBaseValue"
-          :fiatPrecision="fiatPrecision")
-
+  div._text_right 
+    span.portfolio-toggle(@click="togglePortfolioMode") {{ toggleTitle }}
+  div.portfolio-data
+    div.portfolio-data__header
+      ._text_left.portfolio_head ASSET
+      ._text_right.portfolio_head {{ priceMode ? '$PRICE' : 'TOKENS' }}
+      ._text_right.portfolio_head {{ priceMode ? '24H' : '$VALUE' }}
+      ._text_right.portfolio_head {{ priceMode ? '7D' : 'SHARE' }}
+    div.portfolio-data__body
+      PortfolioItem(v-for="item in itemsAsArray" 
+                    :key="item.id"
+                    :balances-mode="priceMode"
+                    :item="item"
+                    :total-base-value="totalBaseValue"
+                    :fiat-multiplier="fiatMultiplier.last"
+                    :fiat-precision="fiatPrecision")
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-// eslint-disable-next-line
-import { calcPortfolioItem } from 'lib/src/utils';
+import { mapGetters, mapActions } from 'vuex';
 import Spinner from '@/components/UI/Spinner';
-import PortfolioBalance from './PortfolioBalance.vue';
+import { calcPortfolioItem } from './utils';
+import PortfolioItem from './PortfolioItem';
 
 export default {
   components: {
-    PortfolioBalance, Spinner
+    Spinner, PortfolioItem
   },
   data() {
     return {
@@ -65,14 +65,26 @@ export default {
   },
   computed: {
     ...mapGetters({
-      history: 'market/getMarketHistory',
       marketFetching: 'market/isFetching',
       marketError: 'market/isError',
-      getAssetMultiplier: 'market/getAssetMultiplier',
+      getAssetMultiplier: 'history/getHistoryAssetMultiplier',
       assets: 'assets/getAssets',
       defaultAssetsIds: 'assets/getDefaultAssetsIds',
-      subscribedToMarket: 'market/isSubscribed'
+      subscribedToMarket: 'market/isSubscribed',
+      getAssetById: 'assets/getAssetById',
+      getHistoryByDay: 'history/getByDay',
+      getMarketPriceById: 'market/getPriceById',
+      priceMode: 'portfolio/isPriceMode'
     }),
+    history24() {
+      return this.getHistoryByDay(1);
+    },
+    history7() {
+      return this.getHistoryByDay(7);
+    },
+    toggleTitle() {
+      return this.priceMode ? 'SHOW BALANCES' : 'SHOW PRICES';
+    },
     combinedBalances() {
       const combinedBalances = { ...this.balances };
       this.defaultAssetsIds.forEach(id => {
@@ -87,20 +99,27 @@ export default {
       if (!assetsIds.length) return items;
       assetsIds.forEach(id => {
         const { balance } = this.combinedBalances[id];
-        const asset = this.assets[id];
-        let prices = this.history[id];
-        if (!prices) return;
+        const asset = this.getAssetById(id);
+        const precisedBalance = balance / (10 ** asset.precision);
+        let history24 = this.history24[id];
+        let history7 = this.history7[id];
+        if (!history24 || !history7) return;
         const multiplier = this.fiatMultiplier;
-        if (id === this.baseId) prices = { first: 1, last: 1 };
+        if (id === this.baseId) history24 = { first: 1, last: 1 };
+        if (id === this.baseId) history7 = { first: 1, last: 1 };
 
         items[id] = calcPortfolioItem({
           balance,
           asset,
-          prices,
+          history24,
+          history7,
           baseAsset: this.assets[this.baseId],
-          fiatMultiplier: multiplier
+          fiatMultiplier: multiplier,
+          marketPrice: this.getMarketPriceById(id)
         });
         items[id].id = id;
+        items[id].precisedBalance = precisedBalance;
+        items[id].precision = asset.precision;
       });
       return items;
     },
@@ -111,8 +130,13 @@ export default {
       });
       return sortedArray;
     },
+    fiatMarketPrice() {
+      return this.getMarketPriceById(this.fiatId);
+    },
     fiatMultiplier() {
-      return this.getAssetMultiplier(this.fiatId);
+      const multiplier = { ...this.getAssetMultiplier(1, this.fiatId) };
+      if (this.fiatMarketPrice) multiplier.last = 1 / this.fiatMarketPrice;
+      return multiplier;
     },
     fiatPrecision() {
       return (this.assets[this.fiatId] && this.assets[this.fiatId].precision) || 0;
@@ -124,6 +148,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      togglePortfolioMode: 'portfolio/togglePriceMode'
+    }),
     goToManagePortfolio() {
       if (!this.subscribedToMarket) return;
       this.$router.push({ name: 'manage' });
@@ -133,41 +160,40 @@ export default {
 </script>
 
 <style lang="scss">
-  .trusty_table {
-    width: 100%;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    thead, th, tbody {
-      color: white;
-      border: none;
-      background-color: transparent;
-    }
-    th {
-      padding-bottom: 1.9vw;
-      padding-left: 0;
-    }
-    th span {
-      color: #cccccc;
-      font-family: 'Gotham_Pro_Regular';
-      @media screen and (max-width: 768px){
+  .fade-enter-active, .fade-leave-active {
+    transition: all .25s;
+  }
+
+  .fade-enter, .fade-leave-active {
+    opacity: 0;
+  }
+
+  .portfolio-container .portfolio-toggle {
+    cursor: pointer;
+    color: white;
+    opacity: 0.5;
+    font-family: 'Gotham_Pro_Regular';
+    font-size: 4.4vw;
+  }
+
+  .portfolio-container .portfolio-data {
+    margin-bottom: 2em;
+    padding-top: 3vw;
+    font-family: 'Gotham_Pro_Regular';
+
+    &__header {
+      display: grid;
+      grid-template-columns: 35% 20% 25% 20%;
+      margin-bottom: 2.5vw;
+      div {
         font-size: 4.4vw;
+        color: white;
+        font-weight: 700;
       }
     }
-    tbody {
-     td:first-child span {
-       display: inline-block;
-       position: relative;
-       overflow: hidden;
-       text-overflow: ellipsis;
-       max-width: 30vw;
-     }
-    }
-
-    td span {
-      display: inline-block;
-      overflow: hidden;
-      text-overflow: ellipsys;
-      max-width: 15vw;
+    &__body {
+      display: grid;
+      grid-row-gap: 2.5vw;
     }
   }
 </style>

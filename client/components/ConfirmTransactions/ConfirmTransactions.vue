@@ -62,13 +62,15 @@ export default {
       isValidPassword: 'account/isValidPassword',
       getAssetById: 'assets/getAssetById',
       hasOrders: 'transactions/hasPendingOrders',
-      getAssetMultiplier: 'market/getAssetMultiplier',
+      getMarketPriceById: 'market/getPriceById',
       getMemoFee: 'transactions/getMemoPrice',
       transferPrice: 'transactions/getTransferFee',
-      orderFee: 'transactions/getOrderFee'
+      orderFee: 'transactions/getOrderFee',
+      getHistoryAssetMultiplier: 'history/getHistoryAssetMultiplier'
     }),
     fiatMultiplier() {
-      return this.getAssetMultiplier(this.fiatId);
+      const multiplier = { ...this.getHistoryAssetMultiplier(1, this.fiatId) };
+      return multiplier.last;
     },
     sellOrders() {
       return this.pendingOrders.sellOrders;
@@ -107,7 +109,7 @@ export default {
     },
     transferFee() {
       const transferFeeBase = (this.transferPrice * (10 ** -5));
-      const transferFeeFiat = transferFeeBase * this.fiatMultiplier.last;
+      const transferFeeFiat = transferFeeBase * this.fiatMultiplier;
       return {
         base: transferFeeBase.toFixed(5),
         fiat: transferFeeFiat.toFixed(5)
@@ -115,7 +117,7 @@ export default {
     },
     totalOrderFees() {
       const baseValue = (this.orders.length * this.orderFee) / (10 ** 5);
-      const fiatValue = baseValue * this.fiatMultiplier.last;
+      const fiatValue = baseValue * this.fiatMultiplier;
       return {
         base: baseValue.toFixed(5),
         fiat: fiatValue.toFixed(5)

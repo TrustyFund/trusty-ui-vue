@@ -35,30 +35,45 @@ export default {
   computed: {
     ...mapGetters({
       assets: 'assets/getAssets',
-      prices: 'market/getMarketHistory'
+      getHistoryByDay: 'history/getByDay',
+      getMarketPriceById: 'market/getPriceById',
+      getAssetHistoryByDay: 'history/getAssetHistoryByDay'
     }),
-    baseAsset() {
-      return this.assets[this.baseId];
+    history24() {
+      return this.getHistoryByDay(1);
+    },
+    history7() {
+      return this.getHistoryByDay(7);
     },
     fiatAsset() {
       return this.assets[this.fiatId];
     },
+    fiatPrice() {
+      return this.getPriceById(this.fiatId);
+    },
     totalFunds() {
-      if (!this.prices[this.fiatId]) return 0;
+      if (!this.fiatPrice) return 0;
 
       const totalBaseValue = Object.keys(this.balances).reduce((result, id) => {
         const balance = parseInt(this.balances[id].balance, 10);
-        if (!this.prices[id]) return result;
+        const price = this.getPriceById(id);
+        if (!price) return result;
         if (id === this.baseId) return result + balance;
-        return result + (balance * this.prices[id].last);
+        return result + (balance * price);
       }, 0);
 
-      const fiatMultiplier = 1 / this.prices[this.fiatId].last;
-      const totalFiatValue = totalBaseValue * fiatMultiplier;
+      const totalFiatValue = totalBaseValue * (1 / this.fiatPrice);
       const fiatPrecision = this.fiatAsset.precision;
 
       return (totalFiatValue / (10 ** fiatPrecision)) || 0;
     }
+  },
+  methods: {
+    getPriceById(id) {
+      return this.getMarketPriceById(id) ||
+        this.getAssetHistoryByDay(id, 1).last ||
+        this.getAssetHistoryByDay(id, 7).last;
+    },
   }
 };
 </script>
