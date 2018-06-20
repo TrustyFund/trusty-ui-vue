@@ -50,14 +50,15 @@ const actions = {
       assetsIds: combinedAssetsIds,
       days: 1
     }, { root: true });
+
     store.dispatch('history/fetch', {
-      baseId: '1.3.0',
+      baseId,
       assetsIds: combinedAssetsIds,
       days: 7
     }, { root: true });
 
     store.dispatch('transactions/fetchComissions', null, { root: true });
-    store.dispatch('market/subscribeToExchangeRates', { balances }, { root: true });
+    store.dispatch('market/subscribeToMarket', { balances }, { root: true });
   },
 
   // reset user-related data & unsub from market
