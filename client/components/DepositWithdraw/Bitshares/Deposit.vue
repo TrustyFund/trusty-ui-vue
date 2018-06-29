@@ -9,7 +9,7 @@
     v-clipboard:success="onCopy"
   ): button Copy address
   ._yellow.trusty_ps_text
-    | IMPORTANT: Please send BTC only from 
+    | IMPORTANT: Please send BTS only from 
     br
     | BitShares account using this payment method
   .trusty_help_text._yellow
