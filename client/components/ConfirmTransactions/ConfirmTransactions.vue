@@ -168,12 +168,14 @@ export default {
       const params = {
         to: this.pendingTransfer.to,
         assetId: this.pendingTransfer.assetId,
-        amount: this.pendingTransfer.amount
+        amount: this.pendingTransfer.amount,
       };
 
       if (this.pendingTransfer.memo) {
         params.memo = this.pendingTransfer.memo;
       }
+
+      console.log('memo : ', params.memo);
 
       const result = await this.transferAsset(params);
       if (result.success) {
