@@ -1,36 +1,37 @@
 <template lang="pug">
 #approve_update_portfolio.main_padding
 
-	.transaction_info
-		template(v-if="hasOrders")
-			p._value(v-for="order in orders")
-				PlaceOrderInfo(:item="order", :min="true" :fiat-id="fiatId")
-			p._value
-			p._value Transaction fee: {{ totalOrderFees.base }} BTS ({{ totalOrderFees.fiat }}$)
+  .transaction_info
+    template(v-if="hasOrders")
+      p._value(v-for="order in orders")
+        PlaceOrderInfo(:item="order", :min="true" :fiat-id="fiatId")
+      p._value
+      p._value Transaction fee: {{ totalOrderFees.base }} BTS ({{ totalOrderFees.fiat }}$)
 
-		template(v-if="hasPendingTransfer")
-			template(v-if="isWithdraw")
-				p._value(v-if="isWithdraw") Withdraw {{ withdraw.amount}} {{ transfer.asset.symbol }} to {{ withdraw.address }}
-				p
-				p._value Withdrawal fee {{ withdraw.fee }} {{ transfer.asset.symbol }}
-				p._value Transaction fee {{ withdrawFee }} BTS
-			template(v-else)
-				p._value Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}
-				p
-				p._value Transaction fee {{ transferFee.base }} BTS ({{ transferFee.fiat }}$)
+    template(v-if="hasPendingTransfer")
+      template(v-if="isWithdraw")
+        p._value(v-if="isWithdraw") Withdraw {{ withdraw.amount}} {{ transfer.asset.symbol }} to {{ withdraw.address }}
+        p
+        p._value Withdrawal fee {{ withdraw.fee }} {{ transfer.asset.symbol }}
+        p._value Transaction fee {{ withdrawFee }} BTS
+      template(v-else)
+        p._value Send {{ transfer.realamount }} {{ transfer.asset.symbol }} to {{ transfer.to }}
+        p
+        p._value(v-if="transfer.memo") With memo: {{ transfer.memo }}
+        p._value Transaction fee {{ transferFee.base }} BTS ({{ transferFee.fiat }}$)
 
 
-	TrustyInput(
-		label="ENTER PIN TO CONFIRM",
-		v-show="isLocked",
-		v-model="pin",
-		inputType="tel")
+  TrustyInput(
+    label="ENTER PIN TO CONFIRM",
+    v-show="isLocked",
+    v-model="pin",
+    inputType="tel")
 
-	.trusty_inline_buttons._one_button(:class="{'_disabled': pending}")
-		button(v-show="!pending" @click="confirm") CONFIRM
-		button(v-show="pending")
-			Spinner(size="small" :absolute="false")
-			div Processing...
+  .trusty_inline_buttons._one_button(:class="{'_disabled': pending}")
+    button(v-show="!pending" @click="confirm") CONFIRM
+    button(v-show="pending")
+      Spinner(size="small" :absolute="false")
+      div Processing...
 
 </template>
 
@@ -79,10 +80,10 @@ export default {
       return this.pendingOrders.buyOrders;
     },
     transfer() {
-      const { assetId, amount, to } = this.pendingTransfer;
+      const { assetId, amount, to, memo } = this.pendingTransfer;
       const asset = this.getAssetById(assetId);
       const realamount = (amount * (10 ** -asset.precision)).toFixed(asset.precision);
-      return { asset, realamount, to };
+      return { asset, realamount, to, memo };
     },
     withdrawFee() {
       const fee = this.getMemoFee(this.withdraw.memo);
@@ -175,8 +176,6 @@ export default {
         params.memo = this.pendingTransfer.memo;
       }
 
-      console.log('memo : ', params.memo);
-
       const result = await this.transferAsset(params);
       if (result.success) {
         this.$toast.success('Transaction completed');
@@ -201,12 +200,12 @@ export default {
 
 <style lang="scss">
 p._value {
-	padding-top: 1vw;
+  padding-top: 1vw;
 }
 .trusty_inline_buttons._one_button {
-	padding-top: 5vw;
+  padding-top: 5vw;
 }
 #approve_update_portfolio .transaction_info {
-	flex-direction: column;
+  flex-direction: column;
 }
 </style>
