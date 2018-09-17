@@ -181,12 +181,12 @@ export default {
     },
     hideAssets() {
       this.returnAssetsIdsToHide.forEach(item => {
-        this.hideAsset(item)
-          .then(v => {
-            console.log('hidden');
-            console.log(v);
-          });
+        this.hideAsset(item);
       });
+
+      this.toggleEditMode();
+      this.assetsSelected = false;
+
       console.log(this.getHideList);
     },
     goToManagePortfolio() {
