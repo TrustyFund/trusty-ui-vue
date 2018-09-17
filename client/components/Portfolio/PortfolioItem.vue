@@ -1,5 +1,6 @@
 <template lang="pug">
-  .portfolio-row-item
+  .portfolio-row-item(v-bind:class="{ edit_mode: editMode }")
+    input(type="checkbox", v-if="editMode", @click="toggleHideAsset(item)")
     .portfolio-row-item__name._text_left(@click="navigateToCoin(item)") {{ item.name }}
     ._text_right {{ balancesMode ? formattedPrice : tokensNum.toFixed(2) }}
     ._text_right {{ balancesMode ? formattedChange24 + '%' : formattedBalanceFiat }}
@@ -18,6 +19,10 @@ export default {
       default: {}
     },
     balancesMode: {
+      type: Boolean,
+      required: true
+    },
+    editMode: {
       type: Boolean,
       required: true
     },
@@ -76,6 +81,9 @@ export default {
     }
   },
   methods: {
+    toggleHideAsset(asset, action) {
+      this.$emit('toggleAsset', asset, action);
+    },
     navigateToCoin(asset) {
       this.$router.push({
         name: 'coin',
@@ -107,13 +115,18 @@ export default {
   .portfolio-row-item {
     display: grid;
     grid-template-columns: 35% 20% 25% 20%;
+
+    &.edit_mode {
+      grid-template-columns: 7% 28% 20% 25% 20%;
+    }
+
     div {
       font-size: 6vw;
       color: white;
       overflow: hidden;
       &.portfolio-row-item__name {
         text-overflow: ellipsis;
-        overflow: hidden; 
+        overflow: hidden;
         white-space: nowrap;
       }
     }

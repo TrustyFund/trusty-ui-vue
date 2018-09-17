@@ -1,7 +1,7 @@
 <template lang="pug">
 div.portfolio-container
   .trusty_inline_buttons._mob._one_button(
-      @click="goToManagePortfolio" 
+      @click="goToManagePortfolio"
       v-show="!minMode && totalBaseValue"
       :class="{'_disabled': !subscribedToMarket}")
       button(v-show="subscribedToMarket") MANAGE FUND
@@ -9,19 +9,28 @@ div.portfolio-container
         Spinner(size="small", :absolute="false")
         div LOADING MARKET...
 
-  div._text_right 
-    span.portfolio-toggle(@click="togglePortfolioMode") {{ toggleTitle }}
+  div.portfolio-actions
+    div._text_left
+      button.portfolio-toggle(@click="toggleEditMode", v-bind:disabled="toggleEdit == 'SELECT ASSETS'", v-if="!assetsSelected") {{ toggleEdit }}
+      button.portfolio-toggle.actions(@click="hideAssets", v-if="assetsSelected") HIDE SELECTED
+    div._text_right
+      span.portfolio-toggle(@click="togglePortfolioMode", v-if="toggleEdit == 'EDIT'") {{ toggleTitle }}
+      button.portfolio-toggle(@click="toggleEditMode", v-if="toggleEdit == 'SELECT ASSETS'", v-bind:disabled="assetsSelected") CANCEL
+
   div.portfolio-data
-    div.portfolio-data__header
+    div.portfolio-data__header(v-bind:class="{ edit_mode: editMode }")
+      div(v-if="editMode")
       ._text_left.portfolio_head ASSET
       ._text_right.portfolio_head {{ priceMode ? '$PRICE' : 'TOKENS' }}
       ._text_right.portfolio_head {{ priceMode ? '24H' : '$VALUE' }}
       ._text_right.portfolio_head {{ priceMode ? '7D' : 'SHARE' }}
     div.portfolio-data__body
-      PortfolioItem(v-for="item in itemsAsArray" 
+      PortfolioItem(v-for="item in itemsAsArray"
                     :key="item.id"
                     :balances-mode="priceMode"
+                    :edit-mode="editMode"
                     :item="item"
+                    @toggleAsset="toggleAsset"
                     :total-base-value="totalBaseValue"
                     :fiat-multiplier="fiatMultiplier.last"
                     :fiat-precision="fiatPrecision")
@@ -39,6 +48,7 @@ export default {
   },
   data() {
     return {
+      assetsSelected: false
     };
   },
   props: {
@@ -73,8 +83,11 @@ export default {
       subscribedToMarket: 'market/isSubscribed',
       getAssetById: 'assets/getAssetById',
       getHistoryByDay: 'history/getByDay',
+      getHideList: 'assets/getHideList',
       getMarketPriceById: 'market/getPriceById',
-      priceMode: 'portfolio/isPriceMode'
+      priceMode: 'portfolio/isPriceMode',
+      editMode: 'portfolio/isEditMode',
+      returnAssetsIdsToHide: 'portfolio/returnAssetsIdsToHide'
     }),
     history24() {
       return this.getHistoryByDay(1);
@@ -84,6 +97,9 @@ export default {
     },
     toggleTitle() {
       return this.priceMode ? 'SHOW BALANCES' : 'SHOW PRICES';
+    },
+    toggleEdit() {
+      return this.editMode ? 'SELECT ASSETS' : 'EDIT';
     },
     combinedBalances() {
       const combinedBalances = { ...this.balances };
@@ -149,8 +165,30 @@ export default {
   },
   methods: {
     ...mapActions({
-      togglePortfolioMode: 'portfolio/togglePriceMode'
+      toggleAssetIdToHide: 'portfolio/toggleAssetIdToHide',
+      togglePortfolioMode: 'portfolio/togglePriceMode',
+      toggleEditMode: 'portfolio/toggleEditMode',
+      hideAsset: 'assets/hideAsset'
     }),
+    toggleAsset(asset) {
+      this.toggleAssetIdToHide(asset);
+
+      if (this.returnAssetsIdsToHide.length > 0) {
+        this.assetsSelected = true;
+      } else {
+        this.assetsSelected = false;
+      }
+    },
+    hideAssets() {
+      this.returnAssetsIdsToHide.forEach(item => {
+        this.hideAsset(item)
+          .then(v => {
+            console.log('hidden');
+            console.log(v);
+          });
+      });
+      console.log(this.getHideList);
+    },
     goToManagePortfolio() {
       if (!this.subscribedToMarket) return;
       this.$router.push({ name: 'manage' });
@@ -176,6 +214,22 @@ export default {
     font-size: 4.4vw;
   }
 
+  .portfolio-container .portfolio-actions {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      color: #fdf101;
+      opacity: 0.8;
+      padding: 0;
+
+      &:disabled {
+        color: white;
+        opacity: 0.5;
+      }
+    }
+  }
+
   .portfolio-container .portfolio-data {
     margin-bottom: 2em;
     padding-top: 3vw;
@@ -185,6 +239,9 @@ export default {
       display: grid;
       grid-template-columns: 35% 20% 25% 20%;
       margin-bottom: 2.5vw;
+      &.edit_mode {
+        grid-template-columns: 7% 28% 20% 25% 20%;
+      }
       div {
         font-size: 4.4vw;
         color: white;
