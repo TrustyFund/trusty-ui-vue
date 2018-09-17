@@ -6,9 +6,7 @@ const config = require('./config');
 const _ = require('./utils');
 
 module.exports = {
-  entry: {
-    client: './client/index.js'
-  },
+  entry: ['babel-polyfill', './client/index.js'],
   output: {
     path: _.outputPath,
     filename: '[name].js',
