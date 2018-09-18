@@ -1,5 +1,12 @@
 <template lang="pug">
-  .portfolio-row-item
+  .portfolio-row-item(v-bind:class="{ edit_mode: editMode }", v-if="!item.hidden")
+    input(type="checkbox", v-if="editMode", @click="toggleHideAsset(item, $event)", :checked="item.hidden")
+    .portfolio-row-item__name._text_left(@click="navigateToCoin(item)") {{ item.name }}
+    ._text_right {{ balancesMode ? formattedPrice : tokensNum.toFixed(2) }}
+    ._text_right {{ balancesMode ? formattedChange24 + '%' : formattedBalanceFiat }}
+    ._text_right {{ balancesMode ? formattedChange7 : formattedShare }}%
+  .portfolio-row-item(v-bind:class="{ edit_mode: editMode }", v-else-if="item.hidden && editMode")
+    input(type="checkbox", v-if="editMode", @click="toggleHideAsset(item, $event)", :checked="item.hidden")
     .portfolio-row-item__name._text_left(@click="navigateToCoin(item)") {{ item.name }}
     ._text_right {{ balancesMode ? formattedPrice : tokensNum.toFixed(2) }}
     ._text_right {{ balancesMode ? formattedChange24 + '%' : formattedBalanceFiat }}
@@ -18,6 +25,10 @@ export default {
       default: {}
     },
     balancesMode: {
+      type: Boolean,
+      required: true
+    },
+    editMode: {
       type: Boolean,
       required: true
     },
@@ -76,6 +87,13 @@ export default {
     }
   },
   methods: {
+    toggleHideAsset(asset, e) {
+      if (e.target.checked) {
+        this.$emit('toggleAsset', asset, 'hide');
+      } else {
+        this.$emit('toggleAsset', asset, 'show');
+      }
+    },
     navigateToCoin(asset) {
       this.$router.push({
         name: 'coin',
@@ -107,13 +125,18 @@ export default {
   .portfolio-row-item {
     display: grid;
     grid-template-columns: 35% 20% 25% 20%;
+
+    &.edit_mode {
+      grid-template-columns: 7% 28% 20% 25% 20%;
+    }
+
     div {
       font-size: 6vw;
       color: white;
       overflow: hidden;
       &.portfolio-row-item__name {
         text-overflow: ellipsis;
-        overflow: hidden; 
+        overflow: hidden;
         white-space: nowrap;
       }
     }

@@ -1,6 +1,6 @@
 <template lang="pug">
 #asset_tab
-  h5 Select shares of assets in portfolio 
+  h5 Select shares of assets in portfolio
 
   table.managePortfolio
     thead
@@ -28,10 +28,10 @@
               Icon(name="trusty_minus")
 
             span.normal.portfolio_asset(v-show="type === 'percent'") {{ item.share.toFixed(1) }}%
-            span.normal.portfolio_asset(v-show="type === 'fiat'") {{ (item.share * percentFiatValue / 10 ** 4).toFixed(2) }}$
+            span.normal.portfolio_asset(v-show="type === 'fiat'") {{ (item.share * percentFiatValue / 10000 ).toFixed(2) }}$
 
             a._plus.normal.portfolio_asset(
-              :class="{'_disable': plusDisabled }" 
+              :class="{'_disable': plusDisabled }"
               @touchstart="handleTouchPlus(item)"
               @touchend="clearTimer")
                 Icon(name="trusty_plus")
