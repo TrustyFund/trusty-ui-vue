@@ -112,6 +112,8 @@ export default {
     items() {
       const items = {};
       const assetsIds = Object.keys(this.combinedBalances);
+      const hiddenAssetsIds = this.getHideList;
+
       if (!assetsIds.length) return items;
       assetsIds.forEach(id => {
         const { balance } = this.combinedBalances[id];
@@ -136,6 +138,7 @@ export default {
         items[id].id = id;
         items[id].precisedBalance = precisedBalance;
         items[id].precision = asset.precision;
+        if (hiddenAssetsIds.includes(id)) items[id].hidden = true;
       });
       return items;
     },
@@ -186,8 +189,6 @@ export default {
 
       this.toggleEditMode();
       this.assetsSelected = false;
-
-      console.log(this.getHideList);
     },
     goToManagePortfolio() {
       if (!this.subscribedToMarket) return;

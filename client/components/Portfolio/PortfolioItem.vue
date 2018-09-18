@@ -1,6 +1,12 @@
 <template lang="pug">
-  .portfolio-row-item(v-bind:class="{ edit_mode: editMode }")
-    input(type="checkbox", v-if="editMode", @click="toggleHideAsset(item)")
+  .portfolio-row-item(v-bind:class="{ edit_mode: editMode }", v-if="!item.hidden")
+    input(type="checkbox", v-if="editMode", @click="toggleHideAsset(item)", :checked="item.hidden")
+    .portfolio-row-item__name._text_left(@click="navigateToCoin(item)") {{ item.name }}
+    ._text_right {{ balancesMode ? formattedPrice : tokensNum.toFixed(2) }}
+    ._text_right {{ balancesMode ? formattedChange24 + '%' : formattedBalanceFiat }}
+    ._text_right {{ balancesMode ? formattedChange7 : formattedShare }}%
+  .portfolio-row-item(v-bind:class="{ edit_mode: editMode }", v-else-if="item.hidden && editMode")
+    input(type="checkbox", v-if="editMode", @click="toggleHideAsset(item)", :checked="item.hidden")
     .portfolio-row-item__name._text_left(@click="navigateToCoin(item)") {{ item.name }}
     ._text_right {{ balancesMode ? formattedPrice : tokensNum.toFixed(2) }}
     ._text_right {{ balancesMode ? formattedChange24 + '%' : formattedBalanceFiat }}
