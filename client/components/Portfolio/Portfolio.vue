@@ -12,10 +12,10 @@ div.portfolio-container
   div.portfolio-actions
     div._text_left
       button.portfolio-toggle(@click="toggleEditMode", v-bind:disabled="toggleEdit == 'SELECT ASSETS'", v-if="!assetsSelected") {{ toggleEdit }}
-      button.portfolio-toggle.actions(@click="toggleAssets", v-if="assetsSelected") HIDE SELECTED
+      button.portfolio-toggle.actions(@click="toggleAssets", v-else) HIDE SELECTED
     div._text_right
       span.portfolio-toggle(@click="togglePortfolioMode", v-if="toggleEdit == 'EDIT'") {{ toggleTitle }}
-      button.portfolio-toggle(@click="toggleEditMode", v-if="toggleEdit == 'SELECT ASSETS'", v-bind:disabled="assetsSelected") CANCEL
+      button.portfolio-toggle(@click="toggleEditMode", v-else, v-bind:disabled="assetsSelected") CANCEL
 
   div.portfolio-data
     div.portfolio-data__header(v-bind:class="{ edit_mode: editMode }")
