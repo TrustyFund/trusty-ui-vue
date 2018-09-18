@@ -63,6 +63,8 @@ export default {
 
 
 .router_content {
+	box-sizing: border-box;
+	height: calc(100vh - 12vw - 44px);
   padding-top: 12vw;
   margin-bottom: -12vw;
 }

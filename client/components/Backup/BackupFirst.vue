@@ -71,6 +71,11 @@ export default {
 	#first, #phrase {
 		padding-bottom: 3.6vw;
 	}
+
+	#first {
+		height: inherit;
+	}
+
 	._wrap_warnings {
 
 		padding-top: 5vw;
@@ -86,6 +91,16 @@ export default {
 	  .account_backup_ico_safe {
 		  width:23.2vh !important;
 	  }
+
+	  .trusty_help_text {
+			margin: 1vh 0;
+	  }
+
+	  ._bottom_button {
+			position: relative;
+			bottom: 1vw;
+	  }
+
 	}
 }
 
