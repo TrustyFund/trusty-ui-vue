@@ -12,7 +12,7 @@ div.portfolio-container
   div.portfolio-actions
     div._text_left
       button.portfolio-toggle(@click="toggleEditMode", v-bind:disabled="toggleEdit == 'SELECT ASSETS'", v-if="!assetsSelected") {{ toggleEdit }}
-      button.portfolio-toggle.actions(@click="hideAssets", v-if="assetsSelected") HIDE SELECTED
+      button.portfolio-toggle.actions(@click="toggleAssets", v-if="assetsSelected") HIDE SELECTED
     div._text_right
       span.portfolio-toggle(@click="togglePortfolioMode", v-if="toggleEdit == 'EDIT'") {{ toggleTitle }}
       button.portfolio-toggle(@click="toggleEditMode", v-if="toggleEdit == 'SELECT ASSETS'", v-bind:disabled="assetsSelected") CANCEL
@@ -87,7 +87,8 @@ export default {
       getMarketPriceById: 'market/getPriceById',
       priceMode: 'portfolio/isPriceMode',
       editMode: 'portfolio/isEditMode',
-      returnAssetsIdsToHide: 'portfolio/returnAssetsIdsToHide'
+      returnAssetsIdsToHide: 'portfolio/returnAssetsIdsToHide',
+      returnAssetsIdsToShow: 'portfolio/returnAssetsIdsToShow'
     }),
     history24() {
       return this.getHistoryByDay(1);
@@ -169,25 +170,36 @@ export default {
   methods: {
     ...mapActions({
       toggleAssetIdToHide: 'portfolio/toggleAssetIdToHide',
+      toggleAssetIdToShow: 'portfolio/toggleAssetIdToShow',
       togglePortfolioMode: 'portfolio/togglePriceMode',
       toggleEditMode: 'portfolio/toggleEditMode',
-      hideAsset: 'assets/hideAsset'
+      resetState: 'portfolio/resetState',
+      hideAsset: 'assets/hideAsset',
+      showAsset: 'assets/showAsset',
     }),
-    toggleAsset(asset) {
-      this.toggleAssetIdToHide(asset);
+    toggleAsset(asset, action) {
+      if (action === 'hide') {
+        this.toggleAssetIdToHide(asset);
+      } else {
+        this.toggleAssetIdToShow(asset);
+      }
 
-      if (this.returnAssetsIdsToHide.length > 0) {
+      if (this.returnAssetsIdsToHide.length > 0 || this.returnAssetsIdsToShow.length > 0) {
         this.assetsSelected = true;
       } else {
         this.assetsSelected = false;
       }
     },
-    hideAssets() {
+    toggleAssets() {
       this.returnAssetsIdsToHide.forEach(item => {
         this.hideAsset(item);
       });
 
-      this.toggleEditMode();
+      this.returnAssetsIdsToShow.forEach(item => {
+        this.showAsset(item);
+      });
+
+      this.resetState();
       this.assetsSelected = false;
     },
     goToManagePortfolio() {
