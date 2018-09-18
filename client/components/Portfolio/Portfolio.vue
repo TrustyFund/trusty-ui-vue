@@ -11,11 +11,11 @@ div.portfolio-container
 
   div.portfolio-actions
     div._text_left
-      button.portfolio-toggle(@click="toggleEditMode", v-bind:disabled="toggleEdit == 'SELECT ASSETS'", v-if="!assetsSelected") {{ toggleEdit }}
+      button.portfolio-toggle(@click="toggleEditMode", v-bind:disabled="toggleEdit == 'SELECT ASSETS'", v-if="assetsSelected == 0") {{ toggleEdit }}
       button.portfolio-toggle.actions(@click="toggleAssets", v-else) HIDE SELECTED
     div._text_right
       span.portfolio-toggle(@click="togglePortfolioMode", v-if="toggleEdit == 'EDIT'") {{ toggleTitle }}
-      button.portfolio-toggle(@click="toggleEditMode", v-else, v-bind:disabled="assetsSelected") CANCEL
+      button.portfolio-toggle(@click="toggleEditMode", v-else, v-bind:disabled="assetsSelected > 0") CANCEL
 
   div.portfolio-data
     div.portfolio-data__header(v-bind:class="{ edit_mode: editMode }")
@@ -48,7 +48,7 @@ export default {
   },
   data() {
     return {
-      assetsSelected: false
+      assetsSelected: 0
     };
   },
   props: {
@@ -86,9 +86,7 @@ export default {
       getHideList: 'assets/getHideList',
       getMarketPriceById: 'market/getPriceById',
       priceMode: 'portfolio/isPriceMode',
-      editMode: 'portfolio/isEditMode',
-      returnAssetsIdsToHide: 'portfolio/returnAssetsIdsToHide',
-      returnAssetsIdsToShow: 'portfolio/returnAssetsIdsToShow'
+      editMode: 'portfolio/isEditMode'
     }),
     history24() {
       return this.getHistoryByDay(1);
@@ -169,38 +167,23 @@ export default {
   },
   methods: {
     ...mapActions({
-      toggleAssetIdToHide: 'portfolio/toggleAssetIdToHide',
-      toggleAssetIdToShow: 'portfolio/toggleAssetIdToShow',
       togglePortfolioMode: 'portfolio/togglePriceMode',
       toggleEditMode: 'portfolio/toggleEditMode',
-      resetState: 'portfolio/resetState',
       hideAsset: 'assets/hideAsset',
       showAsset: 'assets/showAsset',
     }),
     toggleAsset(asset, action) {
       if (action === 'hide') {
-        this.toggleAssetIdToHide(asset);
+        this.hideAsset(asset.id);
+        this.assetsSelected = this.assetsSelected + 1;
       } else {
-        this.toggleAssetIdToShow(asset);
-      }
-
-      if (this.returnAssetsIdsToHide.length > 0 || this.returnAssetsIdsToShow.length > 0) {
-        this.assetsSelected = true;
-      } else {
-        this.assetsSelected = false;
+        this.showAsset(asset.id);
+        this.assetsSelected = this.assetsSelected - 1;
       }
     },
     toggleAssets() {
-      this.returnAssetsIdsToHide.forEach(item => {
-        this.hideAsset(item);
-      });
-
-      this.returnAssetsIdsToShow.forEach(item => {
-        this.showAsset(item);
-      });
-
-      this.resetState();
-      this.assetsSelected = false;
+      this.assetsSelected = 0;
+      this.toggleEditMode();
     },
     goToManagePortfolio() {
       if (!this.subscribedToMarket) return;
