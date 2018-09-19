@@ -1,23 +1,36 @@
 <template lang="pug">
   .portfolio-row-item(v-bind:class="{ edit_mode: editMode }", v-if="!item.hidden")
-    input(type="checkbox", v-if="editMode", @click="toggleHideAsset(item, $event)", :checked="item.hidden")
     .portfolio-row-item__name._text_left(@click="navigateToCoin(item)") {{ item.name }}
     ._text_right {{ balancesMode ? formattedPrice : tokensNum.toFixed(2) }}
     ._text_right {{ balancesMode ? formattedChange24 + '%' : formattedBalanceFiat }}
-    ._text_right {{ balancesMode ? formattedChange7 : formattedShare }}%
+
+    .asset-action(v-if="editMode", @click="toggleHideAsset(item.id, false)")
+      icon-component(
+        name="icon_eye",
+        :initialSvgColors="true",
+        v-bind:className="item.hidden ? 'asset-hidden' : ''" )
+    ._text_right(v-else) {{ balancesMode ? formattedChange7 : formattedShare }}%
+
   .portfolio-row-item(v-bind:class="{ edit_mode: editMode }", v-else-if="item.hidden && editMode")
-    input(type="checkbox", v-if="editMode", @click="toggleHideAsset(item, $event)", :checked="item.hidden")
     .portfolio-row-item__name._text_left(@click="navigateToCoin(item)") {{ item.name }}
     ._text_right {{ balancesMode ? formattedPrice : tokensNum.toFixed(2) }}
     ._text_right {{ balancesMode ? formattedChange24 + '%' : formattedBalanceFiat }}
-    ._text_right {{ balancesMode ? formattedChange7 : formattedShare }}%
+
+    .asset-action(v-if="editMode", @click="toggleHideAsset(item.id, true)")
+      icon-component(
+        name="icon_eye",
+        :initialSvgColors="true",
+        v-bind:className="item.hidden ? 'asset-hidden' : ''" )
+    ._text_right(v-else) {{ balancesMode ? formattedChange7 : formattedShare }}%
 </template>
 
 <script>
-import Icon from '@/components/UI/icon';
+import iconComponent from '@/components/UI/icon';
 
 export default {
-  components: { Icon },
+  components: {
+    iconComponent
+  },
   props: {
     item: {
       type: Object,
@@ -87,11 +100,11 @@ export default {
     }
   },
   methods: {
-    toggleHideAsset(asset, e) {
-      if (e.target.checked) {
-        this.$emit('toggleAsset', asset, 'hide');
+    toggleHideAsset(id, e) {
+      if (e) {
+        this.$emit('toggleAsset', id, 'show');
       } else {
-        this.$emit('toggleAsset', asset, 'show');
+        this.$emit('toggleAsset', id, 'hide');
       }
     },
     navigateToCoin(asset) {
@@ -126,8 +139,30 @@ export default {
     display: grid;
     grid-template-columns: 35% 20% 25% 20%;
 
+    .trusty_icon {
+      &.icon_eye {
+        margin-top: -5px;
+      }
+      &.asset-hidden svg,
+      &.asset-hidden svg path {
+        fill: white;
+        opacity: 1;
+      }
+      svg {
+        width: 7vw !important;
+        height: auto;
+      }
+    }
     &.edit_mode {
-      grid-template-columns: 7% 28% 20% 25% 20%;
+      input {
+        width: 15px;
+        height: 15px;
+      }
+    }
+
+    .asset-action {
+      max-height: 5vw;
+      text-align: right;
     }
 
     div {
