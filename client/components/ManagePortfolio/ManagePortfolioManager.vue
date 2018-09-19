@@ -10,7 +10,7 @@
         th SHARE
     tbody
 
-      tr(v-for="item in percentsAsArray")
+      tr(v-if="!getHideList.includes(item.id)", v-for="item in percentsAsArray")
         td
           .portfolio_item._index._name
             .fake_line_height
@@ -93,7 +93,8 @@ export default {
     ...mapGetters({
       assets: 'assets/getAssets',
       balances: 'account/getCurrentUserBalances',
-      userId: 'account/getAccountUserId'
+      userId: 'account/getAccountUserId',
+      getHideList: 'assets/getHideList'
     }),
     sharesTotal() {
       return Object.keys(this.percents).reduce((result, id) => {
