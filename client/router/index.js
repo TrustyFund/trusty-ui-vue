@@ -21,6 +21,7 @@ import Faq from '@/components/Faq/Faq';
 import ConfirmTransactions from '@/components/ConfirmTransactions/ConfirmTransactions';
 import EntryPoint from '@/components/EntryPoint/EntryPoint';
 import TermsOfUse from '@/components/TermsOfUse/TermsOfUse';
+import MirrorTrading from '@/components/MirrorTrading/MirrorTrading';
 
 Vue.use(Router);
 
@@ -123,6 +124,15 @@ const router = new Router({
               },
               props: {
                 type: 'fiat'
+              }
+            },
+            {
+              path: 'mirror',
+              name: 'manage-mirror',
+              component: MirrorTrading,
+              meta: {
+                requiresConfirmScreen: true,
+                requiredBackup: true
               }
             }
           ]

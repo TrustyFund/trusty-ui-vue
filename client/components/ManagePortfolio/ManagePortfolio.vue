@@ -7,7 +7,7 @@
     .tabs-header-container
       .tab-link(@click="$router.push({ name: 'manage-percent' })", :class="{'tab-link-active': isPercent }") Shares
       .tab-link(@click="$router.push({ name: 'manage-value' })", :class="{'tab-link-active': isValue }") Values
-      .tab-link.disabled Mirror
+      .tab-link(@click="$router.push({ name: 'manage-mirror' })", :class="{'tab-link-active': isMirror }") Mirror
 
     .tabs-content-container
       router-view(:items="items", fiat-id="1.3.121")
@@ -67,6 +67,9 @@ export default {
     },
     isValue() {
       return this.$route.name === 'manage-value';
+    },
+    isMirror() {
+      return this.$route.name === 'manage-mirror';
     }
   }
 };

@@ -28,6 +28,7 @@ const names = [
   'coin_head_trend_dn',
   'coin_head_trend_up',
   'tick_backup',
+  'diagonal_arrow',
   'account_backup_ico_photo',
   'account_backup_ico_safe'
 

@@ -1,0 +1,148 @@
+{
+  "users_popular": [
+    {
+      "username": "protraderr",
+      "user_id": "86163",
+      "profile_image_url": "https://image.ibb.co/ccNYye/Screenshot_2018_09_30_at_14_35_28.png",
+      "copier_count": "960",
+      "performance_this_month": "782.79",
+      "risk_score": "3"
+    },
+    {
+      "username": "Dividend667",
+      "user_id": "29286",
+      "profile_image_url": "https://image.ibb.co/eKdTWz/Screenshot_2018_09_30_at_14_35_21.png",
+      "copier_count": "660",
+      "performance_this_month": "40.75",
+      "risk_score": "1"
+    },
+    {
+      "username": "eylemc",
+      "user_id": "26657",
+      "profile_image_url": "https://image.ibb.co/kWdvBz/Screenshot_2018_09_30_at_14_35_12.png",
+      "copier_count": "411",
+      "performance_this_month": "35.82",
+      "risk_score": "4"
+    },
+    {
+      "username": "BitcoinTG",
+      "user_id": "92984",
+      "profile_image_url": "https://image.ibb.co/iaUfde/Screenshot_2018_09_30_at_14_34_58.png",
+      "copier_count": "85",
+      "performance_this_month": "0",
+      "risk_score": "0"
+    },
+    {
+      "username": "tuitcoin",
+      "user_id": "67457",
+      "profile_image_url": "https://image.ibb.co/fOmhrz/Screenshot_2018_09_30_at_14_35_06.png",
+      "copier_count": "503",
+      "performance_this_month": "1214.24",
+      "risk_score": "4"
+    }
+  ],
+  "users_successful": [
+    {
+      "username": "tuitcoin",
+      "user_id": "67457",
+      "profile_image_url": "https://image.ibb.co/fOmhrz/Screenshot_2018_09_30_at_14_35_06.png",
+      "copier_count": "503",
+      "performance_this_month": "1214.24",
+      "risk_score": "4"
+    },
+    {
+      "username": "protraderr",
+      "user_id": "86163",
+      "profile_image_url": "https://image.ibb.co/ccNYye/Screenshot_2018_09_30_at_14_35_28.png",
+      "copier_count": "960",
+      "performance_this_month": "782.79",
+      "risk_score": "3"
+    },
+    {
+      "username": "SnappyRyan",
+      "user_id": "14088",
+      "profile_image_url": "https://image.ibb.co/eKdTWz/Screenshot_2018_09_30_at_14_35_21.png",
+      "copier_count": "6",
+      "performance_this_month": "38.48",
+      "risk_score": "1"
+    },
+    {
+      "username": "kekeva",
+      "user_id": "51545",
+      "profile_image_url": "https://image.ibb.co/bRZP4K/Screenshot_2018_09_30_at_14_35_37.png",
+      "copier_count": "239",
+      "performance_this_month": "655.09",
+      "risk_score": "4"
+    },
+    {
+      "username": "burnout",
+      "user_id": "32789",
+      "profile_image_url": "https://image.ibb.co/ghyTWz/Screenshot_2018_09_30_at_14_35_41.png",
+      "copier_count": "58",
+      "performance_this_month": "395.79",
+      "risk_score": "3"
+    }
+  ],
+  "positions_discussed": [
+    {
+      "username": "protraderr",
+      "position_id": "5375358",
+      "symbol": "USDCAD",
+      "leverage": "70",
+      "profit_loss_percent": "-8.69",
+      "comment_count": "20",
+      "direction": "long",
+      "date_created": "2018-09-25T08:11:45Z",
+      "is_open": false,
+      "date_closed": "2018-09-26T11:31:55Z"
+    },
+    {
+      "username": "isot",
+      "position_id": "5392165",
+      "symbol": "EURTRY",
+      "leverage": "15",
+      "profit_loss_percent": "-7.93",
+      "comment_count": "2",
+      "direction": "long",
+      "date_created": "2018-09-26T07:13:58Z",
+      "is_open": true,
+      "date_closed": null
+    },
+    {
+      "username": "IncomeSharks",
+      "position_id": "5389746",
+      "symbol": "NZDUSD",
+      "leverage": "100",
+      "profit_loss_percent": "0.45",
+      "comment_count": "5",
+      "direction": "short",
+      "date_created": "2018-09-26T00:52:18Z",
+      "is_open": false,
+      "date_closed": "2018-09-26T11:55:19Z"
+    },
+    {
+      "username": "isot",
+      "position_id": "5392122",
+      "symbol": "USDTRY",
+      "leverage": "15",
+      "profit_loss_percent": "-4.47",
+      "comment_count": "2",
+      "direction": "long",
+      "date_created": "2018-09-26T07:13:41Z",
+      "is_open": true,
+      "date_closed": null
+    },
+    {
+      "username": "tuitcoin",
+      "position_id": "5368347",
+      "symbol": "USDJPY",
+      "leverage": "75",
+      "profit_loss_percent": "-7.37",
+      "comment_count": "33",
+      "direction": "short",
+      "date_created": "2018-09-25T00:51:11Z",
+      "is_open": true,
+      "date_closed": null
+    }
+  ]
+}
