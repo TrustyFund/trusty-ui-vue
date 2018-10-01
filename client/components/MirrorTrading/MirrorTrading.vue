@@ -1,7 +1,7 @@
 <template lang="pug">
   .mirror-container
     .mirror-list
-      span Popular Traders
+      span(@click="$router.push({ name: 'manage-traders' })") Popular Traders
       .mirror-card(v-for="item in indexData.users_popular")
         .mirror-card-image
           img(:src="item.profile_image_url")
@@ -10,7 +10,7 @@
           span.card-info {{item.copier_count}} copiers
         .mirror-card-statistics
           span.card-status(:class="'risk-'+item.risk_score") Risk {{ item.risk_score }}
-          span.card-statistics +{{ item.performance_this_month }}%
+          span.card-statistics {{ item.performance_this_month.includes('-') || item.performance_this_month ? item.performance_this_month : '+' + item.performance_this_month }}%
 
     .mirror-list
       span Successful Traders
@@ -22,7 +22,7 @@
           span.card-info {{item.copier_count}} copiers
         .mirror-card-statistics
           span.card-status(:class="'risk-'+item.risk_score") Risk {{ item.risk_score }}
-          span.card-statistics +{{ item.performance_this_month }}%
+          span.card-statistics {{ item.performance_this_month.includes('-') ||item.performance_this_month  ? item.performance_this_month : '+' + item.performance_this_month }}%
 
     .mirror-list
       span Discussed Trades
@@ -164,10 +164,10 @@ export default {
           background: rgba(35, 76, 208, 0.7);
         }
         &.risk-2 {
-          background: yellow;
+          background: rgba(255, 255, 0, 0.5);
         }
         &.risk-3 {
-          background: orange;
+          background: rgba(255, 165, 0, 0.7);
         }
         &.risk-4 {
           background: rgba(210, 18, 18, 0.7);

@@ -5,9 +5,13 @@
   .trusty_portfolio_tabs
 
     .tabs-header-container
-      .tab-link(@click="$router.push({ name: 'manage-percent' })", :class="{'tab-link-active': isPercent }") Shares
-      .tab-link(@click="$router.push({ name: 'manage-value' })", :class="{'tab-link-active': isValue }") Values
-      .tab-link(@click="$router.push({ name: 'manage-mirror' })", :class="{'tab-link-active': isMirror }") Mirror
+      .tabs-header-portfolio(:class="{'tabs-link-active': isPercent || isValue || isMirror }")
+        .tab-link(@click="$router.push({ name: 'manage-percent' })", :class="{'tab-link-active': isPercent }") Shares
+        .tab-link(@click="$router.push({ name: 'manage-value' })", :class="{'tab-link-active': isValue }") Values
+        .tab-link(@click="$router.push({ name: 'manage-mirror' })", :class="{'tab-link-active': isMirror }") Mirror
+      .tabs-header-mirror-trading(:class="{'tabs-link-active': isTraders || isTrades }")
+        .tab-link(@click="$router.push({ name: 'manage-traders' })", :class="{'tab-link-active': isTraders }") Traders
+        .tab-link(@click="$router.push({ name: 'manage-trades' })", :class="{'tab-link-active': isTrades }") Trades
 
     .tabs-content-container
       router-view(:items="items", fiat-id="1.3.121")
@@ -70,6 +74,12 @@ export default {
     },
     isMirror() {
       return this.$route.name === 'manage-mirror';
+    },
+    isTraders() {
+      return this.$route.name === 'manage-traders';
+    },
+    isTrades() {
+      return this.$route.name === 'manage-trades';
     }
   }
 };
@@ -198,6 +208,23 @@ export default {
   }
 }
 
+
+.tabs-header-portfolio {
+  display: none;
+  &.tabs-link-active {
+    display: block;
+  }
+}
+
+.tabs-header-mirror-trading {
+  display: none;
+  &.tabs-link-active {
+    display: block;
+  }
+  .tab-link {
+    width: 50%;
+  }
+}
 
 
 .tab-link {
