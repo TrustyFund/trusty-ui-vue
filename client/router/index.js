@@ -23,6 +23,7 @@ import EntryPoint from '@/components/EntryPoint/EntryPoint';
 import TermsOfUse from '@/components/TermsOfUse/TermsOfUse';
 import MirrorTrading from '@/components/MirrorTrading/MirrorTrading';
 import Traders from '@/components/Traders/Traders';
+import Trades from '@/components/Trades/Trades';
 
 Vue.use(Router);
 
@@ -140,6 +141,15 @@ const router = new Router({
               path: 'traders',
               name: 'manage-traders',
               component: Traders,
+              meta: {
+                requiresConfirmScreen: true,
+                requiredBackup: true
+              }
+            },
+            {
+              path: 'trades',
+              name: 'manage-trades',
+              component: Trades,
               meta: {
                 requiresConfirmScreen: true,
                 requiredBackup: true

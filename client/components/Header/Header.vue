@@ -48,7 +48,7 @@ export default {
         'manage-percent': 'manage fund',
         'manage-value': 'manage fund',
         'manage-mirror': 'mirror trading',
-        'manage-trades': 'trades',
+        'manage-trades': 'trading ideas',
         'manage-traders': 'traders',
         user: 'user page',
         profile: 'user profile',

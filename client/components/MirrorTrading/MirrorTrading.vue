@@ -13,7 +13,7 @@
           span.card-statistics {{ item.performance_this_month.includes('-') || item.performance_this_month ? item.performance_this_month : '+' + item.performance_this_month }}%
 
     .mirror-list
-      span Successful Traders
+      span(@click="$router.push({ name: 'manage-traders' })") Successful Traders
       .mirror-card(v-for="item in indexData.users_successful")
         .mirror-card-image
           img(:src="item.profile_image_url")
@@ -25,7 +25,7 @@
           span.card-statistics {{ item.performance_this_month.includes('-') ||item.performance_this_month  ? item.performance_this_month : '+' + item.performance_this_month }}%
 
     .mirror-list
-      span Discussed Trades
+      span(@click="$router.push({ name: 'manage-trades' })") Discussed Trades
       .mirror-card(v-for="item in indexData.positions_discussed")
         .mirror-card-image.trade(:class="item.direction == 'short' ? 'red' : 'blue'")
           span.card-symbol {{ item.symbol }}

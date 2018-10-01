@@ -18,14 +18,9 @@
 </template>
 
 <script>
-import iconComponent from '@/components/UI/icon';
-
 const traders = require('./traders.json');
 
 export default {
-  components: {
-    iconComponent
-  },
   data() {
     return {
       traders
