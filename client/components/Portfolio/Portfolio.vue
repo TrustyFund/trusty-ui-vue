@@ -11,19 +11,19 @@ div.portfolio-container
 
   div.portfolio-actions
     div._text_left
-      button.portfolio-toggle(@click="toggleEditMode", v-bind:disabled="toggleEdit == 'SELECT ASSETS'", v-if="assetsSelected == 0") {{ toggleEdit }}
-      button.portfolio-toggle.actions(@click="toggleAssets", v-else) HIDE SELECTED
+      span.portfolio-toggle(@click="toggleEditMode", v-bind:class="{ edit_mode: editMode }") {{ toggleEdit }}
     div._text_right
       span.portfolio-toggle(@click="togglePortfolioMode", v-if="toggleEdit == 'EDIT'") {{ toggleTitle }}
-      button.portfolio-toggle(@click="toggleEditMode", v-else, v-bind:disabled="assetsSelected > 0") CANCEL
+      span.portfolio-toggle(v-else) SELECT ASSETS
 
   div.portfolio-data
     div.portfolio-data__header(v-bind:class="{ edit_mode: editMode }")
-      div(v-if="editMode")
       ._text_left.portfolio_head ASSET
       ._text_right.portfolio_head {{ priceMode ? '$PRICE' : 'TOKENS' }}
       ._text_right.portfolio_head {{ priceMode ? '24H' : '$VALUE' }}
-      ._text_right.portfolio_head {{ priceMode ? '7D' : 'SHARE' }}
+      ._text_right.portfolio_head(v-if="toggleEdit == 'EDIT'") {{ priceMode ? '7D' : 'SHARE' }}
+      ._text_right.portfolio_head(v-else)
+      div(v-if="editMode")
     div.portfolio-data__body
       PortfolioItem(v-for="item in itemsAsArray"
                     :key="item.id"
@@ -47,9 +47,7 @@ export default {
     Spinner, PortfolioItem
   },
   data() {
-    return {
-      assetsSelected: 0
-    };
+    return { };
   },
   props: {
     baseId: {
@@ -98,7 +96,7 @@ export default {
       return this.priceMode ? 'SHOW BALANCES' : 'SHOW PRICES';
     },
     toggleEdit() {
-      return this.editMode ? 'SELECT ASSETS' : 'EDIT';
+      return this.editMode ? 'FINISH EDIT' : 'EDIT';
     },
     combinedBalances() {
       const combinedBalances = { ...this.balances };
@@ -172,17 +170,14 @@ export default {
       hideAsset: 'assets/hideAsset',
       showAsset: 'assets/showAsset',
     }),
-    toggleAsset(asset, action) {
+    toggleAsset(id, action) {
       if (action === 'hide') {
-        this.hideAsset(asset.id);
-        this.assetsSelected = this.assetsSelected + 1;
+        this.hideAsset(id);
       } else {
-        this.showAsset(asset.id);
-        this.assetsSelected = this.assetsSelected - 1;
+        this.showAsset(id);
       }
     },
     toggleAssets() {
-      this.assetsSelected = 0;
       this.toggleEditMode();
     },
     goToManagePortfolio() {
@@ -208,6 +203,9 @@ export default {
     opacity: 0.5;
     font-family: 'Gotham_Pro_Regular';
     font-size: 4.4vw;
+    &.edit_mode {
+      opacity: 1;
+    }
   }
 
   .portfolio-container .portfolio-actions {
@@ -224,6 +222,10 @@ export default {
         opacity: 0.5;
       }
     }
+
+    span.actions {
+      opacity: 1;
+    }
   }
 
   .portfolio-container .portfolio-data {
@@ -235,9 +237,6 @@ export default {
       display: grid;
       grid-template-columns: 35% 20% 25% 20%;
       margin-bottom: 2.5vw;
-      &.edit_mode {
-        grid-template-columns: 7% 28% 20% 25% 20%;
-      }
       div {
         font-size: 4.4vw;
         color: white;

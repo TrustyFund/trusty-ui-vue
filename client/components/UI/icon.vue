@@ -22,6 +22,7 @@ const names = [
   'mf_plus',
   'full_plus',
   'full_minus',
+  'icon_eye',
   'trusty_fund_logo',
   'coin_head_ogo',
   'coin_head_omg',
@@ -83,16 +84,28 @@ export default {
     height: auto;
   }
 
-	display: inline-block;
-	svg {
-		width: 100% !important;
-		height: auto;
-	}
+  display: inline-block;
+  svg {
+    width: 100% !important;
+    height: auto;
+  }
 
-	&._white svg,
-	&._white svg path {
-		fill: white;
-	}
+  &._white svg,
+  &._white svg path {
+    fill: white;
+  }
+
+  &.icon_eye svg,
+  &.icon_eye svg path {
+    fill: yellow;
+    opacity: 0.7;
+  }
+
+  &.asset-hidden svg,
+  &.asset-hidden svg path {
+    fill: white;
+    opacity: 1;
+  }
 
 }
 </style>
